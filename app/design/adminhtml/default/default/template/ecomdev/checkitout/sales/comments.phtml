@@ -1,0 +1,15 @@
+<?php
+ /**
+  * Order comment template
+  */
+ /* @var $this Mage_Adminhtml_Block_Sales_Order_View */
+?>
+<?php if (trim($this->getOrder()->getOrderComment())):?>
+<script type="text/javascript">
+var formTable = $('order-messages').next('.box-left').down('.form-list');
+var trElement = new Element('tr',{});
+trElement.insert(new Element('td', {'class':'label'}).update('<' + 'label>' + '<?php echo $this->jsQuoteEscape($this->helper('infoideea_friendlycheckout')->__('Customer Comment'));?>' + '</' + 'label' + '>'));
+trElement.insert(new Element('td').update('<' + 'strong' + '>' + '<?php echo $this->jsQuoteEscape($this->htmlEscape($this->getOrder()->getOrderComment()));?>' + '<' + '/strong' + '>'));
+formTable.down('tbody').insert(trElement);
+</script>
+<?php endif; ?>

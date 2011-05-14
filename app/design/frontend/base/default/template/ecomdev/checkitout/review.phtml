@@ -1,0 +1,28 @@
+<?php
+
+?>
+<div id="checkout-review-load">
+    <?php echo $this->getChildHtml('info') ?>
+</div>
+<div id="checkout-review-submit">
+    <ul class="form-list">
+        <li class="order-comments">
+            <label for="order-comments"><?php echo $this->__('Comments') ?></label>
+            <div class="input-box">
+                <textarea class="input-text" id="order-comments" name="order[order_comment]"></textarea>
+            </div>
+        </li>
+    </ul>
+    <?php echo $this->getChildHtml('agreements') ?>
+    <script type="text/javascript">
+    //<![CDATA[
+        var review = new Review('<?php echo $this->getUrl('checkout/onepage/review') ?>', 'checkout-review-load', '<?php echo $this->getUrl('checkout/onepage/saveOrder') ?>', '<?php echo $this->getUrl('checkout/onepage/success') ?>', $('checkout-agreements'));
+    //]]>
+    </script>
+    <div class="buttons">
+        <button type="submit" title="<?php echo $this->__('Place Order') ?>" class="button btn-checkout" onclick="checkout.submit();"><span><span><?php echo $this->helper('checkout')->__('Place Order') ?></span></span></button>
+        <span class="please-wait" id="review-please-wait" style="display:none;">
+            <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->helper('checkout')->__('Submitting order information...') ?>" title="<?php echo $this->helper('checkout')->__('Submitting order information...') ?>" class="v-middle" /> <?php echo $this->helper('checkout')->__('Submitting order information...') ?>
+        </span>
+    </div>
+</div>

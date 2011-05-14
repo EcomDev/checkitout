@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+
+ -->
+<config>
+    <modules>
+        <EcomDev_CheckItOut>
+            <version>0.1.0</version>
+        </EcomDev_CheckItOut>
+    </modules>
+    <global>
+        <blocks>
+            <ecomdev_checkitout>
+                <class>EcomDev_CheckItOut_Block</class>
+            </ecomdev_checkitout>
+        </blocks>
+        <helpers>
+            <ecomdev_checkitout>
+                <class>EcomDev_CheckItOut_Helper</class>
+            </ecomdev_checkitout>
+        </helpers>
+        <resources>
+            <ecomdev_checkitout_setup>
+                <setup>
+                    <module>EcomDev_CheckItOut</module>
+                    <class>EcomDev_CheckItOut_Model_Mysql4_Setup</class>
+                </setup>
+            </ecomdev_checkitout_setup>
+        </resources>
+        <fieldsets>
+            <sales_convert_quote>
+                <order_comment><to_order>*</to_order></order_comment>
+            </sales_convert_quote>
+        </fieldsets>
+    </global>
+    <adminhtml>
+        <layout>
+            <updates>
+                <ecomdev_checkitout>
+                    <file>ecomdev/checkitout.xml</file>
+                </ecomdev_checkitout>
+            </updates>
+        </layout>
+    </adminhtml>
+    <frontend>
+        <layout>
+            <updates>
+                <ecomdev_checkitout>
+                    <file>ecomdev/checkitout.xml</file>
+                </ecomdev_checkitout>
+            </updates>
+        </layout>
+        <routers>
+            <checkout>
+                <args>
+                    <modules>
+                        <ecomdev_checkitout before="Mage_Checkout">EcomDev_CheckItOut</ecomdev_checkitout>
+                    </modules>
+                </args>
+            </checkout>
+        </routers>
+    </frontend>
+</config>

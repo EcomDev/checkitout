@@ -1,0 +1,54 @@
+/**
+ * CheckItOut css
+ * 
+ */
+.checkitout { position: relative; }
+.checkitout .layout-top { width: 100%; clear: both; }
+.checkitout .layout-content { width: 62%; float: right; }
+.checkitout .layout-content .layout-right-bottom .checkout-step { width: 100%; }
+.checkitout .layout-content .layout-right-bottom  { clear: both; }
+.checkitout .layout-address { width: 37%; float:left; }
+.checkitout .layout-content .form-list .input-box, 
+.checkitout .layout-address .form-list .input-box { width:140px; }
+.checkitout .checkout-step .buttons { text-align: right; padding-top: 20px; }
+.checkitout .layout-content .form-list .field,
+.checkitout .layout-address .form-list .field { width:140px; }
+.checkitout .layout-address .form-list .wide { width:280px; }
+.checkitout .layout-address .form-list .wide input.input-text, 
+.checkitout .layout-content .form-list .wide input.input-text,
+.checkitout .layout-content .form-list .wide select,
+.checkitout .layout-address .form-list .wide select  { width:260px; }
+.checkitout .layout-address .form-list input.input-text, 
+.checkitout .layout-content .form-list input.input-text,
+.checkitout .layout-content .form-list select,
+.checkitout .layout-address .form-list select { width:120px; }
+.checkitout .layout-content .form-list .v-fix { width:65px; }
+.checkitout .layout-content .form-list .v-fix .validation-advice { width:65px; }
+.checkitout .layout-content .form-list .v-fix select { width:62px; }
+.checkitout .layout-content .layout-right-bottom .order-comments, 
+.checkitout .layout-content .layout-right-bottom .order-comments .input-box { width: 100% }
+.checkitout .layout-content .layout-right-bottom .order-comments textarea { width: 100%; height: 50px; }
+.checkitout .checkout-step { position: relative; margin-bottom: 10px; }
+.checkitout .layout-content .checkout-step { width: 49.2%; height: 100%; position: relative;}
+.checkitout .layout-content div.first { float: left; clear: both; }
+.checkitout .layout-content div.second { float: right; }
+.checkitout .checkout-step .step-header { padding:4px 8px 6px;  background:#f9f3e3; border:1px solid #bbafa0; padding-bottom:5px; color:#f18200; cursor:default; }
+.checkitout .checkout-step .checkout-step .step-header { background: none; border: none; padding: 0 0 0 0; }
+.checkitout .checkout-step .step-header .number { float:left;background:#f18200; border-color:#f19900; color:#fff; padding:0 4px; margin:0 5px 0 0; font:bold 11px/14px arial, helvetica, sans-serif; }
+.checkitout .checkout-step .step-content  { border:1px solid #bbafa0; border-top:0; background:#fbfaf6 url(../images/bkg_checkout.gif) 0 0 repeat-x; padding:15px 30px; position:relative; }
+.checkitout .checkout-step .checkout-step .step-content  { border:none;  background: none; padding: 0 0 0 0; position:relative; }
+.checkitout .checkout-step .buttons-set { display:none; }
+.checkitout .checkout-step .step-loading { position: absolute; background-color: #fff; text-align: center; vertical-align: center;}
+.checkitout .checkout-step .step-loading span { position: relative; top: 45%;}
+.checkitout #payment-tool-tip { position: absolute; }
+.checkitout .layout-top h1 { float:left; display:block; }
+.checkitout .layout-top .page-title { overflow: visible; }
+.checkitout #checkout-step-login { float:right; }
+.checkitout #checkout-step-login .step-content { border:none; background: none; padding: 0 0 0 0;}
+.checkitout #checkout-step-login .step-content .popup { position: absolute; left: -110px; top: -50px; z-index: 1000; }
+.checkitout #checkout-step-login .step-content .popup .popup-title { padding:4px 8px 6px;  background:#f9f3e3; border:1px solid #bbafa0; padding-bottom:5px; color:#f18200; }
+.checkitout #checkout-step-login .step-content .popup .popup-title .popup-close { float:right; }
+.checkitout #checkout-step-login .step-content .popup .popup-content { border:1px solid #bbafa0; border-top:0; background:#fbfaf6 url(../images/bkg_checkout.gif) 0 0 repeat-x; padding:15px 30px; position:relative; }
+.checkitout #checkout-step-login .step-content .popup .popup-content .button[type=submit] { float: right; }
+.checkitout-loading { position: absolute; background-color: #fff; text-align: center; vertical-align: center; z-index: 2000;}
+.checkitout-loading span { font-weight: bold; position: relative; top: 45%;}

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!-- Layout of the friendly checkout -->
+<layout version="0.1.0">
+    <adminhtml_sales_order_view>
+        <reference name="js">
+            <block type="adminhtml/sales_order_view_info" template="ecomdev/checkitout/sales/comments.phtml" />
+        </reference>
+    </adminhtml_sales_order_view>
+</layout>
