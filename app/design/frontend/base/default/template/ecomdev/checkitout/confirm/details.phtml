@@ -1,0 +1,85 @@
+<?php
+/**
+ * CheckItOut extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category   EcomDev
+ * @package    EcomDev_CheckItOut
+ * @copyright  Copyright (c) 2011 EcomDev BV (http://www.ecomdev.org)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
+ */
+
+/* @var $this Mage_Checkout_Block_Onepage_Progress */
+?>
+<div class="block">
+    <div class="block-title">
+        <strong><span><?php echo $this->__('Billing Address') ?></span></strong>
+    </div>
+    <div class="block-content">
+         <address><?php echo $this->getBilling()->format('html') ?></address>
+    </div>
+</div>
+<?php if (!$this->getQuote()->isVirtual()):?>
+<div class="block block-right">
+    <div class="block-title">
+        <strong><span><?php echo $this->__('Shipping Address') ?></span></strong>
+    </div>
+    <div class="block-content">
+         <address><?php echo $this->getShipping()->format('html') ?></address>
+    </div>
+</div>
+<div class="clearer"></div>
+<div class="block">
+    <div class="block-title">
+        <strong><span><?php echo $this->__('Shipping Method') ?></span></strong>
+    </div>
+    <div class="block-content">
+        <?php echo $this->getShippingDescription(); ?>
+    </div>
+</div>
+<?php endif;?>
+<div class="block block-right">
+    <div class="block-title">
+        <strong><span><?php echo $this->__('Payment Method') ?></span></strong>
+    </div>
+    <div class="block-content">
+         <?php echo $this->getPaymentHtml(); ?>
+    </div>
+</div>
+<div class="clearer"></div>
+<div class="block block-wide">
+    <div class="block-title">
+        <strong><span><?php echo $this->helper('ecomdev_checkitout')->__('Other Information') ?></span></strong>
+    </div>
+    <div class="block-content">
+         <div class="item">
+             <strong><span><?php echo $this->helper('ecomdev_checkitout')->__('Email') ?></span></strong>
+             <span><?php echo $this->htmlEscape($this->getBilling()->getEmail()); ?></span>
+         </div>
+         <?php if (!$this->getQuote()->getCustomer()->getId()):?>
+         <div class="item">
+             <strong><span><?php echo $this->helper('ecomdev_checkitout')->__('Create an Account') ?></span></strong>
+             <span>
+             <?php if($this->helper('ecomdev_checkitout')->isGuestCheckout()): ?>
+                 <?php echo $this->__('No'); ?>
+             <?php else: ?>
+                 <?php echo $this->__('Yes'); ?>
+             <?php endif;?>
+             </span>
+         </div>
+         <?php endif;?>
+         <?php if ($this->helper('ecomdev_checkitout')->isCustomerCommentAllowed()):?>
+         <div class="item">
+             <strong><span><?php echo $this->helper('ecomdev_checkitout')->__('Comments') ?></span></strong>
+             <span><?php echo nl2br($this->htmlEscape($this->getQuote()->getCustomerComment()), true); ?></span>
+         </div>
+         <?php endif;?>
+    </div>
+</div>

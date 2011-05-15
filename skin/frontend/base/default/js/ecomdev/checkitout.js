@@ -46,7 +46,13 @@ EcomDev.CheckItOut = Class.create({
          * 
          * @type Element
          */        
-        this.mask = this.container.down('.friendly-checkout-loading');
+        this.mask = this.container.up().down('.checkitout-checkout-loading');
+        /**
+         * Overlay html element
+         * 
+         * @type Element
+         */        
+        this.overlay = this.container.up().down('.checkitout-checkout-overlay');
         /**
          * On reload event handler that binded to checkout object scope
          * 
@@ -87,6 +93,16 @@ EcomDev.CheckItOut = Class.create({
         return this.steps.get(stepId);
     },
     /**
+     * Check that any of the steps is loading
+     * 
+     * @return Boolean
+     */
+    isLoading: function () {
+        return this.steps.any(function (pair) {
+           return pair.value.isLoading();
+        })
+    },
+    /**
      * Ajax failure callback, 
      * used for ajax requests to redirect user to failure url
      * 
@@ -102,8 +118,37 @@ EcomDev.CheckItOut = Class.create({
      * @return void
      */
     handleReload: function (stepObject) {
-        var steps = this.steps.values();
+        
         var reloadCallbacks = [];
+        this.collectReload(stepObject, reloadCallbacks);
+        this.reload();
+        this.invokeCallbacks(reloadCallbacks);
+    },
+    /**
+     * Handles reload of particular checkout step object
+     * Dispatches changes to the other steps that are in the relation
+     * 
+     * @return void
+     */
+    reloadSteps: function (steps) {
+        var reloadCallbacks = [];
+        for (var i = 0, l = steps.length; i < l; i ++) {
+            if (this.getStep(steps[i])) {
+                this.collectReload(this.getStep(steps[i]), reloadCallbacks);
+            }
+        }
+        this.reload();
+        this.invokeCallbacks(reloadCallbacks);
+    },
+    /**
+     * Collects steps that should be reloaded
+     * 
+     * @param EcomDev.CheckItOut.Step stepObject
+     * @param Array reloadCallbacks
+     * @return void
+     */
+    collectReload: function (stepObject, reloadCallbacks) {
+        var steps = this.steps.values();
         for (var i = 0, l = steps.length; i < l; i ++) {
             if (!steps[i].isRelated(stepObject)) {
                 continue;
@@ -111,13 +156,30 @@ EcomDev.CheckItOut = Class.create({
             if (stepObject.isLoading()) {
                 steps[i].showMask();
             } else if (Object.isFunction(steps[i].load)) {
-                reloadCallbacks.push(steps[i]);
-           } else {
+                reloadCallbacks.push(
+                    [steps[i], steps[i].load]
+                );
+            } else {
                 this.addToReload(steps[i]);
             }
+            if (Object.isFunction(steps[i].additionalLoad)) {
+                reloadCallbacks.push(
+                    [steps[i], steps[i].additionalLoad]
+                );
+            }
         }
-        this.reload();
-        reloadCallbacks.invoke('load');
+    },
+    /**
+     * Invoke array of callbacks
+     * 
+     * @param Array callbacks
+     * @return void
+     */
+    invokeCallbacks: function (callbacks) {
+        callbacks = callbacks.uniq();
+        for (var i = 0, l = callbacks.length; i < l; i++) {
+           callbacks[i][1].call(callbacks[i][0]);
+        }
     },
     /**
      * Displays mask overlay for whole checkout page
@@ -128,25 +190,55 @@ EcomDev.CheckItOut = Class.create({
         this.mask.show();
         var dimensions = this.content.getDimensions();
         this.mask.setStyle({
-            width: dimensions.width + 'px', 
+            width: this.getMaskWidth() + 'px', 
             height: this.getMaskHeight() + 'px',
-            top: this.content.offsetTop + 'px',
-            left: this.content.offsetLeft + 'px',
+            top: 0 + 'px',
+            left: 0 + 'px',
             opacity: 0.5
         });
     },
+    /**
+     * Displays overlay for whole checkout page
+     * 
+     * @return void
+     */
+    showOverlay: function (frontElement) {
+        var zIndex = frontElement.getStyle('z-index');
+        this.overlay.setStyle({
+            width: this.getMaskWidth() + 'px', 
+            height: this.getMaskHeight() + 'px',
+            top: 0 + 'px',
+            left: 0 + 'px',
+            'z-index': zIndex - 1,
+            opacity: 0
+        });
+        centerPosition = this.getCenterElementPosition(frontElement);
+        frontElement.setStyle({top: '-600px', left: '0px'});
+        new Effect.Parallel([
+            new Effect.Appear(frontElement, {sync: true }),
+            new Effect.Move(frontElement, {sync: true, x: centerPosition.left, y: centerPosition.top, mode: 'absolute'}),
+            new Effect.Appear(this.overlay, {sync: true, from: 0, to: 0.5})
+        ]);
+    },
+    /**
+     * Get center position for element in the screen 
+     * 
+     * @param Element element
+     * @return void
+     */
+    getCenterElementPosition: function (element) {
+        var elementDimensions = element.getDimensions();
+        var scrollOffsets = document.viewport.getScrollOffsets();
+        var positionX = Math.ceil(document.viewport.getWidth() / 2 - elementDimensions.width / 2) + scrollOffsets[0];
+        var positionY = Math.ceil(document.viewport.getHeight() / 2 - elementDimensions.height / 2) + scrollOffsets[1];
+        
+        return {top: positionY, left: positionX};
+    },
     getMaskHeight: function () {
-        var elements = this.content.childElements();
-        var height = 0;
-        for (var i=0, l=elements.length; i < l; i++) {
-            var item = elements[i];
-            if (item.hasClassName('max-height')) {
-                height += item.childElements().collect(function (el) {return el.getDimensions().height; }).max();
-            } else {
-                height += item.getDimensions().height + (parseInt(item.getStyle('margin-bottom'))||0) + (parseInt(item.getStyle('margin-bottom-width'))||0);
-            }
-        }
-        return height;
+        return $(document.body).getDimensions().height;
+    },
+    getMaskWidth: function () {
+        return $(document.body).getDimensions().width;
     },
     /**
      * Hides displayed mask
@@ -157,6 +249,17 @@ EcomDev.CheckItOut = Class.create({
         this.mask.hide();
     },
     /**
+     * Hides displayed overlay
+     * 
+     * @return void
+     */
+    hideOverlay: function (frontElement) {
+        new Effect.Parallel([
+            new Effect.Fade(frontElement, {sync: true}),
+            new Effect.Fade(this.overlay, {sync: true,from: 0.5, to: 0})
+        ]);
+    },
+    /**
      * Add steps to reload sequance object
      * 
      * @param EcomDev.CheckItOut.Step stepObject
@@ -164,6 +267,7 @@ EcomDev.CheckItOut = Class.create({
      */
     addToReload: function (stepObject) {
         this.toReload.push(stepObject);
+        this.toReload = this.toReload.uniq();
     },
     /**
      * Reloads checkout steps that were added to sequance
@@ -191,7 +295,14 @@ EcomDev.CheckItOut = Class.create({
                     var blocks = result.responseText.evalJSON();
                     for (var i=0, l = steps.length; i < l; i ++) {
                         if (blocks[steps[i].code]) {
-                            steps[i].update(blocks[steps[i].code]);
+                            try {
+                                steps[i].update(blocks[steps[i].code]);
+                            } catch (e) {
+                                if (window.console) {
+                                    window.console.log(e);
+                                    window.console.log(blocks[steps[i].code]);
+                                }
+                            }
                         }
                         steps[i].hideMask();
                    }
@@ -206,20 +317,48 @@ EcomDev.CheckItOut = Class.create({
      * @return void
      */
     submit: function () {
-        var steps = this.steps.values();
-        var parameters = {};
-        for (var i = 0, l = steps.length; i < l; i ++) {
-            if (steps[i].isLoading() || !steps[i].isValid()) {
-                return;
-            }
-            Object.extend(parameters, steps[i].getValues());
+        if (!this.isValid()) {
+            return;
         }
+        if (this.getStep('confirm')) {
+            this.getStep('confirm').show();
+        } else {
+            this.forcedSubmit();
+        }
+    },
+    
+    forcedSubmit: function () {
+        
         this.showMask();
         new Ajax.Request(this.config.save, {
-            parameters: parameters,
+            parameters: this.getParameters(),
             method: 'POST',
             onComplete: this.submitComplete.bind(this) 
         });
+    },
+    /**
+     * Check that checkout forms is valid for submitting
+     * 
+     * @return Boolean
+     */
+    isValid: function () {
+        return !this.isLoading() && !this.steps.any(function (step) {
+            return !step[1].isValid();
+        });
+    },
+    /**
+     * Retrieves parameters from all the steps
+     * 
+     * @return Object
+     */
+    getParameters: function () {
+        var steps = this.steps.values();
+        var parameters = {};
+        for (var i = 0, l = steps.length; i < l; i ++) {
+            Object.extend(parameters, steps[i].getValues());
+        }
+        
+        return parameters;
     },
     /**
      * Handler for completion of checkout step
@@ -243,7 +382,7 @@ EcomDev.CheckItOut = Class.create({
             window.location=this.config.success;
         }
         else{
-            var msg = response.error_messages;
+            var msg = result.error_messages;
             if (typeof(msg)=='object') {
                 msg = msg.join("\n");
             }
@@ -541,6 +680,7 @@ EcomDev.CheckItOut.Step = Class.create({
     }
 });
 
+
 /**
  * Static checkout class definition, used to syncronize objects 
  * that weren't initialized yet
@@ -643,26 +783,19 @@ var LoginStep = Class.create(EcomDev.CheckItOut.Step, {
             this.showPopUp();
     },
     showPopUp: function () {
-        this.container.down('.popup').show();
+        this.checkout.showOverlay(this.container.down('.popup'));
     },
     hidePopUp: function () {
-        this.container.down('.popup').hide();
+        this.checkout.hideOverlay(this.container.down('.popup'));
     }
 });
 
 /**
- * Billing checkout step, used to manage billing address
+ * Abstract class for address related checkout steps
  * 
  * 
  */
-var Billing = Class.create(EcomDev.CheckItOut.Step, {
-    /**
-     * Checkout step unique code
-     * 
-     * @type String
-     */
-    code: 'billing',
-    autoValidate: false,
+EcomDev.CheckItOut.Step.Address = Class.create(EcomDev.CheckItOut.Step, {
     /**
      * Checkout step constructor
      * 
@@ -695,56 +828,9 @@ var Billing = Class.create(EcomDev.CheckItOut.Step, {
      * @return void
      */
     initCheckout: function ($super) {
-        var insertAbove = false;
-        if ($('billing:use_for_shipping_yes')) {
-            insertAbove = $('billing:use_for_shipping_yes').up('li').previous('li');
-            $('billing:use_for_shipping_yes').up('li').remove();
+        if (!this.isAddressSelected()) {
+            this.newAddress(true);
         }
-        if ($('billing:use_for_shipping_no')) {
-            insertAbove = $('billing:use_for_shipping_no').up('li').previous('li');
-            $('billing:use_for_shipping_no').up('li').remove();
-        }
-        
-        if (insertAbove) {
-            var element = new Element('li', {
-                'class': 'control',
-            });
-            insertAbove.insert({after:element});
-            element.insert(new Element(
-                'input', 
-                {type:'checkbox', 
-                 id: 'billing:use_for_shipping', 
-                 value:'1',
-                 'class': 'checkbox',
-                 name: 'billing[use_for_shipping]',
-                 checked: 'checked', 
-                 title: this.checkout.config.useForShippingLabel}));
-            element.insert(
-                new Element('label', {'for': 'billing:use_for_shipping'})
-                    .update(this.checkout.config.useForShippingLabel));
-            
-        }
-        
-        if ($('register-customer-password')) {
-            var registerElement = new Element('li', {
-                'class': 'control',
-            });
-            $('register-customer-password').insert({'before':registerElement});
-            registerElement.insert(new Element(
-                'input', 
-                {type:'checkbox', 
-                 id: 'billing:create_an_account', 
-                 value:'1',
-                 'class': 'checkbox  no-autosubmit',
-                 title: this.checkout.config.useForShippingLabel}));
-            $('billing:create_an_account').observe('click', this.accountCheckbox.bind(this));
-            $('billing:create_an_account').observe('change', this.accountCheckbox.bind(this));
-            registerElement.insert(
-                new Element('label', {'for': 'billing:create_an_account'})
-                    .update(this.checkout.config.createAccountLabel));
-            this.accountCheckbox($('billing:create_an_account'));
-        }
-        this.newAddress(true);
         $super();
     },
     /**
@@ -766,22 +852,6 @@ var Billing = Class.create(EcomDev.CheckItOut.Step, {
             this.fillForm(false);
         }
     },
-    accountCheckbox: function (evt) {
-        var element = (Object.isFunction(evt.identify) ? evt : Event.element(evt));
-        if ($('register-customer-password').visible() == element.checked) {
-            return;
-        }
-        if (element.checked) {
-            this.checkout.getStep('login').setCheckoutMethod('register');
-            $('register-customer-password').show();
-        } else {
-            this.checkout.getStep('login').setCheckoutMethod('guest');
-            $('register-customer-password').hide();
-        }
-        if (!Object.isFunction(evt.identify)) {
-            Event.extend(evt).stopPropagation();
-        }
-    },
     /**
      * Diplays or hides address form
      * 
@@ -791,9 +861,9 @@ var Billing = Class.create(EcomDev.CheckItOut.Step, {
     newAddress: function(isNew){
         if (isNew) {
             this.resetSelectedAddress();
-            Element.show('billing-new-address-form');
+            Element.show(this.code + '-new-address-form');
         } else {
-            Element.hide('billing-new-address-form');
+            Element.hide(this.code + '-new-address-form');
         }
     },
     /**
@@ -802,24 +872,25 @@ var Billing = Class.create(EcomDev.CheckItOut.Step, {
      * @return void
      */
     resetSelectedAddress: function(){
-        var selectElement = $('billing-address-select')
-        if (selectElement) {
-            selectElement.value='';
+        if (this.getSelectElement()) {
+            this.getSelectElement().value='';
         }
     },
     /**
-     * Submits address data, checks 
-     * if billing address is the same as shipping 
-     * and updates it accordinly
+     * Checks that address was already selected
      * 
-     * @param Function $super parent method
-     * @return void
+     * @return Boolean
      */
-    submit: function ($super) {
-        if ($('billing:use_for_shipping') && $('billing:use_for_shipping').checked) {
-            this.checkout.getStep('shipping').submit();
-        }
-        return $super();
+    isAddressSelected: function () {
+        return this.getSelectElement() && this.getSelectElement().value;
+    },
+    /**
+     * Returns Select Element
+     * 
+     * @return Element|Boolean
+     */
+    getSelectElement: function() {
+        return $(this.code + '-address-select');
     },
     /**
      * Fills address form with received address values
@@ -842,36 +913,13 @@ var Billing = Class.create(EcomDev.CheckItOut.Step, {
         
         for (var i = 0, l = elements.length; i < l; i++) {
             if (elements[i].id) {
-                var fieldName = elements[i].indentify().replace(/^billing:/, '');
+                var fieldName = elements[i].indentify().replace(new RegExp('^' + this.code + ':'), '');
                 elements[i].value = elementValues[fieldName] ? elementValues[fieldName] : '';
                 if (fieldName == 'country_id' && billingForm){
                     billingForm.elementChildLoad(elements[i]);
                 }
             }
         }
-    },
-    /**
-     * Handle fields change, syncronized shipping 
-     * and billing address fields if the option is selected
-     * 
-     * @param Function $parent
-     * @param Event evt
-     * @return void
-     */
-    handleChange: function ($super, evt) {
-        $super(evt);
-        if ($('shipping:same_as_billing') && $('shipping:same_as_billing').checked) {
-            this.checkout.getStep('shipping').syncWithBilling();
-        }
-    },
-    /**
-     * Set the same as billing checkbox for billing address
-     * 
-     * @param Boolean flag
-     * @return void
-     */
-    setUseForShipping: function(flag) {
-        $('shipping:same_as_billing').checked = flag;
     },
     /**
      * Handles submission complete and displays related errors 
@@ -891,11 +939,148 @@ var Billing = Class.create(EcomDev.CheckItOut.Step, {
             }
         }
         if (result.error){
-            if (window.billingRegionUpdater) {
-                billingRegionUpdater.update();
+            if (window[this.code + 'RegionUpdater']) {
+                window[this.code + 'RegionUpdater'].update();
+            }
+            if (result.field && $(this.code + ':' + result.field)) {
+                Validation.ajaxError($(this.code + ':' + result.field), result.message);
             }
         }
         return $super();
+    }
+});
+
+/**
+ * Billing checkout step, used to manage billing address
+ * 
+ * 
+ */
+var Billing = Class.create(EcomDev.CheckItOut.Step.Address, {
+    /**
+     * Checkout step unique code
+     * 
+     * @type String
+     */
+    code: 'billing',
+    autoValidate: false,
+    /**
+     * Clears address form on load
+     * 
+     * @param $super parent method
+     * @return void
+     */
+    initCheckout: function ($super) {
+        this.insertUseForShippingCheckbox();
+        this.insertRegistrationFields();
+        $super();
+    },
+    /**
+     * Inserts use for shipping checkbox bellow address form, 
+     * Removes old elements
+     * 
+     * @return void
+     */
+    insertUseForShippingCheckbox: function () {
+        var insertAbove = false;
+        if ($('billing:use_for_shipping_yes')) {
+            insertAbove = $('billing:use_for_shipping_yes').up('li').previous('li');
+            $('billing:use_for_shipping_yes').up('li').remove();
+        }
+        if ($('billing:use_for_shipping_no')) {
+            insertAbove = $('billing:use_for_shipping_no').up('li').previous('li');
+            $('billing:use_for_shipping_no').up('li').remove();
+        }
+        
+        if (insertAbove) {
+            var element = new Element('li', {
+                'class': 'control'
+            });
+            insertAbove.insert({after:element});
+            element.insert(new Element(
+                'input', 
+                {type:'checkbox', 
+                 id: 'billing:use_for_shipping', 
+                 value:'1',
+                 'class': 'checkbox',
+                 name: 'billing[use_for_shipping]',
+                 checked: 'checked', 
+                 title: this.checkout.config.useForShippingLabel}));
+            element.insert(
+                new Element('label', {'for': 'billing:use_for_shipping'})
+                    .update(this.checkout.config.useForShippingLabel));
+            
+        }
+    },
+    /**
+     * Moves registration fields below billing address for not logged in customers
+     * 
+     * @return void
+     */
+    insertRegistrationFields: function () {
+        if ($('register-customer-password')) {
+            var registerElement = new Element('li', {
+                'class': 'control'
+            });
+            $('register-customer-password').insert({'before':registerElement});
+            registerElement.insert(new Element(
+                'input', 
+                {type:'checkbox', 
+                 id: 'billing:create_an_account', 
+                 value:'1',
+                 'class': 'checkbox  no-autosubmit',
+                 title: this.checkout.config.useForShippingLabel}));
+            $('billing:create_an_account').observe('click', this.accountCheckbox.bind(this));
+            $('billing:create_an_account').observe('change', this.accountCheckbox.bind(this));
+            registerElement.insert(
+                new Element('label', {'for': 'billing:create_an_account'})
+                    .update(this.checkout.config.createAccountLabel));
+            this.accountCheckbox($('billing:create_an_account'));
+        }
+    },
+    /**
+     * Observes "Create An Account" checkbox click event, and sets appropriate checkout method
+     * 
+     * @param Event evt
+     * @return void
+     */
+    accountCheckbox: function (evt) {
+        var element = (Object.isFunction(evt.identify) ? evt : Event.element(evt));
+        if ($('register-customer-password').visible() == element.checked) {
+            return;
+        }
+        if (element.checked) {
+            this.checkout.getStep('login').setCheckoutMethod('register');
+            $('register-customer-password').show();
+        } else {
+            this.checkout.getStep('login').setCheckoutMethod('guest');
+            $('register-customer-password').hide();
+        }
+        if (!Object.isFunction(evt.identify)) {
+            Event.extend(evt).stopPropagation();
+        }
+    },
+    /**
+     * Handle fields change, syncronized shipping 
+     * and billing address fields if the option is selected
+     * 
+     * @param Function $parent
+     * @param Event evt
+     * @return void
+     */
+    handleChange: function ($super, evt) {
+        $super(evt);
+        if ($('billing:use_for_shipping') && $('billing:use_for_shipping').checked) {
+            this.checkout.getStep('shipping').syncWithBilling();
+        }
+    },
+    /**
+     * Set the same as billing checkbox for billing address
+     * 
+     * @param Boolean flag
+     * @return void
+     */
+    setUseForShipping: function(flag) {
+        $('billing:use_for_shipping').checked = flag;
     }
 });
 
@@ -904,7 +1089,7 @@ var Billing = Class.create(EcomDev.CheckItOut.Step, {
  * 
  * 
  */
-var Shipping = Class.create(EcomDev.CheckItOut.Step, {
+var Shipping = Class.create(EcomDev.CheckItOut.Step.Address, {
     /**
      * Checkout step unique code
      * 
@@ -913,31 +1098,6 @@ var Shipping = Class.create(EcomDev.CheckItOut.Step, {
     code: 'shipping',
     autoValidate: false,
     /**
-     * Checkout step constructor
-     * 
-     * @param Function $super parent constructor
-     * @param String form
-     * @param String addressUrl
-     * @param String saveUrl
-     * @return void
-     */
-    initialize: function ($super, form, addressUrl, saveUrl) {
-        /**
-         * Url for loading of addresses
-         * 
-         * @type String
-         */
-        this.addressUrl = addressUrl;
-        /**
-         * Address load callback
-         * 
-         * @type Function
-         */
-        this.onAddressLoad = this.fillForm.bind(this);
-        var container = this.findContainer(form);
-        $super(container, saveUrl);
-    },
-    /**
      * Clears address form on load
      * 
      * @param $super parent method
@@ -945,8 +1105,14 @@ var Shipping = Class.create(EcomDev.CheckItOut.Step, {
      */
     initCheckout: function ($super) {
         $super();
-        this.resetSelectedAddress();
-        this.newAddress(true);
+        $('shipping:same_as_billing').up('li').remove();
+        
+        this.container.down('form').insert(new Element('input', {
+            type: 'hidden', 
+            id: 'shipping:same_as_billing', 
+            name:'shipping[same_as_billing]'
+        }));
+        
         $('billing:use_for_shipping').observe('click', function (evt) {
             var element = Event.element(evt);
             this.setSameAsBilling(element.checked);
@@ -956,7 +1122,11 @@ var Shipping = Class.create(EcomDev.CheckItOut.Step, {
             this.setSameAsBilling(true);
         }
         
-        $('shipping:same_as_billing').up('li').remove();
+       
+        
+        if (this.isAddressSelected()) {
+            this.submit();
+        }
     },
     /**
      * Sets address from dropdown, 
@@ -985,61 +1155,16 @@ var Shipping = Class.create(EcomDev.CheckItOut.Step, {
      * @param Boolean isNew
      * @return void
      */
-    newAddress: function(isNew){
+    newAddress: function($super, isNew){
         if (!this.checkout) {
             return;
         }
         if ($('billing:use_for_shipping').checked && 
-            $('billing-address-select') &&  
-            $('billing-address-select').value != $('shipping-address-select').value) {
+            this.checkout.getStep('billing').getSelectElement() &&  
+            this.checkout.getStep('billing').getSelectElement().value != this.getSelectElement().value) {
             this.setSameAsBilling(false);
         }
-        if (isNew) {
-            this.resetSelectedAddress();
-            Element.show('shipping-new-address-form');
-        } else {
-            Element.hide('shipping-new-address-form');
-        }
-    },
-    /**
-     * Resets address select to 'new address' value
-     * 
-     * @return void
-     */
-    resetSelectedAddress: function(){
-        var selectElement = $('shipping-address-select')
-        if (selectElement) {
-            selectElement.value='';
-        }
-    },
-    /**
-     * Fills address form with received address values
-     * 
-     * @param Ajax.Response transport
-     * @return void
-     */
-    fillForm: function(transport){
-        var elementValues = {};
-        if (transport && transport.responseText){
-            if (transport.responseText.isJSON()) {
-                elementValues = transport.responseText.evalJSON();
-            }
-        }
-        else{
-            this.resetSelectedAddress();
-        }
-        
-        var elements = this.content.select('input', 'textarea', 'select');
-        
-        for (var i = 0, l = elements.length; i < l; i++) {
-            if (elements[i].id) {
-                var fieldName = elements[i].indentify().replace(/^shipping:/, '');
-                elements[i].value = elementValues[fieldName] ? elementValues[fieldName] : '';
-                if (fieldName == 'country_id' && shippinfForm){
-                    shippingForm.elementChildLoad(elements[i]);
-                }
-            }
-        }
+        $super(isNew);
     },
     /**
      * Set the same as billing flag for shipping address
@@ -1049,6 +1174,7 @@ var Shipping = Class.create(EcomDev.CheckItOut.Step, {
      */
     setSameAsBilling: function(flag) {
         $('billing:use_for_shipping').checked = flag;
+        $('shipping:same_as_billing').value = (flag ? 1 : 0);
         if (flag) {
             this.container.hide();
             this.syncWithBilling();
@@ -1073,11 +1199,9 @@ var Shipping = Class.create(EcomDev.CheckItOut.Step, {
                     }
                 }
             }
-            //$('shipping:country_id').value = $('billing:country_id').value;
             shippingRegionUpdater.update();
             $('shipping:region_id').value = $('billing:region_id').value;
             $('shipping:region').value = $('billing:region').value;
-            //shippingForm.elementChildLoad($('shipping:country_id'), this.setRegionValue.bind(this));
         } else {
             $('shipping-address-select').value = $('billing-address-select').value;
         }
@@ -1090,30 +1214,6 @@ var Shipping = Class.create(EcomDev.CheckItOut.Step, {
      */
     setRegionValue: function(){
         $('shipping:region').value = $('billing:region').value;
-    },
-    /**
-     * Handles submission complete and displays related errors 
-     * if there were any
-     * 
-     * @param Function $super parent method
-     * @param Ajax.Response response
-     * @return void
-     */
-    submitComplete: function ($super, response) {
-        if (response && response.responseText){
-            try{
-                var result = response.responseText.evalJSON();
-            }
-            catch (e) {
-                var result = {};
-            }
-        }
-        if (result.error){
-            if (window.shippingRegionUpdater) {
-                shippingRegionUpdater.update();
-            }
-        }
-        return $super();
     }
 });
 
@@ -1138,6 +1238,7 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
         var container = this.findContainer(form);
         $super(container, saveUrl);
         this.addRelation('shipping');
+        this.addRelation('billing');
     },
     /**
      * Performs checking of fullfillment of shipping method selection
@@ -1173,8 +1274,12 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
      */
     initCheckout: function ($super) {
         $super();
+        //this.additionalLoad();
         this.checkOneMethod();
     },
+    /*additionalLoad: function () {
+       new Ajax.Updater(this.checkout.config.additionalContainer, this.checkout.config.additionalUrl);
+    },*/
     /**
      * Send shipping method to backend, Sets internal data
      * for restoring of selected shipping method
@@ -1204,6 +1309,9 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
      * @return void
      */
     checkOneMethod: function () {
+        this.content.select('input[type=radio]').each(function (item) {
+            item.setAttribute('autocomplete', 'off');
+        });
         var oneMethod = this.content.down('.no-display input[type=radio]');
         if (oneMethod) {
             if (!this.lastSubmitted ||
@@ -1367,7 +1475,10 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
     bindFields: function ($super) {
         this.initWhatIsCvvListeners();
         this.container.select('input[name="payment[method]"]').each(
-            function (element) { element.addClassName('no-autosubmit'); }
+            function (element) { 
+                element.addClassName('no-autosubmit');
+            },
+            this
         );
         $super();
     },
@@ -1400,17 +1511,22 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
      * @return void
      */
     switchMethod: function(method){
-        if (this.currentMethod && $('payment_form_'+this.currentMethod)) {
-            var form = $('payment_form_'+this.currentMethod);
-            form.style.display = 'none';
-            var elements = form.select('input', 'select', 'textarea');
-            for (var i=0; i<elements.length; i++) elements[i].disabled = true;
+        var methods = this.container.select('input[name="payment[method]"]');
+        
+        for (var j=0; j<methods.length; j++) {
+            var form = $('payment_form_'+methods[j].value);
+            if (form) {
+                form.style.display = 'none';
+                var elements = form.select('input', 'select', 'textarea');
+                for (var i=0, l = elements.length; i<l; i++) elements[i].disabled = true;
+            }
         }
+        
         if ($('payment_form_'+method)){
             var form = $('payment_form_'+method);
             form.style.display = '';
             var elements = form.select('input', 'select', 'textarea');
-            for (var i=0; i<elements.length; i++) elements[i].disabled = false;
+            for (var i=0, l = elements.length; i<l; i++) elements[i].disabled = false;
         } else {
             //Event fix for payment methods without form like "Check / Money order"
             document.body.fire('payment-method:switched', {method_code : method});
@@ -1595,15 +1711,34 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
      * @param Element agreementsForm [used only in onepagecheckout]
      * @return void
      */
-    initialize: function($super, loadUrl, updateElement, saveUrl, successUrl, agreementsForm){
+    initialize: function($super, loadUrl, updateElement, saveUrl, successUrl, agreementsForm, changeQtyTemplate, removeTemplate, changeQtyUrl, removeUrl){
         this.successUrl = successUrl;
-        this.agreementsForm = agreementsForm;
+        this.agreementsFormId = agreementsForm;
+        if ($(changeQtyTemplate)) {
+           this.changeQtyTemplate = new Template($(changeQtyTemplate).innerHTML);
+        } 
+        if ($(removeTemplate)) {
+           this.removeTemplate = new Template($(removeTemplate).innerHTML);
+        }
+        
+        this.changeQtyUrl = changeQtyUrl;
+        this.removeUrl = removeUrl;
         this.loadUrl = loadUrl;
         this.onLoadComplete = this.loadComplete.bind(this);
         this.updateElement = $(updateElement);
         var container = this.findContainer(this.updateElement);
         $super(container, saveUrl);
         this.addRelation(['billing', 'payment', 'shipping', 'shipping_method']);
+    },
+    updateItems: function (itemsInfo) {
+        this.itemsInfo = itemsInfo;
+        if (this.changeQtyTemplate) {
+            new ChangeItemQty(this, this.changeQtyTemplate, this.changeQtyUrl);
+        }
+        
+        if (this.removeTemplate) {
+            new RemoveItem(this, this.removeTemplate, this.removeUrl);
+        }
     },
     /**
      * Loads order review block after checkout initialization
@@ -1613,7 +1748,17 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
      */
     initCheckout: function ($super) {
         $super();
-        this.load();
+        this.showMask();
+        this.initialLoad.bind(this).delay(2);
+    },
+    /**
+     * Loads step data if it was not loaded before
+     * 
+     */
+    initialLoad: function () {
+        if (!this.wasLoaded) {
+            this.load();
+        }
     },
     /**
      * Loads order review info block
@@ -1622,12 +1767,16 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
      */
     load: function () {
         this.showMask();
-        new Ajax.Request(this.loadUrl, {
-            method: 'POST',
-            onComplete: this.onLoadComplete,
-            onFailure: this.checkout.ajaxFailure
-        });
+        if (!this.checkout.isLoading()) {
+            this.wasLoaded = true;
+            new Ajax.Request(this.loadUrl, {
+                method: 'POST',
+                onComplete: this.onLoadComplete,
+                onFailure: this.checkout.ajaxFailure
+            });
+        }
     },
+    
     /**
      * Handles load complete, used for hiding the mask
      * and updating inner content
@@ -1637,6 +1786,222 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
      */
     loadComplete: function (response) {
         this.hideMask();
-        this.updateElement.update(response.responseText);
+        try {
+            var values = Form.serializeElements(this.updateElement.select('input', 'select', 'textarea'), true);
+            this.updateElement.update(response.responseText);
+            var names = Object.keys(values); 
+            for (var i = 0, l = names.length; i < l; i ++) {
+            	if (Object.isArray(values[names[i]])) {
+                	this.updateElement.select('input[name="' + names[i] + '"]')
+                		.each(function (item) { item.checked = values.indexOf(item.value) !== -1} );
+                } else {
+                	var element = this.updateElement.down('*[name="' + names[i] + '"]');
+                	if (element && element.type == 'checkbox') {
+                		element.checked = true;
+                	} else if (element) {
+                		element.value = values[names[i]];
+                	}
+                }
+            }
+        } catch (e) {
+            if (window.console) {
+                window.console.log(e);
+                window.console.log(response.responseText);
+            }
+        }
+        this.agreementsForm = $(this.agreementsFormId);
+    },
+    save: function () {
+        this.checkout.submit();
+    }
+});
+
+var ItemAction = Class.create({
+    initialize: function (reviewStep, template, url) {
+        this.reviewStep = reviewStep;
+        this.template = template;
+        this.url = url;
+        this.onAction = this.handleAction.bind(this);
+        this.onActionDelay = this.handleActionDelay.bind(this);
+        this.onComplete = this.handleComplete.bind(this);
+        this.checkout = this.reviewStep.checkout;
+        this.table = this.reviewStep.container.down('.data-table');
+        this.initializeLayout();
+    },
+    handleActionDelay: function (evt) {
+        this.onAction.delay(0.5, evt);
+    },
+    findRow: function (evt) {
+        return Event.element(evt).up('tr');
+    },
+    initializeLayout: function () {
+        var itemsInfo = this.reviewStep.itemsInfo;
+        var itemRows = this.table.select('tbody > tr');
+        for (var i = 0, l = itemsInfo.length; i < l; i++) {
+            var row = itemRows[i];
+            row.info = itemsInfo[i];
+            if (row) {
+                this.initializeRow(row);
+            }
+        }
+    },
+    handleComplete: function (response) {
+        var result = response.responseText.evalJSON();
+        if (result.success) {
+            this.checkout.reloadSteps(['payment', 'shipping_method']);
+        } else {
+            this.reviewStep.hideMask();
+            alert(result.error);
+        }
+    },
+    ajaxRequest: function (parameters) {
+        new Ajax.Request(this.url, {
+            parameters: parameters,
+            onComplete: this.onComplete,
+            onFailure: this.checkout.ajaxFailure
+        });
+        this.reviewStep.showMask();
+    }
+});
+
+var ChangeItemQty = Class.create(ItemAction, {
+    initializeRow: function (row) {
+        if (!row.info.allow_change_qty) {
+           return;
+        }
+        var html = this.template.evaluate(row.info);
+        var element = row.down('td.a-center').update('').insert(html);
+        var input = element.down('input'); 
+        input.value = row.info.qty;
+        input.observe('keyup', this.onActionDelay);
+        input.observe('change', this.onAction);
+    },
+    handleAction: function (evt) {
+        if (!this.validateValue(evt, true)) {
+            return;
+        } 
+        var row = this.findRow(evt); 
+        var input = row.down('input.qty');
+        
+        this.ajaxRequest({
+            item_id: row.info.item_id, 
+            qty: input.value
+        });
+    },
+    validateValue: function (evt, autoFix) {
+        var row = this.findRow(evt); 
+        var input = row.down('input.qty');
+        input.value = input.value.replace(/[^0-9\.]/g, '');
+        var parsed = parseFloat(input.value);
+        if (isNaN(parsed) || parsed <= 0) {
+           if (autoFix) {
+              input.value = row.info.qty;
+           }
+           return false;
+        }
+        return true;
+    },
+    handleActionDelay: function ($super, evt) {
+        if (!this.validateValue(evt, false)) {
+            return;
+        }
+        $super(evt);
+    }    
+});
+
+var RemoveItem = Class.create(ItemAction, {
+    initializeRow: function (row) {
+        if (!row.info.allow_remove) {
+           if (this.initedHeaders) {
+        	   row.insert(new Element('td', {'class':'a-center'})).update('&nbsp;');
+           }
+           return;
+        }
+        this.initHeaders();
+        var html = this.template.evaluate(row.info);
+        var td = new Element('td', {'class':'a-center'});
+        td.update(html);
+        var element = row.insert(td);
+        var link = element.down('a'); 
+        link.observe('click', this.onAction);
+    },
+    initHeaders: function () {
+        if (!this.initedHeaders) {
+        	this.initedHeaders = true;
+        	if (this.table.down('colgroup')) {
+        		this.table.down('colgroup').insert(new Element('col', {width: '1'}));
+        	}
+        	var headers = this.table.select('thead tr');
+        	var rowSpan = headers.length;
+        	headers.first().insert(new Element('th', {rowspan: rowSpan}).update('&nbsp;'));
+        	var totals = this.table.select('tfoot tr');
+        	for (var i = 0, l = totals.length; i < l; i ++) {
+        		totals[i].insert(new Element('td').update('&nbsp;'));
+        	}
+        }
+    },
+    handleAction: function (evt) {
+        Event.stop(evt);
+        var row = this.findRow(evt);
+        this.ajaxRequest({item_id: row.info.item_id})
+    }
+});
+
+var ConfirmPopUp = Class.create(EcomDev.CheckItOut.Step, {
+    /**
+     * Checkout step unique code
+     * 
+     * @type String
+     */
+    code: 'confirm',
+    autoSubmit: false,
+    /**
+     * Order review checkout step initalization
+     * 
+     * @param Function $super parent constructor
+     * @param String loadUrl
+     * @param String updateElement
+     * @param String saveUrl
+     * @param String successUrl [used only in onepagecheckout]
+     * @param Element agreementsForm [used only in onepagecheckout]
+     * @return void
+     */
+    initialize: function($super, windowElement, loadUrl){
+        this.loadUrl = loadUrl;
+        this.onLoadComplete = this.loadComplete.bind(this);
+        this.windowElement = $(windowElement);
+        var container = this.findContainer(this.windowElement.down('.step-content'));
+        $super(container, '');
+        this.onLoad = this.loadComplete.bind(this);
+        this.onConfirm = this.save.bind(this);
+        this.onCancel = this.cancel.bind(this);
+    },
+    isValid: function () {
+        return true;
+    },
+    show: function () {
+        this.checkout.showMask();
+        this.load();
+    },
+    load: function () {
+        new Ajax.Updater(this.container.down('.step-content'), this.loadUrl, {
+            onComplete: this.onLoad,
+            parameters: this.checkout.getParameters(),
+            method: 'POST'
+        });
+    },
+    loadComplete: function (response) {
+        this.checkout.hideMask();
+        this.checkout.showOverlay(this.windowElement);
+        this.container.down('button.confirm').observe('click', this.onConfirm);
+        this.container.down('button.cancel').observe('click', this.onCancel);
+    },
+    save: function () {
+        this.checkout.hideOverlay(this.windowElement);
+        this.checkout.showMask();
+        this.checkout.forcedSubmit();
+    },
+    cancel: function () {
+        this.checkout.hideOverlay(this.windowElement);
     }
 });

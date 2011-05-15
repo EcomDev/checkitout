@@ -1,15 +1,26 @@
 <?xml version="1.0"?>
-<!-- Layout of the friendly checkout -->
+<!-- 
+/**
+ * CheckItOut extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category   EcomDev
+ * @package    EcomDev_CheckItOut
+ * @copyright  Copyright (c) 2011 EcomDev BV (http://www.ecomdev.org)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
+ */
+-->
 <layout version="0.1.0">
-    
-    <checkout_cart_index>
-        <reference name="checkout.cart.methods.onepage">
-            <action method="setTemplate"><template>ecomdev/checkitout/link.phtml</template></action>
-        </reference>
-    </checkout_cart_index>
-    
-    <checkout_onepage_index>
-       <update handle="page_one_column" />
+    <!-- Handle that is added to onepage checkout one, if checkitout is enabled -->
+    <ecomdev_checkitout_layout>
+        <update handle="page_one_column" />
         
         <reference name="head">
             <action method="addItem"><type>skin_js</type><file>js/ecomdev/checkitout.js</file></action>
@@ -29,6 +40,7 @@
                 <action method="addCheckoutStepToLayout"><layout>right</layout><step>payment</step><virtual>0</virtual></action>
                 <action method="addCheckoutStepToLayout"><layout>right-bottom</layout><step>payment</step><virtual>1</virtual></action>
                 <action method="addCheckoutStepToLayout"><layout>right-bottom</layout><step>review</step></action>
+                <block name="checkout.confirm" as="confirm" type="checkout/onepage_review" template="ecomdev/checkitout/confirm.phtml" />
             </block>
         </reference>
 
@@ -43,13 +55,41 @@
         <reference name="checkout.onepage.review">
             <action method="setTemplate"><template>ecomdev/checkitout/review.phtml</template></action>
         </reference>
-    </checkout_onepage_index>
-
-    <checkout_onepage_steps>
-        <update handle="checkout_onepage_index" />
-    </checkout_onepage_steps>
-
+    </ecomdev_checkitout_layout>
+    
+    <checkout_onepage_review>
+        <reference name="root">
+            <action method="setTemplate" ifconfig="ecomdev_checkitout/settings/active">
+                <template>ecomdev/checkitout/review/info.phtml</template>
+            </action>
+            <block name="review.fields" as="fields" type="checkout/onepage_review" template="ecomdev/checkitout/review/fields.phtml"/>
+        </reference>
+    </checkout_onepage_review>
+    
+    <ecomdev_checkitout_no_payment>
+        <!-- Workaround for authorizenet form on review step -->
+        <remove name="payment.form.directpost" />
+    </ecomdev_checkitout_no_payment>
+    
     <checkout_onepage_layout>
         <update handle="checkout_onepage_index" />
     </checkout_onepage_layout>
+    
+    <checkout_onepage_steps>
+        <update handle="checkout_onepage_index" />
+    </checkout_onepage_steps>
+    
+    <checkout_onepage_confirm>
+        <update handle="checkout_onepage_review" />
+        <reference name="root">
+            <action method="setTemplate">
+                <template>ecomdev/checkitout/confirm/items.phtml</template>
+            </action>
+            <block name="confirm.details" as="details" type="checkout/onepage_progress" template="ecomdev/checkitout/confirm/details.phtml" >
+                <block type="checkout/onepage_payment_info" name="payment_info">
+	                <action method="setInfoTemplate"><method></method><template></template></action>
+	            </block>
+            </block>
+        </reference>
+    </checkout_onepage_confirm>
 </layout>
