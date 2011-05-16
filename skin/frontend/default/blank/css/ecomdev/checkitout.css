@@ -63,5 +63,6 @@
 .checkitout #confirmation-window .buttons-set .cancel { float: right; }
 .checkitout #confirmation-window .buttons-set .confirm { float: left; }
 .checkitout #confirmation-window .block { float: left; width: 47.5%; }
+.checkitout #confirmation-window .block .block-content { padding: 5px 5px; }
 .checkitout #confirmation-window .block-right { float: right; }
 .checkitout #confirmation-window .block-wide { width: 100%; }

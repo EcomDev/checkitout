@@ -1017,24 +1017,26 @@ var Billing = Class.create(EcomDev.CheckItOut.Step.Address, {
      * @return void
      */
     insertRegistrationFields: function () {
-        if ($('register-customer-password')) {
-            var registerElement = new Element('li', {
-                'class': 'control'
-            });
-            $('register-customer-password').insert({'before':registerElement});
-            registerElement.insert(new Element(
-                'input', 
-                {type:'checkbox', 
-                 id: 'billing:create_an_account', 
-                 value:'1',
-                 'class': 'checkbox  no-autosubmit',
-                 title: this.checkout.config.useForShippingLabel}));
-            $('billing:create_an_account').observe('click', this.accountCheckbox.bind(this));
-            $('billing:create_an_account').observe('change', this.accountCheckbox.bind(this));
-            registerElement.insert(
-                new Element('label', {'for': 'billing:create_an_account'})
-                    .update(this.checkout.config.createAccountLabel));
-            this.accountCheckbox($('billing:create_an_account'));
+        if (this.checkout.config.isAllowedGuestCheckout) {
+	        if ($('register-customer-password')) {
+	            var registerElement = new Element('li', {
+	                'class': 'control'
+	            });
+	            $('register-customer-password').insert({'before':registerElement});
+	            registerElement.insert(new Element(
+	                'input', 
+	                {type:'checkbox', 
+	                 id: 'billing:create_an_account', 
+	                 value:'1',
+	                 'class': 'checkbox  no-autosubmit',
+	                 title: this.checkout.config.useForShippingLabel}));
+	            $('billing:create_an_account').observe('click', this.accountCheckbox.bind(this));
+	            $('billing:create_an_account').observe('change', this.accountCheckbox.bind(this));
+	            registerElement.insert(
+	                new Element('label', {'for': 'billing:create_an_account'})
+	                    .update(this.checkout.config.createAccountLabel));
+	            this.accountCheckbox($('billing:create_an_account'));
+	        }
         }
     },
     /**
@@ -1527,7 +1529,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
             form.style.display = '';
             var elements = form.select('input', 'select', 'textarea');
             for (var i=0, l = elements.length; i<l; i++) elements[i].disabled = false;
-        } else {
+        } else if (this.currentMethod !== method) {
             //Event fix for payment methods without form like "Check / Money order"
             document.body.fire('payment-method:switched', {method_code : method});
             this.handleChange({});

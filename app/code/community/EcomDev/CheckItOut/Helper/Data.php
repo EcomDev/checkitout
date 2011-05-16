@@ -139,6 +139,18 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Checks that guest checkout is allowed
+     *
+     * @return boolean
+     */
+    public function isAllowedGuestCheckout()
+    {
+        $quote = Mage::helper('checkout')->getQuote();
+
+        return Mage::helper('checkout')->isAllowedGuestCheckout($quote);
+    }
+
+    /**
      * Returns items JSON info
      *
      * @param array $items
