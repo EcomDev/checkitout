@@ -1524,7 +1524,8 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
             }
         }
         
-        if ($('payment_form_'+method)){
+        if ($('payment_form_'+method) && $('payment_form_'+method)
+        			.select('input', 'select', 'textarea').length > 0){
             var form = $('payment_form_'+method);
             form.style.display = '';
             var elements = form.select('input', 'select', 'textarea');
