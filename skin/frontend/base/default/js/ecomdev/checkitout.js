@@ -375,7 +375,7 @@ EcomDev.CheckItOut = Class.create({
             var result = {};
         }
         if (result.redirect) {
-            location.href = response.redirect;
+            location.href = redirect.redirect;
             return;
         }
         if (result.success) {
