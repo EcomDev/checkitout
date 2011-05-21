@@ -1506,6 +1506,18 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
             values[i]();
         }
     },
+    initCheckout: function ($super) {
+	$super();
+        var methods = this.container.select('input[name="payment[method]"]');
+
+	if (methods.length == 1) {
+	    var form = $('payment_form_' +methods.first().value);
+	    if (form.select('input', 'select', 'textarea').length == 0) {
+		this.handleChange({});
+	    }
+        }
+
+    },
     /**
      * Switches payment method and displays related payment forms
      * 
