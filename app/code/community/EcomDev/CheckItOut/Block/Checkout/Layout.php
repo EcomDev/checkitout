@@ -49,7 +49,7 @@ class EcomDev_CheckItOut_Block_Checkout_Layout extends Mage_Core_Block_Template
     /**
      * Initialize steps before actions on it
      *
-     * @return Infoideea_FriendlyCheckout_Block_Checkout
+     * @return EcomDev_CheckItOut_Block_Checkout_Layout
      */
     protected function _initializeSteps()
     {
@@ -130,7 +130,7 @@ class EcomDev_CheckItOut_Block_Checkout_Layout extends Mage_Core_Block_Template
      * @param string $position
      * @param string $stepId
      * @param boolean|null $isVirtual performs isVirtual check for quote
-     * @return Infoideea_FriendlyCheckout_Block_Checkout
+     * @return EcomDev_CheckItOut_Block_Checkout_Layout
      */
     public function addCheckoutStepToLayout($position, $stepId, $isVirtual = null)
     {
