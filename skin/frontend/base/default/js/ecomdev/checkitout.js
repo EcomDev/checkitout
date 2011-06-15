@@ -1,3 +1,49 @@
+/** FIX FOR IE9 FOR PROTOTYPE1.6 FOR MAGENTO VERSION 1.5 AND LOWER */
+if (Prototype.Version.indexOf('1.6') === 0 && Prototype.Browser.IE) {
+(function(global) {
+      function shouldUseCache(tagName, attributes) {
+        if (tagName === 'select') return false;
+        if ('type' in attributes) return false;
+        return true;
+      }
+
+      var HAS_EXTENDED_CREATE_ELEMENT_SYNTAX = (function(){
+        try {
+          var el = document.createElement('<input name="x">');
+          return el.tagName.toLowerCase() === 'input' && el.name === 'x';
+        }
+        catch(err) {
+          return false;
+        }
+      })();
+
+      var element = global.Element;
+
+      global.Element = function(tagName, attributes) {
+        attributes = attributes || { };
+        tagName = tagName.toLowerCase();
+        var cache = Element.cache;
+
+        if (HAS_EXTENDED_CREATE_ELEMENT_SYNTAX && attributes.name) {
+          tagName = '<' + tagName + ' name="' + attributes.name + '">';
+          delete attributes.name;
+          return Element.writeAttribute(document.createElement(tagName), attributes);
+        }
+
+        if (!cache[tagName]) cache[tagName] = Element.extend(document.createElement(tagName));
+
+        var node = shouldUseCache(tagName, attributes) ?
+         cache[tagName].cloneNode(false) : document.createElement(tagName);
+
+        return Element.writeAttribute(node, attributes);
+      };
+
+      Object.extend(global.Element, element || { });
+      if (element) global.Element.prototype = element.prototype;
+    })(this);
+}
+/** END FIX FOR IE9 FOR PROTOTYPE1.6 FOR MAGENTO VERSION 1.5 AND LOWER */
+
 if (typeof window.EcomDev == 'undefined') {
     // Initiliaze namespace if it isn't defined yet
     window.EcomDev = {}; 
@@ -1018,25 +1064,25 @@ var Billing = Class.create(EcomDev.CheckItOut.Step.Address, {
      */
     insertRegistrationFields: function () {
         if (this.checkout.config.isAllowedGuestCheckout) {
-	        if ($('register-customer-password')) {
-	            var registerElement = new Element('li', {
-	                'class': 'control'
-	            });
-	            $('register-customer-password').insert({'before':registerElement});
-	            registerElement.insert(new Element(
-	                'input', 
-	                {type:'checkbox', 
-	                 id: 'billing:create_an_account', 
-	                 value:'1',
-	                 'class': 'checkbox  no-autosubmit',
-	                 title: this.checkout.config.useForShippingLabel}));
-	            $('billing:create_an_account').observe('click', this.accountCheckbox.bind(this));
-	            $('billing:create_an_account').observe('change', this.accountCheckbox.bind(this));
-	            registerElement.insert(
-	                new Element('label', {'for': 'billing:create_an_account'})
-	                    .update(this.checkout.config.createAccountLabel));
-	            this.accountCheckbox($('billing:create_an_account'));
-	        }
+            if ($('register-customer-password')) {
+                var registerElement = new Element('li', {
+                    'class': 'control'
+                });
+                $('register-customer-password').insert({'before':registerElement});
+                registerElement.insert(new Element(
+                    'input', 
+                    {type:'checkbox', 
+                     id: 'billing:create_an_account', 
+                     value:'1',
+                     'class': 'checkbox  no-autosubmit',
+                     title: this.checkout.config.useForShippingLabel}));
+                $('billing:create_an_account').observe('click', this.accountCheckbox.bind(this));
+                $('billing:create_an_account').observe('change', this.accountCheckbox.bind(this));
+                registerElement.insert(
+                    new Element('label', {'for': 'billing:create_an_account'})
+                        .update(this.checkout.config.createAccountLabel));
+                this.accountCheckbox($('billing:create_an_account'));
+            }
         }
     },
     /**
@@ -1507,16 +1553,15 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         }
     },
     initCheckout: function ($super) {
-	$super();
+        $super();
         var methods = this.container.select('input[name="payment[method]"]');
 
-	if (methods.length == 1) {
-	    var form = $('payment_form_' +methods.first().value);
-	    if (form.select('input', 'select', 'textarea').length == 0) {
-		this.handleChange({});
-	    }
+        if (methods.length == 1) {
+            var form = $('payment_form_' +methods.first().value);
+            if (!form || form.select('input', 'select', 'textarea').length == 0) {
+                this.handleChange({});
+            }
         }
-
     },
     /**
      * Switches payment method and displays related payment forms
@@ -1805,16 +1850,16 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
             this.updateElement.update(response.responseText);
             var names = Object.keys(values); 
             for (var i = 0, l = names.length; i < l; i ++) {
-            	if (Object.isArray(values[names[i]])) {
-                	this.updateElement.select('input[name="' + names[i] + '"]')
-                		.each(function (item) { item.checked = values.indexOf(item.value) !== -1} );
+                if (Object.isArray(values[names[i]])) {
+                    this.updateElement.select('input[name="' + names[i] + '"]')
+                        .each(function (item) { item.checked = values.indexOf(item.value) !== -1} );
                 } else {
-                	var element = this.updateElement.down('*[name="' + names[i] + '"]');
-                	if (element && element.type == 'checkbox') {
-                		element.checked = true;
-                	} else if (element) {
-                		element.value = values[names[i]];
-                	}
+                    var element = this.updateElement.down('*[name="' + names[i] + '"]');
+                    if (element && element.type == 'checkbox') {
+                        element.checked = true;
+                    } else if (element) {
+                        element.value = values[names[i]];
+                    }
                 }
             }
         } catch (e) {
@@ -1927,7 +1972,7 @@ var RemoveItem = Class.create(ItemAction, {
     initializeRow: function (row) {
         if (!row.info.allow_remove) {
            if (this.initedHeaders) {
-        	   row.insert(new Element('td', {'class':'a-center'})).update('&nbsp;');
+               row.insert(new Element('td', {'class':'a-center'})).update('&nbsp;');
            }
            return;
         }
@@ -1941,17 +1986,17 @@ var RemoveItem = Class.create(ItemAction, {
     },
     initHeaders: function () {
         if (!this.initedHeaders) {
-        	this.initedHeaders = true;
-        	if (this.table.down('colgroup')) {
-        		this.table.down('colgroup').insert(new Element('col', {width: '1'}));
-        	}
-        	var headers = this.table.select('thead tr');
-        	var rowSpan = headers.length;
-        	headers.first().insert(new Element('th', {rowspan: rowSpan}).update('&nbsp;'));
-        	var totals = this.table.select('tfoot tr');
-        	for (var i = 0, l = totals.length; i < l; i ++) {
-        		totals[i].insert(new Element('td').update('&nbsp;'));
-        	}
+            this.initedHeaders = true;
+            if (this.table.down('colgroup')) {
+                this.table.down('colgroup').insert(new Element('col', {width: '1'}));
+            }
+            var headers = this.table.select('thead tr');
+            var rowSpan = headers.length;
+            headers.first().insert(new Element('th', {rowspan: rowSpan}).update('&nbsp;'));
+            var totals = this.table.select('tfoot tr');
+            for (var i = 0, l = totals.length; i < l; i ++) {
+                totals[i].insert(new Element('td').update('&nbsp;'));
+            }
         }
     },
     handleAction: function (evt) {
