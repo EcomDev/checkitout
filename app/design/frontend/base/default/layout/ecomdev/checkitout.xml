@@ -60,11 +60,23 @@
     <checkout_onepage_review>
         <reference name="root">
             <action method="setTemplate" ifconfig="ecomdev_checkitout/settings/active">
-                <template>ecomdev/checkitout/review/info.phtml</template>
+                <template helper="ecomdev_checkitout/data/getCompatibleValue">
+                    <type>template</type>
+                    <templates>
+                        <v14>ecomdev/checkitout/v14/review/info.phtml</v14>
+                        <v15>ecomdev/checkitout/review/info.phtml</v15>
+                    </templates>
+                </template>
             </action>
             <block name="review.fields" as="fields" type="checkout/onepage_review" template="ecomdev/checkitout/review/fields.phtml"/>
         </reference>
     </checkout_onepage_review>
+    
+    <checkout_onepage_review_v14>
+        <reference name="root">
+            <block type="checkout/agreements" name="checkout.onepage.agreements" as="agreements" template="checkout/onepage/agreements.phtml"/>
+        </reference>
+    </checkout_onepage_review_v14>
     
     <ecomdev_checkitout_no_payment>
         <!-- Workaround for authorizenet form on review step -->

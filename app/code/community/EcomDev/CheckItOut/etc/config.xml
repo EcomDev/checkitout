@@ -72,6 +72,16 @@
         </layout>
     </adminhtml>
     <frontend>
+        <events>
+            <controller_action_layout_render_before_checkout_onepage_index>
+                <observers>
+                    <ecomdev_checkitout>
+                        <model>ecomdev_checkitout/observer</model>
+                        <method>replacePrototypeLibrary</method>
+                    </ecomdev_checkitout>
+                </observers>
+            </controller_action_layout_render_before_checkout_onepage_index>
+        </events>
         <layout>
             <updates>
                 <ecomdev_checkitout>
@@ -98,6 +108,92 @@
             </checkout>
         </routers>
     </frontend>
+    <ecomdev>
+        <checkitout>
+            <compatibility>
+                <!-- Compatibility definitions for extension code 
+                     template and code it is type of compatibility
+                     v14 v15 are modes
+                -->
+                
+                <template>
+                    <v14>
+                        <by_version>
+                            <minVersion>1.4.0</minVersion>
+                            <maxVersion>1.4.9</maxVersion>
+                        </by_version>
+                        <by_version_enterprise>
+                            <enterprise>1</enterprise>
+                            <minVersion>1.7.0</minVersion>
+                            <maxVersion>1.9.9</maxVersion>
+                        </by_version_enterprise>
+                        <by_forced_config>
+                            <minVersion>1.5.0</minVersion>
+                            <configFlag>ecomdev_checkitout/settings/compatibility_templates</configFlag>
+                        </by_forced_config>
+                        <by_forced_config_enterprise>
+                            <enterprise>1</enterprise>
+                            <minVersion>1.10.0</minVersion>
+                            <configFlag>ecomdev_checkitout/settings/compatibility_templates</configFlag>
+                        </by_forced_config_enterprise>
+                    </v14>
+                    <v15>
+                        <by_version>
+                            <minVersion>1.5.0</minVersion>
+                        </by_version>
+                        <by_version_enterprise>
+                            <enterprise>1</enterprise>
+                            <minVersion>1.10.0</minVersion>
+                        </by_version_enterprise>
+                    </v15>
+                </template>
+                <code>
+                    <v14>
+                        <by_version>
+                            <minVersion>1.4.0</minVersion>
+                            <maxVersion>1.4.9</maxVersion>
+                        </by_version>
+                        <by_version_enterprise>
+                            <enterprise>1</enterprise>
+                            <minVersion>1.7.0</minVersion>
+                            <maxVersion>1.9.9</maxVersion>
+                        </by_version_enterprise>
+                    </v14>
+                    <v15>
+                        <by_version>
+                            <minVersion>1.5.0</minVersion>
+                        </by_version>
+                        <by_version_enterprise>
+                            <enterprise>1</enterprise>
+                            <minVersion>1.10.0</minVersion>
+                        </by_version_enterprise>
+                    </v15>
+                </code>
+            </compatibility>
+            <!-- Hashing defintions for different steps in checkout
+                 Created to minimize number of AJAX requests during checkout -->
+            <steps>
+                <shipping_method>
+                    <hash>
+                        <rate>ecomdev_checkitout/hash_quote_address_rate</rate>
+                    </hash>
+                </shipping_method>
+                <payment>
+                    <hash>
+                        <method>ecomdev_checkitout/hash_quote_payment</method>
+                        <item>ecomdev_checkitout/hash_quote_item</item>
+                        <total>ecomdev_checkitout/hash_quote_total</total>
+                    </hash>
+                </payment>
+                <review>
+                    <hash>
+                        <item>ecomdev_checkitout/hash_quote_item</item>
+                        <total>ecomdev_checkitout/hash_quote_total</total>
+                    </hash>
+                </review>
+            </steps>
+        </checkitout>
+    </ecomdev>
     <phpunit>
         <suite>
             <modules>

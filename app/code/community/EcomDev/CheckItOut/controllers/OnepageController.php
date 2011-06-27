@@ -45,6 +45,16 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
     }
 
     /**
+     * Retrieve module helper instance
+     *
+     * @return EcomDev_CheckItOut_Helper_Data
+     */
+    protected function _getHelper()
+    {
+        return Mage::helper('ecomdev_checkitout');
+    }
+
+    /**
      * Adds checkitout layout handles if it is enabled
      * (non-PHPdoc)
      * @see Mage_Core_Controller_Varien_Action::addActionLayoutHandles()
@@ -60,6 +70,20 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
         if ($this->_isActive()
             && !$this->getOnepage()->getQuote()->getPayment()->getMethod()) {
              $this->getLayout()->getUpdate()->addHandle(self::LAYOUT_HANDLE_NO_PAYMENT);
+        }
+
+        if ($this->_isActive() && $this->_getHelper()->getCompatibilityMode('template') !== false) {
+            $this->getLayout()->getUpdate()->addHandle(
+                $this->getFullActionName() . '_' . $this->_getHelper()->getCompatibilityMode('template')
+            );
+        }
+
+        if ($this->_isActive() && !$this->getOnepage()->getQuote()->isVirtual()
+            && !$this->getOnepage()->getQuote()->getShippingAddress()->getCountryId()) {
+            $this->getOnepage()->getQuote()->getShippingAddress()->setCountryId(
+                Mage::helper('core')->getDefaultCountry()
+            );
+            $this->_recalculateTotals();
         }
         return $this;
     }
@@ -163,7 +187,13 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
         }
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost('billing', array());
-            $data = $this->_filterPostData($postData);
+            if ($this->_getHelper()
+                    ->getCompatibilityMode('code') === EcomDev_CheckItOut_Helper_Data::COMPATIBILITY_V14) {
+                $data = $this->_filterPostData($postData);
+            } else {
+                $data = $postData;
+            }
+
             $customerAddressId = $this->getRequest()->getPost('billing_address_id', false);
 
             if (isset($data['email'])) {
@@ -172,9 +202,23 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
 
             $result = $this->getOnepage()->saveBilling($data, $customerAddressId);
 
+            if (!$this->getOnepage()->getQuote()->getCustomerId()
+                && $this->getOnepage()->getCheckoutMethod() == Mage_Checkout_Model_Type_Onepage::METHOD_REGISTER) {
+                $customer = Mage::getModel('customer/customer');
+                $customer->setWebsiteId(Mage::app()->getWebsite()->getId());
+                $customer->loadByEmail($data['email']);
+                if ($customer->getId()) {
+                    $result = array(
+                        'error' => 1,
+                        'message' => Mage::helper('ecomdev_checkitout')->__('You are already registered with this email address, please <a href="#" onclick="%s">log in</a>.', 'loginStep.showPopUp(); return false;'),
+                        'field' => 'email'
+                    );
+                }
+            }
 
             if (isset($result['error'])) {
                 $this->getOnepage()->getQuote()->getBillingAddress()
+                    ->addData($data)
                     ->implodeStreetAddress();
 
                 if (!$this->getOnepage()->getQuote()->isVirtual()
@@ -186,29 +230,97 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
                     $shipping->addData($billing->getData())
                         ->setSameAsBilling(1)
                         ->setSaveInAddressBook(0)
-                        ->setShippingMethod($shippingMethod)
-                        ->setCollectShippingRates(true);
+                        ->setShippingMethod($shippingMethod);
                 }
 
-                $this->getOnepage()->getQuote()->collectTotals();
-                $this->getOnepage()->getQuote()->save();
-                // Dirty hack, but there is no other way to detect what message is related to customer email
-                $property = new ReflectionProperty(get_class($this->getOnepage()), '_customerEmailExistsMessage');
-                $property->setAccessible(true);
-                $customerAlreadyExistsMessage = $property->getValue($this->getOnepage());
-                $property->setAccessible(false);
-                if ($result['message'] == $customerAlreadyExistsMessage) {
-                    // Telling the JS handler that it is related
-                    // to email field error message
-                    $result['field'] = 'email';
-                }
+                $this->_recalculateTotals();
             }
+
+            $this->_addHashInfo($result);
 
             $this->getResponse()->setBody(
                 Mage::helper('core')->jsonEncode($result)
             );
         }
+    }
 
+    /**
+     * Adds hash information to result info object
+     *
+     *
+     * @param array $result
+     * @return EcomDev_CheckItOut_OnepageController
+     */
+    protected function _addHashInfo(&$result)
+    {
+        $result['stepHash'] = Mage::getSingleton('ecomdev_checkitout/hash')->getHash(
+            $this->getOnepage()->getQuote()
+        );
+
+        return $this;
+    }
+
+    /**
+     * Overrides default behavior for saving checkout method
+     * for adding hash info
+     *
+     * @return void
+     */
+    public function saveMethodAction()
+    {
+        parent::saveMethodAction();
+        if ($this->_isActive() && $this->getRequest()->isPost()) {
+            $result = Mage::helper('core')->jsonDecode(
+                $this->getResponse()->getBody()
+            );
+
+            $this->_addHashInfo($result);
+            $this->getResponse()->setBody(
+                Mage::helper('core')->jsonEncode($result)
+            );
+        }
+    }
+
+    /**
+     * Overrides default behavior for saving shipping method
+     * for adding hash info
+     *
+     * @return void
+     */
+    public function saveShippingMethodAction()
+    {
+        parent::saveShippingMethodAction();
+        if ($this->_isActive()) {
+            $result = Mage::helper('core')->jsonDecode(
+                $this->getResponse()->getBody()
+            );
+
+            $this->_addHashInfo($result);
+            $this->getResponse()->setBody(
+                Mage::helper('core')->jsonEncode($result)
+            );
+        }
+    }
+
+    /**
+     * Overrides default behavior for saving payment data
+     * for adding hash info
+     *
+     * @return void
+     */
+    public function savePaymentAction()
+    {
+        parent::savePaymentAction();
+        if ($this->_isActive()) {
+            $result = Mage::helper('core')->jsonDecode(
+                $this->getResponse()->getBody()
+            );
+
+            $this->_addHashInfo($result);
+            $this->getResponse()->setBody(
+                Mage::helper('core')->jsonEncode($result)
+            );
+        }
     }
 
     /**
@@ -232,13 +344,13 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
             $result = $this->getOnepage()->saveShipping($data, $customerAddressId);
 
             if (isset($result['error'])) {
-                $this->getOnepage()->getQuote()->getBillingAddress()
-                    ->implodeStreetAddress()
-                    ->setCollectShippingRates(true);
-                $this->getOnepage()->getQuote()->collectTotals();
-                $this->getOnepage()->getQuote()->save();
+                $this->getOnepage()->getQuote()->getShippingAddress()
+                    ->addData($data)
+                    ->implodeStreetAddress();
+                $this->_recalculateTotals();
             }
 
+            $this->_addHashInfo($result);
 
             $this->getResponse()->setBody(
                 Mage::helper('core')->jsonEncode($result)
@@ -285,11 +397,13 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
                 $result['error'] = $e->getMessage();
             } catch (Exception $e) {
                 Mage::logException($e);
-                $result['error'] = Mage::helper('ecomdev_phpunit')->__('There was an error during changing product qty');
+                $result['error'] = Mage::helper('ecomdev_checkitout')->__('There was an error during changing product qty');
             }
         } else {
-            $result['error'] = Mage::helper('ecomdev_phpunit')->__('Product was not found');
+            $result['error'] = Mage::helper('ecomdev_checkitout')->__('Product was not found');
         }
+
+        $this->_addHashInfo($result);
 
         $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
@@ -326,11 +440,13 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
                 $result['error'] = $e->getMessage();
             } catch (Exception $e) {
                 Mage::logException($e);
-                $result['error'] = Mage::helper('ecomdev_phpunit')->__('There was an error during removing product from order');
+                $result['error'] = Mage::helper('ecomdev_checkitout')->__('There was an error during removing product from order');
             }
         } else {
-            $result['error'] = Mage::helper('ecomdev_phpunit')->__('Product was not found');
+            $result['error'] = Mage::helper('ecomdev_checkitout')->__('Product was not found');
         }
+
+        $this->_addHashInfo($result);
 
         $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }

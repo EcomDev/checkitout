@@ -12,7 +12,7 @@
 .checkitout .layout-address .form-list .input-box { width:140px; }
 .checkitout .checkout-step .buttons { text-align: right; padding-top: 20px; }
 .checkitout .layout-content .form-list .field,
-.checkitout .layout-address .form-list .field { width:140px; }
+.checkitout .layout-address .form-list .field { width:50%; }
 .checkitout .layout-address .form-list .wide { width:280px; }
 .checkitout .layout-address .form-list .wide input.input-text, 
 .checkitout .layout-content .form-list .wide input.input-text,

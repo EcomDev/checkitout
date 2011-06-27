@@ -203,4 +203,18 @@ class EcomDev_CheckItOut_Block_Checkout_Layout extends Mage_Core_Block_Template
         return $this->getCheckoutBlock()->getQuote()
                    ->getShippingAddress()->getShippingMethod();
     }
+
+    /**
+     * Returns hash json for checkout steps
+     *
+     * @return string
+     */
+    public function getHashJson()
+    {
+        $hash = Mage::getSingleton('ecomdev_checkitout/hash')->getHash(
+            $this->getCheckoutBlock()->getQuote()
+        );
+
+        return $this->helper('core')->jsonEncode($hash);
+    }
 }

@@ -114,7 +114,8 @@ var checkout = new EcomDev.CheckItOut({
     createAccountLabel: '<?php echo $this->jsQuoteEscape($this->helper('ecomdev_checkitout')->__('Create an account for me'));?>',
     additionalUrl: '<?php echo $this->getUrl('*/*/getAdditional');?>',
     additionalContainer: $('onepage-checkout-shipping-method-additional-load'),
-    isAllowedGuestCheckout: <?php echo (int)$this->helper('ecomdev_checkitout')->isAllowedGuestCheckout();?>
+    isAllowedGuestCheckout: <?php echo (int)$this->helper('ecomdev_checkitout')->isAllowedGuestCheckout();?>,
+    stepHash: <?php echo $this->getHashJson(); ?>
 });
 </script>
 <?php endif; ?>

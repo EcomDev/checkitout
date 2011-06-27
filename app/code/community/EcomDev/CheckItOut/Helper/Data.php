@@ -31,6 +31,13 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_CONFIRM_TEXT = 'ecomdev_checkitout/settings/confirm_text';
     const XML_PATH_NEWSLETTER_CHECKBOX = 'ecomdev_checkitout/settings/newsletter_checkbox';
     const XML_PATH_NEWSLETTER_CHECKBOX_CHECKED = 'ecomdev_checkitout/settings/newsletter_checkbox_checked';
+    const XML_PATH_COMPATIBILITY = 'ecomdev/checkitout/compatibility/%s';
+    const XML_PATH_STEPS = 'ecomdev/checkitout/steps';
+
+    const COMPATIBILITY_TYPE_TEMPLATE = 'template';
+    const COMPATIBILITY_TYPE_CODE = 'code';
+    const COMPATIBILITY_V14 = 'v14';
+    const COMPATIBILITY_V15 = 'v15';
 
     const CONFIRM_TYPE_CHECKBOX = EcomDev_CheckItOut_Model_Config_Source_Confirm_Type::TYPE_CHECKBOX;
     const CONFIRM_TYPE_POPUP = EcomDev_CheckItOut_Model_Config_Source_Confirm_Type::TYPE_POPUP;
@@ -166,5 +173,72 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         return Mage::helper('core')->jsonEncode($result);
+    }
+
+    /**
+     * Get compatibility mode for extension code or view part
+     *
+     *
+     * @param string $type type of compatibility (template, code)
+     * @param string|null $currentVersion Magento version (null for using version from Mage::getVersion())
+     * @return string|boolean
+     */
+    public function getCompatibilityMode($type, $currentVersion = null)
+    {
+        if ($currentVersion === null) {
+            $currentVersion = Mage::getVersion();
+        }
+
+        $modes = Mage::getConfig()->getNode(sprintf(self::XML_PATH_COMPATIBILITY, $type))->children();
+
+        foreach ($modes as $mode) {
+            foreach ($mode->children() as $condition) {
+                if (isset($condition->enterprise) && !Mage::getConfig()->getModuleConfig('Enterprise_Enterprise')) {
+                    // If version check is related to Enterprise/Professional editions
+                    continue;
+                }
+
+                if (isset($condition->minVersion)
+                    && !version_compare($currentVersion, (string)$condition->minVersion, '>=')) {
+                    // Minimal version is not matched for this mode
+                    continue;
+                }
+
+                if (isset($condition->maxVersion)
+                    && !version_compare($currentVersion, (string)$condition->maxVersion, '<=')) {
+                    // Maximum version is not matched for this mode
+                    continue;
+                }
+
+                if (isset($condition->configFlag) && !Mage::getStoreConfigFlag((string)$condition->configFlag)) {
+                    // This mode requires additional flag in configuration
+                    continue;
+                }
+
+                return $mode->getName();
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns one of passed values that are valid for compatibility mode
+     * in current Magento version
+     *
+     *
+     * @param string $type type of compatibility (template, code)
+     * @param array $values
+     * @param string|null $currentVersion Magento version (null for using version from Mage::getVersion())
+     * @return string|boolean
+     */
+    public function getCompatibleValue($type, array $values, $currentVersion = null)
+    {
+        $mode = $this->getCompatibilityMode($type, $currentVersion);
+        if (isset($values[$mode])) {
+            return $values[$mode];
+        }
+
+        return false;
     }
 }

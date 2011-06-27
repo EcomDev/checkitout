@@ -1,48 +1,19 @@
-/** FIX FOR IE9 FOR PROTOTYPE1.6 FOR MAGENTO VERSION 1.5 AND LOWER */
-if (Prototype.Version.indexOf('1.6') === 0 && Prototype.Browser.IE) {
-(function(global) {
-      function shouldUseCache(tagName, attributes) {
-        if (tagName === 'select') return false;
-        if ('type' in attributes) return false;
-        return true;
-      }
-
-      var HAS_EXTENDED_CREATE_ELEMENT_SYNTAX = (function(){
-        try {
-          var el = document.createElement('<input name="x">');
-          return el.tagName.toLowerCase() === 'input' && el.name === 'x';
-        }
-        catch(err) {
-          return false;
-        }
-      })();
-
-      var element = global.Element;
-
-      global.Element = function(tagName, attributes) {
-        attributes = attributes || { };
-        tagName = tagName.toLowerCase();
-        var cache = Element.cache;
-
-        if (HAS_EXTENDED_CREATE_ELEMENT_SYNTAX && attributes.name) {
-          tagName = '<' + tagName + ' name="' + attributes.name + '">';
-          delete attributes.name;
-          return Element.writeAttribute(document.createElement(tagName), attributes);
-        }
-
-        if (!cache[tagName]) cache[tagName] = Element.extend(document.createElement(tagName));
-
-        var node = shouldUseCache(tagName, attributes) ?
-         cache[tagName].cloneNode(false) : document.createElement(tagName);
-
-        return Element.writeAttribute(node, attributes);
-      };
-
-      Object.extend(global.Element, element || { });
-      if (element) global.Element.prototype = element.prototype;
-    })(this);
-}
-/** END FIX FOR IE9 FOR PROTOTYPE1.6 FOR MAGENTO VERSION 1.5 AND LOWER */
+/**
+ * CheckItOut extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category   EcomDev
+ * @package    EcomDev_CheckItOut
+ * @copyright  Copyright (c) 2011 EcomDev BV (http://www.ecomdev.org)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
+ */
 
 if (typeof window.EcomDev == 'undefined') {
     // Initiliaze namespace if it isn't defined yet
@@ -111,6 +82,8 @@ EcomDev.CheckItOut = Class.create({
          * @type Array
          */
         this.toReload = [];
+        
+        this.stepHash = $H(this.config.stepHash);
         // Initialize instace for static class
         EcomDev.CheckItOut.setInstance(this);
     },
@@ -164,9 +137,10 @@ EcomDev.CheckItOut = Class.create({
      * @return void
      */
     handleReload: function (stepObject) {
-        
         var reloadCallbacks = [];
+        this.onlyHashed = (stepObject.lastHash ? stepObject.lastHash : false);
         this.collectReload(stepObject, reloadCallbacks);
+        this.onlyHashed = false;
         this.reload();
         this.invokeCallbacks(reloadCallbacks);
     },
@@ -199,13 +173,24 @@ EcomDev.CheckItOut = Class.create({
             if (!steps[i].isRelated(stepObject)) {
                 continue;
             }
+            
+            if (this.stepHash.get(steps[i].code) && this.onlyHashed !== false 
+                && this.stepHash.get(steps[i].code) == this.onlyHashed[steps[i].code]) {
+                continue;
+            }
+
             if (stepObject.isLoading()) {
-                steps[i].showMask();
+                if (!this.stepHash.get(steps[i].code)) {
+                    // If not hashed, only then show mask
+                    steps[i].showMask();
+                }
             } else if (Object.isFunction(steps[i].load)) {
+                steps[i].showMask();
                 reloadCallbacks.push(
                     [steps[i], steps[i].load]
                 );
             } else {
+                steps[i].showMask();
                 this.addToReload(steps[i]);
             }
             if (Object.isFunction(steps[i].additionalLoad)) {
@@ -213,6 +198,10 @@ EcomDev.CheckItOut = Class.create({
                     [steps[i], steps[i].additionalLoad]
                 );
             }
+        }
+        
+        if (this.onlyHashed !== false) {
+            this.stepHash = $H(this.onlyHashed);
         }
     },
     /**
@@ -255,9 +244,9 @@ EcomDev.CheckItOut = Class.create({
             height: this.getMaskHeight() + 'px',
             top: 0 + 'px',
             left: 0 + 'px',
-            'z-index': zIndex - 1,
             opacity: 0
         });
+        this.overlay.style.zIndex = zIndex - 1;
         centerPosition = this.getCenterElementPosition(frontElement);
         frontElement.setStyle({top: '-600px', left: '0px'});
         new Effect.Parallel([
@@ -280,11 +269,21 @@ EcomDev.CheckItOut = Class.create({
         
         return {top: positionY, left: positionX};
     },
+    /**
+     * Returns the height of the mask
+     * 
+     * @return int
+     */
     getMaskHeight: function () {
-        return $(document.body).getDimensions().height;
+        return $(document.body).down('div').getDimensions().height;
     },
+    /**
+     * Returns the width of the mask
+     * 
+     * @return int
+     */
     getMaskWidth: function () {
-        return $(document.body).getDimensions().width;
+        return $(document.body).down('div').getDimensions().width;
     },
     /**
      * Hides displayed mask
@@ -372,9 +371,13 @@ EcomDev.CheckItOut = Class.create({
             this.forcedSubmit();
         }
     },
-    
+    /**
+     * Submit order without performing validation 
+     * and configuration check 
+     * 
+     * @return void
+     */
     forcedSubmit: function () {
-        
         this.showMask();
         new Ajax.Request(this.config.save, {
             parameters: this.getParameters(),
@@ -498,7 +501,8 @@ EcomDev.CheckItOut.Step = Class.create({
         this.relations = [];
         this.updater = this.submit.bind(this);
         this.onChange = this.handleChange.bind(this);
-        this.onAjaxComplete = this.submitComplete.bind(this); 
+        this.onAjaxComplete = this.submitComplete.bind(this);
+        this.lastHash = false;
         EcomDev.CheckItOut.addStep(this);
     },
     /**
@@ -604,9 +608,9 @@ EcomDev.CheckItOut.Step = Class.create({
             if (fields[i].hasClassName('no-autosubmit')) {
                 continue;
             }
+            
             fields[i].observe('change', this.onChange);
             if (['input', 'textarea'].include(fields[i].tagName.toLowerCase())) {
-  
                 fields[i].observe('keyup', this.onChange);
                 if (fields[i].type && ['radio', 'checkbox', 'button'].include(fields[i].type)) {
                     fields[i].observe('click', this.onChange);
@@ -621,10 +625,14 @@ EcomDev.CheckItOut.Step = Class.create({
      * @return void
      */
     handleChange: function (evt) {
-        if (this.timeout) {
-            clearInterval(this.timeout);
+        if (this.changeInterval) {
+            if (this.timeout) {
+                clearTimeout(this.timeout);
+            }
+            this.timeout = setTimeout(this.updater, this.changeInterval);
+        } else {
+            this.updater();
         }
-        this.timeout = setTimeout(this.updater, this.changeInterval);
     },
     /**
      * Submits checkout step form values
@@ -642,6 +650,7 @@ EcomDev.CheckItOut.Step = Class.create({
         }
         
         if (!this.autoValidate || this.isValid()) {
+            this.lastHash = false;
             this.isLoading(true);
             this.respondCallbacks();
             new Ajax.Request(this.saveUrl, {
@@ -660,6 +669,14 @@ EcomDev.CheckItOut.Step = Class.create({
      */
     submitComplete: function (response) {
         this.isLoading(false);
+        try {
+            var result = response.responseText.evalJSON();
+            if (result.stepHash) {
+                this.lastHash = result.stepHash;  
+            }
+        } catch (e) {
+            alert(e);
+        }
         this.respondCallbacks();
     },
     /**
@@ -794,6 +811,12 @@ var LoginStep = Class.create(EcomDev.CheckItOut.Step, {
         var container = this.findContainer(form);
         $super(container, saveUrl);
     },
+    /**
+     * Adds handles to login button and close button in popup
+     * If there is any error message, it will force popup visibility
+     * 
+     * @return void
+     */
     initCheckout: function ($super) {
         $super();
         this.container.down('.popup-trigger').observe('click', this.togglePopUp.bind(this));
@@ -823,14 +846,27 @@ var LoginStep = Class.create(EcomDev.CheckItOut.Step, {
             {method: 'post', onFailure: this.checkout.onFailure, parameters: {method:this.checkout.method}}
         );
     },
+    /**
+     * Toggles popup visibility on the checkout page
+     * 
+     * @return void
+     */
     togglePopUp: function () {
         this.container.down('.popup').visible() ?
             this.hidePopUp():
             this.showPopUp();
     },
+    /**
+     * Shows login window popup
+     * 
+     * @return void
+     */
     showPopUp: function () {
         this.checkout.showOverlay(this.container.down('.popup'));
     },
+    /**
+     * Hides login window popup
+     */
     hidePopUp: function () {
         this.checkout.hideOverlay(this.container.down('.popup'));
     }
@@ -992,7 +1028,7 @@ EcomDev.CheckItOut.Step.Address = Class.create(EcomDev.CheckItOut.Step, {
                 Validation.ajaxError($(this.code + ':' + result.field), result.message);
             }
         }
-        return $super();
+        return $super(response);
     }
 });
 
@@ -1008,6 +1044,7 @@ var Billing = Class.create(EcomDev.CheckItOut.Step.Address, {
      * @type String
      */
     code: 'billing',
+    // Disable auto-validation for address 
     autoValidate: false,
     /**
      * Clears address form on load
@@ -1144,6 +1181,7 @@ var Shipping = Class.create(EcomDev.CheckItOut.Step.Address, {
      * @type String
      */
     code: 'shipping',
+    // Disable auto-validation for address 
     autoValidate: false,
     /**
      * Clears address form on load
@@ -1276,6 +1314,8 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
      * @type String
      */
     code: 'shipping_method',
+    // No interval between selection of shipping method
+    changeInterval: 0,
     /**
      * Checkout step constructor
      * 
@@ -1283,10 +1323,17 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
      * @return void 
      */
     initialize: function ($super, form, saveUrl) {
+        if (window.shippingMethod) {
+            this.lastSubmitted = window.shippingMethod.lastSubmitted; 
+        }
         var container = this.findContainer(form);
         $super(container, saveUrl);
+        this.errorEl = new Element('input', {type: 'hidden', value: 1, name: 'cio_shipping_method_error', id: 'shipping_method_error', 'class' : 'required-entry'});
         this.addRelation('shipping');
         this.addRelation('billing');
+        if (this.container.down('form')) {
+            this.container.down('form').insert(this.errorEl);
+        }
     },
     /**
      * Performs checking of fullfillment of shipping method selection
@@ -1295,9 +1342,10 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
      * @return Boolean
      */
     isValid: function ($super) {
+        Validation.reset(this.errorEl);
         var methods = document.getElementsByName('shipping_method');
         if (methods.length==0) {
-            alert(Translator.translate('Your order cannot be completed at this time as there is no shipping methods available for it. Please make neccessary changes in your shipping address.'));
+            Validation.ajaxError(this.errorEl, Translator.translate('Your order cannot be completed at this time as there is no shipping methods available for it. Please make neccessary changes in your shipping address.'));
             return false;
         }
 
@@ -1310,7 +1358,7 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
                 return true;
             }
         }
-        alert(Translator.translate('Please specify shipping method.'));
+        Validation.ajaxError(this.errorEl, Translator.translate('Please specify shipping method.'));
         return false;
     },
     /**
@@ -1321,9 +1369,10 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
      * @return void
      */
     initCheckout: function ($super) {
+        this.checkOneMethod();
         $super();
         //this.additionalLoad();
-        this.checkOneMethod();
+        
     },
     /*additionalLoad: function () {
        new Ajax.Updater(this.checkout.config.additionalContainer, this.checkout.config.additionalUrl);
@@ -1350,6 +1399,9 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
     update: function ($super, content) {
         $super(content);
         this.checkOneMethod();
+        if (this.container.down('form')) {
+            this.container.down('form').insert(this.errorEl);
+        }
     },
     /**
      * Show radio button if only one shipping method is available
@@ -1357,10 +1409,10 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
      * @return void
      */
     checkOneMethod: function () {
-        this.content.select('input[type=radio]').each(function (item) {
+        this.container.select('input[type=radio]').each(function (item) {
             item.setAttribute('autocomplete', 'off');
         });
-        var oneMethod = this.content.down('.no-display input[type=radio]');
+        var oneMethod = this.container.down('.no-display input[type=radio]');
         if (oneMethod) {
             if (!this.lastSubmitted ||
                 this.lastSubmitted.shipping_method != oneMethod.value) {
@@ -1390,7 +1442,7 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
             alert(result.message);
             return;
         }
-        return $super();
+        return $super(response);
     }
 });
 
@@ -1552,6 +1604,11 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
             values[i]();
         }
     },
+    /**
+     * Forces payment method selection if there is only one
+     * 
+     * @return void
+     */
     initCheckout: function ($super) {
         $super();
         var methods = this.container.select('input[name="payment[method]"]');
@@ -1559,9 +1616,19 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         if (methods.length == 1) {
             var form = $('payment_form_' +methods.first().value);
             if (!form || form.select('input', 'select', 'textarea').length == 0) {
-                this.handleChange({});
+                this.switchMethod(methods.first().value);
             }
         }
+    },
+    /**
+     * Overriden to include hidden payment method radio into values list for submit
+     * 
+     * @return void
+     */
+    getValues: function ($super) {
+        var values = $super();
+        values['payment[method]'] = this.currentMethod;
+        return values;
     },
     /**
      * Switches payment method and displays related payment forms
@@ -1743,7 +1810,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
             
             return;
         }
-        return $super();
+        return $super(response);
     }
 });
 
@@ -1789,6 +1856,11 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
         $super(container, saveUrl);
         this.addRelation(['billing', 'payment', 'shipping', 'shipping_method']);
     },
+    /**
+     * Creates item updaters objects depending on template exsitance
+     * 
+     * @return void
+     */
     updateItems: function (itemsInfo) {
         this.itemsInfo = itemsInfo;
         if (this.changeQtyTemplate) {
@@ -1807,8 +1879,7 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
      */
     initCheckout: function ($super) {
         $super();
-        this.showMask();
-        this.initialLoad.bind(this).delay(2);
+        this.initialLoad();
     },
     /**
      * Loads step data if it was not loaded before
@@ -1826,7 +1897,7 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
      */
     load: function () {
         this.showMask();
-        if (!this.checkout.isLoading()) {
+        if (!this.checkout.isLoading() || !this.wasLoaded) {
             this.wasLoaded = true;
             new Ajax.Request(this.loadUrl, {
                 method: 'POST',
@@ -1870,12 +1941,30 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
         }
         this.agreementsForm = $(this.agreementsFormId);
     },
+    /**
+     * Emulation of OnePageCheckout save method
+     * 
+     * @return void
+     */
     save: function () {
         this.checkout.submit();
     }
 });
 
+/**
+ * Base class for actions in review step. 
+ * 
+ * Uses initializeRow method for rendering item control elements
+ * 
+ */
 var ItemAction = Class.create({
+    /**
+     * Constructor
+     * 
+     * @param Review reviewStep
+     * @param Template template prototype template
+     * @param String url url for submisssion of data
+     */
     initialize: function (reviewStep, template, url) {
         this.reviewStep = reviewStep;
         this.template = template;
@@ -1887,12 +1976,31 @@ var ItemAction = Class.create({
         this.table = this.reviewStep.container.down('.data-table');
         this.initializeLayout();
     },
+    /**
+     * Performs update with delay on half a second
+     * 
+     * @param Event evt
+     * @return void
+     */
     handleActionDelay: function (evt) {
         this.onAction.delay(0.5, evt);
     },
+    /**
+     * Finds row element of item in the table 
+     * by analyzing event data
+     * 
+     * @param Event evt
+     * @return Element|Boolean
+     */
     findRow: function (evt) {
         return Event.element(evt).up('tr');
     },
+    /**
+     * Performs rednering of the item action from 
+     * its templates
+     * 
+     * @return void
+     */
     initializeLayout: function () {
         var itemsInfo = this.reviewStep.itemsInfo;
         var itemRows = this.table.select('tbody > tr');
@@ -1904,15 +2012,30 @@ var ItemAction = Class.create({
             }
         }
     },
+    /**
+     * Handler for completion of item 
+     * action update request
+     * 
+     * @param Ajax.Response
+     * @return void
+     */
     handleComplete: function (response) {
+        this.reviewStep.hideMask();
         var result = response.responseText.evalJSON();
         if (result.success) {
-            this.checkout.reloadSteps(['payment', 'shipping_method']);
+            this.checkout.onlyHashed = (result.stepHash ? result.stepHash : false);
+            this.checkout.reloadSteps(['billing', 'shipping']);
+            this.checkout.onlyHashed = false;
         } else {
-            this.reviewStep.hideMask();
             alert(result.error);
         }
     },
+    /**
+     * Performs update request for saving item action
+     * 
+     * @param Object parameters
+     * @return void
+     */
     ajaxRequest: function (parameters) {
         new Ajax.Request(this.url, {
             parameters: parameters,
@@ -1923,7 +2046,19 @@ var ItemAction = Class.create({
     }
 });
 
+/**
+ * Item Action for changin product qty on review step
+ * 
+ * 
+ */
 var ChangeItemQty = Class.create(ItemAction, {
+	/**
+	 * Draws input element instead of text qty representation 
+	 * if qty change is allowed for product
+	 * 
+	 * @param Object row
+	 * @return void
+	 */
     initializeRow: function (row) {
         if (!row.info.allow_change_qty) {
            return;
@@ -1935,6 +2070,13 @@ var ChangeItemQty = Class.create(ItemAction, {
         input.observe('keyup', this.onActionDelay);
         input.observe('change', this.onAction);
     },
+    /**
+     * Observes change in input element and 
+     * performs actions
+     * 
+     * @param Event evt
+     * @return void
+     */
     handleAction: function (evt) {
         if (!this.validateValue(evt, true)) {
             return;
@@ -1947,6 +2089,15 @@ var ChangeItemQty = Class.create(ItemAction, {
             qty: input.value
         });
     },
+    /**
+     * Validates value for matching decimal in qty field.
+     * If autoFix is specified then it will return old value 
+     * if specified is invalid
+     * 
+     * @param Event evt
+     * @param Boolean autoFix
+     * @return Boolean
+     */
     validateValue: function (evt, autoFix) {
         var row = this.findRow(evt); 
         var input = row.down('input.qty');
@@ -1960,15 +2111,33 @@ var ChangeItemQty = Class.create(ItemAction, {
         }
         return true;
     },
+    /**
+     * Performs delayed update only if value is valid
+     *
+     * @param Function $super parent method
+     * @param Event evt
+     * @return void
+     */
     handleActionDelay: function ($super, evt) {
         if (!this.validateValue(evt, false)) {
             return;
         }
         $super(evt);
-    }    
+    }
 });
 
+/**
+ * Item action for removing products from order
+ * 
+ */
 var RemoveItem = Class.create(ItemAction, {
+    /**
+     * Renders "Delete Icon" only if item is allowed for removal,
+     * There will be no element if it is a last item in the order
+     * 
+     * @param Object row
+     * @return void
+     */
     initializeRow: function (row) {
         if (!row.info.allow_remove) {
            if (this.initedHeaders) {
@@ -1984,6 +2153,12 @@ var RemoveItem = Class.create(ItemAction, {
         var link = element.down('a'); 
         link.observe('click', this.onAction);
     },
+    /**
+     * Adds additional header for product table on review step 
+     * If any item is allowed for removal
+     * 
+     * @return void
+     */
     initHeaders: function () {
         if (!this.initedHeaders) {
             this.initedHeaders = true;
@@ -1999,6 +2174,12 @@ var RemoveItem = Class.create(ItemAction, {
             }
         }
     },
+    /**
+     * Performs removal of item by ajax request 
+     * 
+     * @param Event evt
+     * @return void
+     */
     handleAction: function (evt) {
         Event.stop(evt);
         var row = this.findRow(evt);
@@ -2006,6 +2187,12 @@ var RemoveItem = Class.create(ItemAction, {
     }
 });
 
+/**
+ * Additional checkout step for confirming order
+ * 
+ * Shows a popup window with order details
+ * 
+ */
 var ConfirmPopUp = Class.create(EcomDev.CheckItOut.Step, {
     /**
      * Checkout step unique code
@@ -2013,6 +2200,7 @@ var ConfirmPopUp = Class.create(EcomDev.CheckItOut.Step, {
      * @type String
      */
     code: 'confirm',
+    // No autosumit on element change
     autoSubmit: false,
     /**
      * Order review checkout step initalization
@@ -2035,13 +2223,29 @@ var ConfirmPopUp = Class.create(EcomDev.CheckItOut.Step, {
         this.onConfirm = this.save.bind(this);
         this.onCancel = this.cancel.bind(this);
     },
+    /**
+     * It is always valid step :)
+     * 
+     * @return Boolean
+     */
     isValid: function () {
         return true;
     },
+    /**
+     * Starts step data loading, 
+     * displays mask over the page
+     * 
+     *  @return void
+     */
     show: function () {
         this.checkout.showMask();
         this.load();
     },
+    /**
+     * Perofroms ajax request for retriving step html view
+     * 
+     * @return void
+     */
     load: function () {
         new Ajax.Updater(this.container.down('.step-content'), this.loadUrl, {
             onComplete: this.onLoad,
@@ -2049,12 +2253,22 @@ var ConfirmPopUp = Class.create(EcomDev.CheckItOut.Step, {
             method: 'POST'
         });
     },
+    /**
+     * Handler for completed order configration view request 
+     * 
+     * @return void
+     */
     loadComplete: function (response) {
         this.checkout.hideMask();
         this.checkout.showOverlay(this.windowElement);
         this.container.down('button.confirm').observe('click', this.onConfirm);
         this.container.down('button.cancel').observe('click', this.onCancel);
     },
+    /**
+     * Saves order details 
+     * 
+     * @return void
+     */
     save: function () {
         this.checkout.hideOverlay(this.windowElement);
         this.checkout.showMask();
