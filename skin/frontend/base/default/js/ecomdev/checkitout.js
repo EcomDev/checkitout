@@ -516,15 +516,6 @@ EcomDev.CheckItOut.Step = Class.create({
         this.initCheckout();
     },
     /**
-     * Test that this step is active
-     * 
-     * @return Boolean
-     */
-    isActive: function ()
-    {
-        return this.checkout.getStep(this.code) === this; 
-    },
-    /**
      * Init checkout place holder,
      * Used to initialize form, eg. removing of values
      * 
@@ -748,9 +739,7 @@ EcomDev.CheckItOut.Step = Class.create({
      */
     update: function (htmlContent) {
         this.content.update(htmlContent);
-        if (this.isActive()) {
-            this.bindFields();
-        }
+        this.bindFields();
     }
 });
 
@@ -1334,8 +1323,8 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
      * @return void 
      */
     initialize: function ($super, form, saveUrl) {
-        if (window.shippingMethod) {
-            this.lastSubmitted = window.shippingMethod.lastSubmitted; 
+        if (EcomDev.CheckItOut.instance && EcomDev.CheckItOut.instance.getStep(this.code)) {
+            return;
         }
         var container = this.findContainer(form);
         $super(container, saveUrl);
