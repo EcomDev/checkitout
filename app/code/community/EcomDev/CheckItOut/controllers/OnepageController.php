@@ -462,7 +462,7 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
             $this->getOnepage()->getQuote()
                 ->getShippingAddress()->setCollectShippingRates(true);
         }
-
+        $this->getOnepage()->getQuote()->setTotalsCollectedFlag(false);
         $this->getOnepage()->getQuote()->collectTotals();
         $this->getOnepage()->getQuote()->save();
         return $this;
