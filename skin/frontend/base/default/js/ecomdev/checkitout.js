@@ -1021,9 +1021,14 @@ EcomDev.CheckItOut.Step.Address = Class.create(EcomDev.CheckItOut.Step, {
             }
         }
         if (result.error){
+            /*
+             * This one was left from core OPC, 
+             * but it is not needed in without validation address save
+             *  
             if (window[this.code + 'RegionUpdater']) {
                 window[this.code + 'RegionUpdater'].update();
             }
+            */
             if (result.field && $(this.code + ':' + result.field)) {
                 Validation.ajaxError($(this.code + ':' + result.field), result.message);
             }
