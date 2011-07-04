@@ -706,7 +706,7 @@ EcomDev.CheckItOut.Step = Class.create({
             element.wasChanged = true;
             
             if (this.autoValidate) {
-                Validation.validate(element);
+                Validation.validate.defer(element);
             }
         }
         
