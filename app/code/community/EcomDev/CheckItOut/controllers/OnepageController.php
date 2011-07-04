@@ -344,9 +344,11 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
             $result = $this->getOnepage()->saveShipping($data, $customerAddressId);
 
             if (isset($result['error'])) {
-                $this->getOnepage()->getQuote()->getShippingAddress()
+                $this->getOnepage()->getQuote()
+                    ->getShippingAddress()
                     ->addData($data)
                     ->implodeStreetAddress();
+
                 $this->_recalculateTotals();
             }
 
@@ -462,6 +464,7 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
             $this->getOnepage()->getQuote()
                 ->getShippingAddress()->setCollectShippingRates(true);
         }
+
         $this->getOnepage()->getQuote()->setTotalsCollectedFlag(false);
         $this->getOnepage()->getQuote()->collectTotals();
         $this->getOnepage()->getQuote()->save();

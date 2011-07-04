@@ -206,6 +206,7 @@
             <settings>
                 <confirm_type>popup</confirm_type>
                 <confirm_text><![CDATA[I have reviewed my order and confirm that all information is correct]]></confirm_text>
+                <stored_addresses>1</stored_addresses>
             </settings>
         </ecomdev_checkitout>
     </default>

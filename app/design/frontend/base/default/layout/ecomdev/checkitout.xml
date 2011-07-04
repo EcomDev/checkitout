@@ -40,6 +40,7 @@
                 <action method="addCheckoutStepToLayout"><layout>right</layout><step>payment</step><virtual>0</virtual></action>
                 <action method="addCheckoutStepToLayout"><layout>right-bottom</layout><step>payment</step><virtual>1</virtual></action>
                 <action method="addCheckoutStepToLayout"><layout>right-bottom</layout><step>review</step></action>
+                <action method="applyStoredAddresses" ifconfig="ecomdev_checkitout/settings/stored_addresses"></action>
                 <block name="checkout.confirm" as="confirm" type="checkout/onepage_review" template="ecomdev/checkitout/confirm.phtml" />
             </block>
         </reference>

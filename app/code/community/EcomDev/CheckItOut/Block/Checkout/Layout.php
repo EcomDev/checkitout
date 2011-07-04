@@ -61,6 +61,28 @@ class EcomDev_CheckItOut_Block_Checkout_Layout extends Mage_Core_Block_Template
     }
 
     /**
+     * This method will copy address data from quote addreses
+     * to checkout block addreses if they are not the same
+     *
+     * @return EcomDev_CheckItOut_Block_Checkout_Layout
+     */
+    public function applyStoredAddresses()
+    {
+        $quote = $this->getCheckoutBlock()->getQuote();
+        $billindAddressForm = $this->getCheckoutBlock()->getChild('billing');
+        if ($billindAddressForm
+            && $billindAddressForm->getAddress() !== $quote->getBillingAddress()) {
+            $billindAddressForm->getAddress()->setData($quote->getBillingAddress()->getData());
+        }
+
+        $shippingAddressForm = $this->getCheckoutBlock()->getChild('shipping');
+        if ($shippingAddressForm
+            && $shippingAddressForm->getAddress() !== $quote->getShippingAddress()) {
+            $shippingAddressForm->getAddress()->setData($quote->getShippingAddress()->getData());
+        }
+    }
+
+    /**
      * Retrieve steps lists
      */
     public function getSteps()

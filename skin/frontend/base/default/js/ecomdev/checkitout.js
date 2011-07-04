@@ -76,6 +76,14 @@ EcomDev.CheckItOut = Class.create({
          * @type Function
          */
         this.onReload = this.handleReload.bind(this);
+        
+        /**
+         * Handle for completion of reloading checkout steps layout
+         * 
+         * @type Function
+         */
+        this.onReloadComplete = this.handleRealoadComplete.bind(this);
+        
         /**
          * To reload object sequance
          * 
@@ -169,39 +177,33 @@ EcomDev.CheckItOut = Class.create({
      */
     collectReload: function (stepObject, reloadCallbacks) {
         var steps = this.steps.values();
+        
+        if (this.onlyHashed !== false) {
+            this.stepHash = $H(this.onlyHashed);
+        }
+        
         for (var i = 0, l = steps.length; i < l; i ++) {
             if (!steps[i].isRelated(stepObject)) {
                 continue;
             }
             
-            if (this.stepHash.get(steps[i].code) && this.onlyHashed !== false 
-                && this.stepHash.get(steps[i].code) == this.onlyHashed[steps[i].code]) {
+            if (steps[i].isValidHash()) {
                 continue;
             }
 
-            if (stepObject.isLoading()) {
-                if (!this.stepHash.get(steps[i].code)) {
-                    // If not hashed, only then show mask
-                    steps[i].showMask();
-                }
-            } else if (Object.isFunction(steps[i].load)) {
-                steps[i].showMask();
+            if (!stepObject.isLoading() && Object.isFunction(steps[i].load)) {
                 reloadCallbacks.push(
                     [steps[i], steps[i].load]
                 );
-            } else {
-                steps[i].showMask();
+            } else if (!stepObject.isLoading()) {
                 this.addToReload(steps[i]);
             }
+            
             if (Object.isFunction(steps[i].additionalLoad)) {
                 reloadCallbacks.push(
                     [steps[i], steps[i].additionalLoad]
                 );
             }
-        }
-        
-        if (this.onlyHashed !== false) {
-            this.stepHash = $H(this.onlyHashed);
         }
     },
     /**
@@ -330,30 +332,45 @@ EcomDev.CheckItOut = Class.create({
             steps.push(step);
             parameters['steps[]'].push(step.code);
             Object.extend(parameters, step.getValues());
+            if (this.stepHash.get(step.code)) {
+                step.loadedHash = this.stepHash.get(step.code);
+            }
+            step.showMask();
         }
         
         if (steps.length > 0) {
-            new Ajax.Request(this.config.reload, {
+            var request = new Ajax.Request(this.config.reload, {
                 parameters: parameters,
                 method: 'POST',
-                onComplete: function (result) {
-                    var blocks = result.responseText.evalJSON();
-                    for (var i=0, l = steps.length; i < l; i ++) {
-                        if (blocks[steps[i].code]) {
-                            try {
-                                steps[i].update(blocks[steps[i].code]);
-                            } catch (e) {
-                                if (window.console) {
-                                    window.console.log(e);
-                                    window.console.log(blocks[steps[i].code]);
-                                }
-                            }
-                        }
-                        steps[i].hideMask();
-                   }
-                }
-            })
+                onComplete: this.onReloadComplete
+            });
+            request.steps = steps;
         }
+    },
+    /**
+     * Reload complete handler, separated into method 
+     * for not using local variables form closure, 
+     * was conflicts with more then one request in the same time
+     * 
+     * @param Ajax.Response response 
+     * @return void
+     */
+    handleRealoadComplete: function (response) {
+        var steps = response.request.steps;
+        var blocks = response.responseText.evalJSON();
+        for (var i=0, l = steps.length; i < l; i ++) {
+            try {
+                if (blocks[steps[i].code]) {
+                    steps[i].update(blocks[steps[i].code]);
+                }
+            } catch (e) {
+                alert(e);
+            }
+
+            steps[i].hideMask();
+       }
+       
+       delete response.request;
     },
     /**
      * Submits the placing of the order,
@@ -452,6 +469,16 @@ EcomDev.CheckItOut.Step = Class.create({
      */
     code: '',
     /**
+     * List of ignored key codes for submitting data
+     * 
+     * @type Array
+     */
+    ignoredChangeKeys: [
+        Event.KEY_TAB, Event.KEY_LEFT, Event.KEY_UP, 
+        Event.KEY_RIGHT, Event.KEY_DOWN, Event.KEY_HOME, 
+        Event.KEY_END
+    ],
+    /**
      * Relations list
      * 
      * @type Array
@@ -482,6 +509,13 @@ EcomDev.CheckItOut.Step = Class.create({
      */
     autoSubmit: true,
     /**
+     *  Automaticaly submit element values, 
+     *  even if they are invalid?
+     *  
+     *  @type Boolean
+     */
+    autoSubmitInvalid: false,
+    /**
      * Automaticaly validate element values?
      * 
      * @type Boolean
@@ -503,6 +537,8 @@ EcomDev.CheckItOut.Step = Class.create({
         this.onChange = this.handleChange.bind(this);
         this.onAjaxComplete = this.submitComplete.bind(this);
         this.lastHash = false;
+        this.loadedHash = false;
+        this.elementValidator = this.validateElement.bind(this);
         EcomDev.CheckItOut.addStep(this);
     },
     /**
@@ -522,6 +558,10 @@ EcomDev.CheckItOut.Step = Class.create({
      * @return void
      */
     initCheckout: function () {
+        if (this.checkout.stepHash.get(this.code)) {
+            this.loadedHash = this.checkout.stepHash.get(this.code); 
+        }
+        
         this.mask = this.container.down('.step-loading');
         this.content = this.container.down('.step-content');
         if (this.content.down('from')) {
@@ -530,6 +570,18 @@ EcomDev.CheckItOut.Step = Class.create({
             })
         }
         this.bindFields();
+    },
+    /**
+     * Check that steps is valid or should it be reloded
+     * 
+     * @return Boolean
+     */
+    isValidHash: function () {
+        if (!this.checkout.stepHash.get(this.code)) {
+            return false;
+        }
+        
+        return this.checkout.stepHash.get(this.code) == this.loadedHash;
     },
     /**
      * Check s step in loading or it's already loaded 
@@ -591,8 +643,28 @@ EcomDev.CheckItOut.Step = Class.create({
      * @return Boolean
      */
     isValid: function () {
+        if (arguments.length === 0 || arguments[0] === true) {
+              return this.content.select('input', 'select', 'textarea')
+                      .map(Validation.validate).all();
+        }
+        
         return this.content.select('input', 'select', 'textarea')
-                   .map(Validation.validate).all();
+             .map(this.elementValidator).all();
+    },
+    /**
+     * Validates element value without showing advice of object was not changed
+     * 
+     * @return Boolean
+     */
+    validateElement: function (elm) {
+        var classNames = $w(elm.className);
+        if (elm.wasChanged) {
+            Validation.validate(elm);
+        }
+        return classNames.all(function(value) {
+            var test = !Validation.isVisible(elm) || Validation.get(value).test($F(elm), elm);
+            return test;
+        });
     },
     /**
      * Bind field after checkout initialization or after content update
@@ -625,6 +697,19 @@ EcomDev.CheckItOut.Step = Class.create({
      * @return void
      */
     handleChange: function (evt) {
+        if (evt.type) {
+            if (this.ignoredChangeKeys.indexOf(evt.keyCode) !== -1) {
+                return;
+            }
+            
+            var element = Event.element(evt);
+            element.wasChanged = true;
+            
+            if (this.autoValidate) {
+                Validation.validate(element);
+            }
+        }
+        
         if (this.changeInterval) {
             if (this.timeout) {
                 clearTimeout(this.timeout);
@@ -649,7 +734,7 @@ EcomDev.CheckItOut.Step = Class.create({
             this.timeout = undefined;
         }
         
-        if (!this.autoValidate || this.isValid()) {
+        if (!this.autoValidate || this.isValid(false) || this.autoSubmitInvalid) {
             this.lastHash = false;
             this.isLoading(true);
             this.respondCallbacks();
@@ -672,7 +757,7 @@ EcomDev.CheckItOut.Step = Class.create({
         try {
             var result = response.responseText.evalJSON();
             if (result.stepHash) {
-                this.lastHash = result.stepHash;  
+                this.lastHash = result.stepHash; 
             }
         } catch (e) {
             alert(e);
@@ -878,6 +963,11 @@ var LoginStep = Class.create(EcomDev.CheckItOut.Step, {
  * 
  */
 EcomDev.CheckItOut.Step.Address = Class.create(EcomDev.CheckItOut.Step, {
+    /*
+     * Automatically submit data even if it is invalid
+     *  
+     */
+    autoSubmitInvalid: true,
     /**
      * Checkout step constructor
      * 
@@ -1049,8 +1139,6 @@ var Billing = Class.create(EcomDev.CheckItOut.Step.Address, {
      * @type String
      */
     code: 'billing',
-    // Disable auto-validation for address 
-    autoValidate: false,
     /**
      * Clears address form on load
      * 
@@ -1070,11 +1158,15 @@ var Billing = Class.create(EcomDev.CheckItOut.Step.Address, {
      */
     insertUseForShippingCheckbox: function () {
         var insertAbove = false;
+        var isChecked = true;
         if ($('billing:use_for_shipping_yes')) {
+            isChecked = $('billing:use_for_shipping_yes').checked;
             insertAbove = $('billing:use_for_shipping_yes').up('li').previous('li');
             $('billing:use_for_shipping_yes').up('li').remove();
         }
+        
         if ($('billing:use_for_shipping_no')) {
+            
             insertAbove = $('billing:use_for_shipping_no').up('li').previous('li');
             $('billing:use_for_shipping_no').up('li').remove();
         }
@@ -1083,16 +1175,24 @@ var Billing = Class.create(EcomDev.CheckItOut.Step.Address, {
             var element = new Element('li', {
                 'class': 'control'
             });
+            
             insertAbove.insert({after:element});
-            element.insert(new Element(
-                'input', 
-                {type:'checkbox', 
-                 id: 'billing:use_for_shipping', 
-                 value:'1',
-                 'class': 'checkbox',
-                 name: 'billing[use_for_shipping]',
-                 checked: 'checked', 
-                 title: this.checkout.config.useForShippingLabel}));
+            
+            var inputConfig = {
+                type:'checkbox', 
+                id: 'billing:use_for_shipping', 
+                value:'1',
+                'class': 'checkbox',
+                name: 'billing[use_for_shipping]',
+                title: this.checkout.config.useForShippingLabel
+            };
+            
+            if (isChecked) {
+                inputConfig.checked = 'checked';
+            }
+            
+            element.insert(new Element('input', inputConfig));
+            
             element.insert(
                 new Element('label', {'for': 'billing:use_for_shipping'})
                     .update(this.checkout.config.useForShippingLabel));
@@ -1186,8 +1286,6 @@ var Shipping = Class.create(EcomDev.CheckItOut.Step.Address, {
      * @type String
      */
     code: 'shipping',
-    // Disable auto-validation for address 
-    autoValidate: false,
     /**
      * Clears address form on load
      * 
@@ -1329,6 +1427,12 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
      */
     initialize: function ($super, form, saveUrl) {
         if (EcomDev.CheckItOut.instance && EcomDev.CheckItOut.instance.getStep(this.code)) {
+            if (window.shippingMethod) {
+                var code = this.code;
+                (function () {
+                   window.shippingMethod = EcomDev.CheckItOut.instance.getStep(code);
+                }).delay(0.5);
+            }
             return;
         }
         var container = this.findContainer(form);
@@ -1719,12 +1823,12 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         }
         for (var i=0; i<methods.length; i++) {
             if (methods[i].checked) {
-                return $super();
+                return (arguments.length ? $super(arguments[0]) : $super());
             }
         }
         result = this.afterValidate();
         if (result) {
-            return $super();
+            return (arguments.length ? $super(arguments[0]) : $super());
         }
         var errorText = Translator.translate('Please specify payment method.');
         if (this.container.down('.ajax-error')) {
@@ -1884,16 +1988,7 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
      */
     initCheckout: function ($super) {
         $super();
-        this.initialLoad();
-    },
-    /**
-     * Loads step data if it was not loaded before
-     * 
-     */
-    initialLoad: function () {
-        if (!this.wasLoaded) {
-            this.load();
-        }
+        this.load();
     },
     /**
      * Loads order review info block
@@ -1902,7 +1997,7 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
      */
     load: function () {
         this.showMask();
-        if (!this.checkout.isLoading() || !this.wasLoaded) {
+        if (!this.checkout.isLoading() || !this.isValidHash() || !this.wasLoaded) {
             this.wasLoaded = true;
             new Ajax.Request(this.loadUrl, {
                 method: 'POST',
@@ -1921,6 +2016,7 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
      */
     loadComplete: function (response) {
         this.hideMask();
+        this.loadedHash = this.checkout.stepHash.get(this.code);
         try {
             var values = Form.serializeElements(this.updateElement.select('input', 'select', 'textarea'), true);
             this.updateElement.update(response.responseText);
