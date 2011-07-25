@@ -21,6 +21,40 @@ if (typeof window.EcomDev == 'undefined') {
 }
 
 /**
+ * Object replacer if they exists in system
+ * 
+ * 
+ */
+EcomDev.Replacer = new (Class.create({
+    /**
+     * Replaces system object
+     * 
+     * @return void
+     */
+    replace: function (realtimeObject, destinationObject, destinationKey, replacement) {
+        if (typeof destinationObject[destinationKey] == 'undefined') {
+            return;
+        }
+        this.proxy(realtimeObject, replacement);
+        (function (){destinationObject[destinationKey] = replacement; }).defer();
+    },
+    /**
+     * Proxies object methods
+     * 
+     * @return void
+     */
+    proxy: function (proxyObject, realObject) {
+        for (var key in realObject) {
+            if (Object.isFunction(realObject[key])) {
+                proxyObject[key] = realObject[key].bind(realObject);
+            }
+        }
+        
+        Object.extend(proxyObject, realObject);
+    }
+}));
+
+/**
  * Main Checkout class
  * 
  */
@@ -817,6 +851,12 @@ EcomDev.CheckItOut.Step = Class.create({
         this.mask.hide();
     },
     /**
+     * Placeholder for reinitiazation of containers 
+     * 
+     * @return void
+     */
+    reinitContainer: Prototype.K,
+    /**
      * Update content of checkout step content element
      * 
      * @param String htmlContent
@@ -824,6 +864,7 @@ EcomDev.CheckItOut.Step = Class.create({
      */
     update: function (htmlContent) {
         this.content.update(htmlContent);
+        this.reinitContainer();
         this.bindFields();
     }
 });
@@ -1427,12 +1468,7 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
      */
     initialize: function ($super, form, saveUrl) {
         if (EcomDev.CheckItOut.instance && EcomDev.CheckItOut.instance.getStep(this.code)) {
-            if (window.shippingMethod) {
-                var code = this.code;
-                (function () {
-                   window.shippingMethod = EcomDev.CheckItOut.instance.getStep(code);
-                }).delay(0.5);
-            }
+            EcomDev.Replacer.replace(this, window, 'shippingMethod', EcomDev.CheckItOut.instance.getStep(this.code));
             return;
         }
         var container = this.findContainer(form);
@@ -1600,14 +1636,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
      */
     initialize: function($super, form, saveUrl){
         if (EcomDev.CheckItOut.instance && EcomDev.CheckItOut.instance.getStep(this.code)) {
-            if (window.payment) {
-                var code = this.code;
-                var options = {form: form, saveUrl: saveUrl};
-                (function () {
-                   window.payment = EcomDev.CheckItOut.instance.getStep(code);
-                   window.payment.initialize(options.form, options.saveUrl);
-                }).delay(0.5);
-            }
+            EcomDev.Replacer.replace(this, window, 'payment', EcomDev.CheckItOut.instance.getStep(this.code));
             return;
         }
         
@@ -1628,6 +1657,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
     update: function ($super, content) {
         var values = this.getValues();
         $super(content);
+        
         var fieldNames = Object.keys(values);
         for (var i=0, l=fieldNames.length; i < l; i++) {
             var field = this.content.down('*[name="' + fieldNames[i] + '"]');
@@ -1642,7 +1672,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
                 });
            }
         }
-        this.initCheckout();
+        this.checkOneMethod();
     },
     /**
      * Add handler for before init observing
@@ -1733,6 +1763,14 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
      */
     initCheckout: function ($super) {
         $super();
+        this.checkOneMethod();
+    },
+    /**
+     * Checks that it is a single method
+     * 
+     * @return void
+     */
+    checkOneMethod: function () {
         var methods = this.container.select('input[name="payment[method]"]');
 
         if (methods.length == 1) {
@@ -1764,7 +1802,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         for (var j=0; j<methods.length; j++) {
             var form = $('payment_form_'+methods[j].value);
             if (form) {
-                form.style.display = 'none';
+                form.show();
                 var elements = form.select('input', 'select', 'textarea');
                 for (var i=0, l = elements.length; i<l; i++) elements[i].disabled = true;
             }
@@ -1777,12 +1815,15 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
             for (var i=0, l = elements.length; i<l; i++) elements[i].disabled = false;
         } else if (this.currentMethod !== method) {
             if (form) {
-               form.show();
+                form.style.display = '';
             }
             //Event fix for payment methods without form like "Check / Money order"
             document.body.fire('payment-method:switched', {method_code : method});
             this.handleChange({});
+        } else if (form) {
+            form.show();
         }
+        
         this.currentMethod = method;
     },
     /**
