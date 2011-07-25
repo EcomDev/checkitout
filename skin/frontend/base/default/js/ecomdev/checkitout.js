@@ -1599,6 +1599,18 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
      * @return void
      */
     initialize: function($super, form, saveUrl){
+        if (EcomDev.CheckItOut.instance && EcomDev.CheckItOut.instance.getStep(this.code)) {
+            if (window.payment) {
+                var code = this.code;
+                var options = {form: form, saveUrl: saveUrl};
+                (function () {
+                   window.payment = EcomDev.CheckItOut.instance.getStep(code);
+                   window.payment.initialize(options.form, options.saveUrl);
+                }).delay(0.5);
+            }
+            return;
+        }
+        
         this.form = form;
         this.saveUrl = saveUrl;
         var container = this.findContainer(form);
@@ -1757,12 +1769,15 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
             }
         }
         
-        if ($('payment_form_'+method) && $('payment_form_'+method).select('input', 'select', 'textarea').length > 0){
-            var form = $('payment_form_'+method);
-            form.style.display = '';
+        var form = $('payment_form_'+method);
+        if (form && form.select('input', 'select', 'textarea').length > 0){
+            form.show();
             var elements = form.select('input', 'select', 'textarea');
             for (var i=0, l = elements.length; i<l; i++) elements[i].disabled = false;
         } else if (this.currentMethod !== method) {
+            if (form) {
+               form.show();
+            }
             //Event fix for payment methods without form like "Check / Money order"
             document.body.fire('payment-method:switched', {method_code : method});
             this.handleChange({});

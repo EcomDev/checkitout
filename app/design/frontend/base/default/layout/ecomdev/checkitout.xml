@@ -24,6 +24,7 @@
         
         <reference name="head">
             <action method="addItem"><type>skin_js</type><file>js/ecomdev/checkitout.js</file></action>
+            <action method="addItem"><type>skin_js</type><file>js/ecomdev/checkitout/compatibility.js</file></action>
             <action method="addItem"><type>skin_css</type><file>css/ecomdev/checkitout.css</file></action>
         </reference>
         

@@ -24,6 +24,8 @@ require_once 'Mage/Checkout/controllers/OnepageController.php';
  */
 class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageController
 {
+    const DEFAULT_ACTION_NAME = 'index';
+
     const LAYOUT_HANDLE_BASE = 'ecomdev_checkitout_layout';
     const LAYOUT_HANDLE_NO_PAYMENT = 'ecomdev_checkitout_no_payment';
 
@@ -79,9 +81,10 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
         }
 
         if ($this->_isActive() && !$this->getOnepage()->getQuote()->isVirtual()
-            && !$this->getOnepage()->getQuote()->getShippingAddress()->getCountryId()) {
+            && !$this->getOnepage()->getQuote()->getShippingAddress()->getCountryId()
+            && $this->getRequest()->getActionName() === self::DEFAULT_ACTION_NAME) {
             $this->getOnepage()->getQuote()->getShippingAddress()->setCountryId(
-                Mage::getStoreConfig('general/country/default')
+                Mage::helper('ecomdev_checkitout')->getDefaultCountry()
             );
             $this->_recalculateTotals();
         }
@@ -170,6 +173,8 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
         );
     }
 
+
+
     /**
      * Overrides default behavior for saving billing address
      *
@@ -218,7 +223,7 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
 
             if (isset($result['error'])) {
                 $this->getOnepage()->getQuote()->getBillingAddress()
-                    ->addData($data)
+                    ->addData($this->_filterAddressData($data))
                     ->implodeStreetAddress();
 
                 if (!$this->getOnepage()->getQuote()->isVirtual()
@@ -346,7 +351,7 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
             if (isset($result['error'])) {
                 $this->getOnepage()->getQuote()
                     ->getShippingAddress()
-                    ->addData($data)
+                    ->addData($this->_filterAddressData($data))
                     ->implodeStreetAddress();
 
                 $this->_recalculateTotals();
@@ -359,6 +364,27 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
             );
         }
     }
+
+    /**
+     * Filters post address data into available address attributes
+     *
+     * @param array $data
+     */
+    protected function _filterAddressData($data)
+    {
+        $customerAddressAttributes = Mage::getSingleton('eav/config')->getEntityAttributeCodes('customer_address');
+
+        $dataToApply = array();
+        foreach ($customerAddressAttributes as $attributeCode) {
+            if (isset($data[$attributeCode])) {
+                $dataToApply[$attributeCode] = $data[$attributeCode];
+            }
+        }
+
+        return $dataToApply;
+    }
+
+
 
     /**
      * Action for changing quantity in already added product

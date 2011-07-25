@@ -33,6 +33,7 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_NEWSLETTER_CHECKBOX_CHECKED = 'ecomdev_checkitout/settings/newsletter_checkbox_checked';
     const XML_PATH_COMPATIBILITY = 'ecomdev/checkitout/compatibility/%s';
     const XML_PATH_STEPS = 'ecomdev/checkitout/steps';
+    const XML_PATH_DEFAULT_COUNTRY = 'general/country/default';
 
     const COMPATIBILITY_TYPE_TEMPLATE = 'template';
     const COMPATIBILITY_TYPE_CODE = 'code';
@@ -240,5 +241,15 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         return false;
+    }
+
+    /**
+     * Retrieves default country code from configuration
+     *
+     * @return string
+     */
+    public function getDefaultCountry()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_DEFAULT_COUNTRY);
     }
 }
