@@ -83,6 +83,11 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
         if ($this->_isActive() && !$this->getOnepage()->getQuote()->isVirtual()
             && !$this->getOnepage()->getQuote()->getShippingAddress()->getCountryId()
             && $this->getRequest()->getActionName() === self::DEFAULT_ACTION_NAME) {
+            if (!$this->getOnepage()->getQuote()->getBillingAddress()->getCountryId()) {
+                $this->getOnepage()->getQuote()->getBillingAddress()->setCountryId(
+                    Mage::helper('ecomdev_checkitout')->getDefaultCountry()
+                );
+            }
             $this->getOnepage()->getQuote()->getShippingAddress()->setCountryId(
                 Mage::helper('ecomdev_checkitout')->getDefaultCountry()
             );
