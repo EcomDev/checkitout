@@ -1606,7 +1606,6 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
                 (function () {
                    window.payment = EcomDev.CheckItOut.instance.getStep(code);
                    window.payment.initialize(options.form, options.saveUrl);
-                   window.payment.initCheckout();
                 }).delay(0.5);
             }
             return;
@@ -1643,6 +1642,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
                 });
            }
         }
+        this.initCheckout();
     },
     /**
      * Add handler for before init observing
