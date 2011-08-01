@@ -50,10 +50,6 @@
             <action method="setTemplate"><template>ecomdev/checkitout/login.phtml</template></action>
         </reference>
         
-        <reference name="checkout.onepage.payment">
-            <action method="setTemplate"><template>ecomdev/checkitout/payment.phtml</template></action>
-        </reference>
-        
         <reference name="checkout.onepage.review">
             <action method="setTemplate"><template>ecomdev/checkitout/review.phtml</template></action>
         </reference>

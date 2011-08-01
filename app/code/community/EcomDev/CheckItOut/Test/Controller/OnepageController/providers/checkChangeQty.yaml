@@ -1,0 +1,27 @@
+- 
+  - valid-qty
+  - # Changes qty to 2 for product with id 1
+    1: 2
+  - # Adding simple product
+    - 1
+  - # With qty 1
+    1:
+      qty: 1
+- 
+  - unknown-item
+  - # Changes qty to 2 for product that is not presented in cart
+    5: 2
+  - # Adding simple product
+    - 1
+  - # With qty 1
+    1:
+      qty: 1
+- 
+  - not-available-qty
+  - # Changes qty to 5 for product with id 2
+    2: 5
+  - # Adding simple product
+    - 2
+  - # With qty 1
+    2:
+      qty: 1

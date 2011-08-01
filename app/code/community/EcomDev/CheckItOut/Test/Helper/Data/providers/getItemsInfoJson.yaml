@@ -1,0 +1,26 @@
+-
+  - 
+    - item_id: 1
+      qty: 2
+      allow_qty: 1
+      allow_remove: 1
+    - item_id: 2
+      qty: 2
+      allow_qty: 1
+      allow_remove: 1
+    - item_id: 3
+      qty: 2
+      allow_qty: 1
+      allow_remove: 1
+-
+  - 
+    - item_id: 1
+      qty: 2
+      allow_qty: 1
+      allow_remove: 1
+    - item_id: 3
+      qty: 2
+      allow_qty: 1
+      allow_remove: 1
+-
+  - []

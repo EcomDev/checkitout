@@ -1,0 +1,125 @@
+eav:
+  catalog_product:
+    - entity_id: 1
+      type_id: simple
+      sku: book
+      name: Book
+      short_description: Book
+      description: Book
+      url_key: book
+      stock:
+        qty: 100.00
+        is_in_stock: 1
+      website_ids:
+        - base
+      category_ids:
+        - 2 # Default Category
+      price: 12.99
+      tax_class_id: 2 # Taxable Goods
+      status: 1             # Enabled
+      visibility: 4         # Visible in Catalog & Search
+    - entity_id: 2
+      type_id: simple
+      sku: cd-case
+      name: CD Case
+      short_description: CD Case
+      description: CD Case
+      url_key: cd-case
+      tier_price: # Yeah! This product has tier prices
+        - qty: 3
+          value: 2.99
+        - qty: 5
+          value: 2.88
+      stock:
+        qty: 6.00
+        is_in_stock: 1
+      website_ids:
+        - base # default website
+      category_ids:
+        - 2 # Default Category
+      price: 3.99
+      tax_class_id: 2 # Taxable Goods
+      status: 1             # Enabled
+      visibility: 4         # Visible in Catalog & Search
+tables: 
+  sales/quote: 
+    - quote_id: 1
+      store_id: 1
+      is_active: 1
+      customer_tax_class_id: 0
+      items_count: 2
+      items_qty: 5
+      store_to_base_rate: 1
+      store_to_quote_rate: 1
+      base_currency_code: USD
+      store_currency_code: USD
+      quote_currency_code: USD
+      grand_total: 39.95
+      base_grand_total: 39.95
+      subtotal: 34.95
+      base_subtotal: 34.95
+      subtotal_with_discount: 34.95
+      base_subtotal_with_discount: 34.95
+  sales/quote_address:
+    - address_id: 1
+      quote_id: 1
+      address_type: billing
+      country_id: US
+    - address_id: 2
+      quote_id: 1
+      address_type: shipping
+      country_id: US
+      shipping_method: flatrate_flatrate
+      shipping_description: Flat Rate - Fixed
+      shipping_amount: 5.00
+      base_shipping_amount: 5.00
+      grand_total: 39.95
+      base_grand_total: 39.95
+      subtotal: 34.95
+      base_subtotal: 34.95
+      subtotal_with_discount: 34.95
+      base_subtotal_with_discount: 34.95
+  sales/quote_address_shipping_rate:
+    - rate_id: 1
+      address_id: 2
+      carrier: flatrate
+      carrier_title: Flat Rate
+      code: flatrate_flatrate
+      method: flatrate
+      price: 5.0000
+      method_title: Fixed
+    - rate_id: 2
+      address_id: 2
+      carrier: flatrate
+      carrier_title: Flat Rate
+      code: flatrate_second
+      method: flatrate
+      price: 4.0000
+      method_title: Second Day
+    - rate_id: 3
+      address_id: 2
+      carrier: flatrate
+      carrier_title: Flat Rate
+      code: flatrate_third
+      method: flatrate
+      price: 3.0000
+      method_title: Third Day
+  sales/quote_item:
+    - item_id: 1
+      quote_id: 1
+      store_id: 1
+      qty: 2
+      product_id: 1
+      price: 12.99
+      base_price: 12.99
+      row_total: 25.9800
+      base_row_total: 25.9800
+    - item_id: 2
+      quote_id: 1
+      store_id: 1
+      qty: 3
+      product_id: 2
+      price: 2.99
+      base_price: 2.99
+      row_total: 8.9700
+      base_row_total: 8.9700

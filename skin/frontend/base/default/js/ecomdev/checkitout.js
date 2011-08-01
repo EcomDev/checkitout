@@ -232,12 +232,6 @@ EcomDev.CheckItOut = Class.create({
             } else if (!stepObject.isLoading()) {
                 this.addToReload(steps[i]);
             }
-            
-            if (Object.isFunction(steps[i].additionalLoad)) {
-                reloadCallbacks.push(
-                    [steps[i], steps[i].additionalLoad]
-                );
-            }
         }
     },
     /**
@@ -556,6 +550,12 @@ EcomDev.CheckItOut.Step = Class.create({
      */
     autoValidate: true,
     /**
+     * CSS selector for content block that will be reloaded each time for a step
+     * 
+     * @type String
+     */
+    contentCssSelector: '.step-content',
+    /**
      * Step constructor, 
      * 
      * @param String container container element id
@@ -597,7 +597,7 @@ EcomDev.CheckItOut.Step = Class.create({
         }
         
         this.mask = this.container.down('.step-loading');
-        this.content = this.container.down('.step-content');
+        this.content = this.container.down(this.contentCssSelector);
         if (this.content.down('from')) {
             this.content.down('from').observe('submit', function (evt) {
                     Event.stop(evt)
@@ -833,12 +833,13 @@ EcomDev.CheckItOut.Step = Class.create({
      */
     showMask: function () {
         this.mask.show();
-        var dimensions = this.content.getDimensions();
+        var content = this.container.down('.step-content');
+        var dimensions = content.getDimensions();
         this.mask.setStyle({
             width: dimensions.width + 'px', 
             height: dimensions.height + 'px',
-            top: this.content.offsetTop + 'px',
-            left: this.content.offsetLeft + 'px',
+            top: content.offsetTop + 'px',
+            left: content.offsetLeft + 'px',
             opacity: 0.5
         });
     },
@@ -1392,7 +1393,7 @@ var Shipping = Class.create(EcomDev.CheckItOut.Step.Address, {
         if ($('billing:use_for_shipping').checked && 
             this.checkout.getStep('billing').getSelectElement() &&  
             this.checkout.getStep('billing').getSelectElement().value != this.getSelectElement().value) {
-            this.setSameAsBilling(false);
+            //this.setSameAsBilling(false);
         }
         $super(isNew);
     },
@@ -1461,6 +1462,12 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
     // No interval between selection of shipping method
     changeInterval: 0,
     /**
+     * CSS selector for content block that will be reloaded each time for a step
+     * 
+     * @type String
+     */
+    contentCssSelector: '.step-content #checkout-shipping-method-load',
+    /**
      * Checkout step constructor
      * 
      * @param Function $super parent constructor method
@@ -1472,6 +1479,7 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
             return;
         }
         var container = this.findContainer(form);
+        this.onAdditionalLoad = this.handleAdditionalLoad.bind(this);
         $super(container, saveUrl);
         this.errorEl = new Element('input', {type: 'hidden', value: 1, name: 'cio_shipping_method_error', id: 'shipping_method_error', 'class' : 'required-entry'});
         this.addRelation('shipping');
@@ -1516,12 +1524,38 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
     initCheckout: function ($super) {
         this.checkOneMethod();
         $super();
-        //this.additionalLoad();
-        
+        this.additionalLoad();
     },
-    /*additionalLoad: function () {
-       new Ajax.Updater(this.checkout.config.additionalContainer, this.checkout.config.additionalUrl);
-    },*/
+    /**
+     * Loads additional shipping method data
+     * 
+     * @return void
+     */
+    additionalLoad: function () {
+       new Ajax.Updater(this.checkout.config.additionalContainer, this.checkout.config.additionalUrl, {evalScripts:true, onComplete: this.onAdditionalLoad});
+    },
+    /**
+     * Handles additional load action completed (i.e. adding field observers)
+     * 
+     * @void
+     */
+    handleAdditionalLoad: function () {
+        var items = $(this.checkout.config.additionalContainer).select('input', 'select', 'textarea');
+        for (var i=0,l=items.length; i < l; i++) {
+            items[i].observe('change', this.onChange);
+            if (items[i].tagName.toLowerCase() == 'input' && (items[i].type == 'checkbox' || items[i].type == 'radio')) {
+                items[i].observe('click', this.onChange);
+            }
+        }
+    },
+    /**
+     * Retrieve form elements
+     * 
+     * @return Array 
+     */
+    getElements: function () {
+        return this.container.select('input', 'select', 'textarea');
+    },
     /**
      * Send shipping method to backend, Sets internal data
      * for restoring of selected shipping method
@@ -1533,6 +1567,7 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
         $super();
         this.lastSubmitted = this.getValues();
     },
+    
     /**
      * Updates content of checkout step and show radio button 
      * if only one shipping method is available
@@ -1627,6 +1662,12 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
      */
     afterValidateFunc:$H({}),
     /**
+     * CSS selector for content block that will be reloaded each time for a step
+     * 
+     * @type String
+     */
+    contentCssSelector: '.step-content #co-payment-form fieldset',
+    /**
      * Payment checkout step constructor
      * 
      * @param Function $super parent constructor
@@ -1642,9 +1683,8 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         
         this.form = form;
         this.saveUrl = saveUrl;
-        var container = this.findContainer(form);
-        $super(container, saveUrl);
-        this.addRelation(['billing', 'shipping_method']);
+        this.parentConstructor = $super;
+        this.onOutsideCheckboxClick = this.handleOutsizeCheckboxClick.bind(this);
     },
     /**
      * Updates payment step content, 
@@ -1702,6 +1742,8 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
      * @return void
      */
     init : function () {
+        this.parentConstructor(this.findContainer(this.form), this.saveUrl);
+        this.addRelation(['billing', 'shipping_method']);
         this.beforeInit();
         var elements = Form.getElements(this.form);
         var method = null;
@@ -1732,7 +1774,19 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
             },
             this
         );
+        this.container.select('input[type="checkbox"]').each(function (element) {
+            if (!element.up('.sp-methods')) {
+                element.observe('click', this.onOutsideCheckboxClick);
+            }
+        }, this);
+        
+        
         $super();
+    },
+    handleOutsizeCheckboxClick: function (evt) {
+        if (!this.content.down('.sp-methods').visible()) {
+            this.handleChange({});
+        }
     },
     /**
      * Add handler for after init observing
@@ -1781,16 +1835,6 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         }
     },
     /**
-     * Overriden to include hidden payment method radio into values list for submit
-     * 
-     * @return void
-     */
-    getValues: function ($super) {
-        var values = $super();
-        values['payment[method]'] = this.currentMethod;
-        return values;
-    },
-    /**
      * Switches payment method and displays related payment forms
      * 
      * @param String method
@@ -1802,7 +1846,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         for (var j=0; j<methods.length; j++) {
             var form = $('payment_form_'+methods[j].value);
             if (form) {
-                form.show();
+                form.hide();
                 var elements = form.select('input', 'select', 'textarea');
                 for (var i=0, l = elements.length; i<l; i++) elements[i].disabled = true;
             }

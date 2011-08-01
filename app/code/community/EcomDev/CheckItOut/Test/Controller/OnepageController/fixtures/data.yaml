@@ -1,0 +1,61 @@
+eav:
+  catalog_product:
+    - entity_id: 1
+      type_id: simple
+      sku: book
+      name: Book
+      short_description: Book
+      description: Book
+      url_key: book
+      stock:
+        qty: 100.00
+        is_in_stock: 1
+      website_ids:
+        - base
+      category_ids:
+        - 2 # Default Category
+      price: 12.99
+      tax_class_id: 2 # Taxable Goods
+      status: 1             # Enabled
+      visibility: 4         # Visible in Catalog & Search
+    - entity_id: 2
+      type_id: simple
+      sku: cd-case
+      name: CD Case
+      short_description: CD Case
+      description: CD Case
+      url_key: cd-case
+      tier_price: # Yeah! This product has tier prices
+        - qty: 3
+          value: 2.99
+        - qty: 5
+          value: 2.88
+      stock:
+        qty: 2.00
+        is_in_stock: 1
+      website_ids:
+        - base # default website
+      category_ids:
+        - 2 # Default Category
+      price: 3.99
+      tax_class_id: 2 # Taxable Goods
+      status: 1             # Enabled
+      visibility: 4         # Visible in Catalog & Search
+    - entity_id: 3
+      type_id: simple
+      sku: virtual
+      name: Virtual Product
+      short_description: Virtual Product
+      description: Virtual Product
+      url_key: virtual
+      stock:
+        qty: 300.00
+        is_in_stock: 1
+      website_ids:
+        - base # default website
+      category_ids:
+        - 2 # Default Category
+      price: 3.99
+      tax_class_id: 2 # Taxable Goods
+      status: 1             # Enabled
+      visibility: 4         # Visible in Catalog & Search

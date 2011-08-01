@@ -37,6 +37,16 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
     protected $_addBaseHandleToActions = array('index', 'layout', 'steps');
 
     /**
+     * List of special handles for checkout steps
+     *
+     * @var array
+     */
+    protected $_specialHandlesForSteps = array(
+        'shipping_method' => 'checkout_onepage_shippingmethod',
+        'payment' => 'checkout_onepage_paymentmethod'
+    );
+
+    /**
      * Checks that CheckItOut extension is active for current website
      *
      * @return boolean
@@ -121,7 +131,21 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
         $this->loadLayout();
         $result = array();
         foreach ($steps as $step) {
+            if (isset($this->_specialHandlesForSteps[$step])) {
+                continue;
+            }
             $result[$step] = $this->getLayout()->getBlock('checkout.layout')->getStepBlockHtml($step);
+        }
+
+        foreach ($steps as $step) {
+            if (isset($this->_specialHandlesForSteps[$step])) {
+                $layout = Mage::getModel('core/layout');
+                $update = $layout->getUpdate();
+                $update->load($this->_specialHandlesForSteps[$step]);
+                $layout->generateXml();
+                $layout->generateBlocks();
+                $result[$step] =  $layout->getOutput();
+            }
         }
 
         if (empty($result)) {
