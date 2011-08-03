@@ -65,3 +65,53 @@
 .checkitout #confirmation-window .block { float: left; width: 47.5%; }
 .checkitout #confirmation-window .block-right { float: right; }
 .checkitout #confirmation-window .block-wide { width: 100%; }
+
+/** 
+ *  Gift options block
+ */
+.checkitout .gift-message-form .inner-box h5, 
+.checkitout .gift-message-form .inner-box h4,
+.checkitout .gift-message-form .gift-message-form .inner-box p { padding: 0 10px; }
+.checkitout .layout-content .gift-message-form .gift-item .form-list { padding: 0 0 0 20px; }
+.checkitout .layout-content .gift-message-form .gift-item .form-list .field,
+.checkitout .layout-content .gift-messages-form .item .form-list .field,
+.checkitout .layout-content .gift-messages-form .whole-order .form-list .field,
+.checkitout .layout-content .gift-messages-form .allow-gift-messages-for-order-container .form-list .field,
+.checkitout .layout-content .gift-message-form .gift-item .form-list .input-box,
+.checkitout .layout-content .gift-messages-form .item .form-list .input-box,
+.checkitout .layout-content .gift-messages-form .whole-order .form-list .input-box,
+.checkitout .layout-content .gift-messages-form .allow-gift-messages-for-order-container .form-list .input-box,
+.checkitout .layout-content .gift-messages-form .item .details .form-list li.wide .input-box,
+.checkitout .layout-content .gift-messages-form .whole-order .form-list li.wide .input-box,
+.checkitout .layout-content .gift-messages-form .allow-gift-messages-for-order-container .form-list li.wide .input-box,
+.checkitout .layout-content .gift-messages-form .item .details .form-list li.wide textarea,
+.checkitout .layout-content .gift-messages-form .whole-order .form-list li.wide textarea,
+.checkitout .layout-content .gift-messages-form .allow-gift-messages-for-order-container .form-list li.wide textarea,
+.checkitout .layout-content .gift-messages-form .item .details .form-list input.input-text,
+.checkitout .layout-content .gift-messages-form .allow-gift-messages-for-order-container .form-list input.input-text,
+.checkitout .layout-content .gift-messages-form .whole-order .form-list input.input-text { width: 100%; }
+.checkitout .layout-content .gift-message-form .gift-item .fieldset { background-image: none; }
+
+
+.checkitout .layout-content .gift-message-form .gift-item .fieldset { background-image: none; }
+
+.checkitout .layout-content .gift-message-form .fieldset .form-list .input-text,
+.checkitout .layout-content .gift-message-form .fieldset .form-list textarea { width: 170px;}
+.checkitout .layout-content .gift-messages-form textarea { height: 40px; }
+.checkitout .layout-content .gift-message-form .form-list label,
+.checkitout .layout-content .gift-message-form .form-list .input-box, 
+.checkitout .gift-messages-form .item .product-img-box,
+.checkitout .gift-messages-form .whole-order .field, 
+.checkitout .gift-messages-form .item .details .vfix { float:none; }
+
+.checkitout .gift-options-for-order,
+.checkitout .gift-messages-form .inner-box {padding: 0 20px;}
+
+
+.checkitout .gift-message-form .gift-item .fieldset,
+.checkitout .gift-messages-form .item .fieldset { padding: 0 0 0 0; margin: 0 0 0 0; }
+.checkitout .gift-message-form .gift-item .product-img-box,
+.checkitout .gift-messages-form .item .product-img-box { background-image: none; }
+
+
+.checkitout .gift-messages-form .item .details { margin: 0 0 0 0; }

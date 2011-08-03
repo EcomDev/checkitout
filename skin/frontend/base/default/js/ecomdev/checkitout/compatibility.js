@@ -26,3 +26,41 @@ if (typeof window.EbizmartsSagePaySuite !== 'undefined') {
         };
     });
 }
+
+// Change prototype scripts eval scope to global 
+String.prototype.evalScripts = function () {
+  return this.extractScripts().map(function(script) { 
+     console.log(script);
+     return window.globalEval(script);
+  });
+};
+
+// Thanks to http://perfectionkills.com/global-eval-what-are-the-options/ for information
+// Fix for global scoping of evalScripts
+var globalEval = (function() {
+  var isIndirectEvalGlobal = (function(original, Object) {
+    try {
+      // Does `Object` resolve to a local variable, or to a global, built-in `Object`,
+      // reference to which we passed as a first argument?
+      return (1,eval)('Object') === original;
+    }
+    catch(err) {
+      // if indirect eval errors out (as allowed per ES3), then just bail out with `false`
+      return false;
+    }
+  })(Object, 123);
+
+  if (isIndirectEvalGlobal) {
+    // if indirect eval executes code globally, use it
+    return function(expression) {
+      return (1,eval)(expression);
+    };
+  }
+  else if (typeof window.execScript !== 'undefined') {
+    // if `window.execScript exists`, use it
+    return function(expression) {
+      return window.execScript(expression);
+    };
+  }
+  // otherwise, globalEval is `undefined` since nothing is returned
+})();

@@ -864,9 +864,18 @@ EcomDev.CheckItOut.Step = Class.create({
      * @return void
      */
     update: function (htmlContent) {
-        this.content.update(htmlContent);
+        this.__updateContent(htmlContent);
         this.reinitContainer();
         this.bindFields();
+    },
+    /**
+     * Updates html of content element
+     * 
+     * @param String htmlContent
+     * @void
+     */
+    __updateContent: function (htmlContent) {
+        this.content.update(htmlContent);
     }
 });
 
@@ -1480,13 +1489,11 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
         }
         var container = this.findContainer(form);
         this.onAdditionalLoad = this.handleAdditionalLoad.bind(this);
+        this.onChangeAdditional = this.handleChangeAdditional.bind(this);
         $super(container, saveUrl);
-        this.errorEl = new Element('input', {type: 'hidden', value: 1, name: 'cio_shipping_method_error', id: 'shipping_method_error', 'class' : 'required-entry'});
+        this.errorEl = new Element('input', {type: 'hidden', value: 1, name: 'cio_shipping_method_error', id: 'shipping_method_error', 'class' : 'required-entry ajax-error'});
         this.addRelation('shipping');
         this.addRelation('billing');
-        if (this.container.down('form')) {
-            this.container.down('form').insert(this.errorEl);
-        }
     },
     /**
      * Performs checking of fullfillment of shipping method selection
@@ -1495,6 +1502,7 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
      * @return Boolean
      */
     isValid: function ($super) {
+        this.errorEl.__advicevalidateAjax = 1;
         Validation.reset(this.errorEl);
         var methods = document.getElementsByName('shipping_method');
         if (methods.length==0) {
@@ -1524,6 +1532,7 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
     initCheckout: function ($super) {
         this.checkOneMethod();
         $super();
+        this.content.insert({after: this.errorEl});
         this.additionalLoad();
     },
     /**
@@ -1532,21 +1541,42 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
      * @return void
      */
     additionalLoad: function () {
+       $(this.checkout.config.additionalContainer).hide();
        new Ajax.Updater(this.checkout.config.additionalContainer, this.checkout.config.additionalUrl, {evalScripts:true, onComplete: this.onAdditionalLoad});
     },
+    
     /**
      * Handles additional load action completed (i.e. adding field observers)
      * 
-     * @void
+     * @return void
      */
     handleAdditionalLoad: function () {
+        if (arguments.length) {
+            this.onAdditionalLoad.defer();
+            return this;
+        }
+        
+        $(this.checkout.config.additionalContainer).show();
+        
         var items = $(this.checkout.config.additionalContainer).select('input', 'select', 'textarea');
         for (var i=0,l=items.length; i < l; i++) {
-            items[i].observe('change', this.onChange);
+            items[i].observe('change', this.onChangeAdditional);
             if (items[i].tagName.toLowerCase() == 'input' && (items[i].type == 'checkbox' || items[i].type == 'radio')) {
-                items[i].observe('click', this.onChange);
+                items[i].observe('click', this.onChangeAdditional);
             }
         }
+    },
+    /**
+     * Handles change on additional elements and performs sending data to webserver
+     * 
+     * @return void
+     */
+    handleChangeAdditional: function (evt) {
+        this.onChange.defer(evt);
+        var element = Event.element(evt)
+        if (element.tagName.toLowerCase() == 'select' ||  (element.tagName.toLowerCase() == 'input' && element.type == 'checkbox')) {
+    	    this.checkout.getStep('review').loadedHash = false;
+    	}
     },
     /**
      * Retrieve form elements
@@ -1579,9 +1609,6 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
     update: function ($super, content) {
         $super(content);
         this.checkOneMethod();
-        if (this.container.down('form')) {
-            this.container.down('form').insert(this.errorEl);
-        }
     },
     /**
      * Show radio button if only one shipping method is available
@@ -1666,7 +1693,13 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
      * 
      * @type String
      */
-    contentCssSelector: '.step-content #co-payment-form fieldset',
+    contentCssSelector: '.step-content #co-payment-form #checkout-payment-method-load',
+    /**
+     * Regexp for normalizing received payment methods contents
+     * 
+     * @type RegExp
+     */
+    contentElementRegExp: new RegExp('^<[\\s\\S]*?class="sp-methods"[\\s\\S]*?id="checkout-payment-method-load"[\\s\\S]*?>([\\s\\S]*)<[\\s\\S]*?>$', 'm'),
     /**
      * Payment checkout step constructor
      * 
@@ -1685,6 +1718,16 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         this.saveUrl = saveUrl;
         this.parentConstructor = $super;
         this.onOutsideCheckboxClick = this.handleOutsizeCheckboxClick.bind(this);
+        this.errorEl = new Element('input', {type: 'hidden', value: 1, name: 'cio_payment_method_error', id: 'payment_method_error', 'class' : 'required-entry ajax-error'});
+    },
+    /**
+     * Returns elements for submitting data into savePayment controller action
+     * Uses container to send all items
+     * 
+     * @return Array
+     */
+    getElements: function () {
+        return this.container.select('select', 'input', 'textarea');
     },
     /**
      * Updates payment step content, 
@@ -1696,6 +1739,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
      */
     update: function ($super, content) {
         var values = this.getValues();
+       
         $super(content);
         
         var fieldNames = Object.keys(values);
@@ -1713,6 +1757,29 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
            }
         }
         this.checkOneMethod();
+    },
+    /**
+     * Updates html content
+     * 
+     * @return void
+     */
+    __updateContent: function ($super, htmlContent) {
+        var scripts = htmlContent.extractScripts();
+        var content = htmlContent.stripScripts();
+        
+        if (this.contentElementRegExp.test(content)) {
+            content = content.replace(this.contentElementRegExp, '$1');
+        }
+        
+        $super(content);
+        // Bringing all scripts together to eval in the same scope
+        var scriptText = '';
+        for (var i=0, l = scripts.length; i < l; i ++) {
+            scriptText += scripts[i] + "\n";
+        }
+        if (scriptText.length > 0) {
+            ('<script type="text/javascript">' + scriptText + "</script>").evalScripts();
+        }
     },
     /**
      * Add handler for before init observing
@@ -1742,8 +1809,11 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
      * @return void
      */
     init : function () {
-        this.parentConstructor(this.findContainer(this.form), this.saveUrl);
-        this.addRelation(['billing', 'shipping_method']);
+        if (this.parentConstructor) {
+            this.parentConstructor(this.findContainer(this.form), this.saveUrl);
+            this.addRelation(['billing', 'shipping_method']);
+            this.parentConstructor = false;
+        }
         this.beforeInit();
         var elements = Form.getElements(this.form);
         var method = null;
@@ -1753,7 +1823,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
                     method = elements[i].value;
                 }
             } else {
-                elements[i].disabled = true;
+               elements[i].disabled = true;
             }
             elements[i].setAttribute('autocomplete','off');
         }
@@ -1774,17 +1844,24 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
             },
             this
         );
-        this.container.select('input[type="checkbox"]').each(function (element) {
-            if (!element.up('.sp-methods')) {
-                element.observe('click', this.onOutsideCheckboxClick);
-            }
-        }, this);
-        
-        
+        this.container.select('input[type="checkbox"]').each(
+            function (element) {
+                if (!element.up('.sp-methods')) {
+                    element.observe('click', this.onOutsideCheckboxClick);
+                }
+            }, 
+            this
+        );
         $super();
     },
+    /**
+     * Handles changes on outside of payment methods container
+     * 
+     * @param Event evt
+     * @return void
+     */
     handleOutsizeCheckboxClick: function (evt) {
-        if (!this.content.down('.sp-methods').visible()) {
+        if (!this.content.visible()) {
             this.handleChange({});
         }
     },
@@ -1817,6 +1894,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
      */
     initCheckout: function ($super) {
         $super();
+        this.content.insert({after: this.errorEl});
         this.checkOneMethod();
     },
     /**
@@ -1840,35 +1918,42 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
      * @param String method
      * @return void
      */
-    switchMethod: function(method){
-        var methods = this.container.select('input[name="payment[method]"]');
-        
-        for (var j=0; j<methods.length; j++) {
-            var form = $('payment_form_'+methods[j].value);
-            if (form) {
-                form.hide();
-                var elements = form.select('input', 'select', 'textarea');
-                for (var i=0, l = elements.length; i<l; i++) elements[i].disabled = true;
-            }
+    switchMethod : function(method) {
+        var fireAnEvent = arguments.length == 1 || arguments.length == 2 && arguments[1] == true;
+
+        if (this.currentMethod && $('payment_form_'+this.currentMethod)) {
+            this.changeVisible(this.currentMethod, true);
         }
-        
         var form = $('payment_form_'+method);
-        if (form && form.select('input', 'select', 'textarea').length > 0){
-            form.show();
-            var elements = form.select('input', 'select', 'textarea');
-            for (var i=0, l = elements.length; i<l; i++) elements[i].disabled = false;
-        } else if (this.currentMethod !== method) {
-            if (form) {
-                form.style.display = '';
-            }
+        if (form){
+           this.changeVisible(method, false);
+           fireAnEvent || form.fire('payment-method:switched', {method_code : method});
+        } else {
             //Event fix for payment methods without form like "Check / Money order"
-            document.body.fire('payment-method:switched', {method_code : method});
-            this.handleChange({});
-        } else if (form) {
-            form.show();
+            fireAnEvent || document.body.fire('payment-method:switched', {method_code : method});
         }
         
+        if (!form || form.select('select','input', 'textarea').length) {
+            this.handleChange({});
+        }
         this.currentMethod = method;
+    },
+    /**
+     * Change payment form visibility
+     * 
+     * @return void
+     */
+    changeVisible: function(method, mode) {
+        var block = 'payment_form_' + method;
+        [block + '_before', block, block + '_after'].each(function(el) {
+            element = $(el);
+            if (element) {
+                element.style.display = (mode) ? 'none' : '';
+                element.select('input', 'select', 'textarea').each(function(field) {
+                    field.disabled = mode;
+                });
+            }
+        });
     },
     /**
      * Add handler for before validation observing
@@ -1908,6 +1993,10 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
      * @return Boolean
      */
     isValid: function($super) {
+        if (this.errorEl) {
+            this.errorEl.__advicevalidateAjax = 1;
+            Validation.reset(this.errorEl);
+        }
         var result = this.beforeValidate();
         if (result) {
             return true;
@@ -1915,8 +2004,8 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         var methods = document.getElementsByName('payment[method]');
         if (methods.length==0) {
             var errorText = Translator.translate('Your order cannot be completed at this time as there is no payment methods available for it.');
-            if (this.container.down('.ajax-error')) {
-                Validation.ajaxError(this.container.down('.ajax-error'), errorText)
+            if (this.errorEl) {
+                Validation.ajaxError(this.errorEl, errorText)
             } else {
                 alert(errorText);
             }
@@ -1932,8 +2021,8 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
             return (arguments.length ? $super(arguments[0]) : $super());
         }
         var errorText = Translator.translate('Please specify payment method.');
-        if (this.container.down('.ajax-error')) {
-            Validation.ajaxError(this.container.down('.ajax-error'), errorText)
+        if (this.errorEl) {
+            Validation.ajaxError(this.errorEl, errorText);
         } else {
             alert(errorText);
         }
@@ -2015,7 +2104,8 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
                     }
                 }
             } else {
-                alert(result.error);
+                Validation.ajaxError(this.errorEl, result.error);
+                this.checkout.getStep('review').load();
             }
             
             return;
@@ -2386,6 +2476,19 @@ var RemoveItem = Class.create(ItemAction, {
         Event.stop(evt);
         var row = this.findRow(evt);
         this.ajaxRequest({item_id: row.info.item_id})
+    },
+    /**
+     * Handler for completion of item 
+     * action update request
+     * 
+     * @param Ajax.Response
+     * @return void
+     */
+    handleComplete: function ($super, response) {
+        $super(response);
+        if (this.checkout.getStep('shipping_method')) {
+            this.checkout.getStep('shipping_method').additionalLoad();
+        }
     }
 });
 
