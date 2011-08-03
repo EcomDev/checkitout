@@ -739,7 +739,7 @@ EcomDev.CheckItOut.Step = Class.create({
             var element = Event.element(evt);
             element.wasChanged = true;
             
-            if (this.autoValidate) {
+            if (this.autoValidate && ['change', 'click'].indexOf(evt.type) !== -1) {
                 Validation.validate.defer(element);
             }
         }
