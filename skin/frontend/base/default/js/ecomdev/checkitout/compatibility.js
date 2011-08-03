@@ -30,7 +30,6 @@ if (typeof window.EbizmartsSagePaySuite !== 'undefined') {
 // Change prototype scripts eval scope to global 
 String.prototype.evalScripts = function () {
   return this.extractScripts().map(function(script) { 
-     console.log(script);
      return window.globalEval(script);
   });
 };
