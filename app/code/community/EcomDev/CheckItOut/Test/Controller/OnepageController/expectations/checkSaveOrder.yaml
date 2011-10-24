@@ -1,0 +1,98 @@
+order_guest_different_shipping:
+  newsletter_subscribe: true
+  billing_result: []
+  shipping_result: []
+  shipping_method_result: []
+  payment_result: []
+  response: 
+    success: true
+  order: # Check some basic order information just to be sure it is saved correctly
+    info:
+      customer_comment: Thanks!
+      customer_firstname: test
+      customer_lastname: test
+      customer_email: test@ecomdev.org
+      base_subtotal: 16.98
+      base_grand_total: 26.98
+    billing:
+      firstname: test
+      lastname: test
+      address: [test 1]
+    shipping:
+      firstname: test
+      lastname: test
+      address: [test another]
+order_guest_disabled_newsletter_and_comment:
+  newsletter_subscribe: false
+  billing_result: []
+  shipping_result: []
+  shipping_method_result: []
+  payment_result: []
+  response: 
+    success: true
+  order: # Check some basic order information just to be sure it is saved correctly
+    info:
+      customer_comment: 
+      customer_firstname: test
+      customer_lastname: test
+      customer_email: test@ecomdev.org
+      base_subtotal: 16.98
+      base_grand_total: 26.98
+    billing:
+      firstname: test
+      lastname: test
+      address: [test 1]
+    shipping:
+      firstname: test
+      lastname: test
+      address: [test another]
+order_guest_virtual:
+  newsletter_subscribe: true
+  billing_result: []
+  payment_result: []
+  response: 
+    success: true
+  order: # Check some basic order information just to be sure it is saved correctly
+    info:
+      customer_comment: Thanks!
+      customer_firstname: test
+      customer_lastname: test
+      customer_email: test@ecomdev.org
+      base_subtotal: 11.97
+      base_grand_total: 11.97
+    billing:
+      firstname: test
+      lastname: test
+      address: [test 1]
+order_customer_same_shipping:
+  newsletter_subscribe: true
+  billing_result: []
+  shipping_method_result: []
+  payment_result: []
+  response:
+    success: true
+  order: 
+    info: 
+      customer_comment: Thanks!
+      customer_firstname: John
+      customer_lastname: Doe
+      base_subtotal: 16.98
+      base_grand_total: 26.98
+    billing:
+      fistname: John
+      lastname: Doe
+      country_id: US
+      region_id: 39
+      region_code: NV
+      region: Nevada
+      postcode: 89001
+      city: Alamo
+    shipping:
+      fistname: John
+      lastname: Doe
+      country_id: US
+      region_id: 39
+      region_code: NV
+      region: Nevada
+      postcode: 89001
+      city: Alamo
