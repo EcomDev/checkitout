@@ -1136,7 +1136,7 @@ EcomDev.CheckItOut.Step.Address = Class.create(EcomDev.CheckItOut.Step, {
         
         for (var i = 0, l = elements.length; i < l; i++) {
             if (elements[i].id) {
-                var fieldName = elements[i].indentify().replace(new RegExp('^' + this.code + ':'), '');
+                var fieldName = elements[i].identify().replace(new RegExp('^' + this.code + ':'), '');
                 elements[i].value = elementValues[fieldName] ? elementValues[fieldName] : '';
                 if (fieldName == 'country_id' && billingForm){
                     billingForm.elementChildLoad(elements[i]);
@@ -1895,7 +1895,13 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
     initCheckout: function ($super) {
         $super();
         this.content.insert({after: this.errorEl});
-        this.checkOneMethod();
+        this.loadedHash = false;
+        // Initial payment methods load
+        if (this.checkout.getStep('shipping_method')) {
+            this.checkout.reloadSteps(['shipping_method']);
+        } else {
+            this.checkout.reloadSteps(['billing']);
+        }
     },
     /**
      * Checks that it is a single method
@@ -1933,7 +1939,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
             fireAnEvent || document.body.fire('payment-method:switched', {method_code : method});
         }
         
-        if (!form || form.select('select','input', 'textarea').length) {
+        if (!form || form.select('select','input', 'textarea').length == 0) {
             this.handleChange({});
         }
         this.currentMethod = method;

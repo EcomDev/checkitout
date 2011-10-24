@@ -43,7 +43,7 @@ eav:
       visibility: 4         # Visible in Catalog & Search
 tables: 
   sales/quote: 
-    - quote_id: 1
+    - entity_id: 1
       store_id: 1
       is_active: 1
       customer_tax_class_id: 0
@@ -82,6 +82,7 @@ tables:
   sales/quote_address_shipping_rate:
     - rate_id: 1
       address_id: 2
+      quote_id: 1
       carrier: flatrate
       carrier_title: Flat Rate
       code: flatrate_flatrate
@@ -90,6 +91,7 @@ tables:
       method_title: Fixed
     - rate_id: 2
       address_id: 2
+      quote_id: 1
       carrier: flatrate
       carrier_title: Flat Rate
       code: flatrate_second
@@ -98,6 +100,7 @@ tables:
       method_title: Second Day
     - rate_id: 3
       address_id: 2
+      quote_id: 1
       carrier: flatrate
       carrier_title: Flat Rate
       code: flatrate_third

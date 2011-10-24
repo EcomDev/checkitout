@@ -24,9 +24,10 @@ eav:
       pasword_hash: d1bcc360d05a6bdd7484784f43660c88:hG
   customer_address:
     - entity_id: 1 # Let him to be a guy from Nevada
+      attribute_set_id: 0 # Fix issue with customer address entity
       customer_id: 1
       parent_id: 1
-      fistname: John
+      firstname: John
       lastname: Doe
       country_id: US
       region_id: 39
@@ -34,3 +35,5 @@ eav:
       region: Nevada
       postcode: 89001
       city: Alamo
+      telephone: 555-55-55
+      street: Address 123

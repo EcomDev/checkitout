@@ -1,19 +1,21 @@
 - # Address with valid data for guest checkout
   - address-valid-guest
   - guest
-  - firstname: test
+  - firstname: test # Billing address
     lastname: test
     email: test@ecomdev.org
+    street: [test 1]
     city: Test
     country_id: UA
     postcode: 0000
-    phone: 555-55-55
-  - firstname: test
+    telephone: 555-55-55
+  - firstname: test # Shipping address
     lastname: test
+    street: [test 1]
     city: Test
     country_id: UA
     postcode: 0000
-    phone: 555-55-55
+    telephone: 555-55-55
   - # Products in cart
     - 1
     - 2
@@ -29,14 +31,16 @@
   - firstname: test
     email: test@ecomdev.org
     city: Test
+    street: [test 1]
     country_id: UA
     postcode: 0000
-    phone: 555-55-55
+    telephone: 555-55-55
   - firstname: test
     city: Test
+    street: [test 1]
     country_id: UA
     postcode: 0000
-    phone: 555-55-55
+    telephone: 555-55-55
   - # Products in cart
     - 1
     - 2
@@ -51,10 +55,11 @@
   - firstname: test
     lastname: test
     email: test@ecomdev.org
+    street: [test 1]
     city: Test
     country_id: UA
     postcode: 0000
-    phone: 555-55-55
+    telephone: 555-55-55
     use_for_shipping: 1
   - null
   - # Products in cart

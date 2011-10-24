@@ -121,6 +121,18 @@ class EcomDev_CheckItOut_Test_Controller_OnepageController
         $this->checkoutSessionMock->getQuote()->collectTotals();
         $this->checkoutSessionMock->getQuote()->save();
 
+        $this->reloadQuoteInSession();
+
+        return $this;
+    }
+    
+    /**
+     * Reloads quote in session between requests
+     * 
+     * @return EcomDev_CheckItOut_Test_Controller_OnepageController
+     */
+    protected function reloadQuoteInSession()
+    {
         $this->checkoutSessionMock->setQuoteId($this->checkoutSessionMock->getQuote()->getId());
 
         if ($this->checkoutSessionMock->getQuote() instanceof PHPUnit_Framework_MockObject_MockObject) {
@@ -143,7 +155,6 @@ class EcomDev_CheckItOut_Test_Controller_OnepageController
         EcomDev_Utils_Reflection::setRestrictedPropertyValue(
             $this->checkoutSessionMock, '_quote', null
         );
-
         return $this;
     }
 
@@ -322,12 +333,7 @@ class EcomDev_CheckItOut_Test_Controller_OnepageController
         $this->assertLayoutHandleLoadedAfter('ecomdev_checkitout_layout', 'checkout_onepage_steps');
         $this->assertLayoutStructureForActivedFunctionality();
         $this->assertResponseBodyJson();
-        $expectedJson = array();
-        foreach ($steps as $step) {
-            $expectedJson[$step] = $this->getLayout()->getBlock('checkout.layout')->getStepBlockHtml($step);
-        }
-        $this->assertResponseBodyJsonMatch($expectedJson);
-
+       
         // Test that layout block is returned correctly
         $this->getRequest()->setQuery('isAjax', true);
         $this->dispatch('checkout/onepage/layout');
@@ -641,18 +647,19 @@ class EcomDev_CheckItOut_Test_Controller_OnepageController
         $this->assertRequestRoute('checkout/onepage/saveBilling');
         $this->assertRequestControllerModule($this->getModuleName());
         $this->assertNotRedirect('Request should not redirected');
-
+        
         $this->assertAddressData(
             $this->checkoutSessionMock->getQuote()->getBillingAddress(),
             $this->expected($dataSetName)->getBillingData()
         );
 
+        
         // If is use_for_shipping flag is check,
         // then we should check shipping address the same as billing
         if (!empty($billingData['use_for_shipping'])) {
             $this->assertAddressData(
                 $this->checkoutSessionMock->getQuote()->getShippingAddress(),
-                $this->expected($dataSetName)->getBillingData()
+                $this->expected($dataSetName)->getShippingSameAsBillingData()
             );
         }
 
@@ -663,7 +670,7 @@ class EcomDev_CheckItOut_Test_Controller_OnepageController
             $this->assertResponseBodyJsonMatch($expectedError);
         } else {
             // If billing save successfull then it should return empty array
-            $this->assertResponseBodyJsonMatch(array(), EcomDev_PHPUnit_Constraint_Json::MATCH_EXACT);
+            $this->assertResponseBodyJsonNotMatch(array('error' => 1));
         }
 
         // Check shipping data if dataprovider contains any information about it
@@ -686,7 +693,7 @@ class EcomDev_CheckItOut_Test_Controller_OnepageController
                 $expectedError = $this->expected($dataSetName)->getShippingError();
                 $this->assertResponseBodyJsonMatch($expectedError);
             } else {
-                $this->assertResponseBodyJsonMatch(array(), EcomDev_PHPUnit_Constraint_Json::MATCH_EXACT);
+                $this->assertResponseBodyJsonNotMatch(array('error' => 1));
             }
         }
     }
@@ -705,13 +712,15 @@ class EcomDev_CheckItOut_Test_Controller_OnepageController
      * @mockHelperMethod isCustomerCommentAllowed
      * @mockHelperMethod isNewsletterCheckboxDisplay
      * @loadFixture clear
-     * @loadFixture customer
+     * @loadFixture customers
      * @dataProvider dataProvider
      * @test
      */
     public function checkSaveOrder($dataSetName, array $options, array $postData,
         array $productIds, array $requestData)
     {
+        $this->setCurrentStore($this->app()->getAnyStoreView());
+        
         // Module functionality is activated
         $this->helperMethodStub($this->any(), 'isActive', true);
 
@@ -722,15 +731,24 @@ class EcomDev_CheckItOut_Test_Controller_OnepageController
         $this->helperMethodStub($this->once(), 'isNewsletterCheckboxDisplay', $options['allow_newsletter']);
 
         // Setting up newletter subscription mock
-        $newletterMock = $this->getModelMock('newletter/subscriber', array('subscribe'));
-        if ($this->expected($dataSetName)->getNewletterSubscribe()) {
+        $newletterMock = $this->getModelMock('newsletter/subscriber', array('subscribe'));
+        if ($this->expected($dataSetName)->getNewsletterSubscribe()) {
             $newletterMock->expects($this->once())
                 ->method('subscribe');
         } else {
             $newletterMock->expects($this->never())
                 ->method('subscribe');
         }
-
+        
+        // Emulate customer session
+        if (isset($options['customer_id'])) {
+            $customerSessionMock = $this->getModelMock('customer/session', array('__construct'));
+            $this->replaceByMock('model', 'customer/session', $customerSessionMock);
+            $customerSessionMock->loginById($options['customer_id']);
+        }
+        
+        $this->replaceByMock('model', 'newsletter/subscriber', $newletterMock);
+        
         // Add something to our cart
         $this->addProductsToCart($productIds, $requestData);
 
@@ -740,63 +758,67 @@ class EcomDev_CheckItOut_Test_Controller_OnepageController
 
         if (isset($options['billing'])) {
             // Saving billing address if needed before saving order
-            $error = Mage::getSingleton('checkout/type_onepage')
-                ->saveBilling($options['billing']);
+            $result = Mage::getSingleton('checkout/type_onepage')
+                ->saveBilling($options['billing'], (isset($options['billing_address_id']) ? $options['billing_address_id'] : null));
             $this->assertEquals(
-                $this->expected($dataSetName)->getBillingError(),
-                $error
+                $this->expected($dataSetName)->getBillingResult(),
+                $result
             );
+            
+            $this->reloadQuoteInSession();
         }
 
         if (isset($options['shipping'])) {
             // Saving shipping address if needed before saving order
-            $error = Mage::getSingleton('checkout/type_onepage')
-                ->saveBilling($options['shipping']);
+            $result = Mage::getSingleton('checkout/type_onepage')
+                ->saveShipping($options['shipping'], (isset($options['shipping_address_id']) ? $options['shipping_address_id'] : null));
             $this->assertEquals(
-                $this->expected($dataSetName)->getBillingError(),
-                $error
+                $this->expected($dataSetName)->getShippingResult(),
+                $result
             );
+            
+            $this->reloadQuoteInSession();
         }
+        
+        
 
-        if (!isset($options['shipping_method'])) {
+        if (isset($options['shipping_method'])) {
             // Saving shipping method if needed before saving order
-            $error = Mage::getSingleton('checkout/type_onepage')
+            $result = Mage::getSingleton('checkout/type_onepage')
                 ->saveShippingMethod($options['shipping_method']);
             $this->assertEquals(
-                $this->expected($dataSetName)->getShippingMethodError(),
-                $error
+                $this->expected($dataSetName)->getShippingMethodResult(),
+                $result
             );
+            
+            $this->reloadQuoteInSession();
         }
 
         if (isset($options['payment'])) {
             // Saving payment if needed before saving order
-            $error = Mage::getSingleton('checkout/type_onepage')
+            $result = Mage::getSingleton('checkout/type_onepage')
                 ->savePayment($options['payment']);
 
             $this->assertEquals(
-                $this->expected($dataSetName)->getPaymentError(),
-                $error
+                $this->expected($dataSetName)->getPaymentResult(),
+                $result
             );
+            
+            $this->reloadQuoteInSession();
         }
 
         $this->getRequest()->setMethod('POST')
                 ->setPost($postData);
 
-        // Create handler for obtaining created order object,
-        // for not loading it twice
         /* @var $createdOrder Mage_Sales_Model_Order */
         $createdOrder = false;
-        $orderCreationCallback = function ($observer) use ($createdOrder) {
-            $createdOrder = $observer->getEvent()->getOrder();
-        };
-        Mage::addObserver('checkout_submit_all_after', $orderCreationCallback, array(), 'checkitout_test');
 
         $this->dispatch('checkout/onepage/saveOrder');
 
-        // Remove our handler
-        Mage::getEvents()->getEventByName('checkout_submit_all_after')
-            ->removeObserverByName('checkitout_test');
-
+        if ($this->checkoutSessionMock->getLastOrderId()) {
+            $createdOrder = Mage::getModel('sales/order')->load($this->checkoutSessionMock->getLastOrderId());
+        }
+        
         $this->assertRequestRoute('checkout/onepage/saveOrder');
         $this->assertRequestControllerModule($this->getModuleName());
         $this->assertNotRedirect('Request should not be redirected');

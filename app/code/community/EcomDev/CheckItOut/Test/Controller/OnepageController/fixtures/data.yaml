@@ -1,3 +1,5 @@
+config:
+  default/shipping/carriers/flatrate/price: 5.00
 eav:
   catalog_product:
     - entity_id: 1
@@ -31,7 +33,7 @@ eav:
         - qty: 5
           value: 2.88
       stock:
-        qty: 2.00
+        qty: 50.00
         is_in_stock: 1
       website_ids:
         - base # default website
@@ -42,7 +44,7 @@ eav:
       status: 1             # Enabled
       visibility: 4         # Visible in Catalog & Search
     - entity_id: 3
-      type_id: simple
+      type_id: virtual
       sku: virtual
       name: Virtual Product
       short_description: Virtual Product

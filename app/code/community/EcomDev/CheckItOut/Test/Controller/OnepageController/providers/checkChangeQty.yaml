@@ -19,7 +19,7 @@
 - 
   - not-available-qty
   - # Changes qty to 5 for product with id 2
-    2: 5
+    2: 51
   - # Adding simple product
     - 2
   - # With qty 1
