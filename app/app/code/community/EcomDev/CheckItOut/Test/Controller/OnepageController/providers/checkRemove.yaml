@@ -1,9 +1,0 @@
-- 
-  - # Adding simple products
-    - 1
-    - 2
-  - # With qty 1
-    1:
-     qty: 1
-    2:
-     qty: 1

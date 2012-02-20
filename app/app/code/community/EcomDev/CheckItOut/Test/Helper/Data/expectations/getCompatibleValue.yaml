@@ -1,5 +1,0 @@
-template-default:
-  1.4.1: template14
-  1.5.0: template15
-template-two: 
-  1.5.0: template14 # Forced compatibility mode via config file

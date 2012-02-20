@@ -1,5 +1,0 @@
-valid-qty: []
-unknown-item:
-  error: Product was not found
-not-available-qty:
-  error: The requested quantity for "CD Case" is not available.

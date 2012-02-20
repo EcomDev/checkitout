@@ -1,4 +1,0 @@
-tables: 
-  sales/quote: [] # Clears quotes before running test case
-  sales/order: [] # Clears test orders before running test case
-  log/visitor: [] # Clears visitor data for our test case
