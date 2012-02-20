@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * CheckItOut extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category   EcomDev
+ * @package    EcomDev_CheckItOut
+ * @copyright  Copyright (c) 2011 EcomDev BV (http://www.ecomdev.org)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
+ */
+-->
+<config>
+    <sections>
+        <ecomdev_checkitout module="ecomdev_checkitout" translate="label">
+            <label>Check It Out Configuration</label>
+            <sort_order>200</sort_order>
+            <tab>sales</tab>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <settings translate="label">
+                    <label>Settings</label>
+                    <sort_order>100</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label comment">
+                            <label>Enabled</label>
+                            <comment>Replaces standart checkout functionality with CheckItOut extension</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <compatability_template translate="label comment">
+                            <label>Templates Compatibility</label>
+                            <comment>If you have Magento CE1.5/EE1.10 and higher but still using checkout templates from CE1.4/EE1.7-EE1.9, then please check this configuration value to "Yes"</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </compatability_template>
+                        <stored_addresses translate="label comment">
+                            <label>Stored Addresses</label>
+                            <comment>Enable this feature if you want allow not logged in users go back to cart/reload page and not loose entered address details.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>17</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </stored_addresses>
+                        <customer_comment translate="label comment">
+                            <label>Show Comment Field</label>
+                            <comment>This field allows customer to leave a comment for his order</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </customer_comment>
+                        <change_item_qty translate="label comment">
+                            <label>Allow Product Qty Change</label>
+                            <comment>If you want allow customer to change product quantity during the checkout, then enable this functionality. Sometimes required for passing store certification.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </change_item_qty>
+                        <remove_item translate="label comment">
+                            <label>Allow Product Removal</label>
+                            <comment>If you want allow customer to remove product during the checkout, then enable this functionality. Sometimes required for passing store certification.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </remove_item>
+                        <confirm_type translate="label comment">
+                            <label>Confirmation Type</label>
+                            <comment>Show confirmation checkbox or popup for confirming that customer checked all the items in the order. Sometimes required for passing store certification.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>ecomdev_checkitout/config_source_confirm_type</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </confirm_type>
+                        <confirm_text translate="label comment">
+                            <label>Confirmation Text</label>
+                            <comment>Text that will be displayed besides confirmation checkbox or on the confirmation button in popup</comment>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </confirm_text>
+                        <newsletter_checkbox translate="label comment">
+                            <label>Show Newsletter Checkbox</label>
+                            <comment>Enables customer newsletter subscribtion functionality on checkout review step.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </newsletter_checkbox>
+                        <newsletter_checkbox_checked translate="label">
+                            <label>Newsletter Checkbox Checked By Default</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </newsletter_checkbox_checked>
+                    </fields>
+                </settings>
+            </groups>
+        </ecomdev_checkitout>
+    </sections>
+</config>

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * CheckItOut extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category   EcomDev
+ * @package    EcomDev_CheckItOut
+ * @copyright  Copyright (c) 2011 EcomDev BV (http://www.ecomdev.org)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
+ */
+-->
+<config>
+    <modules>
+        <EcomDev_CheckItOut>
+            <version>0.1.0</version>
+        </EcomDev_CheckItOut>
+    </modules>
+    <global>
+        <blocks>
+            <ecomdev_checkitout>
+                <class>EcomDev_CheckItOut_Block</class>
+            </ecomdev_checkitout>
+        </blocks>
+        <helpers>
+            <ecomdev_checkitout>
+                <class>EcomDev_CheckItOut_Helper</class>
+            </ecomdev_checkitout>
+        </helpers>
+        <models>
+            <ecomdev_checkitout>
+                <class>EcomDev_CheckItOut_Model</class>
+            </ecomdev_checkitout>
+        </models>
+        <resources>
+            <ecomdev_checkitout_setup>
+                <setup>
+                    <module>EcomDev_CheckItOut</module>
+                    <class>EcomDev_CheckItOut_Model_Mysql4_Setup</class>
+                </setup>
+            </ecomdev_checkitout_setup>
+        </resources>
+        <fieldsets>
+            <sales_convert_quote>
+                <customer_comment><to_order>*</to_order></customer_comment>
+            </sales_convert_quote>
+        </fieldsets>
+    </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <EcomDev_CheckItOut>
+                    <files>
+                        <default>EcomDev_CheckItOut.csv</default>
+                    </files>
+                </EcomDev_CheckItOut>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <ecomdev_checkitout>
+                    <file>ecomdev/checkitout.xml</file>
+                </ecomdev_checkitout>
+            </updates>
+        </layout>
+    </adminhtml>
+    <frontend>
+        <events>
+            <controller_action_layout_render_before_checkout_onepage_index>
+                <observers>
+                    <ecomdev_checkitout>
+                        <model>ecomdev_checkitout/observer</model>
+                        <method>replacePrototypeLibrary</method>
+                    </ecomdev_checkitout>
+                </observers>
+            </controller_action_layout_render_before_checkout_onepage_index>
+        </events>
+        <layout>
+            <updates>
+                <ecomdev_checkitout>
+                    <file>ecomdev/checkitout.xml</file>
+                </ecomdev_checkitout>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <EcomDev_CheckItOut>
+                    <files>
+                        <default>EcomDev_CheckItOut.csv</default>
+                    </files>
+                </EcomDev_CheckItOut>
+            </modules>
+        </translate>
+        <routers>
+            <checkout>
+                <args>
+                    <modules>
+                        <ecomdev_checkitout before="Mage_Checkout">EcomDev_CheckItOut</ecomdev_checkitout>
+                    </modules>
+                </args>
+            </checkout>
+        </routers>
+    </frontend>
+    <ecomdev>
+        <checkitout>
+            <compatibility>
+                <!-- Compatibility definitions for extension code 
+                     template and code it is type of compatibility
+                     v14 v15 are modes
+                -->
+                
+                <template>
+                    <v14>
+                        <by_version>
+                            <minVersion>1.4.0</minVersion>
+                            <maxVersion>1.4.9</maxVersion>
+                        </by_version>
+                        <by_version_enterprise>
+                            <enterprise>1</enterprise>
+                            <minVersion>1.7.0</minVersion>
+                            <maxVersion>1.9.9</maxVersion>
+                        </by_version_enterprise>
+                        <by_forced_config>
+                            <minVersion>1.5.0</minVersion>
+                            <configFlag>ecomdev_checkitout/settings/compatibility_templates</configFlag>
+                        </by_forced_config>
+                        <by_forced_config_enterprise>
+                            <enterprise>1</enterprise>
+                            <minVersion>1.10.0</minVersion>
+                            <configFlag>ecomdev_checkitout/settings/compatibility_templates</configFlag>
+                        </by_forced_config_enterprise>
+                    </v14>
+                    <v15>
+                        <by_version>
+                            <minVersion>1.5.0</minVersion>
+                        </by_version>
+                        <by_version_enterprise>
+                            <enterprise>1</enterprise>
+                            <minVersion>1.10.0</minVersion>
+                        </by_version_enterprise>
+                    </v15>
+                </template>
+                <code>
+                    <v14>
+                        <by_version>
+                            <minVersion>1.4.0</minVersion>
+                            <maxVersion>1.4.9</maxVersion>
+                        </by_version>
+                        <by_version_enterprise>
+                            <enterprise>1</enterprise>
+                            <minVersion>1.7.0</minVersion>
+                            <maxVersion>1.9.9</maxVersion>
+                        </by_version_enterprise>
+                    </v14>
+                    <v15>
+                        <by_version>
+                            <minVersion>1.5.0</minVersion>
+                        </by_version>
+                        <by_version_enterprise>
+                            <enterprise>1</enterprise>
+                            <minVersion>1.10.0</minVersion>
+                        </by_version_enterprise>
+                    </v15>
+                </code>
+            </compatibility>
+            <!-- Hashing defintions for different steps in checkout
+                 Created to minimize number of AJAX requests during checkout -->
+            <steps>
+                <shipping_method>
+                    <hash>
+                        <rate>ecomdev_checkitout/hash_quote_address_rate</rate>
+                    </hash>
+                </shipping_method>
+                <payment>
+                    <hash>
+                        <method>ecomdev_checkitout/hash_quote_payment</method>
+                        <item>ecomdev_checkitout/hash_quote_item</item>
+                        <total>ecomdev_checkitout/hash_quote_total</total>
+                    </hash>
+                </payment>
+                <review>
+                    <hash>
+                        <item>ecomdev_checkitout/hash_quote_item</item>
+                        <total>ecomdev_checkitout/hash_quote_total</total>
+                    </hash>
+                </review>
+            </steps>
+        </checkitout>
+    </ecomdev>
+    <phpunit>
+        <suite>
+            <modules>
+                <EcomDev_CheckItOut />
+            </modules>
+        </suite>
+    </phpunit>
+    <default>
+        <ecomdev_checkitout>
+            <settings>
+                <confirm_type>popup</confirm_type>
+                <confirm_text><![CDATA[I have reviewed my order and confirm that all information is correct]]></confirm_text>
+                <stored_addresses>1</stored_addresses>
+            </settings>
+        </ecomdev_checkitout>
+    </default>
+</config>

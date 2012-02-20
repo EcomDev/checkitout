@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+ /**
+  * Module bootstrap file
+  * 
+  */
+ -->
+<config>
+    <modules>
+        <EcomDev_CheckItOut>
+            <codePool>community</codePool>
+            <active>true</active>
+        </EcomDev_CheckItOut>
+    </modules>
+</config>

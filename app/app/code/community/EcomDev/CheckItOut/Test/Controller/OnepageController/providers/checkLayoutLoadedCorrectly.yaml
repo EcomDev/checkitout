@@ -1,0 +1,20 @@
+- 
+  - # Adding simple products
+    - 1
+    - 2
+  - # Both of them with qty 1
+    1:
+     qty: 1
+    2:
+     qty: 1
+  - # Steps that will be checked for reload
+    - shipping_method
+    - payment
+- 
+  - # Adding virtual product
+    - 3
+  - # Both of them with qty 1
+    3:
+     qty: 1
+  - # Steps that will be checked for reload
+    - payment

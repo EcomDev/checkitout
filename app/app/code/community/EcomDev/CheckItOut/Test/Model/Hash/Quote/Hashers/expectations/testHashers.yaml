@@ -1,0 +1,19 @@
+ecomdev_checkitout:
+  hash_quote_item:
+    1:
+      - book;2;12.99;25.98
+      - cd-case;3;2.99;8.97
+  hash_quote_total:
+    1:
+      - subtotal;Subtotal;34.95
+      - shipping;Shipping & Handling (Flat Rate - Fixed);5.00
+      - grand_total;Grand Total;39.95
+  hash_quote_address_rate:
+    1:
+      - flatrate_flatrate;Flat Rate;Fixed;5.00
+      - flatrate_second;Flat Rate;Second Day;4.00
+      - flatrate_third;Flat Rate;Third Day;3.00
+  hash_quote_payment:
+    1:
+      - US
+      - flatrate_flatrate

@@ -1,0 +1,47 @@
+<?php
+/**
+ * CheckItOut extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category   EcomDev
+ * @package    EcomDev_CheckItOut
+ * @copyright  Copyright (c) 2011 EcomDev BV (http://www.ecomdev.org)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
+ */
+
+?>
+<div  class="order-review" id="checkout-review-load">
+    <?php echo $this->getChildHtml('info') ?>
+    <div class="empty"></div>
+</div>
+
+<?php if ($this->helper('ecomdev_checkitout')->isChangeItemQtyAllowed()):?>
+<div id="change-item-qty-template" style="display:none">
+    <span class="change-qty">
+       <input type="text" class="qty" value="" />
+    </span>
+</div>
+<?php endif;?>
+
+<?php if ($this->helper('ecomdev_checkitout')->isRemoveItemAllowed()):?>
+<div id="remove-item-template" style="display:none">
+    <span class="remove-item"><a href="#" title="<?php echo $this->__('Remove item')?>" class="btn-remove btn-remove2"><?php echo $this->__('Remove item')?></a></span>
+</div>
+<?php endif;?>
+
+<script type="text/javascript">
+//<![CDATA[
+    var review = new Review('<?php echo $this->getUrl('checkout/onepage/review') ?>', 'checkout-review-load', '<?php echo $this->getUrl('checkout/onepage/saveOrder') ?>', '<?php echo $this->getUrl('checkout/onepage/success') ?>',
+                            'checkout-agreements', 'change-item-qty-template', 'remove-item-template',
+                            '<?php echo $this->getUrl('checkout/onepage/changeqty') ?>',
+                            '<?php echo $this->getUrl('checkout/onepage/remove') ?>'
+    );
+//]]>
+</script>

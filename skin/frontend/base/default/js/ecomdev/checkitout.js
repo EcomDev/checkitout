@@ -424,11 +424,17 @@ EcomDev.CheckItOut = Class.create({
      */
     forcedSubmit: function () {
         this.showMask();
-        new Ajax.Request(this.config.save, {
-            parameters: this.getParameters(),
-            method: 'POST',
-            onComplete: this.submitComplete.bind(this) 
-        });
+        if (this.paymentRedirect) { 
+            // Support for payment methods,
+            // that have own checkout process
+            window.location = this.paymentRedirect;
+        } else {
+            new Ajax.Request(this.config.save, {
+                parameters: this.getParameters(),
+                method: 'POST',
+                onComplete: this.submitComplete.bind(this) 
+            });
+        }
     },
     /**
      * Check that checkout forms is valid for submitting
@@ -1942,7 +1948,12 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         if (!form || form.select('select','input', 'textarea').length == 0) {
             this.handleChange({});
         }
+        
+        if (this.currentMethod != method) {
+            this.checkout.paymentRedirect = false;
+        }
         this.currentMethod = method;
+        
     },
     /**
      * Change payment form visibility
@@ -2100,6 +2111,11 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
                 var result = {};
             }
         }
+        
+        if (result.redirect) {
+            this.checkout.paymentRedirect = result.redirect;
+        }
+        
         if (result.error){
             if (result.fields) {
                 var fields = result.fields.split(',');
@@ -2113,6 +2129,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
                 Validation.ajaxError(this.errorEl, result.error);
                 this.checkout.getStep('review').load();
             }
+            
             
             return;
         }

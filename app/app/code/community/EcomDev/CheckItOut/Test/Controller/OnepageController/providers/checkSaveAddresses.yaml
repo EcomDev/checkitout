@@ -1,0 +1,72 @@
+- # Address with valid data for guest checkout
+  - address-valid-guest
+  - guest
+  - firstname: test # Billing address
+    lastname: test
+    email: test@ecomdev.org
+    street: [test 1]
+    city: Test
+    country_id: UA
+    postcode: 0000
+    telephone: 555-55-55
+  - firstname: test # Shipping address
+    lastname: test
+    street: [test 1]
+    city: Test
+    country_id: UA
+    postcode: 0000
+    telephone: 555-55-55
+  - # Products in cart
+    - 1
+    - 2
+  - # Both of them with qty 1
+    1:
+     qty: 1
+    2:
+     qty: 1
+-  # Address with not valid data for guest checkout, 
+   # should notice error in billing address, but data should be saved
+  - address-error-guest
+  - guest
+  - firstname: test
+    email: test@ecomdev.org
+    city: Test
+    street: [test 1]
+    country_id: UA
+    postcode: 0000
+    telephone: 555-55-55
+  - firstname: test
+    city: Test
+    street: [test 1]
+    country_id: UA
+    postcode: 0000
+    telephone: 555-55-55
+  - # Products in cart
+    - 1
+    - 2
+  - # Both of them with qty 1
+    1:
+     qty: 1
+    2:
+     qty: 1
+-  # Address with valid data for guest checkout and shipping to billing address
+  - address-valid-guest-ship-to-billing
+  - guest
+  - firstname: test
+    lastname: test
+    email: test@ecomdev.org
+    street: [test 1]
+    city: Test
+    country_id: UA
+    postcode: 0000
+    telephone: 555-55-55
+    use_for_shipping: 1
+  - null
+  - # Products in cart
+    - 1
+    - 2
+  - # Both of them with qty 1
+    1:
+     qty: 1
+    2:
+     qty: 1

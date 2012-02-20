@@ -1,0 +1,35 @@
+<?php
+/**
+ * CheckItOut extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category   EcomDev
+ * @package    EcomDev_CheckItOut
+ * @copyright  Copyright (c) 2011 EcomDev BV (http://www.ecomdev.org)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
+ */
+ /**
+  * Order comment template in the admin
+  *
+  * Uses Java Script for adding order comment to order info tab beacause
+  * it will not brake other customizations
+  *
+  */
+ /* @var $this Mage_Adminhtml_Block_Sales_Order_View_History */
+?>
+<?php if (trim($this->getOrder()->getCustomerComment())):?>
+<script type="text/javascript">
+var formTable = $('order-messages').next('.box-left').down('.form-list');
+var trElement = new Element('tr',{});
+trElement.insert(new Element('td', {'class':'label'}).update('<' + 'label>' + '<?php echo $this->jsQuoteEscape($this->helper('ecomdev_checkitout')->__('Customer Comment'));?>' + '</' + 'label' + '>'));
+trElement.insert(new Element('td').update('<' + 'strong' + '>' + '<?php echo $this->jsQuoteEscape($this->htmlEscape($this->getOrder()->getCustomerComment()));?>' + '<' + '/strong' + '>'));
+formTable.down('tbody').insert(trElement);
+</script>
+<?php endif; ?>

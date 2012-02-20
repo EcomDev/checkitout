@@ -1,0 +1,7 @@
+- 
+  - 1 # John Doe with addresses
+  - # Adding simple product
+    - 1
+  - # With qty 1
+    1:
+     qty: 1
