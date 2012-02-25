@@ -18,5 +18,19 @@
  /**
   * Checkout layout step template
   */
- /* @var $this EcomDev_CheckItOut_Block_Checkout_Layout_Step_Abstract */
+ /* @var $this EcomDev_CheckItOut_Block_Layout_Step_Abstract */
 ?>
+<?php if ($this->isVisible()): ?>
+<div class="<?php echo $this->escapeHtml($this->getClassName());?> <?php if ($this->getPositionCode()): ?><?php echo $this->escapeHtml($this->getPositionCode());?><?php endif;?>" id="checkout-step-<?php echo $this->getStepCode();?>">
+    <?php if ($this->getStepName()): ?>
+    <div class="step-header" id="checkout-step-<?php echo $this->getStepCode();?>-header">
+        <?php if($this->getStepNumber() != 0): ?><span class="number"><?php echo $this->escapeHtml($this->getStepNumber()); ?></span><?php endif;?>
+        <?php echo $this->escapeHtml($this->getStepName()); ?>
+    </div>
+    <?php endif; ?>
+    <div class="step-content" id="checkout-step-<?php echo $this->getStepCode();?>-content"><?php echo $this->getStepContent(); ?></div>
+    <?php if ($this->hasLoadingOverlay()):?>
+    <div class="step-loading" style="display:none;"><span><img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Loading step data...') ?>" title="<?php echo $this->__('Loading step data...') ?>" class="v-middle" /> <?php echo $this->__('Loading step data...') ?></span></div>
+    <?php endif;?>
+</div>
+<?php endif;?>

@@ -60,6 +60,11 @@ class EcomDev_CheckItOut_Test_Block_Layout_Step_Abstract extends EcomDev_PHPUnit
         $this->assertAttributeSame($expectedReturnValue, '_checkoutBlock', $this->block);
     }
 
+    /**
+     * Check that step block is retrieved correctly
+     *
+     *
+     */
     public function testGetStepBlock()
     {
         $stepBlock = $this->getBlockMockBuilder('checkout/onepage_billing')
@@ -93,7 +98,7 @@ class EcomDev_CheckItOut_Test_Block_Layout_Step_Abstract extends EcomDev_PHPUnit
     }
 
     /**
-     *
+     * Tests logic for step number incrementation
      *
      */
     public function testGetStepNumber()
@@ -112,6 +117,20 @@ class EcomDev_CheckItOut_Test_Block_Layout_Step_Abstract extends EcomDev_PHPUnit
         // Check that value is cached in memory
         $this->assertEquals(2, $anotherBlock->getStepNumber());
         $this->assertAttributeEquals(2, '_stepNumber', 'EcomDev_CheckItOut_Block_Layout_Step_Abstract');
+    }
+
+    /**
+     * Check that loading overlay property is retrieved correctly
+     */
+    public function testHasLoadingOverlay()
+    {
+        $this->assertAttributeSame(true, '_hasLoadingOverlay', $this->block);
+        $this->assertTrue($this->block->hasLoadingOverlay());
+        EcomDev_Utils_Reflection::setRestrictedPropertyValue(
+            $this->block, '_hasLoadingOverlay', null
+        );
+        $this->assertFalse($this->block->hasLoadingOverlay());
+        $this->assertAttributeSame(null, '_hasLoadingOverlay', $this->block);
     }
 
     /**
@@ -162,9 +181,9 @@ class EcomDev_CheckItOut_Test_Block_Layout_Step_Abstract extends EcomDev_PHPUnit
         $this->block->setStepCode('billing');
         $this->assertAttributeSame(null, '_classNames', $this->block);
         $this->block->addClassName('test');
-        $this->assertAttributeSame(array('step', 'step-billing', 'test'), '_classNames', $this->block);
+        $this->assertAttributeSame(array('checkout-step', 'checkout-step-billing', 'test'), '_classNames', $this->block);
         $this->block->addClassName('test2');
-        $this->assertAttributeSame(array('step', 'step-billing', 'test', 'test2'), '_classNames', $this->block);
+        $this->assertAttributeSame(array('checkout-step', 'checkout-step-billing', 'test', 'test2'), '_classNames', $this->block);
     }
 
     /**
@@ -176,23 +195,23 @@ class EcomDev_CheckItOut_Test_Block_Layout_Step_Abstract extends EcomDev_PHPUnit
     {
         EcomDev_Utils_Reflection::setRestrictedPropertyValue(
             $this->block, '_classNames',
-            array('step', 'step-billing', 'test', 'test2')
+            array('checkout-step', 'checkout-step-billing', 'test', 'test2')
         );
 
         // Removes test without problems
         $this->block->removeClassName('test');
-        $this->assertAttributeSame(array('step', 'step-billing', 'test2'), '_classNames', $this->block);
+        $this->assertAttributeSame(array('checkout-step', 'checkout-step-billing', 'test2'), '_classNames', $this->block);
         // Removes billing step class
-        $this->block->removeClassName('step-billing');
-        $this->assertAttributeSame(array('step', 'test2'), '_classNames', $this->block);
+        $this->block->removeClassName('checkout-step-billing');
+        $this->assertAttributeSame(array('checkout-step', 'test2'), '_classNames', $this->block);
         // Removes nothing
         $this->block->removeClassName('test2');
-        $this->assertAttributeSame(array('step'), '_classNames', $this->block);
+        $this->assertAttributeSame(array('checkout-step'), '_classNames', $this->block);
         // Not removes non-existent class
         $this->block->removeClassName('something');
-        $this->assertAttributeSame(array('step'), '_classNames', $this->block);
+        $this->assertAttributeSame(array('checkout-step'), '_classNames', $this->block);
         // Removes last class
-        $this->block->removeClassName('step');
+        $this->block->removeClassName('checkout-step');
         $this->assertAttributeSame(array(), '_classNames', $this->block);
         // Check non failure with empty array
         $this->block->removeClassName('something');
@@ -208,8 +227,8 @@ class EcomDev_CheckItOut_Test_Block_Layout_Step_Abstract extends EcomDev_PHPUnit
     {
         $this->block->setStepCode('billing');
         $this->assertAttributeSame(null, '_classNames', $this->block);
-        $this->assertSame('step step-billing', $this->block->getClassName());
-        $this->assertAttributeSame(array('step', 'step-billing'), '_classNames', $this->block);
+        $this->assertSame('checkout-step checkout-step-billing', $this->block->getClassName());
+        $this->assertAttributeSame(array('checkout-step', 'checkout-step-billing'), '_classNames', $this->block);
         EcomDev_Utils_Reflection::setRestrictedPropertyValue(
             $this->block, '_classNames', null
         );

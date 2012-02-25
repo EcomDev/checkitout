@@ -81,6 +81,14 @@
                     </ecomdev_checkitout>
                 </observers>
             </controller_action_layout_render_before_checkout_onepage_index>
+            <controller_action_predispatch_checkout_cart_index>
+                <observers>
+                    <ecomdev_checkitout>
+                        <model>ecomdev_checkitout/observer</model>
+                        <method>redirectShoppingCartToCheckout</method>
+                    </ecomdev_checkitout>
+                </observers>
+            </controller_action_predispatch_checkout_cart_index>
         </events>
         <layout>
             <updates>
@@ -110,6 +118,41 @@
     </frontend>
     <ecomdev>
         <checkitout>
+            <layout>
+                <default translate="label" module="ecomdev_checkitout">
+                    <label>Default Layout</label>
+                    <handle>ecomdev_checkitout_layout_default</handle>
+                </default>
+                <two_columns translate="label" module="ecomdev_checkitout">
+                    <label>Two Column Layout</label>
+                    <handles>
+                        <default>ecomdev_checkitout_layout_default</default>
+                        <custom>ecomdev_checkitout_layout_two_column</custom>
+                    </handles>
+                </two_columns>
+            </layout>
+            <css>
+                <default translate="label" module="ecomdev_checkitout">
+                    <label>Default Skin Style</label>
+                    <css>
+                        <base>css/ecomdev/checkitout/base.css</base>
+                        <theme>css/ecomdev/checkitout/default.css</theme>
+                    </css>
+                </default>
+                <blue translate="label" module="ecomdev_checkitout">
+                    <label>Blue Skin Style</label>
+                    <css>
+                        <base>css/ecomdev/checkitout/base.css</base>
+                        <theme>css/ecomdev/checkitout/blue.css</theme>
+                    </css>
+                </blue>
+                <custom translate="label" module="ecomdev_checkitout">
+                    <label>Custom Style</label>
+                    <css>
+                        <base>css/ecomdev/checkitout/base.css</base>
+                    </css>
+                </custom>
+            </css>
             <compatibility>
                 <!-- Compatibility definitions for extension code 
                      template and code it is type of compatibility
@@ -208,6 +251,11 @@
                 <confirm_text><![CDATA[I have reviewed my order and confirm that all information is correct]]></confirm_text>
                 <stored_addresses>1</stored_addresses>
             </settings>
+            <hidden>
+                <shipping_method>0</shipping_method>
+                <payment_method>0</payment_method>
+                <coupon_code>1</coupon_code>
+            </hidden>
         </ecomdev_checkitout>
     </default>
 </config>

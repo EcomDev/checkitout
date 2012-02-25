@@ -25,7 +25,7 @@
         <reference name="head">
             <action method="addItem"><type>skin_js</type><file>js/ecomdev/checkitout.js</file></action>
             <action method="addItem"><type>skin_js</type><file>js/ecomdev/checkitout/compatibility.js</file></action>
-            <action method="addItem"><type>skin_css</type><file>css/ecomdev/checkitout.css</file></action>
+            <block type="ecomdev_checkitout/css" name="checkitout.css" />
         </reference>
         
         <remove name="left" />
@@ -33,25 +33,149 @@
         
         <reference name="content">
             <action method="unsetChild"><alias>checkout.onepage</alias></action>
-            <block name="checkout.layout" type="ecomdev_checkitout/checkout_layout" template="ecomdev/checkitout/layout.phtml">
-                <action method="applyStoredAddresses" ifconfig="ecomdev_checkitout/settings/stored_addresses"></action>
-                <block name="checkout.confirm" as="confirm" type="checkout/onepage_review" template="ecomdev/checkitout/confirm.phtml" />
-            </block>
+            <block name="checkitout.top.js" type="ecomdev_checkitout/js" template="ecomdev/checkitout/js/top.phtml" />
+        </reference>
+
+        <reference name="checkout.onepage.review">
+            <action method="setTemplate"><template>ecomdev/checkitout/review.phtml</template></action>
         </reference>
 
         <reference name="checkout.onepage.login">
             <action method="setTemplate"><template>ecomdev/checkitout/login.phtml</template></action>
         </reference>
-        
-        <reference name="checkout.onepage.review">
-            <action method="setTemplate"><template>ecomdev/checkitout/review.phtml</template></action>
-        </reference>
     </ecomdev_checkitout_skeleton>
-    
+
+    <ecomdev_checkitout_layout_default>
+        <reference name="content">
+            <block name="checkout.layout" type="core/template" template="ecomdev/checkitout/layout/container.phtml">
+
+                <block name="checkout.layout.top" as="container_top"  type="ecomdev_checkitout/layout_step_container" template="ecomdev/checkitout/layout/header.phtml">
+                    <action method="addClassName"><class>checkout-top</class></action>
+                    <block name="checkout.step.login"  type="ecomdev_checkitout/layout_step_login" template="ecomdev/checkitout/layout/step/default.phtml">
+                        <action method="setStepName"><name><![CDATA[]]></name></action>
+                        <action method="setStepCode"><code>login</code></action>
+                    </block>
+                </block>
+
+                <block name="checkout.layout.middle" as="container_middle" type="ecomdev_checkitout/layout_step_container" template="ecomdev/checkitout/layout/step/container/list.phtml">
+                    <action method="addClassName"><class>max-height</class></action>
+
+                    <block name="checkout.layout.left" type="ecomdev_checkitout/layout_step_container" template="ecomdev/checkitout/layout/step/container/list.phtml">
+                        <action method="addClassName"><class>checkout-left</class></action>
+                        <block name="checkout.layout.address" type="ecomdev_checkitout/layout_step_container" template="ecomdev/checkitout/layout/step/container/step.phtml">
+                            <action method="addClassName"><class>container-address</class></action>
+                            <action method="addClassName"><class>checkout-step</class></action>
+                            <action method="removeClassName"><class>container</class></action>
+                            <action method="setStepCode"><class>address</class></action>
+                            <action method="setStepName" translate="name" module="ecomdev_checkitout"><name>Address</name></action>
+                            <block name="checkout.layout.billing" type="ecomdev_checkitout/layout_step_address" template="ecomdev/checkitout/layout/step/default.phtml">
+                                <action method="setStepCode"><code>billing</code></action>
+                                <action method="setStepNumber"><number>0</number></action>
+                                <action method="initAddress" />
+                            </block>
+                            <block name="checkout.layout.shipping" type="ecomdev_checkitout/layout_step_address" template="ecomdev/checkitout/layout/step/default.phtml">
+                                <action method="setStepCode"><code>shipping</code></action>
+                                <action method="setIsVisibleForVirtual"><flag>0</flag></action>
+                                <action method="setStepNumber"><number>0</number></action>
+                                <action method="initAddress" />
+                            </block>
+                        </block>
+                    </block>
+
+                    <block name="checkout.layout.right" type="ecomdev_checkitout/layout_step_container" template="ecomdev/checkitout/layout/step/container/list.phtml">
+                        <action method="addClassName"><class>checkout-right</class></action>
+                        <action method="addClassNameForStepCount"><class>one</class><count>1</count></action>
+                        <action method="addClassNameForStepCount"><class>two</class><count>2</count></action>
+
+                        <block name="checkout.layout.methods" type="ecomdev_checkitout/layout_step_container" template="ecomdev/checkitout/layout/step/container/list.phtml">
+                            <action method="addClassName"><class>methods</class></action>
+                            <action method="addClassNameForStepCount"><class>one</class><count>1</count></action>
+                            <action method="addClassNameForStepCount"><class>two</class><count>2</count></action>
+
+                            <action method="setUsePositionCode"><flag>1</flag></action>
+
+                            <block name="checkout.layout.shipping_method" type="ecomdev_checkitout/layout_step_shipping_method" template="ecomdev/checkitout/layout/step/default.phtml">
+                                <action method="setStepCode"><code>shipping_method</code></action>
+                                <action method="setIsVisibleForVirtual"><flag>0</flag></action>
+                            </block>
+
+                            <block name="checkout.layout.payment" type="ecomdev_checkitout/layout_step_payment" template="ecomdev/checkitout/layout/step/default.phtml">
+                                <action method="setStepCode"><code>payment</code></action>
+                            </block>
+                        </block>
+                        <block name="checkout.layout.review.container" type="ecomdev_checkitout/layout_step_container" template="ecomdev/checkitout/layout/step/container/list.phtml">
+                            <action method="addClassName"><class>review-container</class></action>
+                            <action method="addClassNameForStepCount"><class>one</class><count>1</count></action>
+                            <action method="addClassNameForStepCount"><class>two</class><count>2</count></action>
+                            <action method="addClassNameForStepCount"><class>three</class><count>3</count></action>
+                            <action method="addClassNameForStepCount"><class>four</class><count>4</count></action>
+
+                            <!-- Not yet finished 
+                            <block name="checkitout.layout.coupon.container" type="ecomdev_checkitout/layout_step_container" template="ecomdev/checkitout/layout/step/container.phtml">
+                                <action method="setStepName" translate="name" module="ecomdev_checkitout"><name>Special Promotion Codes</name></action>
+                                <action method="addClassName"><class>promotions</class></action>
+                                <action method="addClassNameForStepCount"><class>one</class><count>1</count></action>
+                                <action method="addClassNameForStepCount"><class>two</class><count>2</count></action>
+                                <block name="checkitout.layout.coupon" type="ecomdev_checkitout/layout_step_coupon" template="ecomdev/checkitout/layout/step/coupon.phtml" />
+                            </block>
+                            -->
+                            <block name="checkitout.layout.review" type="ecomdev_checkitout/layout_step_default" template="ecomdev/checkitout/layout/step/default.phtml">
+                                <action method="setStepCode"><code>review</code></action>
+                            </block>
+                        </block>
+                    </block>
+                </block>
+                
+                <block name="checkout.layout.bottom" as="container_bottom"  type="core/text_list">
+                    <block name="checkout.step.confirm"  type="ecomdev_checkitout/layout_step_default" template="ecomdev/checkitout/layout/step/confirm.phtml">
+                        <action method="setStepName" translate="name" module="ecomdev_checkitout"><name>Check Order Information</name></action>
+                    </block>
+                    <block name="checkout.js" type="ecomdev_checkitout/js"  template="ecomdev/checkitout/js/bottom.phtml" />
+                </block>
+            </block>
+        </reference>
+    </ecomdev_checkitout_layout_default>
+
+    <ecomdev_checkitout_layout_two_column>
+        <!-- removing exiting blocks from old containers -->
+        <action method="unsetChildren" block="checkout.layout.right" />
+        <action method="setTemplate" block="checkout.layout.address"><template>ecomdev/checkitout/layout/step/container/list.phtml</template></action>
+        <action method="removeClassName" block="checkout.layout.address"><class>checkout-step</class></action>
+        <action method="removeClassName" block="checkout.layout.address"><class>container-address</class></action>
+        <action method="addClassNameForStepCount" block="checkout.layout.address"><class>one</class><count>1</count></action>
+        <action method="addClassNameForStepCount" block="checkout.layout.address"><class>two</class><count>2</count></action>
+        <action method="addClassName" block="checkout.layout.shipping"><class>max-height</class></action>
+        <action method="setUsePositionCode" block="checkout.layout.address"><flag>1</flag></action>
+        <action method="addClassName" block="checkout.layout.methods"><class>max-height</class></action>
+        <action method="addClassName" block="checkout.layout.methods"><class>clearer</class></action>
+        <action method="unsetData" block="checkout.layout.billing"><code>step_number</code></action>
+        <action method="unsetData" block="checkout.layout.shipping"><code>step_number</code></action>
+        <reference name="checkout.layout.middle">
+            <action method="unsetChildren"></action>
+            <action method="removeClassName"><code>max-height</code></action>
+            <action method="addClassName"><code>checkout-single</code></action>
+            <action method="append"><block>checkout.layout.address</block></action>
+            <action method="append"><block>checkout.layout.methods</block></action>
+            <action method="append"><block>checkout.layout.review.container</block></action>
+        </reference>
+    </ecomdev_checkitout_layout_two_column>
+
+    <ecomdev_checkitout_layout_default_enterprise>
+        <reference name="checkitout.layout.coupon.container">
+            <action method="setStepName" translate="name" module="ecomdev_checkitout"><name>Special Promotion Codes &amp; Gift Cards</name></action>
+            <block name="checkitout.layout.coupon.giftcard" type="ecomdev_checkitout/layout_step_coupon" template="ecomdev/checkitout/layout/step/gifcard.phtml" />
+        </reference>
+    </ecomdev_checkitout_layout_default_enterprise>
+
     <!-- old depracated type of checkout -->
     <ecomdev_checkitout_layout>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><file>css/ecomdev/checkitout.css</file></action>
+        </reference>
         <reference name="content">
-            <reference name="checkout.layout">
+            <block name="checkout.layout" type="ecomdev_checkitout/checkout_layout" template="ecomdev/checkitout/layout.phtml">
+                <action method="applyStoredAddresses" ifconfig="ecomdev_checkitout/settings/stored_addresses"></action>
+                <block name="checkout.confirm" as="confirm" type="checkout/onepage_review" template="ecomdev/checkitout/confirm.phtml" />
                 <action method="setTemplate"><template>ecomdev/checkitout/layout.phtml</template></action>
                 <action method="addCheckoutStepToLayout"><layout>top</layout><step>login</step></action>
                 <action method="addCheckoutStepToLayout"><layout>address</layout><step>billing</step></action>
@@ -60,7 +184,7 @@
                 <action method="addCheckoutStepToLayout"><layout>right</layout><step>payment</step><virtual>0</virtual></action>
                 <action method="addCheckoutStepToLayout"><layout>right-bottom</layout><step>payment</step><virtual>1</virtual></action>
                 <action method="addCheckoutStepToLayout"><layout>right-bottom</layout><step>review</step></action>
-            </reference>
+            </block>
         </reference>
     </ecomdev_checkitout_layout>
     

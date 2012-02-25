@@ -74,6 +74,23 @@ class EcomDev_CheckItOut_Test_Helper_Data extends EcomDev_PHPUnit_Test_Case
     }
 
     /**
+     * Checks that coupone is enabled
+     *
+     * @param $store
+     * @dataProvider dataProvider
+     * @test
+     * @loadExpectation settings
+     */
+    public function isCouponEnabled($store)
+    {
+        $this->setCurrentStore($store);
+        $this->assertSame(
+            $this->expected($store)->getIsCouponEnabled(),
+            $this->helper->isCouponEnabled()
+        );
+    }
+
+    /**
      * Test that confirmation type is checkbox
      *
      * @param string $store
@@ -316,5 +333,50 @@ class EcomDev_CheckItOut_Test_Helper_Data extends EcomDev_PHPUnit_Test_Case
             $this->expected($store)->getDefaultCountry(),
             $this->helper->getDefaultCountry()
         );
+    }
+
+    /**
+     * Check that shipping method is hidden
+     *
+     * @param string $store
+     * @dataProvider dataProvider
+     * @loadExpectation settings
+     * @test
+     */
+    public function isShippingMethodHidden($store)
+    {
+        $this->setCurrentStore($store);
+        $this->assertEquals(
+            $this->helper->isShippingMethodHidden(),
+            $this->expected($store)->getIsShippingMethodHidden()
+        );
+    }
+
+    /**
+     * Check that shipping method is hidden
+     *
+     * @param string $store
+     * @dataProvider dataProvider
+     * @loadExpectation settings
+     * @test
+     */
+    public function isPaymentMethodHidden($store)
+    {
+        $this->setCurrentStore($store);
+        $this->assertEquals(
+            $this->helper->isPaymentMethodHidden(),
+            $this->expected($store)->getIsPaymentMethodHidden()
+        );
+    }
+
+    /**
+     * Checks if current Magento version has Enterprise_Enterprise module
+     *
+     * @return bool
+     */
+    public function isEnterprise()
+    {
+        $isReallyEnterprise = $this->app()->getConfig()->getNode('modules/Enterprise_Enterprise') !== false;
+        $this->assertSame($isReallyEnterprise, $this->helper->isEnterprise());
     }
 }

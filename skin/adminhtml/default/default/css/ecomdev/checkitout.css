@@ -1,0 +1,23 @@
+/**
+ * Main styling of the CheckItOut extension configuration
+ *
+ */
+.config-tabs dd a.ecomdev-checkitout span {
+    padding-left: 3.5em;
+    font-weight: bold;
+}
+
+.config-tabs dd a.ecomdev-checkitout span,
+.config-tabs dd a.ecomdev-checkitout span.active
+{
+    background-repeat: no-repeat;
+    background-position: 9% 50%;
+    background-image: url("../../images/ecomdev/checkitout/ecomdev_logo_18x18.png");
+}
+
+.content-header h3.ecomdev-checkitout {
+    background-repeat: no-repeat;
+    padding-left: 2.3em;
+    background-position: 7% 50%;
+    background-image: url("../../images/ecomdev/checkitout/ecomdev_logo_18x18.png");
+}

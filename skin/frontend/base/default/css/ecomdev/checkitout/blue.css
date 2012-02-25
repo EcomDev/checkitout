@@ -1,0 +1,16 @@
+/**
+ * CheckItOut default CSS
+ * 
+ */
+
+/** General Step Styles **/
+.checkitout .checkout-step .step-header { background:#d0dce1; border-color: #a3aeb3; color:#a4b3b9;}
+.checkitout .checkout-step .checkout-step .step-header { background: none; border: none; padding: 0 0 0 0; }
+.checkitout .checkout-step .step-header .number { background:#f18200; border-color:#f19900; color:#fff;}
+.checkitout .checkout-step .step-content  { border-color: #bbafa0;  background: #fbfaf6 url(../../../images/ecomdev/checkitout/default/bkg_checkout.gif) 0 0 repeat-x;}
+
+/**
+ * Login PopUp
+ */
+#checkout-step-login .step-content .popup .popup-title { background:#d0dce1; border-color: #a3aeb3; color: #a4b3b9; }
+#checkout-step-login .step-content .popup .popup-content { border-color: #a3aeb3; background:#fbfaf6 url(../../../images/ecomdev/checkitout/default/bkg_checkout.gif) 0 0 repeat-x; }

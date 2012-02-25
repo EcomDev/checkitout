@@ -29,6 +29,6 @@ class EcomDev_CheckItOut_Block_Layout_Step_Shipping_Method extends EcomDev_Check
      */
     public function isVisible()
     {
-
+        return parent::isVisible() && !Mage::helper('ecomdev_checkitout')->isShippingMethodHidden();
     }
 }

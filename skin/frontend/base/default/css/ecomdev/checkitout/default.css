@@ -1,0 +1,39 @@
+/**
+ * CheckItOut default CSS
+ * 
+ */
+
+/** Sizes for default theme **/
+.checkitout .checkout-right .form-list .input-box,
+.checkitout .checkout-left .form-list .input-box { width:140px; }
+.checkitout .checkout-right .form-list .field,
+.checkitout .checkout-left .form-list .field { width:50%; }
+.checkitout .checkout-left .form-list .wide { width:280px; }
+.checkitout .checkout-left .form-list .wide input.input-text,
+.checkitout .checkout-right .form-list .wide input.input-text,
+.checkitout .checkout-right .form-list .wide select,
+.checkitout .checkout-left .form-list .wide select  { width:260px; }
+.checkitout .checkout-left .form-list input.input-text,
+.checkitout .checkout-right .form-list input.input-text,
+.checkitout .checkout-right .form-list select,
+.checkitout .checkout-left .form-list select { width:120px; }
+.checkitout .checkout-right .form-list .v-fix { width:65px; }
+.checkitout .checkout-right .form-list .v-fix .validation-advice { width:65px; }
+.checkitout .checkout-right .form-list .v-fix select { width:62px; }
+
+/** General Step Styles **/
+.checkitout .checkout-step .step-header { background:#f9f3e3; border-color: #bbafa0; color:#f18200;}
+.checkitout .checkout-step .checkout-step .step-header { background: none; border: none; padding: 0 0 0 0; }
+.checkitout .checkout-step .step-header .number { background:#f18200; border-color:#f19900; color:#fff;}
+.checkitout .checkout-step .step-content  { border-color: #bbafa0;  background:#fbfaf6 url(../../../images/ecomdev/checkitout/default/bkg_checkout.gif) 0 0 repeat-x;}
+
+/** Confirmation window **/
+#confirmation-window .step-header  { background:#f9f3e3; border-color: #bbafa0; color:#f18200;}
+#confirmation-window .step-header .number { background:#f18200; border-color:#f19900; color:#fff;}
+#confirmation-window .step-content  { border-color: #bbafa0;  background:#fbfaf6 url(../../../images/ecomdev/checkitout/default/bkg_checkout.gif) 0 0 repeat-x;}
+
+/**
+ * Login PopUp
+ */
+#login-step-popup .popup-title { background:#f9f3e3; border-color: #bbafa0; color:#f18200;}
+#login-step-popup .popup-content { border-color: #bbafa0; background:#fbfaf6 url(../../../images/ecomdev/checkitout/default/bkg_checkout.gif) 0 0 repeat-x; }

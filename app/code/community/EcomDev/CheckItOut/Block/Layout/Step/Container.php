@@ -25,6 +25,8 @@ class EcomDev_CheckItOut_Block_Layout_Step_Container extends EcomDev_CheckItOut_
      */
     protected $_initCssPrefix = 'container';
 
+    protected $_addClassNameForCount = array();
+
 
     /**
      * Adds class name if visible children count is equal to passed parameter
@@ -35,10 +37,52 @@ class EcomDev_CheckItOut_Block_Layout_Step_Container extends EcomDev_CheckItOut_
      */
     public function addClassNameForStepCount($className, $stepCount)
     {
-        $this->_initClassNames();
-        if ($this->getStepCount() === $stepCount) {
-            $this->addClassName($className);
+        $this->_addClassNameForCount[(int)$stepCount][$className] = $className;
+        return $this;
+    }
+
+
+    /**
+     * Removes class name from list for visible children add logic
+     *
+     * @param string $className
+     * @param int $stepCount
+     * @return EcomDev_CheckItOut_Block_Layout_Step_Container
+     */
+    public function removeClassNameForStepCount($className, $stepCount)
+    {
+        if (isset($this->_addClassNameForCount[(int)$stepCount][$className])) {
+            unset($this->_addClassNameForCount[(int)$stepCount][$className]);
         }
+
+        return $this;
+    }
+
+    /**
+     * Adds logic for container count on before to HTML
+     *
+     * @return EcomDev_CheckItOut_Block_Layout_Step_Container
+     */
+    protected function _beforeToHtml()
+    {
+        parent::_beforeToHtml();
+        $this->_initClassNamesForStepCount();
+        return $this;
+    }
+
+    /**
+     * Adds class names for current block step count
+     *
+     * @return EcomDev_CheckItOut_Block_Layout_Step_Container
+     */
+    protected function _initClassNamesForStepCount()
+    {
+        if (isset($this->_addClassNameForCount[$this->getStepCount()])) {
+            foreach ($this->_addClassNameForCount[$this->getStepCount()] as $className) {
+                $this->addClassName($className);
+            }
+        }
+
         return $this;
     }
 
@@ -67,8 +111,13 @@ class EcomDev_CheckItOut_Block_Layout_Step_Container extends EcomDev_CheckItOut_
     public function getStepContent()
     {
         $content = '';
+        $index = 0;
         foreach ($this->getSortedChildBlocks() as $childBlock) {
             if ($childBlock instanceof EcomDev_CheckItOut_Block_Layout_Step_Interface && $childBlock->isVisible()) {
+                if ($this->getUsePositionCode()) {
+                    $index++;
+                    $childBlock->setPositionCode($index%2 == 0? 'second' : 'first');
+                }
                 $content .= $childBlock->toHtml();
             }
         }

@@ -16,43 +16,14 @@
  * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
  */
  /**
-  * Checkout layout container template
+  * Checkout layout step template
   */
- /* @var $this EcomDev_CheckItOut_Block_Checkout_Layout */
+ /* @var $this Mage_Core_Block_Template */
 ?>
-<?php if ($this->displayContainer()): ?>
-<script type="text/javascript">countryRegions = <?php echo $this->helper('directory')->getRegionJson() ?></script>
-<div class="checkitout <?php echo $this->htmlEscape($this->getLayoutClassName());?>" id="checkout-layout">
+<div class="checkitout" id="checkout-layout">
 <div class="content">
-<?php endif; ?>
-<?php echo $this->getChildHtml('', true, true);?>
-<?php if ($this->displayContainer()): ?>
+<?php echo $this->getChildHtml('container_top');?>
+<?php echo $this->getChildHtml('container_middle');?>
 </div>
-<?php if ($this->helper('ecomdev_checkitout')->isConfirmPopUp()):?>
-<?php echo $this->getChildHtml('confirm');?>
-<?php endif;?>
-<?php if ($this->getShippingMethod()):?>
-<script type="text/javascript">
-shippingMethod.lastSubmitted = {shipping_method: '<?php echo $this->jsQuoteEscape($this->getShippingMethod());?>'};
-</script>
-<?php endif;?>
+<?php echo $this->getChildHtml('container_bottom');?>
 </div>
-<div class="checkitout-checkout-loading" style="display:none;"><span><img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Submitting order information...') ?>" title="<?php echo $this->__('Submitting order information...') ?>" class="v-middle" /> <?php echo $this->__('Submitting order information...') ?></span></div>
-<div class="checkitout-checkout-overlay" ></div>
-<script type="text/javascript">
-var lastPrice, quoteBaseGrandTotal;
-var checkout = new EcomDev.CheckItOut({
-    reload: '<?php echo $this->getUrl('checkout/onepage/steps');?>',
-    save: '<?php echo $this->getUrl('checkout/onepage/saveOrder');?>',
-    success: '<?php echo $this->getUrl('checkout/onepage/success');?>',
-    container: 'checkout-layout',
-    useForShippingLabel: '<?php echo $this->jsQuoteEscape($this->helper('ecomdev_checkitout')->__('Use same address for shipping'));?>',
-    createAccountLabel: '<?php echo $this->jsQuoteEscape($this->helper('ecomdev_checkitout')->__('Create an account for me'));?>',
-    additionalUrl: '<?php echo $this->getUrl('*/*/getAdditional');?>',
-    additionalContainer: $('onepage-checkout-shipping-method-additional-load'),
-    isAllowedGuestCheckout: <?php echo (int)$this->helper('ecomdev_checkitout')->isAllowedGuestCheckout();?>,
-    stepHash: <?php echo $this->getHashJson(); ?>
-});
-</script>
-<?php endif; ?>
-

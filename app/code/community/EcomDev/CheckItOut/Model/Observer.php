@@ -39,4 +39,38 @@ class EcomDev_CheckItOut_Model_Observer
 
         $head->setData('items', $headItems);
     }
+
+    /**
+     * Redirect customer from shopping cart to checkout if needed.
+     *
+     * @param Varien_Event_Observer $observer
+     * @void
+     */
+    public function redirectShoppingCartToCheckout(Varien_Event_Observer $observer)
+    {
+        if (Mage::helper('ecomdev_checkitout')->isShoppingCartRedirectEnabled()) {
+            $cart = Mage::getSingleton('checkout/cart');
+            if ($cart->getQuote()->getItemsCount()) {
+                $cart->init();
+                $cart->save();
+
+                if (!$cart->getQuote()->validateMinimumAmount()) {
+                    $warning = Mage::getStoreConfig('sales/minimum_order/description');
+                    Mage::getSingleton('checkout/session')->addNotice($warning);
+                }
+
+                /* @var $controller Mage_Core_Controller_Front_Action */
+                $controller = $observer->getEvent()->getControllerAction();
+                $controller->setFlag(
+                    '',
+                    Mage_Core_Controller_Front_Action::FLAG_NO_DISPATCH,
+                    '1'
+                );
+                $controller->getRequest()->setDispatched(true);
+                $controller->getResponse()->setRedirect(
+                    Mage::getUrl('checkout/onepage/')
+                );
+            }
+        }
+    }
 }

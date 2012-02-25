@@ -4,12 +4,19 @@ config:
   default/ecomdev_checkitout/settings/confirm_text: Some Checkbox Text
   default/ecomdev_checkitout/settings/change_item_qty: 1
   default/ecomdev_checkitout/settings/compatibility_templates: 0
+  default/ecomdev_checkitout/default/payment_method: checkmo
+  default/ecomdev_checkitout/default/shipping_method: flatrate_flatrate
+  default/ecomdev_checkitout/hidden/payment_method: 0
+  default/ecomdev_checkitout/hidden/shipping_method: 0
   default/checkout/options/guest_checkout: 1
   websites/two/ecomdev_checkitout/settings/compatibility_templates: 1
   websites/two/ecomdev_checkitout/settings/active: 0
   websites/two/ecomdev_checkitout/settings/confirm_type: popup
   websites/two/ecomdev_checkitout/settings/confirm_text: Yes, I Agree
   websites/two/ecomdev_checkitout/settings/newsletter_checkbox: 1
+  websites/two/ecomdev_checkitout/hidden/payment_method: 1
+  websites/two/ecomdev_checkitout/hidden/shipping_method: 1
+  websites/two/ecomdev_checkitout/hidden/coupon_code: 0
   stores/three/ecomdev_checkitout/settings/active: 1
   stores/three/ecomdev_checkitout/settings/confirm_type: none
   stores/three/ecomdev_checkitout/settings/newsletter_checkbox_checked: 1

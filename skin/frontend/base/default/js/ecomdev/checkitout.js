@@ -80,6 +80,13 @@ EcomDev.CheckItOut = Class.create({
          * @type Object
          */
         this.config = config;
+
+        if (this.config.useClassForHide) {
+            this.useClassForHide = true;
+        } else {
+            this.useClassForHide = false;
+        }
+
         /**
          * Container html element
          * 
@@ -98,12 +105,18 @@ EcomDev.CheckItOut = Class.create({
          * @type Element
          */        
         this.mask = this.container.up().down('.checkitout-checkout-loading');
+        this.mask.remove();
+        $$('body').first().insert(this.mask);
+
         /**
          * Overlay html element
          * 
          * @type Element
          */        
         this.overlay = this.container.up().down('.checkitout-checkout-overlay');
+        this.overlay.remove();
+        $$('body').first().insert(this.overlay);
+
         /**
          * On reload event handler that binded to checkout object scope
          * 
@@ -255,11 +268,11 @@ EcomDev.CheckItOut = Class.create({
         this.mask.show();
         var dimensions = this.content.getDimensions();
         this.mask.setStyle({
-            width: this.getMaskWidth() + 'px', 
+            width: this.getMaskWidth() + 'px',
             height: this.getMaskHeight() + 'px',
             top: 0 + 'px',
             left: 0 + 'px',
-            opacity: 0.5
+            opacity: this.config.maskOpacity || 0.5
         });
     },
     /**
@@ -270,7 +283,7 @@ EcomDev.CheckItOut = Class.create({
     showOverlay: function (frontElement) {
         var zIndex = frontElement.getStyle('z-index');
         this.overlay.setStyle({
-            width: this.getMaskWidth() + 'px', 
+            width: this.getMaskWidth() + 'px',
             height: this.getMaskHeight() + 'px',
             top: 0 + 'px',
             left: 0 + 'px',
@@ -282,7 +295,7 @@ EcomDev.CheckItOut = Class.create({
         new Effect.Parallel([
             new Effect.Appear(frontElement, {sync: true }),
             new Effect.Move(frontElement, {sync: true, x: centerPosition.left, y: centerPosition.top, mode: 'absolute'}),
-            new Effect.Appear(this.overlay, {sync: true, from: 0, to: 0.5})
+            new Effect.Appear(this.overlay, {sync: true, from: 0, to: this.config.overlayOpacity || 0.5})
         ]);
     },
     /**
@@ -305,7 +318,13 @@ EcomDev.CheckItOut = Class.create({
      * @return int
      */
     getMaskHeight: function () {
-        return $(document.body).down('div').getDimensions().height;
+        var height = $$('body').first().getHeight();
+
+        if (height < document.viewport.getHeight()) {
+            height = document.viewport.getHeight();
+        }
+
+        return height;
     },
     /**
      * Returns the width of the mask
@@ -313,7 +332,12 @@ EcomDev.CheckItOut = Class.create({
      * @return int
      */
     getMaskWidth: function () {
-        return $(document.body).down('div').getDimensions().width;
+        var width = $$('body').first().getWidth();
+
+        if (width < document.viewport.getWidth()) {
+            width = document.viewport.getWidth();
+        }
+        return width;
     },
     /**
      * Hides displayed mask
@@ -952,6 +976,10 @@ var LoginStep = Class.create(EcomDev.CheckItOut.Step, {
         this.saveUrl = saveUrl;
         var container = this.findContainer(form);
         $super(container, saveUrl);
+        this.popUp = container.down('.popup');
+        this.popUpTriggerBtn = container.down('.popup-trigger');
+        this.popUpCloseBtn = container.down('.popup-close');
+
     },
     /**
      * Adds handles to login button and close button in popup
@@ -961,9 +989,13 @@ var LoginStep = Class.create(EcomDev.CheckItOut.Step, {
      */
     initCheckout: function ($super) {
         $super();
-        this.container.down('.popup-trigger').observe('click', this.togglePopUp.bind(this));
-        this.container.down('.popup-close').observe('click', this.hidePopUp.bind(this));
-        if (this.container.down('.popup-content .messages')) {
+        if (this.checkout.config && this.checkout.config.popUpOutside) {
+            this.popUp.remove();
+            $$('body').first().insert(this.popUp);
+        }
+        this.popUpTriggerBtn.observe('click', this.togglePopUp.bind(this));
+        this.popUpCloseBtn.observe('click', this.hidePopUp.bind(this));
+        if (this.popUp.down('.messages')) {
             this.showPopUp();
         }
     },
@@ -994,7 +1026,7 @@ var LoginStep = Class.create(EcomDev.CheckItOut.Step, {
      * @return void
      */
     togglePopUp: function () {
-        this.container.down('.popup').visible() ?
+        this.popUp.visible() ?
             this.hidePopUp():
             this.showPopUp();
     },
@@ -1004,13 +1036,13 @@ var LoginStep = Class.create(EcomDev.CheckItOut.Step, {
      * @return void
      */
     showPopUp: function () {
-        this.checkout.showOverlay(this.container.down('.popup'));
+        this.checkout.showOverlay(this.popUp);
     },
     /**
      * Hides login window popup
      */
     hidePopUp: function () {
-        this.checkout.hideOverlay(this.container.down('.popup'));
+        this.checkout.hideOverlay(this.popUp);
     }
 });
 
@@ -1367,11 +1399,28 @@ var Shipping = Class.create(EcomDev.CheckItOut.Step.Address, {
         if ($('billing:use_for_shipping').checked) {
             this.setSameAsBilling(true);
         }
-        
-       
+
+        if (this.checkout && this.checkout.useClassForHide) {
+            this.container.insert(new Element('div', {'class': 'same-as-billing-overlay'}));
+            this.sameAsBillingOverlay =  this.container.down('div.same-as-billing-overlay');
+            this.updateSameAsBillingOverlay();
+        }
         
         if (this.isAddressSelected()) {
             this.submit();
+        }
+    },
+    /**
+     * Updates size of the overlay depending on the size of
+     */
+    updateSameAsBillingOverlay: function () {
+        if (this.sameAsBillingOverlay) {
+            var dimensions = this.container.getDimensions();
+            this.sameAsBillingOverlay.setStyle({
+                opacity: this.checkout.config.overlayOpacity,
+                width: dimensions.width + 'px',
+                height: dimensions.height + 'px'
+            });
         }
     },
     /**
@@ -1383,15 +1432,16 @@ var Shipping = Class.create(EcomDev.CheckItOut.Step.Address, {
      * @return void
      */
     setAddress: function(addressId){
-
         if (addressId) {
             request = new Ajax.Request(
                 this.addressUrl+addressId,
                 {method:'get', onSuccess: this.onAddressLoad, onFailure: checkout.ajaxFailure.bind(checkout)}
             );
+            this.updateSameAsBillingOverlay();
         }
         else {
             this.fillForm(false);
+            this.updateSameAsBillingOverlay();
         }
     },
     /**
@@ -1411,6 +1461,7 @@ var Shipping = Class.create(EcomDev.CheckItOut.Step.Address, {
             //this.setSameAsBilling(false);
         }
         $super(isNew);
+        this.updateSameAsBillingOverlay();
     },
     /**
      * Set the same as billing flag for shipping address
@@ -1422,10 +1473,18 @@ var Shipping = Class.create(EcomDev.CheckItOut.Step.Address, {
         $('billing:use_for_shipping').checked = flag;
         $('shipping:same_as_billing').value = (flag ? 1 : 0);
         if (flag) {
-            this.container.hide();
+            if (!this.checkout || !this.checkout.useClassForHide) {
+                this.container.hide();
+            } else {
+                this.container.addClassName('same-as-billing');
+            }
             this.syncWithBilling();
         } else {
-            this.container.show();
+            if (!this.checkout || !this.checkout.useClassForHide) {
+                this.container.show();
+            } else {
+                this.container.removeClassName('same-as-billing');
+            }
         }
     },
     /**
@@ -1949,7 +2008,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
             this.handleChange({});
         }
         
-        if (this.currentMethod != method) {
+        if (this.currentMethod != method && this.checkout) {
             this.checkout.paymentRedirect = false;
         }
         this.currentMethod = method;
@@ -2547,9 +2606,23 @@ var ConfirmPopUp = Class.create(EcomDev.CheckItOut.Step, {
         this.windowElement = $(windowElement);
         var container = this.findContainer(this.windowElement.down('.step-content'));
         $super(container, '');
+
         this.onLoad = this.loadComplete.bind(this);
         this.onConfirm = this.save.bind(this);
         this.onCancel = this.cancel.bind(this);
+
+    },
+    /**
+     * Moves confirmation window outside of the container
+     *
+     * @param $super
+     */
+    initCheckout: function ($super) {
+        $super();
+        if (this.checkout.config && this.checkout.config.popUpOutside) {
+            this.container.remove();
+            $$('body').first().insert(this.container);
+        }
     },
     /**
      * It is always valid step :)
@@ -2567,6 +2640,7 @@ var ConfirmPopUp = Class.create(EcomDev.CheckItOut.Step, {
      */
     show: function () {
         this.checkout.showMask();
+
         this.load();
     },
     /**

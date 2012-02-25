@@ -1,6 +1,6 @@
 <?php
 /**
- * ${PROJECT}
+ * CheckItOut extension
  *
  * NOTICE OF LICENSE
  *
@@ -9,9 +9,27 @@
  * It is also available through the world-wide-web at this URL:
  * http://opensource.org/licenses/osl-3.0.php
  *
- * @category   ${CATEGORY}
- * @package    ${PACKAGE}
- * @copyright  Copyright (c) 2012 EcomDev BV (http://www.ecomdev.org)
+ * @category   EcomDev
+ * @package    EcomDev_CheckItOut
+ * @copyright  Copyright (c) 2011 EcomDev BV (http://www.ecomdev.org)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
  */
+
+/**
+ * Payment method selection step wrapper
+ *
+ */
+class EcomDev_CheckItOut_Block_Layout_Step_Payment extends EcomDev_CheckItOut_Block_Layout_Step_Abstract
+{
+    /**
+     * Custom logic for block visibility, depending on preselected values
+     *
+     * @return boolean
+     */
+    public function isVisible()
+    {
+        return !Mage::helper('ecomdev_checkitout')->isPaymentMethodHidden();
+    }
+
+}

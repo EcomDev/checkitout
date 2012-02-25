@@ -23,4 +23,10 @@
             <block type="adminhtml/sales_order_view_history" template="ecomdev/checkitout/sales/comments.phtml" />
         </reference>
     </adminhtml_sales_order_view>
+
+    <default>
+        <reference name="head">
+            <action method="addCss"><name>css/ecomdev/checkitout.css</name></action>
+        </reference>
+    </default>
 </layout>

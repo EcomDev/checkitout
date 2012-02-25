@@ -31,6 +31,24 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_CONFIRM_TEXT = 'ecomdev_checkitout/settings/confirm_text';
     const XML_PATH_NEWSLETTER_CHECKBOX = 'ecomdev_checkitout/settings/newsletter_checkbox';
     const XML_PATH_NEWSLETTER_CHECKBOX_CHECKED = 'ecomdev_checkitout/settings/newsletter_checkbox_checked';
+    const XML_PATH_STORED_ADDRESSES = 'ecomdev_checkitout/settings/stored_addresses';
+    const XML_PATH_SHOPPING_CART_REDIRECT = 'ecomdev_checkitout/settings/shopping_cart_redirect';
+
+    // New layout feature configurations
+    const XML_PATH_DESIGN_ACTIVE = 'ecomdev_checkitout/design/active';
+    const XML_PATH_DESIGN_LAYOUT = 'ecomdev_checkitout/design/layout';
+    const XML_PATH_DESIGN_CSS = 'ecomdev_checkitout/design/css';
+    const XML_PATH_DESIGN_CUSTOM_CSS = 'ecomdev_checkitout/design/%s_css';
+
+    // Default payment, shipping methods
+    const XML_PATH_DEFAULT_SHIPPING_METHOD = 'ecomdev_checkitout/default/shipping_method';
+    const XML_PATH_DEFAULT_PAYMENT_METHOD = 'ecomdev_checkitout/default/payment_method';
+
+    // Hide options for payment, shipping methods
+    const XML_PATH_HIDE_SHIPPING_METHOD = 'ecomdev_checkitout/hidden/shipping_method';
+    const XML_PATH_HIDE_PAYMENT_METHOD = 'ecomdev_checkitout/hidden/payment_method';
+    const XML_PATH_HIDE_COUPON_CODE = 'ecomdev_checkitout/hidden/coupon_code';
+
     const XML_PATH_COMPATIBILITY = 'ecomdev/checkitout/compatibility/%s';
     const XML_PATH_STEPS = 'ecomdev/checkitout/steps';
     const XML_PATH_DEFAULT_COUNTRY = 'general/country/default';
@@ -194,7 +212,7 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
 
         foreach ($modes as $mode) {
             foreach ($mode->children() as $condition) {
-                if (isset($condition->enterprise) && !Mage::getConfig()->getModuleConfig('Enterprise_Enterprise')) {
+                if (isset($condition->enterprise) && Mage::getConfig()->getNode('modules/Enterprise_Enterprise') === false) {
                     // If version check is related to Enterprise/Professional editions
                     continue;
                 }
@@ -251,5 +269,163 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
     public function getDefaultCountry()
     {
         return Mage::getStoreConfig(self::XML_PATH_DEFAULT_COUNTRY);
+    }
+
+    /**
+     * Returns default shipping method from configuration
+     *
+     * @return string
+     */
+    public function getDefaultShippingMethod()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_DEFAULT_SHIPPING_METHOD);
+    }
+
+    /**
+     * Returns default payment method from configuration
+     *
+     * @return string
+     */
+    public function getDefaultPaymentMethod()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_DEFAULT_PAYMENT_METHOD);
+    }
+
+
+    /**
+     * Check that payment method is hidden
+     *
+     * @return boolean
+     */
+    public function isShippingMethodHidden()
+    {
+        return $this->getDefaultShippingMethod() && Mage::getStoreConfigFlag(self::XML_PATH_HIDE_SHIPPING_METHOD);
+    }
+
+    /**
+     * Check that payment method is hidden
+     *
+     * @return boolean
+     */
+    public function isPaymentMethodHidden()
+    {
+        return $this->getDefaultPaymentMethod() && Mage::getStoreConfigFlag(self::XML_PATH_HIDE_PAYMENT_METHOD);
+    }
+
+    /**
+     * Check if custom layout is enabled and returning appropriate layout handle,
+     * otherwise returns false
+     *
+     * @return array|boolean
+     */
+    public function getDesignLayoutHandle()
+    {
+        if (Mage::getStoreConfigFlag(self::XML_PATH_DESIGN_ACTIVE)) {
+            $layoutCode = Mage::getStoreConfig(self::XML_PATH_DESIGN_LAYOUT);
+            $layoutOptions = Mage::getSingleton('ecomdev_checkitout/source_design_layout');
+
+            if (!$layoutCode || !$layoutOptions->getOptionByCode($layoutCode)) {
+                $layoutOption = current($layoutOptions->getOptions());
+            } else {
+                $layoutOption = $layoutOptions->getOptionByCode($layoutCode);
+            }
+
+            $handles = $layoutOption->getHandles();
+
+            if (!is_array($handles)) {
+                $handles = array();
+            }
+
+            $handles = array_values($handles);
+
+            if (!$handles && $layoutOption->getHandle()) {
+                $handles = array($layoutOption->getHandle());
+            }
+
+            if ($handles && $this->isEnterprise()) {
+                $handlesToAdd = array();
+                foreach ($handles as $handleName) {
+                    $handlesToAdd[] = $handleName . '_enterprise';
+                }
+
+                $handles = array_merge($handles, $handlesToAdd);
+            };
+
+            return $handles;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns list of css files that should be included into checkout page
+     *
+     * @return array
+     */
+    public function getCssFiles()
+    {
+        $cssFiles = array();
+        if (Mage::getStoreConfigFlag(self::XML_PATH_DESIGN_ACTIVE)) {
+            $cssCode = Mage::getStoreConfig(self::XML_PATH_DESIGN_LAYOUT);
+            $cssOptions = Mage::getSingleton('ecomdev_checkitout/source_design_css');
+
+            if (!$cssCode || !$cssOptions->getOptionByCode($cssCode)) {
+                $cssOption = current($cssOptions->getOptions());
+            } else {
+                $cssOption = $cssOptions->getOptionByCode($cssCode);
+            }
+
+            if (is_array($cssOption->getCss())) {
+                foreach ($cssOption->getCss() as $file) {
+                    $cssFiles[] = $file;
+                }
+            }
+
+            if ($customCssFile = Mage::getStoreConfig(sprintf(self::XML_PATH_DESIGN_CUSTOM_CSS, $cssCode))) {
+                $cssFiles[] = $customCssFile;
+            }
+        }
+
+        return $cssFiles;
+    }
+
+    /**
+     * Check that stored addresses should be applied
+     *
+     * @return bool
+     */
+    public function isApplyStoredAddresses()
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_STORED_ADDRESSES);
+    }
+
+    /**
+     * Returns configuration flag for availability of coupon code on checkout
+     *
+     * @return bool
+     */
+    public function isCouponEnabled()
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_HIDE_COUPON_CODE);
+    }
+
+    /**
+     * Checks if current Magento version is an enterprise version
+     *
+     * @return bool
+     */
+    public function isEnterprise()
+    {
+        return Mage::getConfig()->getNode('modules/Enterprise_Enterprise') !== false;
+    }
+
+    /**
+     * Check if shopping cart redirect feature is enabled
+     *
+     * @return bool
+     */
+    public function isShoppingCartRedirectEnabled()
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_SHOPPING_CART_REDIRECT);
     }
 }

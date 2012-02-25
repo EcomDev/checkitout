@@ -60,7 +60,24 @@ abstract class EcomDev_CheckItOut_Block_Layout_Step_Abstract
      *
      * @var string
      */
-    protected $_initCssPrefix = 'step';
+    protected $_initCssPrefix = 'checkout-step';
+
+    /**
+     * Indicator that it has loading overlay
+     *
+     * @var bool
+     */
+    protected $_hasLoadingOverlay = true;
+
+    /**
+     * Returns value of the loading overlay
+     *
+     * @return bool
+     */
+    public function hasLoadingOverlay()
+    {
+        return (bool)$this->_hasLoadingOverlay;
+    }
 
     /**
      * Returns block of the standard Magento checkout
@@ -75,6 +92,8 @@ abstract class EcomDev_CheckItOut_Block_Layout_Step_Abstract
 
         return $this->_checkoutBlock;
     }
+
+
 
     /**
      * Returns step block instance from the original checkout
@@ -203,11 +222,14 @@ abstract class EcomDev_CheckItOut_Block_Layout_Step_Abstract
      */
     public function isVisible()
     {
-        if ($this->getIsVisibleForVirtual() === 0) {
-            return !$this->getCheckout()->getQuote()->isVirtual();
+        if ($this->getIsVisibleForVirtual() === 0 && $this->getCheckout()->getQuote()->isVirtual()) {
+            return false;
+        }
+
+        if ($this->getStepCode() && $this->getStepBlock() && !$this->getStepBlock()->isShow()) {
+            return false;
         }
 
         return true;
     }
-
 }
