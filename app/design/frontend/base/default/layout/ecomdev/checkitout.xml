@@ -110,7 +110,7 @@
                             <action method="addClassNameForStepCount"><class>three</class><count>3</count></action>
                             <action method="addClassNameForStepCount"><class>four</class><count>4</count></action>
 
-                            <!-- Not yet finished 
+                            <!-- Not yet finished
                             <block name="checkitout.layout.coupon.container" type="ecomdev_checkitout/layout_step_container" template="ecomdev/checkitout/layout/step/container.phtml">
                                 <action method="setStepName" translate="name" module="ecomdev_checkitout"><name>Special Promotion Codes</name></action>
                                 <action method="addClassName"><class>promotions</class></action>

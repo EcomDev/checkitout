@@ -75,7 +75,7 @@
 /* Custom Step Styles */
 
 /* Address Layout */
-.same-as-billing-overlay { position: absolute; z-index: 2000; top: 0px; left: 0px; background: url(../../../images/ecomdev/checkitout/base/bg_same_as_billing.gif); }
+.same-as-billing-overlay { position: absolute; z-index: 100; top: 0px; left: 0px; background: url(../../../images/ecomdev/checkitout/base/bg_same_as_billing.gif); }
 
 .checkitout .checkout-left .same-as-billing,
 .checkitout .checkout-left .same-as-billing-overlay { display:none; }
