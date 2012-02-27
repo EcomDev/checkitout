@@ -27,4 +27,20 @@ class EcomDev_CheckItOut_Block_Layout_Step_Coupon extends EcomDev_CheckItOut_Blo
     {
         return $this->helper('ecomdev_checkitout')->isCouponEnabled();
     }
+
+    /**
+     * Returns JSON configuration for coupon codes
+     *
+     * @return string
+     */
+    public function getCouponJson()
+    {
+        $config = array(
+            'coupon' => $this->getQuote()->getCouponCode(),
+            'saveUrl' => $this->getUrl('*/*/applyCoupon'),
+            'confirmText' => $this->__('Are you sure that you want to remove the applied coupon code?')
+        );
+
+        return $this->helper('core')->jsonEncode($config);
+    }
 }

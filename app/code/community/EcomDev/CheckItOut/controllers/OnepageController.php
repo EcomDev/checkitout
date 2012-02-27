@@ -102,6 +102,11 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
         return $this;
     }
 
+    /**
+     * Returns dependency injected onepage model
+     *
+     * @return Mage_Checkout_Model_Type_Onepage|EcomDev_CheckItOut_Model_Type_Onepage
+     */
     public function getOnepage()
     {
         if ($this->_isActive()) {
@@ -514,5 +519,29 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
         }
 
         return $this;
+    }
+
+    /**
+     * Applies coupon code the quote
+     *
+     *
+     */
+    public function applyCouponAction()
+    {
+        if (!$this->_isActive()) {
+            $this->norouteAction();
+            return;
+        }
+
+        $isRemove = (bool)$this->getRequest()->getParam('remove', false);
+        $coupon = $this->getRequest()->getParam('coupon');
+        if ($isRemove) {
+            $coupon = null;
+        }
+
+        $result = $this->getOnepage()->saveCouponCode($coupon);
+
+        $this->_addHashInfo($result);
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
 }

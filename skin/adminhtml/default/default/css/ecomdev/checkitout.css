@@ -2,16 +2,19 @@
  * Main styling of the CheckItOut extension configuration
  *
  */
-.config-tabs dd a.ecomdev-checkitout span {
-    padding-left: 3.5em;
-    font-weight: bold;
-}
 
+.config-tabs dd a.ecomdev-checkitout,
+.config-tabs dd a.ecomdev-checkitout:hover { font-weight: bold; background:url(../../images/tabs_span_bg.gif) repeat-x 0 100%; border-bottom:none; padding: 0em 0.5em 0em 1.5em; }
+.config-tabs dd a.ecomdev-checkitout:hover { background-color:#d8e6e6; }
+.config-tabs dd a.ecomdev-checkitout.active, ul.tabs a.ecomdev-checkitout.active:hover { background-color:#fff; }
+
+.config-tabs dd a.ecomdev-checkitout span.active { background: transparent; }
 .config-tabs dd a.ecomdev-checkitout span,
 .config-tabs dd a.ecomdev-checkitout span.active
 {
+    padding-left: 2.0em;
     background-repeat: no-repeat;
-    background-position: 9% 50%;
+    background-position: 0% 50%;
     background-image: url("../../images/ecomdev/checkitout/ecomdev_logo_18x18.png");
 }
 

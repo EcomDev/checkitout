@@ -141,6 +141,9 @@ EcomDev.CheckItOut = Class.create({
         this.stepHash = $H(this.config.stepHash);
         // Initialize instace for static class
         EcomDev.CheckItOut.setInstance(this);
+        for (var i= 0, v=this.steps.values(), l= v.length; i < l; i ++) {
+            v[i].initCheckoutAfter();
+        }
     },
     /**
      * Adds step to checkout steps hash object
@@ -635,6 +638,12 @@ EcomDev.CheckItOut.Step = Class.create({
         }
         this.bindFields();
     },
+    /**
+     * This method is called after all the steps are added to checkout and it is initialized
+     *
+     * @void
+     */
+    initCheckoutAfter: Prototype.emptyFunction,
     /**
      * Check that steps is valid or should it be reloded
      * 

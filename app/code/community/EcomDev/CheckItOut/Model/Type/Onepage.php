@@ -81,9 +81,37 @@ class EcomDev_CheckItOut_Model_Type_Onepage
 
         }
 
-
-
         return $this;
+    }
+
+    /**
+     * Applies the coupon code to the shopping cart
+     *
+     * @param string $couponCode
+     * @return array|boolean
+     */
+    public function saveCouponCode($couponCode)
+    {
+        $oldCouponeCode = $this->getQuote()->getCouponCode();
+        if ($oldCouponeCode === $couponCode) {
+            return array(
+                'error' => true,
+                'message' => Mage::helper('ecomdev_checkitout')->__('The coupon code is already applied.'),
+                'field' => 'coupon'
+            );
+        }
+        $this->getQuote()->setCouponCode($couponCode);
+        $this->recalculateTotals();
+        if ($couponCode !== null
+            && $this->getQuote()->getCouponCode() !== $couponCode) {
+            return array(
+                'error' => true,
+                'message' => Mage::helper('ecomdev_checkitout')->__('The coupon code is invalid.'),
+                'field' => 'coupon'
+            );
+        }
+
+        return array('success' => true, 'coupon' => $this->getQuote()->getCouponCode());
     }
 
     /**

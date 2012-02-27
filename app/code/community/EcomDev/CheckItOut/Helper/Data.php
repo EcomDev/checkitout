@@ -366,7 +366,7 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $cssFiles = array();
         if (Mage::getStoreConfigFlag(self::XML_PATH_DESIGN_ACTIVE)) {
-            $cssCode = Mage::getStoreConfig(self::XML_PATH_DESIGN_LAYOUT);
+            $cssCode = Mage::getStoreConfig(self::XML_PATH_DESIGN_CSS);
             $cssOptions = Mage::getSingleton('ecomdev_checkitout/source_design_css');
 
             if (!$cssCode || !$cssOptions->getOptionByCode($cssCode)) {
@@ -406,7 +406,7 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isCouponEnabled()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_HIDE_COUPON_CODE);
+        return !Mage::getStoreConfigFlag(self::XML_PATH_HIDE_COUPON_CODE);
     }
 
     /**

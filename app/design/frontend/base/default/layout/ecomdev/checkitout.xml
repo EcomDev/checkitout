@@ -24,6 +24,7 @@
         
         <reference name="head">
             <action method="addItem"><type>skin_js</type><file>js/ecomdev/checkitout.js</file></action>
+            <action method="addItem"><type>skin_js</type><file>js/ecomdev/checkitout/coupon.js</file></action>
             <action method="addItem"><type>skin_js</type><file>js/ecomdev/checkitout/compatibility.js</file></action>
             <block type="ecomdev_checkitout/css" name="checkitout.css" />
         </reference>
@@ -105,20 +106,17 @@
                         </block>
                         <block name="checkout.layout.review.container" type="ecomdev_checkitout/layout_step_container" template="ecomdev/checkitout/layout/step/container/list.phtml">
                             <action method="addClassName"><class>review-container</class></action>
-                            <action method="addClassNameForStepCount"><class>one</class><count>1</count></action>
-                            <action method="addClassNameForStepCount"><class>two</class><count>2</count></action>
-                            <action method="addClassNameForStepCount"><class>three</class><count>3</count></action>
-                            <action method="addClassNameForStepCount"><class>four</class><count>4</count></action>
-
-                            <!-- Not yet finished
                             <block name="checkitout.layout.coupon.container" type="ecomdev_checkitout/layout_step_container" template="ecomdev/checkitout/layout/step/container.phtml">
-                                <action method="setStepName" translate="name" module="ecomdev_checkitout"><name>Special Promotion Codes</name></action>
-                                <action method="addClassName"><class>promotions</class></action>
+                                <action method="setStepName" translate="name" module="ecomdev_checkitout"><name>Special Promotions</name></action>
+                                <action method="setStepCode"><code>promotions</code></action>
+                                <action method="addClassName"><class>checkout-step</class></action>
                                 <action method="addClassNameForStepCount"><class>one</class><count>1</count></action>
                                 <action method="addClassNameForStepCount"><class>two</class><count>2</count></action>
-                                <block name="checkitout.layout.coupon" type="ecomdev_checkitout/layout_step_coupon" template="ecomdev/checkitout/layout/step/coupon.phtml" />
+                                <block name="checkitout.layout.coupon" type="ecomdev_checkitout/layout_step_coupon" template="ecomdev/checkitout/layout/step/coupon.phtml">
+                                    <action method="setStepCode"><code>coupon</code></action>
+                                </block>
                             </block>
-                            -->
+
                             <block name="checkitout.layout.review" type="ecomdev_checkitout/layout_step_default" template="ecomdev/checkitout/layout/step/default.phtml">
                                 <action method="setStepCode"><code>review</code></action>
                             </block>
@@ -159,13 +157,6 @@
             <action method="append"><block>checkout.layout.review.container</block></action>
         </reference>
     </ecomdev_checkitout_layout_two_column>
-
-    <ecomdev_checkitout_layout_default_enterprise>
-        <reference name="checkitout.layout.coupon.container">
-            <action method="setStepName" translate="name" module="ecomdev_checkitout"><name>Special Promotion Codes &amp; Gift Cards</name></action>
-            <block name="checkitout.layout.coupon.giftcard" type="ecomdev_checkitout/layout_step_coupon" template="ecomdev/checkitout/layout/step/gifcard.phtml" />
-        </reference>
-    </ecomdev_checkitout_layout_default_enterprise>
 
     <!-- old depracated type of checkout -->
     <ecomdev_checkitout_layout>
