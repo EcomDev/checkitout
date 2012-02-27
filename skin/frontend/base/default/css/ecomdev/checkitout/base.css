@@ -3,6 +3,9 @@
  * 
  */
 
+/** Helpers */
+.clear  { clear: both; }
+
 /** General Step Styles **/
 .checkitout .checkout-step { position: relative; margin-bottom: 10px; }
 .checkitout .checkout-step .buttons { text-align: right; padding-top: 20px; }
@@ -110,6 +113,13 @@
 
 /* Payment */
 .checkitout #payment-tool-tip { position: absolute; }
+
+/* Coupon Codes or Gift Card for one column layout */
+#checkout-step-promotions.one .form-list { display: block; width: 100%;}
+#checkout-step-promotions.one .form-list li { display: block; width: 48%; float: left; }
+#checkout-step-promotions.one .form-list li .input-box,
+#checkout-step-promotions.one .form-list li .input-box input { width: 90%; }
+#checkout-step-promotions.one .form-list li.control { padding-top: 1.5em;}
 
 /* Confirmation window */
 #confirmation-window { text-align: left; background: #fff; z-index: 3000; width: 800px; position: absolute; }
