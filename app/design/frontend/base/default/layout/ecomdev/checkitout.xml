@@ -106,7 +106,7 @@
                         </block>
                         <block name="checkout.layout.review.container" type="ecomdev_checkitout/layout_step_container" template="ecomdev/checkitout/layout/step/container/list.phtml">
                             <action method="addClassName"><class>review-container</class></action>
-                            <block name="checkitout.layout.coupon.container" type="ecomdev_checkitout/layout_step_container" template="ecomdev/checkitout/layout/step/container.phtml">
+                            <block name="checkitout.layout.coupon.container" type="ecomdev_checkitout/layout_step_container" template="ecomdev/checkitout/layout/step/container/step.phtml">
                                 <action method="setStepName" translate="name" module="ecomdev_checkitout"><name>Special Promotions</name></action>
                                 <action method="setStepCode"><code>promotions</code></action>
                                 <action method="addClassName"><class>checkout-step</class></action>

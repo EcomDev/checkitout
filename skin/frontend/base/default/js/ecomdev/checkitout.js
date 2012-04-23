@@ -1259,13 +1259,13 @@ var Billing = Class.create(EcomDev.CheckItOut.Step.Address, {
         var isChecked = true;
         if ($('billing:use_for_shipping_yes')) {
             isChecked = $('billing:use_for_shipping_yes').checked;
-            insertAbove = $('billing:use_for_shipping_yes').up('li').previous('li');
+            insertAbove = $('billing:use_for_shipping_yes').up('li').previous();
             $('billing:use_for_shipping_yes').up('li').remove();
         }
         
         if ($('billing:use_for_shipping_no')) {
             
-            insertAbove = $('billing:use_for_shipping_no').up('li').previous('li');
+            insertAbove = $('billing:use_for_shipping_no').up('li').previous();
             $('billing:use_for_shipping_no').up('li').remove();
         }
         
@@ -1513,9 +1513,13 @@ var Shipping = Class.create(EcomDev.CheckItOut.Step.Address, {
                     }
                 }
             }
-            shippingRegionUpdater.update();
-            $('shipping:region_id').value = $('billing:region_id').value;
-            $('shipping:region').value = $('billing:region').value;
+            if (window.shippingRegionUpdater) {
+                shippingRegionUpdater.update();
+            }
+            if ($('shipping:region_id') && $('billing:region_id')) {
+                $('shipping:region_id').value = $('billing:region_id').value;
+                $('shipping:region').value = $('billing:region').value;
+            }
         } else {
             $('shipping-address-select').value = $('billing-address-select').value;
         }
@@ -1527,7 +1531,9 @@ var Shipping = Class.create(EcomDev.CheckItOut.Step.Address, {
      * @return void
      */
     setRegionValue: function(){
-        $('shipping:region').value = $('billing:region').value;
+        if ($('shipping:region') && $('billing:region')) {
+            $('shipping:region').value = $('billing:region').value;
+        }
     }
 });
 
