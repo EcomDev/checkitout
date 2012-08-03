@@ -182,7 +182,7 @@ window.CouponCode = Class.create(EcomDev.CheckItOut.Step.PromotionCode, {
             this.handleRemove.bind(this)
         );
 
-        this.couponField.value = this.coupon;
+        this.couponField.value = this.coupon || '';
     },
     submitCompleteCallback: function(result, response) {
         Validation.reset(this.couponField);

@@ -204,7 +204,7 @@
         <!-- Workaround for authorizenet form on review step -->
         <remove name="payment.form.directpost" />
     </ecomdev_checkitout_no_payment>
-    
+
     <checkout_onepage_layout>
         <update handle="checkout_onepage_index" />
     </checkout_onepage_layout>

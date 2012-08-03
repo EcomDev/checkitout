@@ -54,6 +54,28 @@ EcomDev.Replacer = new (Class.create({
     }
 }));
 
+Element.addMethods({
+    moveToBody: function (element) {
+        Element.remove(element);
+        Element.insert(document.body, element);
+    }
+});
+
+EcomDev.DomReady = new (Class.create({
+    initialize: function () {
+        document.observe('dom:loaded', this.ready.bind(this));
+        this.actions = [];
+    },
+    ready: function () {
+        for (var i = 0, l = this.actions.length; i < l; i++) {
+            this.actions[i]();
+        }
+    },
+    add: function (callback) {
+        this.actions.push(callback);
+    }
+}))();
+
 /**
  * Main Checkout class
  * 
@@ -93,6 +115,7 @@ EcomDev.CheckItOut = Class.create({
          * @type Element
          */
         this.container = $(config.container);
+        this.accordion = {container: this.container}; // Adds compatibility for authorize direct post
         /**
          * Content html element
          * 
@@ -105,8 +128,7 @@ EcomDev.CheckItOut = Class.create({
          * @type Element
          */        
         this.mask = this.container.up().down('.checkitout-checkout-loading');
-        this.mask.remove();
-        $$('body').first().insert(this.mask);
+        EcomDev.DomReady.add(this.mask.moveToBody.bind(this.mask));
 
         /**
          * Overlay html element
@@ -114,8 +136,7 @@ EcomDev.CheckItOut = Class.create({
          * @type Element
          */        
         this.overlay = this.container.up().down('.checkitout-checkout-overlay');
-        this.overlay.remove();
-        $$('body').first().insert(this.overlay);
+        EcomDev.DomReady.add(this.overlay.moveToBody.bind(this.overlay));
 
         /**
          * On reload event handler that binded to checkout object scope
@@ -275,7 +296,8 @@ EcomDev.CheckItOut = Class.create({
             height: this.getMaskHeight() + 'px',
             top: 0 + 'px',
             left: 0 + 'px',
-            opacity: this.config.maskOpacity || 0.5
+            opacity: this.config.maskOpacity || 0.5,
+            zIndex: 1000
         });
     },
     /**
@@ -426,6 +448,27 @@ EcomDev.CheckItOut = Class.create({
        }
        
        delete response.request;
+    },
+    /**
+     * Compatibility with OPC for load waiting overlay
+     *
+     * @param String step
+     * @return void
+     */
+    setLoadWaiting: function (step) {
+        if (!this.currentLoadWaiting && step == false) {
+            return;
+        } else if (step && !this.getStep(step)) {
+            if (this.currentLoadWaiting) {
+                this.currentLoadWaiting.hideMask();
+            }
+
+            this.currentLoadWaiting = this.getStep(step);
+            this.currentLoadWaiting.showMask();
+        } else if (step == false) {
+            this.currentLoadWaiting.hideMask();
+            this.currentLoadWaiting = false;
+        }
     },
     /**
      * Submits the placing of the order,
@@ -686,7 +729,15 @@ EcomDev.CheckItOut.Step = Class.create({
      * @return Array 
      */
     getElements: function () {
-        return this.content.select('input', 'select', 'textarea');
+        return this.content.select('input', 'select', 'textarea').findAll(this.isNotIgnored);
+    },
+    /**
+     * Checks if element should be ignored for elements select
+     *
+     * @return Boolean
+     */
+    isNotIgnored: function (elm) {
+        return !elm.hasClassName('ignore-element');
     },
     /**
      * Add related step codes to this step,
@@ -830,7 +881,7 @@ EcomDev.CheckItOut.Step = Class.create({
         try {
             var result = response.responseText.evalJSON();
             if (result.stepHash) {
-                this.lastHash = result.stepHash; 
+                this.lastHash = result.stepHash;
             }
         } catch (e) {
             alert(e);
@@ -879,7 +930,8 @@ EcomDev.CheckItOut.Step = Class.create({
             height: dimensions.height + 'px',
             top: content.offsetTop + 'px',
             left: content.offsetLeft + 'px',
-            opacity: 0.5
+            opacity: 0.5,
+            zIndex: 1000
         });
     },
     /**
@@ -999,8 +1051,7 @@ var LoginStep = Class.create(EcomDev.CheckItOut.Step, {
     initCheckout: function ($super) {
         $super();
         if (this.checkout.config && this.checkout.config.popUpOutside) {
-            this.popUp.remove();
-            $$('body').first().insert(this.popUp);
+            EcomDev.DomReady.add(this.popUp.moveToBody.bind(this.popUp));
         }
         this.popUpTriggerBtn.observe('click', this.togglePopUp.bind(this));
         this.popUpCloseBtn.observe('click', this.hidePopUp.bind(this));
@@ -1726,6 +1777,7 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
             }
         }
         if (result.error){
+            this.isLoading(false);
             alert(result.message);
             return;
         }
@@ -1819,23 +1871,10 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
      */
     update: function ($super, content) {
         var values = this.getValues();
-       
+
+        this.updateFieldValues = values;
         $super(content);
-        
-        var fieldNames = Object.keys(values);
-        for (var i=0, l=fieldNames.length; i < l; i++) {
-            var field = this.content.down('*[name="' + fieldNames[i] + '"]');
-            if (field && !['checkbox', 'radio'].include(field.type)) {
-                field.value = values[fieldNames[i]];
-            } else if (field) {
-                var elements = this.content.select('*[name="' + fieldNames[i] + '"]');
-                elements.map(function (element) { 
-                    if (element.value == values[fieldNames[i]]) {
-                        element.checked = true
-                    }
-                });
-           }
-        }
+        this.updateFieldValues = false;
         this.checkOneMethod();
     },
     /**
@@ -1852,6 +1891,26 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         }
         
         $super(content);
+
+        if (this.updateFieldValues) {
+            var fieldNames = Object.keys(this.updateFieldValues);
+            for (var i=0, l=fieldNames.length; i < l; i++) {
+                var field = this.content.down('*[name="' + fieldNames[i] + '"]');
+                if (field && !['checkbox', 'radio'].include(field.type)) {
+                    field.value = this.updateFieldValues[fieldNames[i]];
+                } else if (field) {
+                    var elements = this.content.select('*[name="' + fieldNames[i] + '"]');
+                    for (var elementIndex = 0, elementLength = elements.length;
+                         elementIndex < elementLength;
+                         elementIndex ++) {
+                        if (elements[elementIndex].value == this.updateFieldValues[fieldNames[i]]) {
+                            elements[elementIndex].checked = true;
+                        }
+                    }
+                }
+            }
+        }
+
         // Bringing all scripts together to eval in the same scope
         var scriptText = '';
         for (var i=0, l = scripts.length; i < l; i ++) {
@@ -1898,7 +1957,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         var elements = Form.getElements(this.form);
         var method = null;
         for (var i=0; i<elements.length; i++) {
-            if (elements[i].name=='payment[method]') {
+            if (elements[i].name == 'payment[method]') {
                 if (elements[i].checked) {
                     method = elements[i].value;
                 }
@@ -2010,7 +2069,10 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         if (this.currentMethod && $('payment_form_'+this.currentMethod)) {
             this.changeVisible(this.currentMethod, true);
         }
-        var form = $('payment_form_'+method);
+
+
+        var form = $('payment_form_' + method);
+
         if (form){
            this.changeVisible(method, false);
            fireAnEvent || form.fire('payment-method:switched', {method_code : method});
@@ -2018,16 +2080,16 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
             //Event fix for payment methods without form like "Check / Money order"
             fireAnEvent || document.body.fire('payment-method:switched', {method_code : method});
         }
-        
+
         if (!form || form.select('select','input', 'textarea').length == 0) {
             this.handleChange({});
         }
-        
+
         if (this.currentMethod != method && this.checkout) {
             this.checkout.paymentRedirect = false;
         }
+
         this.currentMethod = method;
-        
     },
     /**
      * Change payment form visibility
@@ -2043,8 +2105,18 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
                 element.select('input', 'select', 'textarea').each(function(field) {
                     field.disabled = mode;
                 });
+                if (element.relatedElement) {
+                    element.relatedElement.style.display = (mode) ? 'none' : '';
+                    element.relatedElement.select('input', 'select', 'textarea').each(function(field) {
+                        field.disabled = mode;
+                    });
+                }
             }
         });
+    },
+    getCurrentForm: function () {
+        var block = 'payment_form_' + this.currentMethod;
+        return $(block);
     },
     /**
      * Add handler for before validation observing
@@ -2201,10 +2273,8 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
                 }
             } else {
                 Validation.ajaxError(this.errorEl, result.error);
-                this.checkout.getStep('review').load();
+                this.isLoading(false);
             }
-            
-            
             return;
         }
         return $super(response);
@@ -2635,8 +2705,7 @@ var ConfirmPopUp = Class.create(EcomDev.CheckItOut.Step, {
     initCheckout: function ($super) {
         $super();
         if (this.checkout.config && this.checkout.config.popUpOutside) {
-            this.container.remove();
-            $$('body').first().insert(this.container);
+            EcomDev.DomReady.add(this.container.moveToBody.bind(this.container));
         }
     },
     /**
