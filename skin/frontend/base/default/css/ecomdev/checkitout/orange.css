@@ -301,7 +301,6 @@ button.btn-checkout {
 }
 
 .sp-methods label {
-    padding-left: 20px;
     -moz-padding-start:0;
     -webkit-padding-start:0;
     -o-padding-start:0;
@@ -344,44 +343,46 @@ button.btn-checkout {
 }
 
 
-
-/*.checkitout input[type="radio"] + label::before,
-.checkitout input[type="radio"] + script + label::before{
+/*
+input[type="radio"] + label::before{
     vertical-align: middle;
 }
-.checkitout input[type="radio"]{
+input[type="radio"]{
     opacity: 0;
     position: absolute;
 }
-.checkitout input[type="radio"] + label::before,
-.checkitout input[type="radio"] + script + label::before{
+input[type="radio"] + label::before,
+input[type="radio"] + script + label::before{
     content: "";
     display: inline-block;
     width: 13px;
     height: 13px;
     line-height: 13px;
     margin: 0 8px 0 0;
-    background: url("../../../images/ecomdev/checkitout/orange/icons/sprite-r.png") no-repeat 0 0;
+    background: green;
     vertical-align: middle;
 }
-.checkitout input[type="radio"]:disabled + label,
-.checkitout input[type="radio"]:disabled + script + label{
+input[type="radio"]:disabled + label,
+input[type="radio"]:disabled + script + label{
     opacity: .5;
     cursor: default;
 }
-.checkitout input[type="radio"] + label::before,
-.checkitout input[type="radio"] + script + label::before{
-    background-position: -13px 0;
+input[type="radio"] + label::before,
+input[type="radio"] + script + label::before{
+    background: green;
 }
-.checkitout input[type="radio"]:hover + label::before,
-.checkitout input[type="radio"]:hover + script + label::before{
-    background-position: -13px -13px;
+input[type="radio"]:hover + label::before,
+input[type="radio"]:hover + script + label::before{
+    background: green;
 }
-.checkitout input[type="radio"]:checked + label::before,
-.checkitout input[type="radio"]:checked + script + label::before{
-    background-position: -13px -26px;
-    }*/
-
+input[type="radio"]:not(:checked) {
+    background: green;
+}
+input[type="radio"]:checked + label::before,
+input[type="radio"]:checked + script + label::before{
+    background:red;
+    }
+*/
 
 .checkitout .input-box select {
     -webkit-appearance: button;

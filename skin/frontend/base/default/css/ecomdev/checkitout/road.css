@@ -319,7 +319,6 @@ input.input-text:focus,select:focus,textarea:focus {
     color:#fff !important;
 }
 .checkitout .sp-methods label {
-    padding-left: 20px;
     -moz-padding-start:0;
     -webkit-padding-start:0;
     -o-padding-start:0;
