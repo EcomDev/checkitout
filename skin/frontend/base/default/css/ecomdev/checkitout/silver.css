@@ -323,7 +323,7 @@ button.btn-checkout {
 
 
 
-.checkitout input[type="radio"] + label::before,
+/*.checkitout input[type="radio"] + label::before,
 .checkitout input[type="radio"] + script + label::before{
     vertical-align: middle;
 }
@@ -358,7 +358,7 @@ button.btn-checkout {
 .checkitout input[type="radio"]:checked + label::before,
 .checkitout input[type="radio"]:checked + script + label::before{
     background-position: -13px -26px;
-    }
+    }*/
 
 
 .checkitout .input-box select {
