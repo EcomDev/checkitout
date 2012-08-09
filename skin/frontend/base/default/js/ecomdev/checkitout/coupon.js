@@ -23,6 +23,12 @@
 EcomDev.CheckItOut.Step.PromotionCode = Class.create(
     EcomDev.CheckItOut.Step, {
         /**
+         * Ignores validation results on coupon code fields
+         *
+         * @var Boolean
+         */
+        ignoreValidationResult: true,
+        /**
          * Checkout step constructor
          *
          * @param Function $super parent constructor method

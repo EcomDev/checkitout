@@ -96,7 +96,7 @@ if (window.directPost) {
             if (!this.moveFormToPayment) {
                 return;
             }
-            
+
             if (window.currentDirectPostForm) {
                 if (window.currentDirectPostForm.placeholder.parentNode) {
                     window.currentDirectPostForm.placeholder.remove();

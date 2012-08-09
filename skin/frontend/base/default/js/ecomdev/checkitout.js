@@ -513,6 +513,10 @@ EcomDev.CheckItOut = Class.create({
      */
     isValid: function () {
         return !this.isLoading() && !this.steps.any(function (step) {
+            if (step[1].ignoreValidationResult) {
+                return false;
+            }
+
             return !step[1].isValid();
         });
     },
@@ -631,6 +635,13 @@ EcomDev.CheckItOut.Step = Class.create({
      * @type String
      */
     contentCssSelector: '.step-content',
+    /**
+     * Special flag for checkout step to exclude it
+     * from overall validation of checkout
+     *
+     * @type Boolean
+     */
+    ignoreValidationResult: false,
     /**
      * Step constructor, 
      * 
@@ -2261,7 +2272,17 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         if (result.redirect) {
             this.checkout.paymentRedirect = result.redirect;
         }
-        
+
+        // Support of centinel features
+        if (result.update_section
+            && this.checkout.getStep(result.update_section.name)) {
+            var stepToUpdate = this.checkout.getStep(result.update_section.name);
+            if (Object.isFunction(stepToUpdate.updateContent)) {
+                stepToUpdate.updateContent(result.update_section.html);
+                stepToUpdate.loadedHash = result.stepHash[stepToUpdate.code];
+            }
+        }
+
         if (result.error){
             if (result.fields) {
                 var fields = result.fields.split(',');
@@ -2357,8 +2378,14 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
         this.showMask();
         if (!this.checkout.isLoading() || !this.isValidHash() || !this.wasLoaded) {
             this.wasLoaded = true;
+            var params = (
+                this.checkout.getStep('payment') ?
+                    this.checkout.getStep('payment').getValues() :
+                    {}
+            );
             new Ajax.Request(this.loadUrl, {
                 method: 'POST',
+                parameters: params,
                 onComplete: this.onLoadComplete,
                 onFailure: this.checkout.ajaxFailure
             });
@@ -2375,10 +2402,19 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
     loadComplete: function (response) {
         this.hideMask();
         this.loadedHash = this.checkout.stepHash.get(this.code);
+        this.updateContent(response.responseText);
+        this.agreementsForm = $(this.agreementsFormId);
+    },
+    /**
+     * Updates content of the step
+     *
+     * @param content
+     */
+    updateContent: function (content) {
         try {
             var values = Form.serializeElements(this.updateElement.select('input', 'select', 'textarea'), true);
-            this.updateElement.update(response.responseText);
-            var names = Object.keys(values); 
+            this.updateElement.update(content);
+            var names = Object.keys(values);
             for (var i = 0, l = names.length; i < l; i ++) {
                 if (Object.isArray(values[names[i]])) {
                     this.updateElement.select('input[name="' + names[i] + '"]')
@@ -2398,7 +2434,6 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
                 window.console.log(response.responseText);
             }
         }
-        this.agreementsForm = $(this.agreementsFormId);
     },
     /**
      * Emulation of OnePageCheckout save method
