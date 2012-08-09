@@ -20,7 +20,7 @@
 <config>
     <modules>
         <EcomDev_CheckItOut>
-            <version>0.1.0</version>
+            <version>0.1.1</version>
         </EcomDev_CheckItOut>
     </modules>
     <global>
@@ -37,7 +37,16 @@
         <models>
             <ecomdev_checkitout>
                 <class>EcomDev_CheckItOut_Model</class>
+                <resourceModel>ecomdev_checkitout_mysql4</resourceModel>
             </ecomdev_checkitout>
+            <ecomdev_checkitout_mysql4> <!-- Supposed to use old node, since still backward compatible on 1.4-1.5 :( -->
+                <class>EcomDev_CheckItOut_Model_Mysql4</class>
+                <entities>
+                    <geoip_country><table>ecomdev_checkitout_geoip_country</table></geoip_country>
+                    <geoip_location><table>ecomdev_checkitout_geoip_location</table></geoip_location>
+                    <geoip_location_block><table>ecomdev_checkitout_geoip_location_block</table></geoip_location_block>
+                </entities>
+            </ecomdev_checkitout_mysql4>
         </models>
         <resources>
             <ecomdev_checkitout_setup>
@@ -242,6 +251,9 @@
             <modules>
                 <EcomDev_CheckItOut />
             </modules>
+            <groups>
+                <shell>Shell</shell> <!-- new group for running shell test -->
+            </groups>
         </suite>
     </phpunit>
     <default>
@@ -251,6 +263,14 @@
                 <confirm_text><![CDATA[I have reviewed my order and confirm that all information is correct]]></confirm_text>
                 <stored_addresses>1</stored_addresses>
             </settings>
+            <geoip>
+                <use_region>1</use_region>
+                <use_postcode>1</use_postcode>
+                <use_city>1</use_city>
+            </geoip>
+            <default>
+                <same_as_billing>1</same_as_billing>
+            </default>
             <hidden>
                 <shipping_method>0</shipping_method>
                 <payment_method>0</payment_method>
