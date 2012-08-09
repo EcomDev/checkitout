@@ -155,6 +155,27 @@
                         <theme>css/ecomdev/checkitout/blue.css</theme>
                     </css>
                 </blue>
+				<silver translate="label" module="ecomdev_checkitout">
+                    <label>Silver</label>
+                    <css>
+                        <base>css/ecomdev/checkitout/base.css</base>
+                        <theme>css/ecomdev/checkitout/silver.css</theme>
+                    </css>
+                </silver>
+				<orange translate="label" module="ecomdev_checkitout">
+                    <label>Orange</label>
+                    <css>
+                        <base>css/ecomdev/checkitout/base.css</base>
+                        <theme>css/ecomdev/checkitout/orange.css</theme>
+                    </css>
+                </orange>
+                <road translate="label" module="ecomdev_checkitout">
+                    <label>Road</label>
+                    <css>
+                        <base>css/ecomdev/checkitout/base.css</base>
+                        <theme>css/ecomdev/checkitout/road.css</theme>
+                    </css>
+                </road>
                 <custom translate="label" module="ecomdev_checkitout">
                     <label>Custom Style</label>
                     <css>
