@@ -201,6 +201,40 @@ EcomDev.CheckItOut = Class.create({
         })
     },
     /**
+     * Check that any of the steps is in change timeout process
+     *
+     * @return Boolean
+     */
+    isChangeTimeout: function () {
+        return this.steps.any(function (pair) {
+            return pair.value.isChangeTimeout();
+        })
+    },
+    /**
+     * Notifies submit button on changes in loading process
+     *
+     *
+     */
+    notifyLoading: function () {
+        var isDisabled = this.isLoading() || this.isChangeTimeout();
+        var buttons = this.getSubmitButtons();
+        for (var i = 0, l = buttons.length; i < l; i++) {
+            if (isDisabled) {
+                buttons[i].addClassName('disabled');
+            } else {
+                buttons[i].removeClassName('disabled');
+            }
+        }
+    },
+    /**
+     * Returns list of submit buttons
+     *
+     * @return Enumerable
+     */
+    getSubmitButtons: function () {
+        return $$('button.btn-checkout');
+    },
+    /**
      * Ajax failure callback, 
      * used for ajax requests to redirect user to failure url
      * 
@@ -643,6 +677,16 @@ EcomDev.CheckItOut.Step = Class.create({
      */
     ignoreValidationResult: false,
     /**
+     * Flag for loading data information
+     *
+     * @type Boolean
+     */
+    _isLoading: false,
+    /**
+     * Flag for is in change timeout information
+     */
+    _isChangeTimeout: false,
+    /**
      * Step constructor, 
      * 
      * @param String container container element id
@@ -711,7 +755,7 @@ EcomDev.CheckItOut.Step = Class.create({
         return this.checkout.stepHash.get(this.code) == this.loadedHash;
     },
     /**
-     * Check s step in loading or it's already loaded 
+     * Checks step in loading or it's already loaded
      * Set flag if the paramter is given
      * 
      * @param Boolean flag 
@@ -720,9 +764,25 @@ EcomDev.CheckItOut.Step = Class.create({
     isLoading: function (flag) {
         if (typeof flag == 'boolean') {
             this._isLoading = flag;
+            this.checkout.notifyLoading();
         }
         return this._isLoading;
     },
+
+    /**
+     * Checks step in in change timeout action
+     *
+     * @param Boolean flag
+     * @return Boolean
+     */
+    isChangeTimeout: function (flag) {
+        if (typeof flag == 'boolean') {
+            this._isChangeTimeout = flag;
+            this.checkout.notifyLoading();
+        }
+        return this._isChangeTimeout;
+    },
+
     /**
      * Retrieve from element values
      * 
@@ -849,6 +909,7 @@ EcomDev.CheckItOut.Step = Class.create({
             if (this.timeout) {
                 clearTimeout(this.timeout);
             }
+            this.isChangeTimeout(true);
             this.timeout = setTimeout(this.updater, this.changeInterval);
         } else {
             this.updater();
@@ -867,6 +928,7 @@ EcomDev.CheckItOut.Step = Class.create({
         if (this.timeout) {
             clearInterval(this.timeout);
             this.timeout = undefined;
+            this.isChangeTimeout(false);
         }
         
         if (!this.autoValidate || this.isValid(false) || this.autoSubmitInvalid) {
@@ -2383,6 +2445,7 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
                     this.checkout.getStep('payment').getValues() :
                     {}
             );
+            this.isLoading(true);
             new Ajax.Request(this.loadUrl, {
                 method: 'POST',
                 parameters: params,
@@ -2404,6 +2467,7 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
         this.loadedHash = this.checkout.stepHash.get(this.code);
         this.updateContent(response.responseText);
         this.agreementsForm = $(this.agreementsFormId);
+        this.isLoading(false);
     },
     /**
      * Updates content of the step
