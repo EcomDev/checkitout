@@ -1,0 +1,35 @@
+-
+  - download
+  - [somename.php, --, download, -t, country, -u, http://somewhere.com]
+  - type
+-
+  - download
+  - [somename.php, --, download, -t, country, -u, http://somewhere.com]
+  - url
+-
+  - download
+  - [somename.php, --, download, --type, country, --url, http://somewhere.com]
+  - type
+  - default_value
+-
+  - download
+  - [somename.php, --, download, --type, country, --url, http://somewhere.com]
+  - url
+  - default_value
+-
+  - download_default
+  - [somename.php, --, download, --type, country]
+  - url
+  - default_value
+-
+  - import
+  - [somename.php, --, import, -t, country, -f, somefile.csv]
+  - type
+-
+  - import
+  - [somename.php, --, import, -t, country, -f, somefile.csv]
+  - file
+-
+  - import
+  - [somename.php, --, import, -t, location, -z, somefile.zip]
+  - zip

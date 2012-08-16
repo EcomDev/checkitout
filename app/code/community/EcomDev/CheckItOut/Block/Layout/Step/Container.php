@@ -81,8 +81,9 @@ class EcomDev_CheckItOut_Block_Layout_Step_Container extends EcomDev_CheckItOut_
      */
     protected function _initClassNamesForStepCount()
     {
-        if (isset($this->_addClassNameForCount[$this->getStepCount()])) {
-            foreach ($this->_addClassNameForCount[$this->getStepCount()] as $className) {
+        $stepCount = $this->getStepCount();
+        if (isset($this->_addClassNameForCount[$stepCount])) {
+            foreach ($this->_addClassNameForCount[$stepCount] as $className) {
                 $this->addClassName($className);
             }
         }

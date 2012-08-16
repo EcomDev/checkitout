@@ -58,10 +58,10 @@ class EcomDev_CheckItOut_Test_Config_Main extends EcomDev_PHPUnit_Test_Case_Conf
      */
     public function checkResourceSetup()
     {
-        $this->assertModuleVersion('0.1.0');
+        $this->assertModuleVersion('0.1.1');
 
         // Assert that our resource is defined
-        $this->assertConfigNodeHasChild('global/resources', 'ecomdev_checkitout_setup');
+        $this->assertSchemeSetupExists();
 
         $setupXml = new Varien_Simplexml_Element('<ecomdev_checkitout_setup />');
         $setupXml->setNode('setup/module', 'EcomDev_CheckItOut');

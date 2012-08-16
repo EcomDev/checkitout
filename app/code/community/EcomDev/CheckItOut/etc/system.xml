@@ -110,7 +110,7 @@
                             <label>Confirmation Type</label>
                             <comment>Show confirmation checkbox or popup for confirming that customer checked all the items in the order. Sometimes required for passing store certification.</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>ecomdev_checkitout/config_source_confirm_type</source_model>
+                            <source_model>ecomdev_checkitout/source_confirm_type</source_model>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -185,6 +185,104 @@
                         </coupon_code>
                     </fields>
                 </hidden>
+                <geoip translate="label">
+                    <label>GeoIP AutoComplete</label>
+                    <sort_order>250</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <type translate="label comment">
+                            <label>Type</label>
+                            <comment>Select one of the types of GeoIP AutoComplete functionality.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>ecomdev_checkitout/source_geoip_type</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </type>
+                        <country translate="label comment">
+                            <label>GeoIP Country CSV File</label>
+                            <comment><![CDATA[Please upload GeoIP Country database file (CSV format) from <a href="http://www.maxmind.com/app/geolite">http://www.maxmind.com/app/geolite</a>.]]></comment>
+                            <frontend_type>import</frontend_type>
+                            <backend_model>ecomdev_checkitout/backend_geoip</backend_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <type>country</type>
+                            </depends>
+                        </country>
+                        <location translate="label comment">
+                            <label>GeoIP City Location CSV File</label>
+                            <comment><![CDATA[Please upload GeoIP City Location file (CSV format) from <a href="http://www.maxmind.com/app/geolite">http://www.maxmind.com/app/geolite</a>.]]></comment>
+                            <frontend_type>import</frontend_type>
+                            <backend_model>ecomdev_checkitout/backend_geoip</backend_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <type>location</type>
+                            </depends>
+                        </location>
+                        <location_block translate="label comment">
+                            <label>GeoIP City Blocks CSV File</label>
+                            <comment><![CDATA[Please upload GeoIP City Blocks file (CSV format) from <a href="http://www.maxmind.com/app/geolite">http://www.maxmind.com/app/geolite</a>.]]></comment>
+                            <frontend_type>import</frontend_type>
+                            <backend_model>ecomdev_checkitout/backend_geoip</backend_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <type>location</type>
+                            </depends>
+                        </location_block>
+                        <use_region translate="label comment">
+                            <label>Apply to State/Province Field</label>
+                            <comment>Select "Yes" to apply data into "State/Province" field of the address.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <type>location</type>
+                            </depends>
+                        </use_region>
+                        <use_postcode translate="label comment">
+                            <label>Apply to Zip/Postcode Field</label>
+                            <comment>Select "Yes" to apply data into "Zip/Postcode" field of the address.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <type>location</type>
+                            </depends>
+                        </use_postcode>
+
+                        <use_city translate="label comment">
+                            <label>Apply to City Field</label>
+                            <comment>Select "Yes" to apply data into "City" field of the address.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <type>location</type>
+                            </depends>
+                        </use_city>
+                    </fields>
+                </geoip>
                 <default translate="label">
                     <label>Default Values Configuration</label>
                     <sort_order>300</sort_order>
@@ -212,6 +310,59 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </payment_method>
+
+                        <same_as_billing translate="label comment">
+                            <label>Use Same Address For Shipping By Default</label>
+                            <comment>Turn this feature to enable set by default "Use Same Address for Shipping" option.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </same_as_billing>
+
+                        <country_id translate="label comment">
+                            <label>Default Country</label>
+                            <comment>An alias for configuration of the default country for the website. By modifying this value you also modify "General / Country / Default" option in configuration.</comment>
+                            <config_path>general/country/default</config_path>
+                            <frontend_type>select</frontend_type>
+                            <frontend_class>countries</frontend_class>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </country_id>
+
+                        <region_id translate="label comment">
+                            <label>Default Region/State</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </region_id>
+
+                        <postcode translate="label">
+                            <label>Default ZIP/Postal Code</label>
+                            <comment>This value will be pre-filled in for customer's billing address during checkout.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </postcode>
+
+                        <city translate="label">
+                            <label>Default City</label>
+                            <comment>This value will be pre-filled in for customer's billing address during checkout.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </city>
                     </fields>
                 </default>
                 <design translate="label">

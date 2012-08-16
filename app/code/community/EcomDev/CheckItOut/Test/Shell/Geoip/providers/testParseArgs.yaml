@@ -1,0 +1,16 @@
+-
+  - no_action
+  - [somename.php, --, aaa, bbb]
+-
+  - download_action
+  - [somename.php, --, download, -c]
+-
+  - download_action_no_prefix
+  - [somename.php, download, c]
+-
+  - import_action
+  - [somename.php, --, import, -c]
+-
+  - test_action
+  - [somename, test, --test, --ip, 123.123.123]
+

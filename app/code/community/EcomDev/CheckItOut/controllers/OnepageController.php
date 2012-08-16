@@ -47,6 +47,35 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
         'payment' => 'checkout_onepage_paymentmethod'
     );
 
+    protected $_ignoreQuoteErrorActions = array(
+        'changeQty', 'remove'
+    );
+
+    /**
+     * Validate ajax request and redirect on failure
+     *
+     * @return bool
+     */
+    protected function _expireAjax()
+    {
+        $action = $this->getRequest()->getActionName();
+        if (!$this->getOnepage()->getQuote()->hasItems()
+            || ($this->getOnepage()->getQuote()->getHasError()
+                && !in_array($action, $this->_ignoreQuoteErrorActions))
+            || $this->getOnepage()->getQuote()->getIsMultiShipping()) {
+            $this->_ajaxRedirectResponse();
+            return true;
+        }
+
+        if (Mage::getSingleton('checkout/session')->getCartWasUpdated(true)
+            && !in_array($action, array('index', 'progress'))) {
+            $this->_ajaxRedirectResponse();
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * Checks that CheckItOut extension is active for current website
      *
