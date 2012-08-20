@@ -1,0 +1,20 @@
+no_action: #empty because no action specified
+  args: []
+  action: null
+download_action:
+  args:
+    c: true
+  action: download
+download_action_no_prefix:
+  args:
+    c: true
+  action: download
+import_action:
+  args:
+    c: true
+  action: import
+test_action:
+  args:
+    test: true
+    ip: 123.123.123
+  action: test

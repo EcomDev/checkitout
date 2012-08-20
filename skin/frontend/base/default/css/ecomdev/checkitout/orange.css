@@ -1,0 +1,425 @@
+/**
+ * CheckItOut default CSS
+ *
+ */
+
+/* Link */
+.checkitout a {
+    color:#6d6d6d;
+}
+
+/** Button Styles **/
+.checkitout .form-list button.button,
+.popup button.button,
+.page-title button.button,
+#confirmation-window button.button {
+    padding: 0;
+    }
+
+    .checkitout .form-list button.button span,
+    .popup button.button span,
+    .page-title button.button span {
+        height:22px;
+        padding: 0 10px;
+        border-radius: 5px;
+
+        background: #C60;
+        border:0;
+
+        }
+        .checkitout .form-list button.button:hover span,
+        .popup button.button:hover span,
+        .page-title button.button:hover span {
+            background:#d8791a;
+            }
+            .checkitout .form-list button.button span span,
+            .popup button.button span span,
+            .page-title button.button span span {
+                color:#fff;
+                font-size:12px;
+
+                line-height: 22px;
+                padding: 0;
+
+                border:0;
+                background-position: 100% 0;
+
+                text-shadow: 1px 1px 3px #666666;
+                }
+                .checkitout .form-list button.button:hover span span,
+                .popup button.button:hover span span,
+                .page-title button.button:hover span span {
+                    background-position: 100% 100%;
+                    }
+
+
+
+/** Sizes for orange theme **/
+.checkitout .checkout-right .form-list .input-box,
+.checkitout .checkout-left .form-list .input-box { width:140px; }
+.checkitout .checkout-right .form-list .field,
+.checkitout .checkout-left .form-list .field { width:50%; }
+.checkitout .checkout-left .form-list .wide { width:280px; }
+.checkitout .checkout-left .form-list .wide input.input-text,
+.checkitout .checkout-right .form-list .wide input.input-text,
+.checkitout .checkout-right .form-list .wide select,
+.checkitout .checkout-left .form-list .wide select  { width:260px; }
+.checkitout .checkout-left .form-list input.input-text,
+.checkitout .checkout-right .form-list input.input-text {
+    width:120px;
+    }
+.checkitout .checkout-right .form-list .v-fix { width:65px; }
+.checkitout .checkout-right .form-list .v-fix .validation-advice { width:65px; }
+.checkitout .checkout-right .form-list .v-fix select { width:62px; }
+.checkitout .checkout-right .form-list select,
+.checkitout .checkout-left .form-list select {
+    width:128px;
+    -webkit-padding-end: 18px !important;
+    }
+
+/** General Step Styles **/
+.checkitout .checkout-step .step-header {
+    background:#f2f2f2 url(../../../images/ecomdev/checkitout/orange/step-header.png) 0 0 repeat-x;
+    border-color: #CC6600;
+    color: #FFFBD0;
+    font-weight: bold;
+    text-shadow: 1px 1px 4px #000;
+    }
+    .checkitout .checkout-step .step-header .number {
+        background:#fff;
+        border:1px solid #cecece;
+        color:#555;
+        margin-right:30px;
+        margin-top:2px;
+        margin-left: 5px;
+        text-shadow: none;
+        border-radius: 30px;
+        }
+    .checkitout .checkout-step .step-content {
+        border:1px solid #CC6600;
+        border-top:0px;
+    }
+    .checkitout .checkout-step .step-content .step-header {
+        padding-bottom: 10px;
+        text-shadow: none;
+        color:#333333;
+        }
+    .checkitout .checkout-step .step-content input,
+    .checkitout .checkout-step .step-content select {
+        padding:3px;
+        }
+
+/** Confirmation window **/
+#confirmation-window .step-header  { background:#d0dce1; border-color: #333333; color:#555;}
+#confirmation-window .step-header .number { background:#dbe6eb; border-color:#fff; color:#555;}
+#confirmation-window .step-content  {
+    border-color: #333333;  background:#fbfaf6 url(../../../images/ecomdev/checkitout/default/bkg_checkout.gif) 0 0 repeat-x;}
+
+/**
+ * Login PopUp
+ */
+#login-step-popup {
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow:  0px 0px 10px 5px rgba(8, 8, 8, 0.3);
+    box-shadow:  0px 0px 10px 5px rgba(8, 8, 8, 0.3);
+    }
+#login-step-popup .popup-title {
+    border-color: #d1d1d1;
+    background:#f2f2f2 url(../../../images/ecomdev/checkitout/orange/bgtitle.png) 0 0 repeat-x;
+
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    }
+#login-step-popup .popup-content {
+    position: relative;
+
+    border-color: #d1d1d1;
+
+    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    }
+    #login-step-popup .popup-content p.required {
+        position: absolute;
+        top:10px;
+        right:15px;
+        }
+    #login-step-popup .popup-content button.button{
+        margin-top:10px;
+        }
+
+#login-step-popup .popup-title .popup-close span {
+    border:0;
+    background:url(../../../images/ecomdev/checkitout/orange/icons/cross.png) no-repeat center transparent;
+    width:20px;
+    height:20px;
+    }
+    #login-step-popup .popup-title .popup-close span span {
+        display: none;
+        }
+    #login-step-popup .input-box {
+        width: 100%;
+        padding-right:15px;
+        }
+        #login-step-popup .input-box input {
+            width:329px;
+            }
+    #login-step-popup input.input-text {
+        padding:4px;
+        }
+/* Form Highlight */
+input.input-text:focus,select:focus,textarea:focus {
+    background-color:#fbfbfb;
+    border: 1px solid #9c9c9c;
+}
+
+/* Step Content */
+
+.step-content label {
+    font-weight: normal;
+    color:#585858;
+    }
+
+/* Data Table */
+.checkout-step-review .data-table {
+    border: 1px solid #9d9d9d;
+    border-right:0;
+}
+.checkout-step-review .data-table thead th {
+    height:26px;
+    line-height: 26px;
+    border-right:1px solid #9d9d9d;
+    color:#585858;
+
+    background: #fff;
+}
+.checkout-step-review .data-table tr {
+    border:0;
+}
+.checkout-step-review .data-table tr td {
+    background: #fefefe;
+    color:#3f3f3f;
+    border:0;
+    border-top:1px solid #9d9d9d;
+    padding-top:5px;
+    padding-bottom:5px;
+    }
+    .checkout-step-review .data-table tbody tr:hover td {
+        cursor: default;
+        background: #f2f2f2;
+    }
+        .checkout-step-review .data-table tr td.last {
+            border-right:1px solid #9d9d9d;
+            }
+    .checkout-step-review .data-table tr td h3 {
+        color:#000;
+        }
+.checkout-step-review .data-table tfoot tr td {
+    border:0;
+    }
+.checkout-step-review .data-table tfoot tr.first td {
+    background: #fff;
+    border-top: 1px solid #9d9d9d;
+    }
+
+/* Icons For Steps */
+
+#checkout-step-address,
+#checkout-step-shipping_method,
+#checkout-step-payment,
+#checkout-step-review{
+    background: #fffbd0; /* Old browsers */
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmJkMCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  #fffbd0 0%, #ffffff 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fffbd0), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #fffbd0 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #fffbd0 0%,#ffffff 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #fffbd0 0%,#ffffff 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #fffbd0 0%,#ffffff 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fffbd0', endColorstr='#ffffff',GradientType=0 ); /* IE6-8 */
+
+    <!--[if gte IE 9]>
+    <style type="text/css">
+    .gradient {
+    filter: none;
+    }
+    </style>
+    <![endif]-->
+}
+    #checkout-step-address-content {
+        background: url('../../../images/ecomdev/checkitout/orange/icons/icon-contacts.png') no-repeat 97% 10px !important;
+        }
+    #checkout-step-shipping_method-content {
+        background: url('../../../images/ecomdev/checkitout/orange/icons/icon-shipping-method.png') no-repeat 97% 10px !important;
+        }
+    #checkout-step-payment-content {
+        background: url('../../../images/ecomdev/checkitout/orange/icons/icon-dollar.png') no-repeat 97% 10px !important;
+        }
+
+
+.same-as-billing-overlay {
+    background:url('../../../images/ecomdev/checkitout/orange/blocked.png');
+    }
+
+/* Button */
+
+button.btn-checkout {
+    }
+    button.btn-checkout span {
+        height:40px;
+        background: #CC6600;
+        border:0;
+        padding:0 10px;
+        border-radius: 5px;
+        }
+        button.btn-checkout:hover span {
+            }
+        button.btn-checkout span span {
+            text-shadow: 1px 1px 3px #666666;
+            padding:0;
+            }
+            button.btn-checkout:hover span {
+                background:#d8791a;
+                }
+
+
+.checkitout .control label {
+    padding-left: 20px;
+    -moz-padding-start:0;
+    -webkit-padding-start:0;
+    -o-padding-start:0;
+    padding-start:0;
+}
+
+.sp-methods label {
+    -moz-padding-start:0;
+    -webkit-padding-start:0;
+    -o-padding-start:0;
+    padding-start:0;
+}
+
+/* CSS3 */
+
+
+
+.checkitout input[type="checkbox"] + label::before {
+    vertical-align: middle;
+}
+.checkitout input[type="checkbox"] {
+    opacity: 0;
+    position: absolute;
+}
+.checkitout input[type="checkbox"] + label::before {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 15px;
+    line-height: 15px;
+    margin: 0 8px 4px 0;
+    background: url("../../../images/ecomdev/checkitout/orange/custom_checkbox.png") no-repeat 0 -15px;
+    vertical-align: middle;
+}
+.checkitout input[type="checkbox"]:disabled + label {
+    opacity: .5;
+    cursor: default;
+}
+.checkitout input[type="checkbox"]:not(:checked):hover + label::before {
+    background-position: 0 -15px;
+}
+.checkitout input[type="checkbox"]:checked + label::before {
+    background-position: 0 0;
+}
+.checkitout input[type="checkbox"]:focus + label {
+    outline: dotted 1px;
+}
+
+
+/*
+input[type="radio"] + label::before{
+    vertical-align: middle;
+}
+input[type="radio"]{
+    opacity: 0;
+    position: absolute;
+}
+input[type="radio"] + label::before,
+input[type="radio"] + script + label::before{
+    content: "";
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    line-height: 13px;
+    margin: 0 8px 0 0;
+    background: green;
+    vertical-align: middle;
+}
+input[type="radio"]:disabled + label,
+input[type="radio"]:disabled + script + label{
+    opacity: .5;
+    cursor: default;
+}
+input[type="radio"] + label::before,
+input[type="radio"] + script + label::before{
+    background: green;
+}
+input[type="radio"]:hover + label::before,
+input[type="radio"]:hover + script + label::before{
+    background: green;
+}
+input[type="radio"]:not(:checked) {
+    background: green;
+}
+input[type="radio"]:checked + label::before,
+input[type="radio"]:checked + script + label::before{
+    background:red;
+    }
+*/
+
+.checkitout .input-box select {
+    -webkit-appearance: button;
+    -webkit-user-select: none;
+
+    background-image: url(../../../images/ecomdev/checkitout/orange/arrow-select.png);
+
+    background-position: 95% 50%;
+    background-repeat: no-repeat;
+
+    border: 1px solid #AAA;
+    color: #555;
+    font-size: inherit;
+    margin: 0;
+    overflow: hidden;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.checkitout .checkout-step .step-header, .checkitout .checkout-step {
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-top-left-radius: 5px;
+    -moz-border-radius-topright: 5px;
+    -moz-border-radius-topleft: 5px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+
+.checkitout .checkout-step, .checkitout .step-content {
+    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}

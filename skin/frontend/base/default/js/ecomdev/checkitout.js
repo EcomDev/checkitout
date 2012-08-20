@@ -54,6 +54,28 @@ EcomDev.Replacer = new (Class.create({
     }
 }));
 
+Element.addMethods({
+    moveToBody: function (element) {
+        Element.remove(element);
+        Element.insert(document.body, element);
+    }
+});
+
+EcomDev.DomReady = new (Class.create({
+    initialize: function () {
+        document.observe('dom:loaded', this.ready.bind(this));
+        this.actions = [];
+    },
+    ready: function () {
+        for (var i = 0, l = this.actions.length; i < l; i++) {
+            this.actions[i]();
+        }
+    },
+    add: function (callback) {
+        this.actions.push(callback);
+    }
+}))();
+
 /**
  * Main Checkout class
  * 
@@ -93,6 +115,7 @@ EcomDev.CheckItOut = Class.create({
          * @type Element
          */
         this.container = $(config.container);
+        this.accordion = {container: this.container}; // Adds compatibility for authorize direct post
         /**
          * Content html element
          * 
@@ -105,8 +128,7 @@ EcomDev.CheckItOut = Class.create({
          * @type Element
          */        
         this.mask = this.container.up().down('.checkitout-checkout-loading');
-        this.mask.remove();
-        $$('body').first().insert(this.mask);
+        EcomDev.DomReady.add(this.mask.moveToBody.bind(this.mask));
 
         /**
          * Overlay html element
@@ -114,8 +136,7 @@ EcomDev.CheckItOut = Class.create({
          * @type Element
          */        
         this.overlay = this.container.up().down('.checkitout-checkout-overlay');
-        this.overlay.remove();
-        $$('body').first().insert(this.overlay);
+        EcomDev.DomReady.add(this.overlay.moveToBody.bind(this.overlay));
 
         /**
          * On reload event handler that binded to checkout object scope
@@ -178,6 +199,40 @@ EcomDev.CheckItOut = Class.create({
         return this.steps.any(function (pair) {
            return pair.value.isLoading();
         })
+    },
+    /**
+     * Check that any of the steps is in change timeout process
+     *
+     * @return Boolean
+     */
+    isChangeTimeout: function () {
+        return this.steps.any(function (pair) {
+            return pair.value.isChangeTimeout();
+        })
+    },
+    /**
+     * Notifies submit button on changes in loading process
+     *
+     *
+     */
+    notifyLoading: function () {
+        var isDisabled = this.isLoading() || this.isChangeTimeout();
+        var buttons = this.getSubmitButtons();
+        for (var i = 0, l = buttons.length; i < l; i++) {
+            if (isDisabled) {
+                buttons[i].addClassName('disabled');
+            } else {
+                buttons[i].removeClassName('disabled');
+            }
+        }
+    },
+    /**
+     * Returns list of submit buttons
+     *
+     * @return Enumerable
+     */
+    getSubmitButtons: function () {
+        return $$('button.btn-checkout');
     },
     /**
      * Ajax failure callback, 
@@ -275,7 +330,8 @@ EcomDev.CheckItOut = Class.create({
             height: this.getMaskHeight() + 'px',
             top: 0 + 'px',
             left: 0 + 'px',
-            opacity: this.config.maskOpacity || 0.5
+            opacity: this.config.maskOpacity || 0.5,
+            zIndex: 1000
         });
     },
     /**
@@ -428,6 +484,27 @@ EcomDev.CheckItOut = Class.create({
        delete response.request;
     },
     /**
+     * Compatibility with OPC for load waiting overlay
+     *
+     * @param String step
+     * @return void
+     */
+    setLoadWaiting: function (step) {
+        if (!this.currentLoadWaiting && step == false) {
+            return;
+        } else if (step && !this.getStep(step)) {
+            if (this.currentLoadWaiting) {
+                this.currentLoadWaiting.hideMask();
+            }
+
+            this.currentLoadWaiting = this.getStep(step);
+            this.currentLoadWaiting.showMask();
+        } else if (step == false) {
+            this.currentLoadWaiting.hideMask();
+            this.currentLoadWaiting = false;
+        }
+    },
+    /**
      * Submits the placing of the order,
      * Performs validation before sending data to backend
      * 
@@ -470,6 +547,10 @@ EcomDev.CheckItOut = Class.create({
      */
     isValid: function () {
         return !this.isLoading() && !this.steps.any(function (step) {
+            if (step[1].ignoreValidationResult) {
+                return false;
+            }
+
             return !step[1].isValid();
         });
     },
@@ -589,6 +670,23 @@ EcomDev.CheckItOut.Step = Class.create({
      */
     contentCssSelector: '.step-content',
     /**
+     * Special flag for checkout step to exclude it
+     * from overall validation of checkout
+     *
+     * @type Boolean
+     */
+    ignoreValidationResult: false,
+    /**
+     * Flag for loading data information
+     *
+     * @type Boolean
+     */
+    _isLoading: false,
+    /**
+     * Flag for is in change timeout information
+     */
+    _isChangeTimeout: false,
+    /**
      * Step constructor, 
      * 
      * @param String container container element id
@@ -657,7 +755,7 @@ EcomDev.CheckItOut.Step = Class.create({
         return this.checkout.stepHash.get(this.code) == this.loadedHash;
     },
     /**
-     * Check s step in loading or it's already loaded 
+     * Checks step in loading or it's already loaded
      * Set flag if the paramter is given
      * 
      * @param Boolean flag 
@@ -666,9 +764,25 @@ EcomDev.CheckItOut.Step = Class.create({
     isLoading: function (flag) {
         if (typeof flag == 'boolean') {
             this._isLoading = flag;
+            this.checkout.notifyLoading();
         }
         return this._isLoading;
     },
+
+    /**
+     * Checks step in in change timeout action
+     *
+     * @param Boolean flag
+     * @return Boolean
+     */
+    isChangeTimeout: function (flag) {
+        if (typeof flag == 'boolean') {
+            this._isChangeTimeout = flag;
+            this.checkout.notifyLoading();
+        }
+        return this._isChangeTimeout;
+    },
+
     /**
      * Retrieve from element values
      * 
@@ -686,7 +800,15 @@ EcomDev.CheckItOut.Step = Class.create({
      * @return Array 
      */
     getElements: function () {
-        return this.content.select('input', 'select', 'textarea');
+        return this.content.select('input', 'select', 'textarea').findAll(this.isNotIgnored);
+    },
+    /**
+     * Checks if element should be ignored for elements select
+     *
+     * @return Boolean
+     */
+    isNotIgnored: function (elm) {
+        return !elm.hasClassName('ignore-element');
     },
     /**
      * Add related step codes to this step,
@@ -787,6 +909,7 @@ EcomDev.CheckItOut.Step = Class.create({
             if (this.timeout) {
                 clearTimeout(this.timeout);
             }
+            this.isChangeTimeout(true);
             this.timeout = setTimeout(this.updater, this.changeInterval);
         } else {
             this.updater();
@@ -805,6 +928,7 @@ EcomDev.CheckItOut.Step = Class.create({
         if (this.timeout) {
             clearInterval(this.timeout);
             this.timeout = undefined;
+            this.isChangeTimeout(false);
         }
         
         if (!this.autoValidate || this.isValid(false) || this.autoSubmitInvalid) {
@@ -830,7 +954,7 @@ EcomDev.CheckItOut.Step = Class.create({
         try {
             var result = response.responseText.evalJSON();
             if (result.stepHash) {
-                this.lastHash = result.stepHash; 
+                this.lastHash = result.stepHash;
             }
         } catch (e) {
             alert(e);
@@ -879,7 +1003,8 @@ EcomDev.CheckItOut.Step = Class.create({
             height: dimensions.height + 'px',
             top: content.offsetTop + 'px',
             left: content.offsetLeft + 'px',
-            opacity: 0.5
+            opacity: 0.5,
+            zIndex: 1000
         });
     },
     /**
@@ -999,8 +1124,7 @@ var LoginStep = Class.create(EcomDev.CheckItOut.Step, {
     initCheckout: function ($super) {
         $super();
         if (this.checkout.config && this.checkout.config.popUpOutside) {
-            this.popUp.remove();
-            $$('body').first().insert(this.popUp);
+            EcomDev.DomReady.add(this.popUp.moveToBody.bind(this.popUp));
         }
         this.popUpTriggerBtn.observe('click', this.togglePopUp.bind(this));
         this.popUpCloseBtn.observe('click', this.hidePopUp.bind(this));
@@ -1259,13 +1383,13 @@ var Billing = Class.create(EcomDev.CheckItOut.Step.Address, {
         var isChecked = true;
         if ($('billing:use_for_shipping_yes')) {
             isChecked = $('billing:use_for_shipping_yes').checked;
-            insertAbove = $('billing:use_for_shipping_yes').up('li').previous('li');
+            insertAbove = $('billing:use_for_shipping_yes').up('li').previous();
             $('billing:use_for_shipping_yes').up('li').remove();
         }
         
         if ($('billing:use_for_shipping_no')) {
             
-            insertAbove = $('billing:use_for_shipping_no').up('li').previous('li');
+            insertAbove = $('billing:use_for_shipping_no').up('li').previous();
             $('billing:use_for_shipping_no').up('li').remove();
         }
         
@@ -1513,9 +1637,13 @@ var Shipping = Class.create(EcomDev.CheckItOut.Step.Address, {
                     }
                 }
             }
-            shippingRegionUpdater.update();
-            $('shipping:region_id').value = $('billing:region_id').value;
-            $('shipping:region').value = $('billing:region').value;
+            if (window.shippingRegionUpdater) {
+                shippingRegionUpdater.update();
+            }
+            if ($('shipping:region_id') && $('billing:region_id')) {
+                $('shipping:region_id').value = $('billing:region_id').value;
+                $('shipping:region').value = $('billing:region').value;
+            }
         } else {
             $('shipping-address-select').value = $('billing-address-select').value;
         }
@@ -1527,7 +1655,9 @@ var Shipping = Class.create(EcomDev.CheckItOut.Step.Address, {
      * @return void
      */
     setRegionValue: function(){
-        $('shipping:region').value = $('billing:region').value;
+        if ($('shipping:region') && $('billing:region')) {
+            $('shipping:region').value = $('billing:region').value;
+        }
     }
 });
 
@@ -1720,6 +1850,7 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
             }
         }
         if (result.error){
+            this.isLoading(false);
             alert(result.message);
             return;
         }
@@ -1813,23 +1944,10 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
      */
     update: function ($super, content) {
         var values = this.getValues();
-       
+
+        this.updateFieldValues = values;
         $super(content);
-        
-        var fieldNames = Object.keys(values);
-        for (var i=0, l=fieldNames.length; i < l; i++) {
-            var field = this.content.down('*[name="' + fieldNames[i] + '"]');
-            if (field && !['checkbox', 'radio'].include(field.type)) {
-                field.value = values[fieldNames[i]];
-            } else if (field) {
-                var elements = this.content.select('*[name="' + fieldNames[i] + '"]');
-                elements.map(function (element) { 
-                    if (element.value == values[fieldNames[i]]) {
-                        element.checked = true
-                    }
-                });
-           }
-        }
+        this.updateFieldValues = false;
         this.checkOneMethod();
     },
     /**
@@ -1846,6 +1964,26 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         }
         
         $super(content);
+
+        if (this.updateFieldValues) {
+            var fieldNames = Object.keys(this.updateFieldValues);
+            for (var i=0, l=fieldNames.length; i < l; i++) {
+                var field = this.content.down('*[name="' + fieldNames[i] + '"]');
+                if (field && !['checkbox', 'radio'].include(field.type)) {
+                    field.value = this.updateFieldValues[fieldNames[i]];
+                } else if (field) {
+                    var elements = this.content.select('*[name="' + fieldNames[i] + '"]');
+                    for (var elementIndex = 0, elementLength = elements.length;
+                         elementIndex < elementLength;
+                         elementIndex ++) {
+                        if (elements[elementIndex].value == this.updateFieldValues[fieldNames[i]]) {
+                            elements[elementIndex].checked = true;
+                        }
+                    }
+                }
+            }
+        }
+
         // Bringing all scripts together to eval in the same scope
         var scriptText = '';
         for (var i=0, l = scripts.length; i < l; i ++) {
@@ -1892,7 +2030,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         var elements = Form.getElements(this.form);
         var method = null;
         for (var i=0; i<elements.length; i++) {
-            if (elements[i].name=='payment[method]') {
+            if (elements[i].name == 'payment[method]') {
                 if (elements[i].checked) {
                     method = elements[i].value;
                 }
@@ -2004,7 +2142,10 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         if (this.currentMethod && $('payment_form_'+this.currentMethod)) {
             this.changeVisible(this.currentMethod, true);
         }
-        var form = $('payment_form_'+method);
+
+
+        var form = $('payment_form_' + method);
+
         if (form){
            this.changeVisible(method, false);
            fireAnEvent || form.fire('payment-method:switched', {method_code : method});
@@ -2012,16 +2153,16 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
             //Event fix for payment methods without form like "Check / Money order"
             fireAnEvent || document.body.fire('payment-method:switched', {method_code : method});
         }
-        
+
         if (!form || form.select('select','input', 'textarea').length == 0) {
             this.handleChange({});
         }
-        
+
         if (this.currentMethod != method && this.checkout) {
             this.checkout.paymentRedirect = false;
         }
+
         this.currentMethod = method;
-        
     },
     /**
      * Change payment form visibility
@@ -2037,8 +2178,18 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
                 element.select('input', 'select', 'textarea').each(function(field) {
                     field.disabled = mode;
                 });
+                if (element.relatedElement) {
+                    element.relatedElement.style.display = (mode) ? 'none' : '';
+                    element.relatedElement.select('input', 'select', 'textarea').each(function(field) {
+                        field.disabled = mode;
+                    });
+                }
             }
         });
+    },
+    getCurrentForm: function () {
+        var block = 'payment_form_' + this.currentMethod;
+        return $(block);
     },
     /**
      * Add handler for before validation observing
@@ -2183,7 +2334,17 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         if (result.redirect) {
             this.checkout.paymentRedirect = result.redirect;
         }
-        
+
+        // Support of centinel features
+        if (result.update_section
+            && this.checkout.getStep(result.update_section.name)) {
+            var stepToUpdate = this.checkout.getStep(result.update_section.name);
+            if (Object.isFunction(stepToUpdate.updateContent)) {
+                stepToUpdate.updateContent(result.update_section.html);
+                stepToUpdate.loadedHash = result.stepHash[stepToUpdate.code];
+            }
+        }
+
         if (result.error){
             if (result.fields) {
                 var fields = result.fields.split(',');
@@ -2195,10 +2356,8 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
                 }
             } else {
                 Validation.ajaxError(this.errorEl, result.error);
-                this.checkout.getStep('review').load();
+                this.isLoading(false);
             }
-            
-            
             return;
         }
         return $super(response);
@@ -2281,8 +2440,15 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
         this.showMask();
         if (!this.checkout.isLoading() || !this.isValidHash() || !this.wasLoaded) {
             this.wasLoaded = true;
+            var params = (
+                this.checkout.getStep('payment') ?
+                    this.checkout.getStep('payment').getValues() :
+                    {}
+            );
+            this.isLoading(true);
             new Ajax.Request(this.loadUrl, {
                 method: 'POST',
+                parameters: params,
                 onComplete: this.onLoadComplete,
                 onFailure: this.checkout.ajaxFailure
             });
@@ -2299,10 +2465,20 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
     loadComplete: function (response) {
         this.hideMask();
         this.loadedHash = this.checkout.stepHash.get(this.code);
+        this.updateContent(response.responseText);
+        this.agreementsForm = $(this.agreementsFormId);
+        this.isLoading(false);
+    },
+    /**
+     * Updates content of the step
+     *
+     * @param content
+     */
+    updateContent: function (content) {
         try {
             var values = Form.serializeElements(this.updateElement.select('input', 'select', 'textarea'), true);
-            this.updateElement.update(response.responseText);
-            var names = Object.keys(values); 
+            this.updateElement.update(content);
+            var names = Object.keys(values);
             for (var i = 0, l = names.length; i < l; i ++) {
                 if (Object.isArray(values[names[i]])) {
                     this.updateElement.select('input[name="' + names[i] + '"]')
@@ -2322,7 +2498,6 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
                 window.console.log(response.responseText);
             }
         }
-        this.agreementsForm = $(this.agreementsFormId);
     },
     /**
      * Emulation of OnePageCheckout save method
@@ -2629,8 +2804,7 @@ var ConfirmPopUp = Class.create(EcomDev.CheckItOut.Step, {
     initCheckout: function ($super) {
         $super();
         if (this.checkout.config && this.checkout.config.popUpOutside) {
-            this.container.remove();
-            $$('body').first().insert(this.container);
+            EcomDev.DomReady.add(this.container.moveToBody.bind(this.container));
         }
     },
     /**

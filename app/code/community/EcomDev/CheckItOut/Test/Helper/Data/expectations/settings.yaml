@@ -10,7 +10,7 @@ two:
   is_allowed_guest_checkout: true
   is_payment_method_hidden: true
   is_shipping_method_hidden: true
-  is_coupon_enabled: false
+  is_coupon_enabled: true
   default_country: US
 three:
   is_active: true
@@ -24,7 +24,7 @@ three:
   is_allowed_guest_checkout: true
   is_payment_method_hidden: true
   is_shipping_method_hidden: true
-  is_coupon_enabled: false
+  is_coupon_enabled: true
   default_country: UK
 four: 
   is_active: true
@@ -38,5 +38,5 @@ four:
   is_allowed_guest_checkout: false
   is_payment_method_hidden: false
   is_shipping_method_hidden: false
-  is_coupon_enabled: true
+  is_coupon_enabled: false
   default_country: UA

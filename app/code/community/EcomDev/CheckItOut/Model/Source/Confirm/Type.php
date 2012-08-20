@@ -20,7 +20,7 @@
  * Confirmation type source model
  *
  */
-class EcomDev_CheckItOut_Model_Config_Source_Confirm_Type
+class EcomDev_CheckItOut_Model_Source_Confirm_Type
 {
     const TYPE_NONE = 'none';
     const TYPE_POPUP = 'popup';

@@ -17,3 +17,4 @@ skin/frontend/default/blue/css/ecomdev/checkitout.css				    skin/frontend/defau
 skin/frontend/default/modern/css/ecomdev/checkitout.css				    skin/frontend/default/modern/css/ecomdev/checkitout.css
 skin/frontend/base/default/css/ecomdev/checkitout/                      skin/frontend/base/default/css/ecomdev/checkitout/
 skin/frontend/base/default/images/ecomdev/checkitout/                   skin/frontend/base/default/images/ecomdev/checkitout/
+shell/checkitout-geoip.php                                              shell/checkitout-geoip.php

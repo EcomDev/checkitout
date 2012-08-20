@@ -69,6 +69,7 @@ class EcomDev_CheckItOut_Test_Controller_OnepageController
         $this->replaceByMock('singleton', 'checkout/session', $this->checkoutSessionMock);
 
         // Remove onepage singleton from system
+        $this->replaceRegistry('_singleton/ecomdev_checkitout/type_onepage', null);
         $this->replaceRegistry('_singleton/checkout/type_onepage', null);
         $this->replaceRegistry('_singleton/customer/session', null);
 
@@ -147,6 +148,7 @@ class EcomDev_CheckItOut_Test_Controller_OnepageController
      */
     protected function reloadQuoteInSession()
     {
+        $this->replaceRegistry('_singleton/ecomdev_checkitout/type_onepage', null);
         $this->replaceRegistry('_singleton/checkout/type_onepage', null);
         $this->checkoutSessionMock->setQuoteId($this->checkoutSessionMock->getQuote()->getId());
 
@@ -655,6 +657,8 @@ class EcomDev_CheckItOut_Test_Controller_OnepageController
         // Set checkout method
         $this->getOnepage()
             ->saveCheckoutMethod($checkoutMethod);
+
+        $this->replaceRegistry('login_action_text', null);
 
         // Check saving billing address
         $this->getRequest()->setMethod('POST')

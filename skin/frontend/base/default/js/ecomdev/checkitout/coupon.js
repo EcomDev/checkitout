@@ -23,6 +23,12 @@
 EcomDev.CheckItOut.Step.PromotionCode = Class.create(
     EcomDev.CheckItOut.Step, {
         /**
+         * Ignores validation results on coupon code fields
+         *
+         * @var Boolean
+         */
+        ignoreValidationResult: true,
+        /**
          * Checkout step constructor
          *
          * @param Function $super parent constructor method
@@ -182,7 +188,7 @@ window.CouponCode = Class.create(EcomDev.CheckItOut.Step.PromotionCode, {
             this.handleRemove.bind(this)
         );
 
-        this.couponField.value = this.coupon;
+        this.couponField.value = this.coupon || '';
     },
     submitCompleteCallback: function(result, response) {
         Validation.reset(this.couponField);
