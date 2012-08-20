@@ -36,9 +36,9 @@ class EcomDev_CheckItOut_Model_Type_Onepage
      */
     public function isLocationInfoEmpty($address)
     {
-        return !array_filter($address->toArray(
+        return !array_filter($address->toArray(array(
             'postcode', 'street', 'city', 'country_id', 'region_id', 'region'
-        ));
+        )));
     }
 
     /**
