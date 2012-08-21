@@ -1,0 +1,177 @@
+/**
+ * CheckItOut base CSS
+ * 
+ */
+
+/** Helpers */
+.clear  { clear: both; }
+
+/** General Step Styles **/
+.checkitout .checkout-step { position: relative; margin-bottom: 10px; }
+.checkitout .checkout-step .buttons { text-align: right; padding-top: 20px; }
+.checkitout .checkout-step .step-header { padding:4px 8px 6px; background-color:#f6f6f6; border:1px solid #ddd; padding-bottom:5px; cursor:default; }
+.checkitout .checkout-step .checkout-step .step-header { background: none; border: none; padding: 0 0 0 0; }
+.checkitout .checkout-step .step-header .number { float:left;background:#ddd; border-color:#ddd; color:#000; padding:0 4px; margin:0 5px 0 0; font:bold 11px/14px arial, helvetica, sans-serif; }
+.checkitout .checkout-step .step-content  { border:1px solid #ddd; border-top:0; padding:15px 30px; position:relative; }
+.checkitout .checkout-step .checkout-step .step-content  { border:none;  background: none; padding: 0 0 0 0; position:relative; }
+.checkitout .checkout-step .buttons-set { display:none; }
+
+/* Step Loading Overlay */
+.checkitout .checkout-step .step-loading { position: absolute; background-color: #fff; text-align: center; vertical-align: middle;}
+.checkitout .checkout-step .step-loading span { position: relative; top: 45%;}
+
+/* Checkout Layout Part Styles */
+.checkitout .checkout-top { width: 100%; clear: both; }
+.checkitout .checkout-right { width: 62%; float: right; }
+.checkitout .checkout-left { width: 37%; float:left; }
+.checkitout .checkout-single { width: 100%; clear: both; }
+
+
+/* When both shipping/payment methods displayed */
+.checkitout .checkout-right .two .checkout-step,
+.checkitout .checkout-single .two .checkout-step { width: 49.2%; height: 100%; position: relative;}
+.checkitout .checkout-right .two div.first,
+.checkitout .checkout-single .two div.first { float: left; clear: both; }
+.checkitout .checkout-right .two div.second,
+.checkitout .checkout-single .two div.second { float: right; }
+
+.checkitout .checkout-single .one,
+.checkitout .checkout-single .two {clear: both;}
+
+/* Form Element Styles */
+
+/* One field in the row */
+.checkitout .form-list .input-box { width:225px;  margin-left: 0px; }
+.checkitout .form-list label { text-align: left; margin-left: 0px; }
+.checkitout .form-list .wide input.input-text,
+.checkitout .form-list .wide select  { width:100%; }
+.checkitout .form-list input.input-text,
+.checkitout .form-list select { width:100%; }
+
+/* Two fields in the row */
+.checkitout .form-list .field,
+.checkitout .form-list .field { width:50%; }
+.checkitout .form-list .wide { width:280px; }
+.checkitout .form-list .v-fix { width:65px; }
+.checkitout .form-list .v-fix .validation-advice { width:65px; }
+.checkitout .form-list .v-fix select { width:62px; }
+
+/* Two Column Layout of form fields */
+/*.checkitout .checkout-single .form-list .input-box { width:140px; }
+.checkitout .checkout-single .form-list .field { width:50%; }
+.checkitout .checkout-single .form-list .wide { width:380px; }
+.checkitout .checkout-single .form-list .wide input.input-text,
+.checkitout .checkout-single .form-list .wide select  { width:360px; }
+.checkitout .checkout-single .form-list input.input-text,
+.checkitout .checkout-single .form-list input.input-text,
+.checkitout .checkout-single .form-list select,
+.checkitout .checkout-single .form-list select { width:170px; }
+.checkitout .checkout-single .form-list .v-fix { width:95px; }
+.checkitout .checkout-single .form-list .v-fix .validation-advice { width:95px; }
+.checkitout .checkout-single .form-list .v-fix select { width:92px; }*/
+
+/* Whole Page Loading Overlays */
+.checkitout-checkout-loading { position: absolute; background-color: #222; text-align: center; vertical-align: middle; z-index: 2000;}
+.checkitout-checkout-loading span { font-weight: bold; position: relative; top: 45%; background-color: #eee; margin-left: 40%; margin-right: 40%; display: block; padding: 20px 40px; border: 1px solid #000; }
+.checkitout-checkout-overlay { position: absolute; background-color: #222; }
+
+/* Custom Step Styles */
+
+/* Address Layout */
+.same-as-billing-overlay { position: absolute; z-index: 100; top: 0px; left: 0px; background: url(../../../images/ecomdev/checkitout/base/bg_same_as_billing.gif); }
+
+.checkitout .checkout-left .same-as-billing,
+.checkitout .checkout-left .same-as-billing-overlay { display:none; }
+
+.checkitout .checkout-single .same-as-billing-overlay { display: none; }
+.checkitout .checkout-single .same-as-billing .same-as-billing-overlay { display: block; }
+
+/* Top Layout */
+.checkitout .checkout-top h1 { float:left; display:block; }
+.checkitout .checkout-top .page-title { overflow: visible; }
+
+/* Login PopUP */
+#checkout-step-login { float:right; position: static; }
+#checkout-step-login .step-content { position: static; border:none; background: none; padding: 0 0 0 0;}
+#login-step-popup { text-align: left; width: 400px; position: absolute; left: -110px; top: -50px; z-index: 1000; }
+#login-step-popup .popup-title { padding:4px 8px 6px; background-color:#f6f6f6; border:1px solid #ddd; padding-bottom:5px; cursor:default; }
+#login-step-popup .popup-title .popup-close { float:right; }
+#login-step-popup .popup-content  { background: #fff; border:1px solid #ddd; border-top:0; padding:15px 30px; position:relative; }
+#login-step-popup .popup-content .button[type=submit] { float: right; }
+
+/* Review */
+.checkitout .review-container .checkout-step { width: 100%; }
+.checkitout .review-container  { clear: both; }
+
+/* Review Step Various Elements */
+.checkitout .review-container .form-list .order-comments,
+.checkitout .review-container .form-list .order-comments .input-box { width: 100% }
+.checkitout .review-container .form-list .order-comments textarea { width: 100%; height: 50px; }
+.checkitout .review-container .checkout-step .buttons-set { margin: 0 0 0 0; display:block; }
+.checkitout .review-container .checkout-step .empty { margin-bottom: 40px; }
+.checkitout .btn-remove2 { display:block; width:16px; height:16px; font-size:0; line-height:0; background:url(../../../images/ecomdev/checkitout/base/btn_trash.gif) 0 0 no-repeat; text-indent:-999em; overflow:hidden; }
+
+/* Payment */
+.checkitout #payment-tool-tip { position: absolute; }
+
+/* Coupon Codes or Gift Card for one column layout */
+#checkout-step-promotions.one .form-list { display: block; width: 100%;}
+#checkout-step-promotions.one .form-list li { display: block; width: 48%; float: left; }
+#checkout-step-promotions.one .form-list li .input-box,
+#checkout-step-promotions.one .form-list li .input-box input { width: 90%; }
+#checkout-step-promotions.one .form-list li.control { padding-top: 1.5em;}
+
+/* Confirmation window */
+#confirmation-window { text-align: left; background: #fff; z-index: 3000; width: 800px; position: absolute; }
+#confirmation-window .buttons-set { display:block; }
+#confirmation-window .buttons-set .cancel { float: right; }
+#confirmation-window .buttons-set .confirm { float: left; }
+#confirmation-window .block { float: left; width: 47.5%; }
+#confirmation-window .block .block-content { padding: 5px 5px; }
+#confirmation-window .block-right { float: right; }
+#confirmation-window .block-wide { width: 100%; }
+#confirmation-window .step-header { padding:4px 8px 6px; background-color:#f6f6f6; border:1px solid #ddd; padding-bottom:5px; cursor:default; }
+#confirmation-window .step-header .number { float:left;background:#ddd; border-color:#ddd; color:#000; padding:0 4px; margin:0 5px 0 0; font:bold 11px/14px arial, helvetica, sans-serif; }
+#confirmation-window .step-content  { border:1px solid #ddd; border-top:0; padding:15px 30px; position:relative; }
+
+/** 
+ *  Gift options & gift message block
+ */
+.checkitout .gift-message-form .inner-box h5, 
+.checkitout .gift-message-form .inner-box h4,
+.checkitout .gift-message-form .gift-message-form .inner-box p { padding: 0 10px; }
+.checkitout .checkout-step .gift-message-form .gift-item .form-list { padding: 0 0 0 20px; }
+.checkitout .checkout-step .gift-message-form .gift-item .form-list .field,
+.checkitout .checkout-step .gift-messages-form .item .form-list .field,
+.checkitout .checkout-step .gift-messages-form .whole-order .form-list .field,
+.checkitout .checkout-step .gift-messages-form .allow-gift-messages-for-order-container .form-list .field,
+.checkitout .checkout-step .gift-message-form .gift-item .form-list .input-box,
+.checkitout .checkout-step .gift-messages-form .item .form-list .input-box,
+.checkitout .checkout-step .gift-messages-form .whole-order .form-list .input-box,
+.checkitout .checkout-step .gift-messages-form .allow-gift-messages-for-order-container .form-list .input-box,
+.checkitout .checkout-step .gift-messages-form .item .details .form-list li.wide .input-box,
+.checkitout .checkout-step .gift-messages-form .whole-order .form-list li.wide .input-box,
+.checkitout .checkout-step .gift-messages-form .allow-gift-messages-for-order-container .form-list li.wide .input-box,
+.checkitout .checkout-step .gift-messages-form .item .details .form-list li.wide textarea,
+.checkitout .checkout-step .gift-messages-form .whole-order .form-list li.wide textarea,
+.checkitout .checkout-step .gift-messages-form .allow-gift-messages-for-order-container .form-list li.wide textarea,
+.checkitout .checkout-step .gift-messages-form .item .details .form-list input.input-text,
+.checkitout .checkout-step .gift-messages-form .allow-gift-messages-for-order-container .form-list input.input-text,
+.checkitout .checkout-step .gift-messages-form .whole-order .form-list input.input-text { width: 100%; }
+.checkitout .checkout-step .gift-message-form .gift-item .fieldset { background-image: none; }
+.checkitout .checkout-step .gift-message-form .gift-item .fieldset { background-image: none; }
+.checkitout .checkout-step .gift-message-form .fieldset .form-list .input-text,
+.checkitout .checkout-step .gift-message-form .fieldset .form-list textarea { width: 170px;}
+.checkitout .checkout-step .gift-messages-form textarea { height: 40px; }
+.checkitout .checkout-step .gift-message-form .form-list label,
+.checkitout .checkout-step .gift-message-form .form-list .input-box, 
+.checkitout .gift-messages-form .item .product-img-box,
+.checkitout .gift-messages-form .whole-order .field, 
+.checkitout .gift-messages-form .item .details .vfix { float:none; }
+.checkitout .gift-options-for-order,
+.checkitout .gift-messages-form .inner-box {padding: 0 20px;}
+.checkitout .gift-message-form .gift-item .fieldset,
+.checkitout .gift-messages-form .item .fieldset { padding: 0 0 0 0; margin: 0 0 0 0; }
+.checkitout .gift-message-form .gift-item .product-img-box,
+.checkitout .gift-messages-form .item .product-img-box { background-image: none; }
+.checkitout .gift-messages-form .item .details { margin: 0 0 0 0; }
