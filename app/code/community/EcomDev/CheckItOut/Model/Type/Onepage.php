@@ -36,16 +36,14 @@ class EcomDev_CheckItOut_Model_Type_Onepage
      */
     public function isLocationInfoEmpty($address)
     {
-        if ($this->getQuote()->getCustomer()->getId()
-            && $this->getQuote()->getCustomer()->getAddresses()) {
-            // If customer is logged in and has some address information specified,
-            // do not set default address data
-            return false;
+        foreach (array('postcode', 'street', 'city',
+                       'country_id', 'region') as $attribute) {
+            if ($address->getDataUsingMethod($attribute)) {
+                return false;
+            }
         }
 
-        return !array_filter($address->toArray(array(
-            'postcode', 'street', 'city', 'country_id', 'region_id', 'region'
-        )));
+        return true;
     }
 
     /**
@@ -59,7 +57,7 @@ class EcomDev_CheckItOut_Model_Type_Onepage
         $this->_getDependency()->initCheckout();
 
         $recalculateTotals = false;
-        if (!$this->isLocationInfoEmpty($this->getQuote()->getBillingAddress())) {
+        if ($this->isLocationInfoEmpty($this->getQuote()->getBillingAddress())) {
             $this->getQuote()->getBillingAddress()->addData(
                 Mage::helper('ecomdev_checkitout')->getDefaultAddress()->getData()
             );
@@ -67,7 +65,7 @@ class EcomDev_CheckItOut_Model_Type_Onepage
         }
 
         if (!$this->getQuote()->isVirtual()
-            && !$this->isLocationInfoEmpty($this->getQuote()->getShippingAddress())
+            && $this->isLocationInfoEmpty($this->getQuote()->getShippingAddress())
             && Mage::helper('ecomdev_checkitout')->isShipmentSameByDefault()) {
             $this->getQuote()->getShippingAddress()->addData(
                 Mage::helper('ecomdev_checkitout')->getDefaultAddress()->getData() + array('same_as_billing' => 1)
