@@ -36,6 +36,13 @@ class EcomDev_CheckItOut_Model_Type_Onepage
      */
     public function isLocationInfoEmpty($address)
     {
+        if ($this->getQuote()->getCustomer()->getId()
+            && $this->getQuote()->getCustomer()->getAddresses()) {
+            // If customer is logged in and has some address information specified,
+            // do not set default address data
+            return false;
+        }
+
         return !array_filter($address->toArray(array(
             'postcode', 'street', 'city', 'country_id', 'region_id', 'region'
         )));
