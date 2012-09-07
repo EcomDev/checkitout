@@ -219,6 +219,10 @@
     width: 100%;
     padding-right:15px;
 }
+
+#checkout-step-promotions.one .form-list li .input-box input {
+    width:100%;
+}
 #login-step-popup .input-box input {
     width:329px;
 }
@@ -380,17 +384,19 @@ input.input-text:focus,select:focus,textarea:focus {
     outline: dotted 1px;
 }
 
+/* ---------------------------------------- */
 
-/*
-input[type="radio"] + label::before{
+/*.checkitout input[type="radio"] ~ label::before,
+.checkitout .sp-methods li span ~ label{
     vertical-align: middle;
 }
-input[type="radio"]{
+.checkitout input[type="radio"],
+.checkitout .sp-methods li span{
     opacity: 0;
     position: absolute;
 }
-input[type="radio"] + label::before,
-input[type="radio"] + script + label::before{
+.checkitout input[type="radio"] ~ label::before,
+.checkitout .sp-methods li span ~ label::before{
     content: "";
     display: inline-block;
     width: 13px;
@@ -400,27 +406,26 @@ input[type="radio"] + script + label::before{
     background: green;
     vertical-align: middle;
 }
-input[type="radio"]:disabled + label,
-input[type="radio"]:disabled + script + label{
+.checkitout input[type="radio"]:disabled ~ label{
     opacity: .5;
     cursor: default;
 }
-input[type="radio"] + label::before,
-input[type="radio"] + script + label::before{
+.checkitout input[type="radio"] ~ label::before,
+.checkitout .sp-methods li span ~ label::before{
     background: green;
 }
-input[type="radio"]:hover + label::before,
-input[type="radio"]:hover + script + label::before{
+.checkitout input[type="radio"]:hover ~ label::before,
+.checkitout .sp-methods li span:hover ~ label::before{
     background: green;
 }
-input[type="radio"]:not(:checked) {
+.checkitout input[type="radio"]:not(:checked){
     background: green;
 }
-input[type="radio"]:checked + label::before,
-input[type="radio"]:checked + script + label::before{
+.checkitout input[type="radio"]:checked ~ label::before{
     background:red;
-    }
-*/
+}*/
+
+/* ---------------------------------------- */
 
 .checkitout .input-box select {
     /*background-image: url(data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAECAYAAABCxiV9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAA0SURBVHjadIlBCgAgDMO6vTm/6KPraSKigUJKynb0oYF6BaB65A6SpCR7tnP+BQAA//8DAJzHHKhlTs7oAAAAAElFTkSuQmCC);*/
