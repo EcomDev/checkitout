@@ -180,7 +180,14 @@
                         <colortheme>css/ecomdev/checkitout/orange.css</colortheme>
                     </css>
                 </orange>
-				
+				<grey translate="label" module="ecomdev_checkitout">
+                    <label>Grey</label>
+                    <css>
+                        <base>css/ecomdev/checkitout/base-theme.css</base>
+                        <theme>css/ecomdev/checkitout/color-theme.css</theme>
+                        <colortheme>css/ecomdev/checkitout/grey.css</colortheme>
+                    </css>
+                </grey>
                 <road translate="label" module="ecomdev_checkitout">
                     <label>Road</label>
                     <css>
