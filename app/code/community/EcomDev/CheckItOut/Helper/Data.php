@@ -393,23 +393,43 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Returns default shipping method from configuration
+     * Returns default shipping method from configuration.
+     * Also allows to set up this value via observer
      *
+     * @param Mage_Sales_Model_Quote|null $quote
      * @return string
      */
-    public function getDefaultShippingMethod()
+    public function getDefaultShippingMethod($quote = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_DEFAULT_SHIPPING_METHOD);
+        $proxy = new Varien_Object();
+        $proxy->setValue(Mage::getStoreConfig(self::XML_PATH_DEFAULT_SHIPPING_METHOD));
+
+        Mage::dispatchEvent('ecomdev_checkitout_get_default_shipping_method', array(
+            'proxy' => $proxy,
+            'quote' => $quote
+        ));
+
+        return $proxy->getValue();
     }
 
     /**
-     * Returns default payment method from configuration
+     * Returns default payment method from configuration.
+     * Also allows to set up this values via observer
      *
+     * @param Mage_Sales_Model_Quote|null $quote
      * @return string
      */
-    public function getDefaultPaymentMethod()
+    public function getDefaultPaymentMethod($quote = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_DEFAULT_PAYMENT_METHOD);
+        $proxy = new Varien_Object();
+        $proxy->setValue(Mage::getStoreConfig(self::XML_PATH_DEFAULT_PAYMENT_METHOD));
+
+        Mage::dispatchEvent('ecomdev_checkitout_get_default_payment_method', array(
+            'proxy' => $proxy,
+            'quote' => $quote
+        ));
+
+        return $proxy->getValue();
     }
 
     /**

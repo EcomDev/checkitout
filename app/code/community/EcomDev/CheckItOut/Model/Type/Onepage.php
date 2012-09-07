@@ -37,8 +37,8 @@ class EcomDev_CheckItOut_Model_Type_Onepage
     public function isLocationInfoEmpty($address)
     {
         foreach (array('postcode', 'street', 'city',
-                       'country_id', 'region') as $attribute) {
-            if ($address->getDataUsingMethod($attribute)) {
+                     'country_id', 'region_id') as $attribute) {
+            if ($address->getData($attribute)) {
                 return false;
             }
         }
@@ -79,27 +79,20 @@ class EcomDev_CheckItOut_Model_Type_Onepage
 
         if (!$this->getQuote()->isVirtual()
             && !$this->getQuote()->getShippingAddress()->getShippingMethod()
-            && Mage::helper('ecomdev_checkitout')->getDefaultShippingMethod()) {
+            && Mage::helper('ecomdev_checkitout')->getDefaultShippingMethod($this->getQuote())) {
             $this->saveShippingMethod(
-                Mage::helper('ecomdev_checkitout')->getDefaultShippingMethod()
+                Mage::helper('ecomdev_checkitout')->getDefaultShippingMethod($this->getQuote())
             );
         }
 
         if (Mage::helper('ecomdev_checkitout')->isPaymentMethodHidden()) {
             $this->savePayment(array(
-                'method' => Mage::helper('ecomdev_checkitout')->getDefaultPaymentMethod()
+                'method' => Mage::helper('ecomdev_checkitout')->getDefaultPaymentMethod($this->getQuote())
             ));
             $this->recalculateTotals();
-        } elseif (Mage::helper('ecomdev_checkitout')->getDefaultPaymentMethod()) {
-            if ($this->getQuote()->isVirtual()) {
-                $address = $this->getQuote()->getBillingAddress();
-            } else {
-                $address = $this->getQuote()->getShippingAddress();
-            }
-            $address->setPaymentMethod(
-                Mage::helper('ecomdev_checkitout')->getDefaultPaymentMethod()
-            );
-
+        } elseif (Mage::helper('ecomdev_checkitout')->getDefaultPaymentMethod($this->getQuote())
+            && !$this->getQuote()->getPayment()->getMethod()) {
+            $this->getQuote()->getPayment()->setMethod(Mage::helper('ecomdev_checkitout')->getDefaultPaymentMethod($this->getQuote()));
         }
 
         return $this;
@@ -184,7 +177,7 @@ class EcomDev_CheckItOut_Model_Type_Onepage
         if (!$this->getQuote()->isVirtual() && !empty($data['use_for_shipping'])
             && !$this->getQuote()->getShippingAddress()->getShippingMethod()) {
             $this->getQuote()->getShippingAddress()->setShippingMethod(
-                Mage::helper('ecomdev_checkitout')->getDefaultShippingMethod()
+                Mage::helper('ecomdev_checkitout')->getDefaultShippingMethod($this->getQuote())
             );
             $this->recalculateTotals();
         }
@@ -214,7 +207,7 @@ class EcomDev_CheckItOut_Model_Type_Onepage
 
         if (!$this->getQuote()->getShippingAddress()->getShippingMethod()) {
             $this->getQuote()->getShippingAddress()->setShippingMethod(
-                Mage::helper('ecomdev_checkitout')->getDefaultShippingMethod()
+                Mage::helper('ecomdev_checkitout')->getDefaultShippingMethod($this->getQuote())
             );
             $this->recalculateTotals();
         }

@@ -22,6 +22,8 @@
  */
 class EcomDev_CheckItOut_Model_Source_Shipping_Methods extends Mage_Adminhtml_Model_System_Config_Source_Shipping_Allmethods
 {
+    const AUTO_METHOD = '__auto__';
+
     /**
      * Return array of carriers.
 
