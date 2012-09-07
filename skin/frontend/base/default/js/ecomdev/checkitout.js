@@ -764,7 +764,9 @@ EcomDev.CheckItOut.Step = Class.create({
     isLoading: function (flag) {
         if (typeof flag == 'boolean') {
             this._isLoading = flag;
-            this.checkout.notifyLoading();
+            if (this.checkout) {
+                this.checkout.notifyLoading();
+            }
         }
         return this._isLoading;
     },
@@ -778,7 +780,9 @@ EcomDev.CheckItOut.Step = Class.create({
     isChangeTimeout: function (flag) {
         if (typeof flag == 'boolean') {
             this._isChangeTimeout = flag;
-            this.checkout.notifyLoading();
+            if (this.checkout) {
+                this.checkout.notifyLoading();
+            }
         }
         return this._isChangeTimeout;
     },
