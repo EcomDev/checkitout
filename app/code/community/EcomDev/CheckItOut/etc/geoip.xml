@@ -1,0 +1,4385 @@
+<?xml version="1.0" encoding="utf8"?>
+<data>
+    <region>
+        <AD>
+            <r02>Canillo</r02>
+            <r03>Encamp</r03>
+            <r04>La Massana</r04>
+            <r05>Ordino</r05>
+            <r06>Sant Julia de Loria</r06>
+            <r07>Andorra la Vella</r07>
+            <r08>Escaldes-Engordany</r08>
+        </AD>
+        <AE>
+            <r01>Abu Dhabi</r01>
+            <r02>Ajman</r02>
+            <r03>Dubai</r03>
+            <r04>Fujairah</r04>
+            <r05>Ras Al Khaimah</r05>
+            <r06>Sharjah</r06>
+            <r07>Umm Al Quwain</r07>
+        </AE>
+        <AF>
+            <r01>Badakhshan</r01>
+            <r02>Badghis</r02>
+            <r03>Baghlan</r03>
+            <r05>Bamian</r05>
+            <r06>Farah</r06>
+            <r07>Faryab</r07>
+            <r08>Ghazni</r08>
+            <r09>Ghowr</r09>
+            <r10>Helmand</r10>
+            <r11>Herat</r11>
+            <r13>Kabol</r13>
+            <r14>Kapisa</r14>
+            <r17>Lowgar</r17>
+            <r18>Nangarhar</r18>
+            <r19>Nimruz</r19>
+            <r23>Kandahar</r23>
+            <r24>Kondoz</r24>
+            <r26>Takhar</r26>
+            <r27>Vardak</r27>
+            <r28>Zabol</r28>
+            <r29>Paktika</r29>
+            <r30>Balkh</r30>
+            <r31>Jowzjan</r31>
+            <r32>Samangan</r32>
+            <r33>Sar-e Pol</r33>
+            <r34>Konar</r34>
+            <r35>Laghman</r35>
+            <r36>Paktia</r36>
+            <r37>Khowst</r37>
+            <r38>Nurestan</r38>
+            <r39>Oruzgan</r39>
+            <r40>Parvan</r40>
+            <r41>Daykondi</r41>
+            <r42>Panjshir</r42>
+        </AF>
+        <AG>
+            <r01>Barbuda</r01>
+            <r03>Saint George</r03>
+            <r04>Saint John</r04>
+            <r05>Saint Mary</r05>
+            <r06>Saint Paul</r06>
+            <r07>Saint Peter</r07>
+            <r08>Saint Philip</r08>
+            <r09>Redonda</r09>
+        </AG>
+        <AL>
+            <r40>Berat</r40>
+            <r41>Diber</r41>
+            <r42>Durres</r42>
+            <r43>Elbasan</r43>
+            <r44>Fier</r44>
+            <r45>Gjirokaster</r45>
+            <r46>Korce</r46>
+            <r47>Kukes</r47>
+            <r48>Lezhe</r48>
+            <r49>Shkoder</r49>
+            <r50>Tirane</r50>
+            <r51>Vlore</r51>
+        </AL>
+        <AM>
+            <r01>Aragatsotn</r01>
+            <r02>Ararat</r02>
+            <r03>Armavir</r03>
+            <r04>Geghark'unik'</r04>
+            <r05>Kotayk'</r05>
+            <r06>Lorri</r06>
+            <r07>Shirak</r07>
+            <r08>Syunik'</r08>
+            <r09>Tavush</r09>
+            <r10>Vayots' Dzor</r10>
+            <r11>Yerevan</r11>
+        </AM>
+        <AO>
+            <r01>Benguela</r01>
+            <r02>Bie</r02>
+            <r03>Cabinda</r03>
+            <r04>Cuando Cubango</r04>
+            <r05>Cuanza Norte</r05>
+            <r06>Cuanza Sul</r06>
+            <r07>Cunene</r07>
+            <r08>Huambo</r08>
+            <r09>Huila</r09>
+            <r12>Malanje</r12>
+            <r13>Namibe</r13>
+            <r14>Moxico</r14>
+            <r15>Uige</r15>
+            <r16>Zaire</r16>
+            <r17>Lunda Norte</r17>
+            <r18>Lunda Sul</r18>
+            <r19>Bengo</r19>
+            <r20>Luanda</r20>
+        </AO>
+        <AR>
+            <r01>Buenos Aires</r01>
+            <r02>Catamarca</r02>
+            <r03>Chaco</r03>
+            <r04>Chubut</r04>
+            <r05>Cordoba</r05>
+            <r06>Corrientes</r06>
+            <r07>Distrito Federal</r07>
+            <r08>Entre Rios</r08>
+            <r09>Formosa</r09>
+            <r10>Jujuy</r10>
+            <r11>La Pampa</r11>
+            <r12>La Rioja</r12>
+            <r13>Mendoza</r13>
+            <r14>Misiones</r14>
+            <r15>Neuquen</r15>
+            <r16>Rio Negro</r16>
+            <r17>Salta</r17>
+            <r18>San Juan</r18>
+            <r19>San Luis</r19>
+            <r20>Santa Cruz</r20>
+            <r21>Santa Fe</r21>
+            <r22>Santiago del Estero</r22>
+            <r23>Tierra del Fuego</r23>
+            <r24>Tucuman</r24>
+        </AR>
+        <AT>
+            <r01>Burgenland</r01>
+            <r02>Karnten</r02>
+            <r03>Niederosterreich</r03>
+            <r04>Oberosterreich</r04>
+            <r05>Salzburg</r05>
+            <r06>Steiermark</r06>
+            <r07>Tirol</r07>
+            <r08>Vorarlberg</r08>
+            <r09>Wien</r09>
+        </AT>
+        <AU>
+            <r01>Australian Capital Territory</r01>
+            <r02>New South Wales</r02>
+            <r03>Northern Territory</r03>
+            <r04>Queensland</r04>
+            <r05>South Australia</r05>
+            <r06>Tasmania</r06>
+            <r07>Victoria</r07>
+            <r08>Western Australia</r08>
+        </AU>
+        <AZ>
+            <r01>Abseron</r01>
+            <r02>Agcabadi</r02>
+            <r03>Agdam</r03>
+            <r04>Agdas</r04>
+            <r05>Agstafa</r05>
+            <r06>Agsu</r06>
+            <r07>Ali Bayramli</r07>
+            <r08>Astara</r08>
+            <r09>Baki</r09>
+            <r10>Balakan</r10>
+            <r11>Barda</r11>
+            <r12>Beylaqan</r12>
+            <r13>Bilasuvar</r13>
+            <r14>Cabrayil</r14>
+            <r15>Calilabad</r15>
+            <r16>Daskasan</r16>
+            <r17>Davaci</r17>
+            <r18>Fuzuli</r18>
+            <r19>Gadabay</r19>
+            <r20>Ganca</r20>
+            <r21>Goranboy</r21>
+            <r22>Goycay</r22>
+            <r23>Haciqabul</r23>
+            <r24>Imisli</r24>
+            <r25>Ismayilli</r25>
+            <r26>Kalbacar</r26>
+            <r27>Kurdamir</r27>
+            <r28>Lacin</r28>
+            <r29>Lankaran</r29>
+            <r30>Lankaran</r30>
+            <r31>Lerik</r31>
+            <r32>Masalli</r32>
+            <r33>Mingacevir</r33>
+            <r34>Naftalan</r34>
+            <r35>Naxcivan</r35>
+            <r36>Neftcala</r36>
+            <r37>Oguz</r37>
+            <r38>Qabala</r38>
+            <r39>Qax</r39>
+            <r40>Qazax</r40>
+            <r41>Qobustan</r41>
+            <r42>Quba</r42>
+            <r43>Qubadli</r43>
+            <r44>Qusar</r44>
+            <r45>Saatli</r45>
+            <r46>Sabirabad</r46>
+            <r47>Saki</r47>
+            <r48>Saki</r48>
+            <r49>Salyan</r49>
+            <r50>Samaxi</r50>
+            <r51>Samkir</r51>
+            <r52>Samux</r52>
+            <r53>Siyazan</r53>
+            <r54>Sumqayit</r54>
+            <r55>Susa</r55>
+            <r56>Susa</r56>
+            <r57>Tartar</r57>
+            <r58>Tovuz</r58>
+            <r59>Ucar</r59>
+            <r60>Xacmaz</r60>
+            <r61>Xankandi</r61>
+            <r62>Xanlar</r62>
+            <r63>Xizi</r63>
+            <r64>Xocali</r64>
+            <r65>Xocavand</r65>
+            <r66>Yardimli</r66>
+            <r67>Yevlax</r67>
+            <r68>Yevlax</r68>
+            <r69>Zangilan</r69>
+            <r70>Zaqatala</r70>
+            <r71>Zardab</r71>
+        </AZ>
+        <BA>
+            <r01>Federation of Bosnia and Herzegovina</r01>
+            <r02>Republika Srpska</r02>
+        </BA>
+        <BB>
+            <r01>Christ Church</r01>
+            <r02>Saint Andrew</r02>
+            <r03>Saint George</r03>
+            <r04>Saint James</r04>
+            <r05>Saint John</r05>
+            <r06>Saint Joseph</r06>
+            <r07>Saint Lucy</r07>
+            <r08>Saint Michael</r08>
+            <r09>Saint Peter</r09>
+            <r10>Saint Philip</r10>
+            <r11>Saint Thomas</r11>
+        </BB>
+        <BD>
+            <r81>Dhaka</r81>
+            <r82>Khulna</r82>
+            <r83>Rajshahi</r83>
+            <r84>Chittagong</r84>
+            <r85>Barisal</r85>
+            <r86>Sylhet</r86>
+        </BD>
+        <BE>
+            <r01>Antwerpen</r01>
+            <r03>Hainaut</r03>
+            <r04>Liege</r04>
+            <r05>Limburg</r05>
+            <r06>Luxembourg</r06>
+            <r07>Namur</r07>
+            <r08>Oost-Vlaanderen</r08>
+            <r09>West-Vlaanderen</r09>
+            <r10>Brabant Wallon</r10>
+            <r11>Brussels Hoofdstedelijk Gewest</r11>
+            <r12>Vlaams-Brabant</r12>
+            <r13>Flanders</r13>
+            <r14>Wallonia</r14>
+        </BE>
+        <BF>
+            <r15>Bam</r15>
+            <r19>Boulkiemde</r19>
+            <r20>Ganzourgou</r20>
+            <r21>Gnagna</r21>
+            <r28>Kouritenga</r28>
+            <r33>Oudalan</r33>
+            <r34>Passore</r34>
+            <r36>Sanguie</r36>
+            <r40>Soum</r40>
+            <r42>Tapoa</r42>
+            <r44>Zoundweogo</r44>
+            <r45>Bale</r45>
+            <r46>Banwa</r46>
+            <r47>Bazega</r47>
+            <r48>Bougouriba</r48>
+            <r49>Boulgou</r49>
+            <r50>Gourma</r50>
+            <r51>Houet</r51>
+            <r52>Ioba</r52>
+            <r53>Kadiogo</r53>
+            <r54>Kenedougou</r54>
+            <r55>Komoe</r55>
+            <r56>Komondjari</r56>
+            <r57>Kompienga</r57>
+            <r58>Kossi</r58>
+            <r59>Koulpelogo</r59>
+            <r60>Kourweogo</r60>
+            <r61>Leraba</r61>
+            <r62>Loroum</r62>
+            <r63>Mouhoun</r63>
+            <r64>Namentenga</r64>
+            <r65>Naouri</r65>
+            <r66>Nayala</r66>
+            <r67>Noumbiel</r67>
+            <r68>Oubritenga</r68>
+            <r69>Poni</r69>
+            <r70>Sanmatenga</r70>
+            <r71>Seno</r71>
+            <r72>Sissili</r72>
+            <r73>Sourou</r73>
+            <r74>Tuy</r74>
+            <r75>Yagha</r75>
+            <r76>Yatenga</r76>
+            <r77>Ziro</r77>
+            <r78>Zondoma</r78>
+        </BF>
+        <BG>
+            <r33>Mikhaylovgrad</r33>
+            <r38>Blagoevgrad</r38>
+            <r39>Burgas</r39>
+            <r40>Dobrich</r40>
+            <r41>Gabrovo</r41>
+            <r42>Grad Sofiya</r42>
+            <r43>Khaskovo</r43>
+            <r44>Kurdzhali</r44>
+            <r45>Kyustendil</r45>
+            <r46>Lovech</r46>
+            <r47>Montana</r47>
+            <r48>Pazardzhik</r48>
+            <r49>Pernik</r49>
+            <r50>Pleven</r50>
+            <r51>Plovdiv</r51>
+            <r52>Razgrad</r52>
+            <r53>Ruse</r53>
+            <r54>Shumen</r54>
+            <r55>Silistra</r55>
+            <r56>Sliven</r56>
+            <r57>Smolyan</r57>
+            <r58>Sofiya</r58>
+            <r59>Stara Zagora</r59>
+            <r60>Turgovishte</r60>
+            <r61>Varna</r61>
+            <r62>Veliko Turnovo</r62>
+            <r63>Vidin</r63>
+            <r64>Vratsa</r64>
+            <r65>Yambol</r65>
+        </BG>
+        <BH>
+            <r01>Al Hadd</r01>
+            <r02>Al Manamah</r02>
+            <r05>Jidd Hafs</r05>
+            <r06>Sitrah</r06>
+            <r08>Al Mintaqah al Gharbiyah</r08>
+            <r09>Mintaqat Juzur Hawar</r09>
+            <r10>Al Mintaqah ash Shamaliyah</r10>
+            <r11>Al Mintaqah al Wusta</r11>
+            <r12>Madinat</r12>
+            <r13>Ar Rifa</r13>
+            <r14>Madinat Hamad</r14>
+            <r15>Al Muharraq</r15>
+            <r16>Al Asimah</r16>
+            <r17>Al Janubiyah</r17>
+            <r18>Ash Shamaliyah</r18>
+            <r19>Al Wusta</r19>
+        </BH>
+        <BI>
+            <r02>Bujumbura</r02>
+            <r09>Bubanza</r09>
+            <r10>Bururi</r10>
+            <r11>Cankuzo</r11>
+            <r12>Cibitoke</r12>
+            <r13>Gitega</r13>
+            <r14>Karuzi</r14>
+            <r15>Kayanza</r15>
+            <r16>Kirundo</r16>
+            <r17>Makamba</r17>
+            <r18>Muyinga</r18>
+            <r19>Ngozi</r19>
+            <r20>Rutana</r20>
+            <r21>Ruyigi</r21>
+            <r22>Muramvya</r22>
+            <r23>Mwaro</r23>
+        </BI>
+        <BJ>
+            <r07>Alibori</r07>
+            <r08>Atakora</r08>
+            <r09>Atlanyique</r09>
+            <r10>Borgou</r10>
+            <r11>Collines</r11>
+            <r12>Kouffo</r12>
+            <r13>Donga</r13>
+            <r14>Littoral</r14>
+            <r15>Mono</r15>
+            <r16>Oueme</r16>
+            <r17>Plateau</r17>
+            <r18>Zou</r18>
+        </BJ>
+        <BM>
+            <r01>Devonshire</r01>
+            <r02>Hamilton</r02>
+            <r03>Hamilton</r03>
+            <r04>Paget</r04>
+            <r05>Pembroke</r05>
+            <r06>Saint George</r06>
+            <r07>Saint George's</r07>
+            <r08>Sandys</r08>
+            <r09>Smiths</r09>
+            <r10>Southampton</r10>
+            <r11>Warwick</r11>
+        </BM>
+        <BN>
+            <r07>Alibori</r07>
+            <r08>Belait</r08>
+            <r09>Brunei and Muara</r09>
+            <r10>Temburong</r10>
+            <r11>Collines</r11>
+            <r12>Kouffo</r12>
+            <r13>Donga</r13>
+            <r14>Littoral</r14>
+            <r15>Tutong</r15>
+            <r16>Oueme</r16>
+            <r17>Plateau</r17>
+            <r18>Zou</r18>
+        </BN>
+        <BO>
+            <r01>Chuquisaca</r01>
+            <r02>Cochabamba</r02>
+            <r03>El Beni</r03>
+            <r04>La Paz</r04>
+            <r05>Oruro</r05>
+            <r06>Pando</r06>
+            <r07>Potosi</r07>
+            <r08>Santa Cruz</r08>
+            <r09>Tarija</r09>
+        </BO>
+        <BR>
+            <r01>Acre</r01>
+            <r02>Alagoas</r02>
+            <r03>Amapa</r03>
+            <r04>Amazonas</r04>
+            <r05>Bahia</r05>
+            <r06>Ceara</r06>
+            <r07>Distrito Federal</r07>
+            <r08>Espirito Santo</r08>
+            <r11>Mato Grosso do Sul</r11>
+            <r13>Maranhao</r13>
+            <r14>Mato Grosso</r14>
+            <r15>Minas Gerais</r15>
+            <r16>Para</r16>
+            <r17>Paraiba</r17>
+            <r18>Parana</r18>
+            <r20>Piaui</r20>
+            <r21>Rio de Janeiro</r21>
+            <r22>Rio Grande do Norte</r22>
+            <r23>Rio Grande do Sul</r23>
+            <r24>Rondonia</r24>
+            <r25>Roraima</r25>
+            <r26>Santa Catarina</r26>
+            <r27>Sao Paulo</r27>
+            <r28>Sergipe</r28>
+            <r29>Goias</r29>
+            <r30>Pernambuco</r30>
+            <r31>Tocantins</r31>
+        </BR>
+        <BS>
+            <r05>Bimini</r05>
+            <r06>Cat Island</r06>
+            <r10>Exuma</r10>
+            <r13>Inagua</r13>
+            <r15>Long Island</r15>
+            <r16>Mayaguana</r16>
+            <r18>Ragged Island</r18>
+            <r22>Harbour Island</r22>
+            <r23>New Providence</r23>
+            <r24>Acklins and Crooked Islands</r24>
+            <r25>Freeport</r25>
+            <r26>Fresh Creek</r26>
+            <r27>Governor's Harbour</r27>
+            <r28>Green Turtle Cay</r28>
+            <r29>High Rock</r29>
+            <r30>Kemps Bay</r30>
+            <r31>Marsh Harbour</r31>
+            <r32>Nichollstown and Berry Islands</r32>
+            <r33>Rock Sound</r33>
+            <r34>Sandy Point</r34>
+            <r35>San Salvador and Rum Cay</r35>
+        </BS>
+        <BT>
+            <r05>Bumthang</r05>
+            <r06>Chhukha</r06>
+            <r07>Chirang</r07>
+            <r08>Daga</r08>
+            <r09>Geylegphug</r09>
+            <r10>Ha</r10>
+            <r11>Lhuntshi</r11>
+            <r12>Mongar</r12>
+            <r13>Paro</r13>
+            <r14>Pemagatsel</r14>
+            <r15>Punakha</r15>
+            <r16>Samchi</r16>
+            <r17>Samdrup</r17>
+            <r18>Shemgang</r18>
+            <r19>Tashigang</r19>
+            <r20>Thimphu</r20>
+            <r21>Tongsa</r21>
+            <r22>Wangdi Phodrang</r22>
+        </BT>
+        <BW>
+            <r01>Central</r01>
+            <r03>Ghanzi</r03>
+            <r04>Kgalagadi</r04>
+            <r05>Kgatleng</r05>
+            <r06>Kweneng</r06>
+            <r08>North-East</r08>
+            <r09>South-East</r09>
+            <r10>Southern</r10>
+            <r11>North-West</r11>
+        </BW>
+        <BY>
+            <r01>Brestskaya Voblasts'</r01>
+            <r02>Homyel'skaya Voblasts'</r02>
+            <r03>Hrodzyenskaya Voblasts'</r03>
+            <r04>Minsk</r04>
+            <r05>Minskaya Voblasts'</r05>
+            <r06>Mahilyowskaya Voblasts'</r06>
+            <r07>Vitsyebskaya Voblasts'</r07>
+        </BY>
+        <BZ>
+            <r01>Belize</r01>
+            <r02>Cayo</r02>
+            <r03>Corozal</r03>
+            <r04>Orange Walk</r04>
+            <r05>Stann Creek</r05>
+            <r06>Toledo</r06>
+        </BZ>
+        <CA>
+            <rAB>Alberta</rAB>
+            <rBC>British Columbia</rBC>
+            <rMB>Manitoba</rMB>
+            <rNB>New Brunswick</rNB>
+            <rNL>Newfoundland</rNL>
+            <rNS>Nova Scotia</rNS>
+            <rNT>Northwest Territories</rNT>
+            <rNU>Nunavut</rNU>
+            <rON>Ontario</rON>
+            <rPE>Prince Edward Island</rPE>
+            <rQC>Quebec</rQC>
+            <rSK>Saskatchewan</rSK>
+            <rYT>Yukon Territory</rYT>
+        </CA>
+        <CD>
+            <r01>Bandundu</r01>
+            <r02>Equateur</r02>
+            <r04>Kasai-Oriental</r04>
+            <r05>Katanga</r05>
+            <r06>Kinshasa</r06>
+            <r08>Bas-Congo</r08>
+            <r09>Orientale</r09>
+            <r10>Maniema</r10>
+            <r11>Nord-Kivu</r11>
+            <r12>Sud-Kivu</r12>
+        </CD>
+        <CF>
+            <r01>Bamingui-Bangoran</r01>
+            <r02>Basse-Kotto</r02>
+            <r03>Haute-Kotto</r03>
+            <r04>Mambere-Kadei</r04>
+            <r05>Haut-Mbomou</r05>
+            <r06>Kemo</r06>
+            <r07>Lobaye</r07>
+            <r08>Mbomou</r08>
+            <r09>Nana-Mambere</r09>
+            <r11>Ouaka</r11>
+            <r12>Ouham</r12>
+            <r13>Ouham-Pende</r13>
+            <r14>Cuvette-Ouest</r14>
+            <r15>Nana-Grebizi</r15>
+            <r16>Sangha-Mbaere</r16>
+            <r17>Ombella-Mpoko</r17>
+            <r18>Bangui</r18>
+        </CF>
+        <CG>
+            <r01>Bouenza</r01>
+            <r04>Kouilou</r04>
+            <r05>Lekoumou</r05>
+            <r06>Likouala</r06>
+            <r07>Niari</r07>
+            <r08>Plateaux</r08>
+            <r10>Sangha</r10>
+            <r11>Pool</r11>
+            <r12>Brazzaville</r12>
+            <r13>Cuvette</r13>
+            <r14>Cuvette-Ouest</r14>
+        </CG>
+        <CH>
+            <r01>Aargau</r01>
+            <r02>Ausser-Rhoden</r02>
+            <r03>Basel-Landschaft</r03>
+            <r04>Basel-Stadt</r04>
+            <r05>Bern</r05>
+            <r06>Fribourg</r06>
+            <r07>Geneve</r07>
+            <r08>Glarus</r08>
+            <r09>Graubunden</r09>
+            <r10>Inner-Rhoden</r10>
+            <r11>Luzern</r11>
+            <r12>Neuchatel</r12>
+            <r13>Nidwalden</r13>
+            <r14>Obwalden</r14>
+            <r15>Sankt Gallen</r15>
+            <r16>Schaffhausen</r16>
+            <r17>Schwyz</r17>
+            <r18>Solothurn</r18>
+            <r19>Thurgau</r19>
+            <r20>Ticino</r20>
+            <r21>Uri</r21>
+            <r22>Valais</r22>
+            <r23>Vaud</r23>
+            <r24>Zug</r24>
+            <r25>Zurich</r25>
+            <r26>Jura</r26>
+        </CH>
+        <CI>
+            <r74>Agneby</r74>
+            <r75>Bafing</r75>
+            <r76>Bas-Sassandra</r76>
+            <r77>Denguele</r77>
+            <r78>Dix-Huit Montagnes</r78>
+            <r79>Fromager</r79>
+            <r80>Haut-Sassandra</r80>
+            <r81>Lacs</r81>
+            <r82>Lagunes</r82>
+            <r83>Marahoue</r83>
+            <r84>Moyen-Cavally</r84>
+            <r85>Moyen-Comoe</r85>
+            <r86>N'zi-Comoe</r86>
+            <r87>Savanes</r87>
+            <r88>Sud-Bandama</r88>
+            <r89>Sud-Comoe</r89>
+            <r90>Vallee du Bandama</r90>
+            <r91>Worodougou</r91>
+            <r92>Zanzan</r92>
+        </CI>
+        <CL>
+            <r01>Valparaiso</r01>
+            <r02>Aisen del General Carlos Ibanez del Campo</r02>
+            <r03>Antofagasta</r03>
+            <r04>Araucania</r04>
+            <r05>Atacama</r05>
+            <r06>Bio-Bio</r06>
+            <r07>Coquimbo</r07>
+            <r08>Libertador General Bernardo O'Higgins</r08>
+            <r09>Los Lagos</r09>
+            <r10>Magallanes y de la Antartica Chilena</r10>
+            <r11>Maule</r11>
+            <r12>Region Metropolitana</r12>
+            <r13>Tarapaca</r13>
+            <r14>Los Lagos</r14>
+            <r15>Tarapaca</r15>
+            <r16>Arica y Parinacota</r16>
+            <r17>Los Rios</r17>
+        </CL>
+        <CM>
+            <r04>Est</r04>
+            <r05>Littoral</r05>
+            <r07>Nord-Ouest</r07>
+            <r08>Ouest</r08>
+            <r09>Sud-Ouest</r09>
+            <r10>Adamaoua</r10>
+            <r11>Centre</r11>
+            <r12>Extreme-Nord</r12>
+            <r13>Nord</r13>
+            <r14>Sud</r14>
+        </CM>
+        <CN>
+            <r01>Anhui</r01>
+            <r02>Zhejiang</r02>
+            <r03>Jiangxi</r03>
+            <r04>Jiangsu</r04>
+            <r05>Jilin</r05>
+            <r06>Qinghai</r06>
+            <r07>Fujian</r07>
+            <r08>Heilongjiang</r08>
+            <r09>Henan</r09>
+            <r10>Hebei</r10>
+            <r11>Hunan</r11>
+            <r12>Hubei</r12>
+            <r13>Xinjiang</r13>
+            <r14>Xizang</r14>
+            <r15>Gansu</r15>
+            <r16>Guangxi</r16>
+            <r18>Guizhou</r18>
+            <r19>Liaoning</r19>
+            <r20>Nei Mongol</r20>
+            <r21>Ningxia</r21>
+            <r22>Beijing</r22>
+            <r23>Shanghai</r23>
+            <r24>Shanxi</r24>
+            <r25>Shandong</r25>
+            <r26>Shaanxi</r26>
+            <r28>Tianjin</r28>
+            <r29>Yunnan</r29>
+            <r30>Guangdong</r30>
+            <r31>Hainan</r31>
+            <r32>Sichuan</r32>
+            <r33>Chongqing</r33>
+        </CN>
+        <CO>
+            <r01>Amazonas</r01>
+            <r02>Antioquia</r02>
+            <r03>Arauca</r03>
+            <r04>Atlantico</r04>
+            <r08>Caqueta</r08>
+            <r09>Cauca</r09>
+            <r10>Cesar</r10>
+            <r11>Choco</r11>
+            <r12>Cordoba</r12>
+            <r14>Guaviare</r14>
+            <r15>Guainia</r15>
+            <r16>Huila</r16>
+            <r17>La Guajira</r17>
+            <r19>Meta</r19>
+            <r20>Narino</r20>
+            <r21>Norte de Santander</r21>
+            <r22>Putumayo</r22>
+            <r23>Quindio</r23>
+            <r24>Risaralda</r24>
+            <r25>San Andres y Providencia</r25>
+            <r26>Santander</r26>
+            <r27>Sucre</r27>
+            <r28>Tolima</r28>
+            <r29>Valle del Cauca</r29>
+            <r30>Vaupes</r30>
+            <r31>Vichada</r31>
+            <r32>Casanare</r32>
+            <r33>Cundinamarca</r33>
+            <r34>Distrito Especial</r34>
+            <r35>Bolivar</r35>
+            <r36>Boyaca</r36>
+            <r37>Caldas</r37>
+            <r38>Magdalena</r38>
+        </CO>
+        <CR>
+            <r01>Alajuela</r01>
+            <r02>Cartago</r02>
+            <r03>Guanacaste</r03>
+            <r04>Heredia</r04>
+            <r06>Limon</r06>
+            <r07>Puntarenas</r07>
+            <r08>San Jose</r08>
+        </CR>
+        <CU>
+            <r01>Pinar del Rio</r01>
+            <r02>Ciudad de la Habana</r02>
+            <r03>Matanzas</r03>
+            <r04>Isla de la Juventud</r04>
+            <r05>Camaguey</r05>
+            <r07>Ciego de Avila</r07>
+            <r08>Cienfuegos</r08>
+            <r09>Granma</r09>
+            <r10>Guantanamo</r10>
+            <r11>La Habana</r11>
+            <r12>Holguin</r12>
+            <r13>Las Tunas</r13>
+            <r14>Sancti Spiritus</r14>
+            <r15>Santiago de Cuba</r15>
+            <r16>Villa Clara</r16>
+        </CU>
+        <CV>
+            <r01>Boa Vista</r01>
+            <r02>Brava</r02>
+            <r04>Maio</r04>
+            <r05>Paul</r05>
+            <r07>Ribeira Grande</r07>
+            <r08>Sal</r08>
+            <r10>Sao Nicolau</r10>
+            <r11>Sao Vicente</r11>
+            <r13>Mosteiros</r13>
+            <r14>Praia</r14>
+            <r15>Santa Catarina</r15>
+            <r16>Santa Cruz</r16>
+            <r17>Sao Domingos</r17>
+            <r18>Sao Filipe</r18>
+            <r19>Sao Miguel</r19>
+            <r20>Tarrafal</r20>
+        </CV>
+        <CY>
+            <r01>Famagusta</r01>
+            <r02>Kyrenia</r02>
+            <r03>Larnaca</r03>
+            <r04>Nicosia</r04>
+            <r05>Limassol</r05>
+            <r06>Paphos</r06>
+        </CY>
+        <CZ>
+            <r52>Hlavni mesto Praha</r52>
+            <r78>Jihomoravsky kraj</r78>
+            <r79>Jihocesky kraj</r79>
+            <r80>Vysocina</r80>
+            <r81>Karlovarsky kraj</r81>
+            <r82>Kralovehradecky kraj</r82>
+            <r83>Liberecky kraj</r83>
+            <r84>Olomoucky kraj</r84>
+            <r85>Moravskoslezsky kraj</r85>
+            <r86>Pardubicky kraj</r86>
+            <r87>Plzensky kraj</r87>
+            <r88>Stredocesky kraj</r88>
+            <r89>Ustecky kraj</r89>
+            <r90>Zlinsky kraj</r90>
+        </CZ>
+        <DE>
+            <r01>Baden-Wurttemberg</r01>
+            <r02>Bayern</r02>
+            <r03>Bremen</r03>
+            <r04>Hamburg</r04>
+            <r05>Hessen</r05>
+            <r06>Niedersachsen</r06>
+            <r07>Nordrhein-Westfalen</r07>
+            <r08>Rheinland-Pfalz</r08>
+            <r09>Saarland</r09>
+            <r10>Schleswig-Holstein</r10>
+            <r11>Brandenburg</r11>
+            <r12>Mecklenburg-Vorpommern</r12>
+            <r13>Sachsen</r13>
+            <r14>Sachsen-Anhalt</r14>
+            <r15>Thuringen</r15>
+            <r16>Berlin</r16>
+        </DE>
+        <DJ>
+            <r01>Ali Sabieh</r01>
+            <r04>Obock</r04>
+            <r05>Tadjoura</r05>
+            <r06>Dikhil</r06>
+            <r07>Djibouti</r07>
+            <r08>Arta</r08>
+        </DJ>
+        <DK>
+            <r17>Hovedstaden</r17>
+            <r18>Midtjylland</r18>
+            <r19>Nordjylland</r19>
+            <r20>Sjelland</r20>
+            <r21>Syddanmark</r21>
+        </DK>
+        <DM>
+            <r02>Saint Andrew</r02>
+            <r03>Saint David</r03>
+            <r04>Saint George</r04>
+            <r05>Saint John</r05>
+            <r06>Saint Joseph</r06>
+            <r07>Saint Luke</r07>
+            <r08>Saint Mark</r08>
+            <r09>Saint Patrick</r09>
+            <r10>Saint Paul</r10>
+            <r11>Saint Peter</r11>
+        </DM>
+        <DO>
+            <r01>Azua</r01>
+            <r02>Baoruco</r02>
+            <r03>Barahona</r03>
+            <r04>Dajabon</r04>
+            <r05>Distrito Nacional</r05>
+            <r06>Duarte</r06>
+            <r08>Espaillat</r08>
+            <r09>Independencia</r09>
+            <r10>La Altagracia</r10>
+            <r11>Elias Pina</r11>
+            <r12>La Romana</r12>
+            <r14>Maria Trinidad Sanchez</r14>
+            <r15>Monte Cristi</r15>
+            <r16>Pedernales</r16>
+            <r17>Peravia</r17>
+            <r18>Puerto Plata</r18>
+            <r19>Salcedo</r19>
+            <r20>Samana</r20>
+            <r21>Sanchez Ramirez</r21>
+            <r23>San Juan</r23>
+            <r24>San Pedro De Macoris</r24>
+            <r25>Santiago</r25>
+            <r26>Santiago Rodriguez</r26>
+            <r27>Valverde</r27>
+            <r28>El Seibo</r28>
+            <r29>Hato Mayor</r29>
+            <r30>La Vega</r30>
+            <r31>Monsenor Nouel</r31>
+            <r32>Monte Plata</r32>
+            <r33>San Cristobal</r33>
+            <r34>Distrito Nacional</r34>
+            <r35>Peravia</r35>
+            <r36>San Jose de Ocoa</r36>
+            <r37>Santo Domingo</r37>
+        </DO>
+        <DZ>
+            <r01>Alger</r01>
+            <r03>Batna</r03>
+            <r04>Constantine</r04>
+            <r06>Medea</r06>
+            <r07>Mostaganem</r07>
+            <r09>Oran</r09>
+            <r10>Saida</r10>
+            <r12>Setif</r12>
+            <r13>Tiaret</r13>
+            <r14>Tizi Ouzou</r14>
+            <r15>Tlemcen</r15>
+            <r18>Bejaia</r18>
+            <r19>Biskra</r19>
+            <r20>Blida</r20>
+            <r21>Bouira</r21>
+            <r22>Djelfa</r22>
+            <r23>Guelma</r23>
+            <r24>Jijel</r24>
+            <r25>Laghouat</r25>
+            <r26>Mascara</r26>
+            <r27>M'sila</r27>
+            <r29>Oum el Bouaghi</r29>
+            <r30>Sidi Bel Abbes</r30>
+            <r31>Skikda</r31>
+            <r33>Tebessa</r33>
+            <r34>Adrar</r34>
+            <r35>Ain Defla</r35>
+            <r36>Ain Temouchent</r36>
+            <r37>Annaba</r37>
+            <r38>Bechar</r38>
+            <r39>Bordj Bou Arreridj</r39>
+            <r40>Boumerdes</r40>
+            <r41>Chlef</r41>
+            <r42>El Bayadh</r42>
+            <r43>El Oued</r43>
+            <r44>El Tarf</r44>
+            <r45>Ghardaia</r45>
+            <r46>Illizi</r46>
+            <r47>Khenchela</r47>
+            <r48>Mila</r48>
+            <r49>Naama</r49>
+            <r50>Ouargla</r50>
+            <r51>Relizane</r51>
+            <r52>Souk Ahras</r52>
+            <r53>Tamanghasset</r53>
+            <r54>Tindouf</r54>
+            <r55>Tipaza</r55>
+            <r56>Tissemsilt</r56>
+        </DZ>
+        <EC>
+            <r01>Galapagos</r01>
+            <r02>Azuay</r02>
+            <r03>Bolivar</r03>
+            <r04>Canar</r04>
+            <r05>Carchi</r05>
+            <r06>Chimborazo</r06>
+            <r07>Cotopaxi</r07>
+            <r08>El Oro</r08>
+            <r09>Esmeraldas</r09>
+            <r10>Guayas</r10>
+            <r11>Imbabura</r11>
+            <r12>Loja</r12>
+            <r13>Los Rios</r13>
+            <r14>Manabi</r14>
+            <r15>Morona-Santiago</r15>
+            <r17>Pastaza</r17>
+            <r18>Pichincha</r18>
+            <r19>Tungurahua</r19>
+            <r20>Zamora-Chinchipe</r20>
+            <r22>Sucumbios</r22>
+            <r23>Napo</r23>
+            <r24>Orellana</r24>
+        </EC>
+        <EE>
+            <r01>Harjumaa</r01>
+            <r02>Hiiumaa</r02>
+            <r03>Ida-Virumaa</r03>
+            <r04>Jarvamaa</r04>
+            <r05>Jogevamaa</r05>
+            <r06>Kohtla-Jarve</r06>
+            <r07>Laanemaa</r07>
+            <r08>Laane-Virumaa</r08>
+            <r09>Narva</r09>
+            <r10>Parnu</r10>
+            <r11>Parnumaa</r11>
+            <r12>Polvamaa</r12>
+            <r13>Raplamaa</r13>
+            <r14>Saaremaa</r14>
+            <r15>Sillamae</r15>
+            <r16>Tallinn</r16>
+            <r17>Tartu</r17>
+            <r18>Tartumaa</r18>
+            <r19>Valgamaa</r19>
+            <r20>Viljandimaa</r20>
+            <r21>Vorumaa</r21>
+        </EE>
+        <EG>
+            <r01>Ad Daqahliyah</r01>
+            <r02>Al Bahr al Ahmar</r02>
+            <r03>Al Buhayrah</r03>
+            <r04>Al Fayyum</r04>
+            <r05>Al Gharbiyah</r05>
+            <r06>Al Iskandariyah</r06>
+            <r07>Al Isma'iliyah</r07>
+            <r08>Al Jizah</r08>
+            <r09>Al Minufiyah</r09>
+            <r10>Al Minya</r10>
+            <r11>Al Qahirah</r11>
+            <r12>Al Qalyubiyah</r12>
+            <r13>Al Wadi al Jadid</r13>
+            <r14>Ash Sharqiyah</r14>
+            <r15>As Suways</r15>
+            <r16>Aswan</r16>
+            <r17>Asyut</r17>
+            <r18>Bani Suwayf</r18>
+            <r19>Bur Sa'id</r19>
+            <r20>Dumyat</r20>
+            <r21>Kafr ash Shaykh</r21>
+            <r22>Matruh</r22>
+            <r23>Qina</r23>
+            <r24>Suhaj</r24>
+            <r26>Janub Sina'</r26>
+            <r27>Shamal Sina'</r27>
+        </EG>
+        <ER>
+            <r01>Anseba</r01>
+            <r02>Debub</r02>
+            <r03>Debubawi K'eyih Bahri</r03>
+            <r04>Gash Barka</r04>
+            <r05>Ma'akel</r05>
+            <r06>Semenawi K'eyih Bahri</r06>
+        </ER>
+        <ES>
+            <r07>Islas Baleares</r07>
+            <r27>La Rioja</r27>
+            <r29>Madrid</r29>
+            <r31>Murcia</r31>
+            <r32>Navarra</r32>
+            <r34>Asturias</r34>
+            <r39>Cantabria</r39>
+            <r51>Andalucia</r51>
+            <r52>Aragon</r52>
+            <r53>Canarias</r53>
+            <r54>Castilla-La Mancha</r54>
+            <r55>Castilla y Leon</r55>
+            <r56>Catalonia</r56>
+            <r57>Extremadura</r57>
+            <r58>Galicia</r58>
+            <r59>Pais Vasco</r59>
+            <r60>Comunidad Valenciana</r60>
+        </ES>
+        <ET>
+            <r44>Adis Abeba</r44>
+            <r45>Afar</r45>
+            <r46>Amara</r46>
+            <r47>Binshangul Gumuz</r47>
+            <r48>Dire Dawa</r48>
+            <r49>Gambela Hizboch</r49>
+            <r50>Hareri Hizb</r50>
+            <r51>Oromiya</r51>
+            <r52>Sumale</r52>
+            <r53>Tigray</r53>
+            <r54>YeDebub Biheroch Bihereseboch na Hizboch</r54>
+        </ET>
+        <FI>
+            <r01>Aland</r01>
+            <r06>Lapland</r06>
+            <r08>Oulu</r08>
+            <r13>Southern Finland</r13>
+            <r14>Eastern Finland</r14>
+            <r15>Western Finland</r15>
+        </FI>
+        <FJ>
+            <r01>Central</r01>
+            <r02>Eastern</r02>
+            <r03>Northern</r03>
+            <r04>Rotuma</r04>
+            <r05>Western</r05>
+        </FJ>
+        <FM>
+            <r01>Kosrae</r01>
+            <r02>Pohnpei</r02>
+            <r03>Chuuk</r03>
+            <r04>Yap</r04>
+        </FM>
+        <FR>
+            <r97>Aquitaine</r97>
+            <r98>Auvergne</r98>
+            <r99>Basse-Normandie</r99>
+            <rA1>Bourgogne</rA1>
+            <rA2>Bretagne</rA2>
+            <rA3>Centre</rA3>
+            <rA4>Champagne-Ardenne</rA4>
+            <rA5>Corse</rA5>
+            <rA6>Franche-Comte</rA6>
+            <rA7>Haute-Normandie</rA7>
+            <rA8>Ile-de-France</rA8>
+            <rA9>Languedoc-Roussillon</rA9>
+            <rB1>Limousin</rB1>
+            <rB2>Lorraine</rB2>
+            <rB3>Midi-Pyrenees</rB3>
+            <rB4>Nord-Pas-de-Calais</rB4>
+            <rB5>Pays de la Loire</rB5>
+            <rB6>Picardie</rB6>
+            <rB7>Poitou-Charentes</rB7>
+            <rB8>Provence-Alpes-Cote d'Azur</rB8>
+            <rB9>Rhone-Alpes</rB9>
+            <rC1>Alsace</rC1>
+        </FR>
+        <GA>
+            <r01>Estuaire</r01>
+            <r02>Haut-Ogooue</r02>
+            <r03>Moyen-Ogooue</r03>
+            <r04>Ngounie</r04>
+            <r05>Nyanga</r05>
+            <r06>Ogooue-Ivindo</r06>
+            <r07>Ogooue-Lolo</r07>
+            <r08>Ogooue-Maritime</r08>
+            <r09>Woleu-Ntem</r09>
+        </GA>
+        <GB>
+            <rA1>Barking and Dagenham</rA1>
+            <rA2>Barnet</rA2>
+            <rA3>Barnsley</rA3>
+            <rA4>Bath and North East Somerset</rA4>
+            <rA5>Bedfordshire</rA5>
+            <rA6>Bexley</rA6>
+            <rA7>Birmingham</rA7>
+            <rA8>Blackburn with Darwen</rA8>
+            <rA9>Blackpool</rA9>
+            <rB1>Bolton</rB1>
+            <rB2>Bournemouth</rB2>
+            <rB3>Bracknell Forest</rB3>
+            <rB4>Bradford</rB4>
+            <rB5>Brent</rB5>
+            <rB6>Brighton and Hove</rB6>
+            <rB7>Bristol, City of</rB7>
+            <rB8>Bromley</rB8>
+            <rB9>Buckinghamshire</rB9>
+            <rC1>Bury</rC1>
+            <rC2>Calderdale</rC2>
+            <rC3>Cambridgeshire</rC3>
+            <rC4>Camden</rC4>
+            <rC5>Cheshire</rC5>
+            <rC6>Cornwall</rC6>
+            <rC7>Coventry</rC7>
+            <rC8>Croydon</rC8>
+            <rC9>Cumbria</rC9>
+            <rD1>Darlington</rD1>
+            <rD2>Derby</rD2>
+            <rD3>Derbyshire</rD3>
+            <rD4>Devon</rD4>
+            <rD5>Doncaster</rD5>
+            <rD6>Dorset</rD6>
+            <rD7>Dudley</rD7>
+            <rD8>Durham</rD8>
+            <rD9>Ealing</rD9>
+            <rE1>East Riding of Yorkshire</rE1>
+            <rE2>East Sussex</rE2>
+            <rE3>Enfield</rE3>
+            <rE4>Essex</rE4>
+            <rE5>Gateshead</rE5>
+            <rE6>Gloucestershire</rE6>
+            <rE7>Greenwich</rE7>
+            <rE8>Hackney</rE8>
+            <rE9>Halton</rE9>
+            <rF1>Hammersmith and Fulham</rF1>
+            <rF2>Hampshire</rF2>
+            <rF3>Haringey</rF3>
+            <rF4>Harrow</rF4>
+            <rF5>Hartlepool</rF5>
+            <rF6>Havering</rF6>
+            <rF7>Herefordshire</rF7>
+            <rF8>Hertford</rF8>
+            <rF9>Hillingdon</rF9>
+            <rG1>Hounslow</rG1>
+            <rG2>Isle of Wight</rG2>
+            <rG3>Islington</rG3>
+            <rG4>Kensington and Chelsea</rG4>
+            <rG5>Kent</rG5>
+            <rG6>Kingston upon Hull, City of</rG6>
+            <rG7>Kingston upon Thames</rG7>
+            <rG8>Kirklees</rG8>
+            <rG9>Knowsley</rG9>
+            <rH1>Lambeth</rH1>
+            <rH2>Lancashire</rH2>
+            <rH3>Leeds</rH3>
+            <rH4>Leicester</rH4>
+            <rH5>Leicestershire</rH5>
+            <rH6>Lewisham</rH6>
+            <rH7>Lincolnshire</rH7>
+            <rH8>Liverpool</rH8>
+            <rH9>London, City of</rH9>
+            <rI1>Luton</rI1>
+            <rI2>Manchester</rI2>
+            <rI3>Medway</rI3>
+            <rI4>Merton</rI4>
+            <rI5>Middlesbrough</rI5>
+            <rI6>Milton Keynes</rI6>
+            <rI7>Newcastle upon Tyne</rI7>
+            <rI8>Newham</rI8>
+            <rI9>Norfolk</rI9>
+            <rJ1>Northamptonshire</rJ1>
+            <rJ2>North East Lincolnshire</rJ2>
+            <rJ3>North Lincolnshire</rJ3>
+            <rJ4>North Somerset</rJ4>
+            <rJ5>North Tyneside</rJ5>
+            <rJ6>Northumberland</rJ6>
+            <rJ7>North Yorkshire</rJ7>
+            <rJ8>Nottingham</rJ8>
+            <rJ9>Nottinghamshire</rJ9>
+            <rK1>Oldham</rK1>
+            <rK2>Oxfordshire</rK2>
+            <rK3>Peterborough</rK3>
+            <rK4>Plymouth</rK4>
+            <rK5>Poole</rK5>
+            <rK6>Portsmouth</rK6>
+            <rK7>Reading</rK7>
+            <rK8>Redbridge</rK8>
+            <rK9>Redcar and Cleveland</rK9>
+            <rL1>Richmond upon Thames</rL1>
+            <rL2>Rochdale</rL2>
+            <rL3>Rotherham</rL3>
+            <rL4>Rutland</rL4>
+            <rL5>Salford</rL5>
+            <rL6>Shropshire</rL6>
+            <rL7>Sandwell</rL7>
+            <rL8>Sefton</rL8>
+            <rL9>Sheffield</rL9>
+            <rM1>Slough</rM1>
+            <rM2>Solihull</rM2>
+            <rM3>Somerset</rM3>
+            <rM4>Southampton</rM4>
+            <rM5>Southend-on-Sea</rM5>
+            <rM6>South Gloucestershire</rM6>
+            <rM7>South Tyneside</rM7>
+            <rM8>Southwark</rM8>
+            <rM9>Staffordshire</rM9>
+            <rN1>St. Helens</rN1>
+            <rN2>Stockport</rN2>
+            <rN3>Stockton-on-Tees</rN3>
+            <rN4>Stoke-on-Trent</rN4>
+            <rN5>Suffolk</rN5>
+            <rN6>Sunderland</rN6>
+            <rN7>Surrey</rN7>
+            <rN8>Sutton</rN8>
+            <rN9>Swindon</rN9>
+            <rO1>Tameside</rO1>
+            <rO2>Telford and Wrekin</rO2>
+            <rO3>Thurrock</rO3>
+            <rO4>Torbay</rO4>
+            <rO5>Tower Hamlets</rO5>
+            <rO6>Trafford</rO6>
+            <rO7>Wakefield</rO7>
+            <rO8>Walsall</rO8>
+            <rO9>Waltham Forest</rO9>
+            <rP1>Wandsworth</rP1>
+            <rP2>Warrington</rP2>
+            <rP3>Warwickshire</rP3>
+            <rP4>West Berkshire</rP4>
+            <rP5>Westminster</rP5>
+            <rP6>West Sussex</rP6>
+            <rP7>Wigan</rP7>
+            <rP8>Wiltshire</rP8>
+            <rP9>Windsor and Maidenhead</rP9>
+            <rQ1>Wirral</rQ1>
+            <rQ2>Wokingham</rQ2>
+            <rQ3>Wolverhampton</rQ3>
+            <rQ4>Worcestershire</rQ4>
+            <rQ5>York</rQ5>
+            <rQ6>Antrim</rQ6>
+            <rQ7>Ards</rQ7>
+            <rQ8>Armagh</rQ8>
+            <rQ9>Ballymena</rQ9>
+            <rR1>Ballymoney</rR1>
+            <rR2>Banbridge</rR2>
+            <rR3>Belfast</rR3>
+            <rR4>Carrickfergus</rR4>
+            <rR5>Castlereagh</rR5>
+            <rR6>Coleraine</rR6>
+            <rR7>Cookstown</rR7>
+            <rR8>Craigavon</rR8>
+            <rR9>Down</rR9>
+            <rS1>Dungannon</rS1>
+            <rS2>Fermanagh</rS2>
+            <rS3>Larne</rS3>
+            <rS4>Limavady</rS4>
+            <rS5>Lisburn</rS5>
+            <rS6>Derry</rS6>
+            <rS7>Magherafelt</rS7>
+            <rS8>Moyle</rS8>
+            <rS9>Newry and Mourne</rS9>
+            <rT1>Newtownabbey</rT1>
+            <rT2>North Down</rT2>
+            <rT3>Omagh</rT3>
+            <rT4>Strabane</rT4>
+            <rT5>Aberdeen City</rT5>
+            <rT6>Aberdeenshire</rT6>
+            <rT7>Angus</rT7>
+            <rT8>Argyll and Bute</rT8>
+            <rT9>Scottish Borders, The</rT9>
+            <rU1>Clackmannanshire</rU1>
+            <rU2>Dumfries and Galloway</rU2>
+            <rU3>Dundee City</rU3>
+            <rU4>East Ayrshire</rU4>
+            <rU5>East Dunbartonshire</rU5>
+            <rU6>East Lothian</rU6>
+            <rU7>East Renfrewshire</rU7>
+            <rU8>Edinburgh, City of</rU8>
+            <rU9>Falkirk</rU9>
+            <rV1>Fife</rV1>
+            <rV2>Glasgow City</rV2>
+            <rV3>Highland</rV3>
+            <rV4>Inverclyde</rV4>
+            <rV5>Midlothian</rV5>
+            <rV6>Moray</rV6>
+            <rV7>North Ayrshire</rV7>
+            <rV8>North Lanarkshire</rV8>
+            <rV9>Orkney</rV9>
+            <rW1>Perth and Kinross</rW1>
+            <rW2>Renfrewshire</rW2>
+            <rW3>Shetland Islands</rW3>
+            <rW4>South Ayrshire</rW4>
+            <rW5>South Lanarkshire</rW5>
+            <rW6>Stirling</rW6>
+            <rW7>West Dunbartonshire</rW7>
+            <rW8>Eilean Siar</rW8>
+            <rW9>West Lothian</rW9>
+            <rX1>Isle of Anglesey</rX1>
+            <rX2>Blaenau Gwent</rX2>
+            <rX3>Bridgend</rX3>
+            <rX4>Caerphilly</rX4>
+            <rX5>Cardiff</rX5>
+            <rX6>Ceredigion</rX6>
+            <rX7>Carmarthenshire</rX7>
+            <rX8>Conwy</rX8>
+            <rX9>Denbighshire</rX9>
+            <rY1>Flintshire</rY1>
+            <rY2>Gwynedd</rY2>
+            <rY3>Merthyr Tydfil</rY3>
+            <rY4>Monmouthshire</rY4>
+            <rY5>Neath Port Talbot</rY5>
+            <rY6>Newport</rY6>
+            <rY7>Pembrokeshire</rY7>
+            <rY8>Powys</rY8>
+            <rY9>Rhondda Cynon Taff</rY9>
+            <rZ1>Swansea</rZ1>
+            <rZ2>Torfaen</rZ2>
+            <rZ3>Vale of Glamorgan, The</rZ3>
+            <rZ4>Wrexham</rZ4>
+        </GB>
+        <GD>
+            <r01>Saint Andrew</r01>
+            <r02>Saint David</r02>
+            <r03>Saint George</r03>
+            <r04>Saint John</r04>
+            <r05>Saint Mark</r05>
+            <r06>Saint Patrick</r06>
+        </GD>
+        <GE>
+            <r01>Abashis Raioni</r01>
+            <r02>Abkhazia</r02>
+            <r03>Adigenis Raioni</r03>
+            <r04>Ajaria</r04>
+            <r05>Akhalgoris Raioni</r05>
+            <r06>Akhalk'alak'is Raioni</r06>
+            <r07>Akhalts'ikhis Raioni</r07>
+            <r08>Akhmetis Raioni</r08>
+            <r09>Ambrolauris Raioni</r09>
+            <r10>Aspindzis Raioni</r10>
+            <r11>Baghdat'is Raioni</r11>
+            <r12>Bolnisis Raioni</r12>
+            <r13>Borjomis Raioni</r13>
+            <r14>Chiat'ura</r14>
+            <r15>Ch'khorotsqus Raioni</r15>
+            <r16>Ch'okhatauris Raioni</r16>
+            <r17>Dedop'listsqaros Raioni</r17>
+            <r18>Dmanisis Raioni</r18>
+            <r19>Dushet'is Raioni</r19>
+            <r20>Gardabanis Raioni</r20>
+            <r21>Gori</r21>
+            <r22>Goris Raioni</r22>
+            <r23>Gurjaanis Raioni</r23>
+            <r24>Javis Raioni</r24>
+            <r25>K'arelis Raioni</r25>
+            <r26>Kaspis Raioni</r26>
+            <r27>Kharagaulis Raioni</r27>
+            <r28>Khashuris Raioni</r28>
+            <r29>Khobis Raioni</r29>
+            <r30>Khonis Raioni</r30>
+            <r31>K'ut'aisi</r31>
+            <r32>Lagodekhis Raioni</r32>
+            <r33>Lanch'khut'is Raioni</r33>
+            <r34>Lentekhis Raioni</r34>
+            <r35>Marneulis Raioni</r35>
+            <r36>Martvilis Raioni</r36>
+            <r37>Mestiis Raioni</r37>
+            <r38>Mts'khet'is Raioni</r38>
+            <r39>Ninotsmindis Raioni</r39>
+            <r40>Onis Raioni</r40>
+            <r41>Ozurget'is Raioni</r41>
+            <r42>P'ot'i</r42>
+            <r43>Qazbegis Raioni</r43>
+            <r44>Qvarlis Raioni</r44>
+            <r45>Rust'avi</r45>
+            <r46>Sach'kheris Raioni</r46>
+            <r47>Sagarejos Raioni</r47>
+            <r48>Samtrediis Raioni</r48>
+            <r49>Senakis Raioni</r49>
+            <r50>Sighnaghis Raioni</r50>
+            <r51>T'bilisi</r51>
+            <r52>T'elavis Raioni</r52>
+            <r53>T'erjolis Raioni</r53>
+            <r54>T'et'ritsqaros Raioni</r54>
+            <r55>T'ianet'is Raioni</r55>
+            <r56>Tqibuli</r56>
+            <r57>Ts'ageris Raioni</r57>
+            <r58>Tsalenjikhis Raioni</r58>
+            <r59>Tsalkis Raioni</r59>
+            <r60>Tsqaltubo</r60>
+            <r61>Vanis Raioni</r61>
+            <r62>Zestap'onis Raioni</r62>
+            <r63>Zugdidi</r63>
+            <r64>Zugdidis Raioni</r64>
+        </GE>
+        <GH>
+            <r01>Greater Accra</r01>
+            <r02>Ashanti</r02>
+            <r03>Brong-Ahafo</r03>
+            <r04>Central</r04>
+            <r05>Eastern</r05>
+            <r06>Northern</r06>
+            <r08>Volta</r08>
+            <r09>Western</r09>
+            <r10>Upper East</r10>
+            <r11>Upper West</r11>
+        </GH>
+        <GL>
+            <r01>Nordgronland</r01>
+            <r02>Ostgronland</r02>
+            <r03>Vestgronland</r03>
+        </GL>
+        <GM>
+            <r01>Banjul</r01>
+            <r02>Lower River</r02>
+            <r03>Central River</r03>
+            <r04>Upper River</r04>
+            <r05>Western</r05>
+            <r07>North Bank</r07>
+        </GM>
+        <GN>
+            <r01>Beyla</r01>
+            <r02>Boffa</r02>
+            <r03>Boke</r03>
+            <r04>Conakry</r04>
+            <r05>Dabola</r05>
+            <r06>Dalaba</r06>
+            <r07>Dinguiraye</r07>
+            <r09>Faranah</r09>
+            <r10>Forecariah</r10>
+            <r11>Fria</r11>
+            <r12>Gaoual</r12>
+            <r13>Gueckedou</r13>
+            <r15>Kerouane</r15>
+            <r16>Kindia</r16>
+            <r17>Kissidougou</r17>
+            <r18>Koundara</r18>
+            <r19>Kouroussa</r19>
+            <r21>Macenta</r21>
+            <r22>Mali</r22>
+            <r23>Mamou</r23>
+            <r25>Pita</r25>
+            <r27>Telimele</r27>
+            <r28>Tougue</r28>
+            <r29>Yomou</r29>
+            <r30>Coyah</r30>
+            <r31>Dubreka</r31>
+            <r32>Kankan</r32>
+            <r33>Koubia</r33>
+            <r34>Labe</r34>
+            <r35>Lelouma</r35>
+            <r36>Lola</r36>
+            <r37>Mandiana</r37>
+            <r38>Nzerekore</r38>
+            <r39>Siguiri</r39>
+        </GN>
+        <GQ>
+            <r03>Annobon</r03>
+            <r04>Bioko Norte</r04>
+            <r05>Bioko Sur</r05>
+            <r06>Centro Sur</r06>
+            <r07>Kie-Ntem</r07>
+            <r08>Litoral</r08>
+            <r09>Wele-Nzas</r09>
+        </GQ>
+        <GR>
+            <r01>Evros</r01>
+            <r02>Rodhopi</r02>
+            <r03>Xanthi</r03>
+            <r04>Drama</r04>
+            <r05>Serrai</r05>
+            <r06>Kilkis</r06>
+            <r07>Pella</r07>
+            <r08>Florina</r08>
+            <r09>Kastoria</r09>
+            <r10>Grevena</r10>
+            <r11>Kozani</r11>
+            <r12>Imathia</r12>
+            <r13>Thessaloniki</r13>
+            <r14>Kavala</r14>
+            <r15>Khalkidhiki</r15>
+            <r16>Pieria</r16>
+            <r17>Ioannina</r17>
+            <r18>Thesprotia</r18>
+            <r19>Preveza</r19>
+            <r20>Arta</r20>
+            <r21>Larisa</r21>
+            <r22>Trikala</r22>
+            <r23>Kardhitsa</r23>
+            <r24>Magnisia</r24>
+            <r25>Kerkira</r25>
+            <r26>Levkas</r26>
+            <r27>Kefallinia</r27>
+            <r28>Zakinthos</r28>
+            <r29>Fthiotis</r29>
+            <r30>Evritania</r30>
+            <r31>Aitolia kai Akarnania</r31>
+            <r32>Fokis</r32>
+            <r33>Voiotia</r33>
+            <r34>Evvoia</r34>
+            <r35>Attiki</r35>
+            <r36>Argolis</r36>
+            <r37>Korinthia</r37>
+            <r38>Akhaia</r38>
+            <r39>Ilia</r39>
+            <r40>Messinia</r40>
+            <r41>Arkadhia</r41>
+            <r42>Lakonia</r42>
+            <r43>Khania</r43>
+            <r44>Rethimni</r44>
+            <r45>Iraklion</r45>
+            <r46>Lasithi</r46>
+            <r47>Dhodhekanisos</r47>
+            <r48>Samos</r48>
+            <r49>Kikladhes</r49>
+            <r50>Khios</r50>
+            <r51>Lesvos</r51>
+        </GR>
+        <GT>
+            <r01>Alta Verapaz</r01>
+            <r02>Baja Verapaz</r02>
+            <r03>Chimaltenango</r03>
+            <r04>Chiquimula</r04>
+            <r05>El Progreso</r05>
+            <r06>Escuintla</r06>
+            <r07>Guatemala</r07>
+            <r08>Huehuetenango</r08>
+            <r09>Izabal</r09>
+            <r10>Jalapa</r10>
+            <r11>Jutiapa</r11>
+            <r12>Peten</r12>
+            <r13>Quetzaltenango</r13>
+            <r14>Quiche</r14>
+            <r15>Retalhuleu</r15>
+            <r16>Sacatepequez</r16>
+            <r17>San Marcos</r17>
+            <r18>Santa Rosa</r18>
+            <r19>Solola</r19>
+            <r20>Suchitepequez</r20>
+            <r21>Totonicapan</r21>
+            <r22>Zacapa</r22>
+        </GT>
+        <GW>
+            <r01>Bafata</r01>
+            <r02>Quinara</r02>
+            <r04>Oio</r04>
+            <r05>Bolama</r05>
+            <r06>Cacheu</r06>
+            <r07>Tombali</r07>
+            <r10>Gabu</r10>
+            <r11>Bissau</r11>
+            <r12>Biombo</r12>
+        </GW>
+        <GY>
+            <r10>Barima-Waini</r10>
+            <r11>Cuyuni-Mazaruni</r11>
+            <r12>Demerara-Mahaica</r12>
+            <r13>East Berbice-Corentyne</r13>
+            <r14>Essequibo Islands-West Demerara</r14>
+            <r15>Mahaica-Berbice</r15>
+            <r16>Pomeroon-Supenaam</r16>
+            <r17>Potaro-Siparuni</r17>
+            <r18>Upper Demerara-Berbice</r18>
+            <r19>Upper Takutu-Upper Essequibo</r19>
+        </GY>
+        <HN>
+            <r01>Atlantida</r01>
+            <r02>Choluteca</r02>
+            <r03>Colon</r03>
+            <r04>Comayagua</r04>
+            <r05>Copan</r05>
+            <r06>Cortes</r06>
+            <r07>El Paraiso</r07>
+            <r08>Francisco Morazan</r08>
+            <r09>Gracias a Dios</r09>
+            <r10>Intibuca</r10>
+            <r11>Islas de la Bahia</r11>
+            <r12>La Paz</r12>
+            <r13>Lempira</r13>
+            <r14>Ocotepeque</r14>
+            <r15>Olancho</r15>
+            <r16>Santa Barbara</r16>
+            <r17>Valle</r17>
+            <r18>Yoro</r18>
+        </HN>
+        <HR>
+            <r01>Bjelovarsko-Bilogorska</r01>
+            <r02>Brodsko-Posavska</r02>
+            <r03>Dubrovacko-Neretvanska</r03>
+            <r04>Istarska</r04>
+            <r05>Karlovacka</r05>
+            <r06>Koprivnicko-Krizevacka</r06>
+            <r07>Krapinsko-Zagorska</r07>
+            <r08>Licko-Senjska</r08>
+            <r09>Medimurska</r09>
+            <r10>Osjecko-Baranjska</r10>
+            <r11>Pozesko-Slavonska</r11>
+            <r12>Primorsko-Goranska</r12>
+            <r13>Sibensko-Kninska</r13>
+            <r14>Sisacko-Moslavacka</r14>
+            <r15>Splitsko-Dalmatinska</r15>
+            <r16>Varazdinska</r16>
+            <r17>Viroviticko-Podravska</r17>
+            <r18>Vukovarsko-Srijemska</r18>
+            <r19>Zadarska</r19>
+            <r20>Zagrebacka</r20>
+            <r21>Grad Zagreb</r21>
+        </HR>
+        <HT>
+            <r03>Nord-Ouest</r03>
+            <r06>Artibonite</r06>
+            <r07>Centre</r07>
+            <r09>Nord</r09>
+            <r10>Nord-Est</r10>
+            <r11>Ouest</r11>
+            <r12>Sud</r12>
+            <r13>Sud-Est</r13>
+            <r14>Grand' Anse</r14>
+            <r15>Nippes</r15>
+        </HT>
+        <HU>
+            <r01>Bacs-Kiskun</r01>
+            <r02>Baranya</r02>
+            <r03>Bekes</r03>
+            <r04>Borsod-Abauj-Zemplen</r04>
+            <r05>Budapest</r05>
+            <r06>Csongrad</r06>
+            <r07>Debrecen</r07>
+            <r08>Fejer</r08>
+            <r09>Gyor-Moson-Sopron</r09>
+            <r10>Hajdu-Bihar</r10>
+            <r11>Heves</r11>
+            <r12>Komarom-Esztergom</r12>
+            <r13>Miskolc</r13>
+            <r14>Nograd</r14>
+            <r15>Pecs</r15>
+            <r16>Pest</r16>
+            <r17>Somogy</r17>
+            <r18>Szabolcs-Szatmar-Bereg</r18>
+            <r19>Szeged</r19>
+            <r20>Jasz-Nagykun-Szolnok</r20>
+            <r21>Tolna</r21>
+            <r22>Vas</r22>
+            <r23>Veszprem</r23>
+            <r24>Zala</r24>
+            <r25>Gyor</r25>
+            <r26>Bekescsaba</r26>
+            <r27>Dunaujvaros</r27>
+            <r28>Eger</r28>
+            <r29>Hodmezovasarhely</r29>
+            <r30>Kaposvar</r30>
+            <r31>Kecskemet</r31>
+            <r32>Nagykanizsa</r32>
+            <r33>Nyiregyhaza</r33>
+            <r34>Sopron</r34>
+            <r35>Szekesfehervar</r35>
+            <r36>Szolnok</r36>
+            <r37>Szombathely</r37>
+            <r38>Tatabanya</r38>
+            <r39>Veszprem</r39>
+            <r40>Zalaegerszeg</r40>
+            <r41>Salgotarjan</r41>
+            <r42>Szekszard</r42>
+            <r43>Erd</r43>
+        </HU>
+        <ID>
+            <r01>Aceh</r01>
+            <r02>Bali</r02>
+            <r03>Bengkulu</r03>
+            <r04>Jakarta Raya</r04>
+            <r05>Jambi</r05>
+            <r07>Jawa Tengah</r07>
+            <r08>Jawa Timur</r08>
+            <r10>Yogyakarta</r10>
+            <r11>Kalimantan Barat</r11>
+            <r12>Kalimantan Selatan</r12>
+            <r13>Kalimantan Tengah</r13>
+            <r14>Kalimantan Timur</r14>
+            <r15>Lampung</r15>
+            <r17>Nusa Tenggara Barat</r17>
+            <r18>Nusa Tenggara Timur</r18>
+            <r21>Sulawesi Tengah</r21>
+            <r22>Sulawesi Tenggara</r22>
+            <r24>Sumatera Barat</r24>
+            <r26>Sumatera Utara</r26>
+            <r28>Maluku</r28>
+            <r29>Maluku Utara</r29>
+            <r30>Jawa Barat</r30>
+            <r31>Sulawesi Utara</r31>
+            <r32>Sumatera Selatan</r32>
+            <r33>Banten</r33>
+            <r34>Gorontalo</r34>
+            <r35>Kepulauan Bangka Belitung</r35>
+            <r36>Papua</r36>
+            <r37>Riau</r37>
+            <r38>Sulawesi Selatan</r38>
+            <r39>Irian Jaya Barat</r39>
+            <r40>Kepulauan Riau</r40>
+            <r41>Sulawesi Barat</r41>
+        </ID>
+        <IE>
+            <r01>Carlow</r01>
+            <r02>Cavan</r02>
+            <r03>Clare</r03>
+            <r04>Cork</r04>
+            <r06>Donegal</r06>
+            <r07>Dublin</r07>
+            <r10>Galway</r10>
+            <r11>Kerry</r11>
+            <r12>Kildare</r12>
+            <r13>Kilkenny</r13>
+            <r14>Leitrim</r14>
+            <r15>Laois</r15>
+            <r16>Limerick</r16>
+            <r18>Longford</r18>
+            <r19>Louth</r19>
+            <r20>Mayo</r20>
+            <r21>Meath</r21>
+            <r22>Monaghan</r22>
+            <r23>Offaly</r23>
+            <r24>Roscommon</r24>
+            <r25>Sligo</r25>
+            <r26>Tipperary</r26>
+            <r27>Waterford</r27>
+            <r29>Westmeath</r29>
+            <r30>Wexford</r30>
+            <r31>Wicklow</r31>
+        </IE>
+        <IL>
+            <r01>HaDarom</r01>
+            <r02>HaMerkaz</r02>
+            <r03>HaZafon</r03>
+            <r04>Hefa</r04>
+            <r05>Tel Aviv</r05>
+            <r06>Yerushalayim</r06>
+        </IL>
+        <IN>
+            <r01>Andaman and Nicobar Islands</r01>
+            <r02>Andhra Pradesh</r02>
+            <r03>Assam</r03>
+            <r05>Chandigarh</r05>
+            <r06>Dadra and Nagar Haveli</r06>
+            <r07>Delhi</r07>
+            <r09>Gujarat</r09>
+            <r10>Haryana</r10>
+            <r11>Himachal Pradesh</r11>
+            <r12>Jammu and Kashmir</r12>
+            <r13>Kerala</r13>
+            <r14>Lakshadweep</r14>
+            <r16>Maharashtra</r16>
+            <r17>Manipur</r17>
+            <r18>Meghalaya</r18>
+            <r19>Karnataka</r19>
+            <r20>Nagaland</r20>
+            <r21>Orissa</r21>
+            <r22>Puducherry</r22>
+            <r23>Punjab</r23>
+            <r24>Rajasthan</r24>
+            <r25>Tamil Nadu</r25>
+            <r26>Tripura</r26>
+            <r28>West Bengal</r28>
+            <r29>Sikkim</r29>
+            <r30>Arunachal Pradesh</r30>
+            <r31>Mizoram</r31>
+            <r32>Daman and Diu</r32>
+            <r33>Goa</r33>
+            <r34>Bihar</r34>
+            <r35>Madhya Pradesh</r35>
+            <r36>Uttar Pradesh</r36>
+            <r37>Chhattisgarh</r37>
+            <r38>Jharkhand</r38>
+            <r39>Uttarakhand</r39>
+        </IN>
+        <IQ>
+            <r01>Al Anbar</r01>
+            <r02>Al Basrah</r02>
+            <r03>Al Muthanna</r03>
+            <r04>Al Qadisiyah</r04>
+            <r05>As Sulaymaniyah</r05>
+            <r06>Babil</r06>
+            <r07>Baghdad</r07>
+            <r08>Dahuk</r08>
+            <r09>Dhi Qar</r09>
+            <r10>Diyala</r10>
+            <r11>Arbil</r11>
+            <r12>Karbala'</r12>
+            <r13>At Ta'mim</r13>
+            <r14>Maysan</r14>
+            <r15>Ninawa</r15>
+            <r16>Wasit</r16>
+            <r17>An Najaf</r17>
+            <r18>Salah ad Din</r18>
+        </IQ>
+        <IR>
+            <r01>Azarbayjan-e Bakhtari</r01>
+            <r03>Chahar Mahall va Bakhtiari</r03>
+            <r04>Sistan va Baluchestan</r04>
+            <r05>Kohkiluyeh va Buyer Ahmadi</r05>
+            <r07>Fars</r07>
+            <r08>Gilan</r08>
+            <r09>Hamadan</r09>
+            <r10>Ilam</r10>
+            <r11>Hormozgan</r11>
+            <r12>Kerman</r12>
+            <r13>Bakhtaran</r13>
+            <r15>Khuzestan</r15>
+            <r16>Kordestan</r16>
+            <r17>Mazandaran</r17>
+            <r18>Semnan Province</r18>
+            <r19>Markazi</r19>
+            <r21>Zanjan</r21>
+            <r22>Bushehr</r22>
+            <r23>Lorestan</r23>
+            <r24>Markazi</r24>
+            <r25>Semnan</r25>
+            <r26>Tehran</r26>
+            <r27>Zanjan</r27>
+            <r28>Esfahan</r28>
+            <r29>Kerman</r29>
+            <r30>Khorasan</r30>
+            <r31>Yazd</r31>
+            <r32>Ardabil</r32>
+            <r33>East Azarbaijan</r33>
+            <r34>Markazi</r34>
+            <r35>Mazandaran</r35>
+            <r36>Zanjan</r36>
+            <r37>Golestan</r37>
+            <r38>Qazvin</r38>
+            <r39>Qom</r39>
+            <r40>Yazd</r40>
+            <r41>Khorasan-e Janubi</r41>
+            <r42>Khorasan-e Razavi</r42>
+            <r43>Khorasan-e Shemali</r43>
+        </IR>
+        <IS>
+            <r03>Arnessysla</r03>
+            <r05>Austur-Hunavatnssysla</r05>
+            <r06>Austur-Skaftafellssysla</r06>
+            <r07>Borgarfjardarsysla</r07>
+            <r09>Eyjafjardarsysla</r09>
+            <r10>Gullbringusysla</r10>
+            <r15>Kjosarsysla</r15>
+            <r17>Myrasysla</r17>
+            <r20>Nordur-Mulasysla</r20>
+            <r21>Nordur-Tingeyjarsysla</r21>
+            <r23>Rangarvallasysla</r23>
+            <r28>Skagafjardarsysla</r28>
+            <r29>Snafellsnes- og Hnappadalssysla</r29>
+            <r30>Strandasysla</r30>
+            <r31>Sudur-Mulasysla</r31>
+            <r32>Sudur-Tingeyjarsysla</r32>
+            <r34>Vestur-Bardastrandarsysla</r34>
+            <r35>Vestur-Hunavatnssysla</r35>
+            <r36>Vestur-Isafjardarsysla</r36>
+            <r37>Vestur-Skaftafellssysla</r37>
+            <r40>Norourland Eystra</r40>
+            <r41>Norourland Vestra</r41>
+            <r42>Suourland</r42>
+            <r43>Suournes</r43>
+            <r44>Vestfiroir</r44>
+            <r45>Vesturland</r45>
+        </IS>
+        <IT>
+            <r01>Abruzzi</r01>
+            <r02>Basilicata</r02>
+            <r03>Calabria</r03>
+            <r04>Campania</r04>
+            <r05>Emilia-Romagna</r05>
+            <r06>Friuli-Venezia Giulia</r06>
+            <r07>Lazio</r07>
+            <r08>Liguria</r08>
+            <r09>Lombardia</r09>
+            <r10>Marche</r10>
+            <r11>Molise</r11>
+            <r12>Piemonte</r12>
+            <r13>Puglia</r13>
+            <r14>Sardegna</r14>
+            <r15>Sicilia</r15>
+            <r16>Toscana</r16>
+            <r17>Trentino-Alto Adige</r17>
+            <r18>Umbria</r18>
+            <r19>Valle d'Aosta</r19>
+            <r20>Veneto</r20>
+        </IT>
+        <JM>
+            <r01>Clarendon</r01>
+            <r02>Hanover</r02>
+            <r04>Manchester</r04>
+            <r07>Portland</r07>
+            <r08>Saint Andrew</r08>
+            <r09>Saint Ann</r09>
+            <r10>Saint Catherine</r10>
+            <r11>Saint Elizabeth</r11>
+            <r12>Saint James</r12>
+            <r13>Saint Mary</r13>
+            <r14>Saint Thomas</r14>
+            <r15>Trelawny</r15>
+            <r16>Westmoreland</r16>
+            <r17>Kingston</r17>
+        </JM>
+        <JO>
+            <r02>Al Balqa'</r02>
+            <r09>Al Karak</r09>
+            <r12>At Tafilah</r12>
+            <r15>Al Mafraq</r15>
+            <r16>Amman</r16>
+            <r17>Az Zaraqa</r17>
+            <r18>Irbid</r18>
+            <r19>Ma'an</r19>
+            <r20>Ajlun</r20>
+            <r21>Al Aqabah</r21>
+            <r22>Jarash</r22>
+            <r23>Madaba</r23>
+        </JO>
+        <JP>
+            <r01>Aichi</r01>
+            <r02>Akita</r02>
+            <r03>Aomori</r03>
+            <r04>Chiba</r04>
+            <r05>Ehime</r05>
+            <r06>Fukui</r06>
+            <r07>Fukuoka</r07>
+            <r08>Fukushima</r08>
+            <r09>Gifu</r09>
+            <r10>Gumma</r10>
+            <r11>Hiroshima</r11>
+            <r12>Hokkaido</r12>
+            <r13>Hyogo</r13>
+            <r14>Ibaraki</r14>
+            <r15>Ishikawa</r15>
+            <r16>Iwate</r16>
+            <r17>Kagawa</r17>
+            <r18>Kagoshima</r18>
+            <r19>Kanagawa</r19>
+            <r20>Kochi</r20>
+            <r21>Kumamoto</r21>
+            <r22>Kyoto</r22>
+            <r23>Mie</r23>
+            <r24>Miyagi</r24>
+            <r25>Miyazaki</r25>
+            <r26>Nagano</r26>
+            <r27>Nagasaki</r27>
+            <r28>Nara</r28>
+            <r29>Niigata</r29>
+            <r30>Oita</r30>
+            <r31>Okayama</r31>
+            <r32>Osaka</r32>
+            <r33>Saga</r33>
+            <r34>Saitama</r34>
+            <r35>Shiga</r35>
+            <r36>Shimane</r36>
+            <r37>Shizuoka</r37>
+            <r38>Tochigi</r38>
+            <r39>Tokushima</r39>
+            <r40>Tokyo</r40>
+            <r41>Tottori</r41>
+            <r42>Toyama</r42>
+            <r43>Wakayama</r43>
+            <r44>Yamagata</r44>
+            <r45>Yamaguchi</r45>
+            <r46>Yamanashi</r46>
+            <r47>Okinawa</r47>
+        </JP>
+        <KE>
+            <r01>Central</r01>
+            <r02>Coast</r02>
+            <r03>Eastern</r03>
+            <r05>Nairobi Area</r05>
+            <r06>North-Eastern</r06>
+            <r07>Nyanza</r07>
+            <r08>Rift Valley</r08>
+            <r09>Western</r09>
+        </KE>
+        <KG>
+            <r01>Bishkek</r01>
+            <r02>Chuy</r02>
+            <r03>Jalal-Abad</r03>
+            <r04>Naryn</r04>
+            <r05>Osh</r05>
+            <r06>Talas</r06>
+            <r07>Ysyk-Kol</r07>
+            <r08>Osh</r08>
+            <r09>Batken</r09>
+        </KG>
+        <KH>
+            <r01>Batdambang</r01>
+            <r02>Kampong Cham</r02>
+            <r03>Kampong Chhnang</r03>
+            <r04>Kampong Speu</r04>
+            <r05>Kampong Thum</r05>
+            <r06>Kampot</r06>
+            <r07>Kandal</r07>
+            <r08>Koh Kong</r08>
+            <r09>Kracheh</r09>
+            <r10>Mondulkiri</r10>
+            <r11>Phnum Penh</r11>
+            <r12>Pursat</r12>
+            <r13>Preah Vihear</r13>
+            <r14>Prey Veng</r14>
+            <r15>Ratanakiri Kiri</r15>
+            <r16>Siem Reap</r16>
+            <r17>Stung Treng</r17>
+            <r18>Svay Rieng</r18>
+            <r19>Takeo</r19>
+            <r25>Banteay Meanchey</r25>
+            <r29>Batdambang</r29>
+            <r30>Pailin</r30>
+        </KH>
+        <KI>
+            <r01>Gilbert Islands</r01>
+            <r02>Line Islands</r02>
+            <r03>Phoenix Islands</r03>
+        </KI>
+        <KM>
+            <r01>Anjouan</r01>
+            <r02>Grande Comore</r02>
+            <r03>Moheli</r03>
+        </KM>
+        <KN>
+            <r01>Christ Church Nichola Town</r01>
+            <r02>Saint Anne Sandy Point</r02>
+            <r03>Saint George Basseterre</r03>
+            <r04>Saint George Gingerland</r04>
+            <r05>Saint James Windward</r05>
+            <r06>Saint John Capisterre</r06>
+            <r07>Saint John Figtree</r07>
+            <r08>Saint Mary Cayon</r08>
+            <r09>Saint Paul Capisterre</r09>
+            <r10>Saint Paul Charlestown</r10>
+            <r11>Saint Peter Basseterre</r11>
+            <r12>Saint Thomas Lowland</r12>
+            <r13>Saint Thomas Middle Island</r13>
+            <r15>Trinity Palmetto Point</r15>
+        </KN>
+        <KP>
+            <r01>Chagang-do</r01>
+            <r03>Hamgyong-namdo</r03>
+            <r06>Hwanghae-namdo</r06>
+            <r07>Hwanghae-bukto</r07>
+            <r08>Kaesong-si</r08>
+            <r09>Kangwon-do</r09>
+            <r11>P'yongan-bukto</r11>
+            <r12>P'yongyang-si</r12>
+            <r13>Yanggang-do</r13>
+            <r14>Namp'o-si</r14>
+            <r15>P'yongan-namdo</r15>
+            <r17>Hamgyong-bukto</r17>
+            <r18>Najin Sonbong-si</r18>
+        </KP>
+        <KR>
+            <r01>Cheju-do</r01>
+            <r03>Cholla-bukto</r03>
+            <r05>Ch'ungch'ong-bukto</r05>
+            <r06>Kangwon-do</r06>
+            <r10>Pusan-jikhalsi</r10>
+            <r11>Seoul-t'ukpyolsi</r11>
+            <r12>Inch'on-jikhalsi</r12>
+            <r13>Kyonggi-do</r13>
+            <r14>Kyongsang-bukto</r14>
+            <r15>Taegu-jikhalsi</r15>
+            <r16>Cholla-namdo</r16>
+            <r17>Ch'ungch'ong-namdo</r17>
+            <r18>Kwangju-jikhalsi</r18>
+            <r19>Taejon-jikhalsi</r19>
+            <r20>Kyongsang-namdo</r20>
+            <r21>Ulsan-gwangyoksi</r21>
+        </KR>
+        <KW>
+            <r01>Al Ahmadi</r01>
+            <r02>Al Kuwayt</r02>
+            <r05>Al Jahra</r05>
+            <r07>Al Farwaniyah</r07>
+            <r08>Hawalli</r08>
+            <r09>Mubarak al Kabir</r09>
+        </KW>
+        <KY>
+            <r01>Creek</r01>
+            <r02>Eastern</r02>
+            <r03>Midland</r03>
+            <r04>South Town</r04>
+            <r05>Spot Bay</r05>
+            <r06>Stake Bay</r06>
+            <r07>West End</r07>
+            <r08>Western</r08>
+        </KY>
+        <KZ>
+            <r01>Almaty</r01>
+            <r02>Almaty City</r02>
+            <r03>Aqmola</r03>
+            <r04>Aqtobe</r04>
+            <r05>Astana</r05>
+            <r06>Atyrau</r06>
+            <r07>West Kazakhstan</r07>
+            <r08>Bayqonyr</r08>
+            <r09>Mangghystau</r09>
+            <r10>South Kazakhstan</r10>
+            <r11>Pavlodar</r11>
+            <r12>Qaraghandy</r12>
+            <r13>Qostanay</r13>
+            <r14>Qyzylorda</r14>
+            <r15>East Kazakhstan</r15>
+            <r16>North Kazakhstan</r16>
+            <r17>Zhambyl</r17>
+        </KZ>
+        <LA>
+            <r01>Attapu</r01>
+            <r02>Champasak</r02>
+            <r03>Houaphan</r03>
+            <r04>Khammouan</r04>
+            <r05>Louang Namtha</r05>
+            <r07>Oudomxai</r07>
+            <r08>Phongsali</r08>
+            <r09>Saravan</r09>
+            <r10>Savannakhet</r10>
+            <r11>Vientiane</r11>
+            <r13>Xaignabouri</r13>
+            <r14>Xiangkhoang</r14>
+            <r17>Louangphrabang</r17>
+        </LA>
+        <LB>
+            <r01>Beqaa</r01>
+            <r02>Al Janub</r02>
+            <r03>Liban-Nord</r03>
+            <r04>Beyrouth</r04>
+            <r05>Mont-Liban</r05>
+            <r06>Liban-Sud</r06>
+            <r07>Nabatiye</r07>
+            <r08>Beqaa</r08>
+            <r09>Liban-Nord</r09>
+            <r10>Aakk,r</r10>
+            <r11>Baalbek-Hermel</r11>
+        </LB>
+        <LC>
+            <r01>Anse-la-Raye</r01>
+            <r02>Dauphin</r02>
+            <r03>Castries</r03>
+            <r04>Choiseul</r04>
+            <r05>Dennery</r05>
+            <r06>Gros-Islet</r06>
+            <r07>Laborie</r07>
+            <r08>Micoud</r08>
+            <r09>Soufriere</r09>
+            <r10>Vieux-Fort</r10>
+            <r11>Praslin</r11>
+        </LC>
+        <LI>
+            <r01>Balzers</r01>
+            <r02>Eschen</r02>
+            <r03>Gamprin</r03>
+            <r04>Mauren</r04>
+            <r05>Planken</r05>
+            <r06>Ruggell</r06>
+            <r07>Schaan</r07>
+            <r08>Schellenberg</r08>
+            <r09>Triesen</r09>
+            <r10>Triesenberg</r10>
+            <r11>Vaduz</r11>
+            <r21>Gbarpolu</r21>
+            <r22>River Gee</r22>
+        </LI>
+        <LK>
+            <r01>Amparai</r01>
+            <r02>Anuradhapura</r02>
+            <r03>Badulla</r03>
+            <r04>Batticaloa</r04>
+            <r06>Galle</r06>
+            <r07>Hambantota</r07>
+            <r09>Kalutara</r09>
+            <r10>Kandy</r10>
+            <r11>Kegalla</r11>
+            <r12>Kurunegala</r12>
+            <r14>Matale</r14>
+            <r15>Matara</r15>
+            <r16>Moneragala</r16>
+            <r17>Nuwara Eliya</r17>
+            <r18>Polonnaruwa</r18>
+            <r19>Puttalam</r19>
+            <r20>Ratnapura</r20>
+            <r21>Trincomalee</r21>
+            <r23>Colombo</r23>
+            <r24>Gampaha</r24>
+            <r25>Jaffna</r25>
+            <r26>Mannar</r26>
+            <r27>Mullaittivu</r27>
+            <r28>Vavuniya</r28>
+            <r29>Central</r29>
+            <r30>North Central</r30>
+            <r31>Northern</r31>
+            <r32>North Western</r32>
+            <r33>Sabaragamuwa</r33>
+            <r34>Southern</r34>
+            <r35>Uva</r35>
+            <r36>Western</r36>
+        </LK>
+        <LR>
+            <r01>Bong</r01>
+            <r04>Grand Cape Mount</r04>
+            <r05>Lofa</r05>
+            <r06>Maryland</r06>
+            <r07>Monrovia</r07>
+            <r09>Nimba</r09>
+            <r10>Sino</r10>
+            <r11>Grand Bassa</r11>
+            <r12>Grand Cape Mount</r12>
+            <r13>Maryland</r13>
+            <r14>Montserrado</r14>
+            <r17>Margibi</r17>
+            <r18>River Cess</r18>
+            <r19>Grand Gedeh</r19>
+            <r20>Lofa</r20>
+            <r21>Gbarpolu</r21>
+            <r22>River Gee</r22>
+        </LR>
+        <LS>
+            <r10>Berea</r10>
+            <r11>Butha-Buthe</r11>
+            <r12>Leribe</r12>
+            <r13>Mafeteng</r13>
+            <r14>Maseru</r14>
+            <r15>Mohales Hoek</r15>
+            <r16>Mokhotlong</r16>
+            <r17>Qachas Nek</r17>
+            <r18>Quthing</r18>
+            <r19>Thaba-Tseka</r19>
+        </LS>
+        <LT>
+            <r56>Alytaus Apskritis</r56>
+            <r57>Kauno Apskritis</r57>
+            <r58>Klaipedos Apskritis</r58>
+            <r59>Marijampoles Apskritis</r59>
+            <r60>Panevezio Apskritis</r60>
+            <r61>Siauliu Apskritis</r61>
+            <r62>Taurages Apskritis</r62>
+            <r63>Telsiu Apskritis</r63>
+            <r64>Utenos Apskritis</r64>
+            <r65>Vilniaus Apskritis</r65>
+        </LT>
+        <LU>
+            <r01>Diekirch</r01>
+            <r02>Grevenmacher</r02>
+            <r03>Luxembourg</r03>
+        </LU>
+        <LV>
+            <r01>Aizkraukles</r01>
+            <r02>Aluksnes</r02>
+            <r03>Balvu</r03>
+            <r04>Bauskas</r04>
+            <r05>Cesu</r05>
+            <r06>Daugavpils</r06>
+            <r07>Daugavpils</r07>
+            <r08>Dobeles</r08>
+            <r09>Gulbenes</r09>
+            <r10>Jekabpils</r10>
+            <r11>Jelgava</r11>
+            <r12>Jelgavas</r12>
+            <r13>Jurmala</r13>
+            <r14>Kraslavas</r14>
+            <r15>Kuldigas</r15>
+            <r16>Liepaja</r16>
+            <r17>Liepajas</r17>
+            <r18>Limbazu</r18>
+            <r19>Ludzas</r19>
+            <r20>Madonas</r20>
+            <r21>Ogres</r21>
+            <r22>Preilu</r22>
+            <r23>Rezekne</r23>
+            <r24>Rezeknes</r24>
+            <r25>Riga</r25>
+            <r26>Rigas</r26>
+            <r27>Saldus</r27>
+            <r28>Talsu</r28>
+            <r29>Tukuma</r29>
+            <r30>Valkas</r30>
+            <r31>Valmieras</r31>
+            <r32>Ventspils</r32>
+            <r33>Ventspils</r33>
+        </LV>
+        <LY>
+            <r03>Al Aziziyah</r03>
+            <r05>Al Jufrah</r05>
+            <r08>Al Kufrah</r08>
+            <r13>Ash Shati'</r13>
+            <r30>Murzuq</r30>
+            <r34>Sabha</r34>
+            <r41>Tarhunah</r41>
+            <r42>Tubruq</r42>
+            <r45>Zlitan</r45>
+            <r47>Ajdabiya</r47>
+            <r48>Al Fatih</r48>
+            <r49>Al Jabal al Akhdar</r49>
+            <r50>Al Khums</r50>
+            <r51>An Nuqat al Khams</r51>
+            <r52>Awbari</r52>
+            <r53>Az Zawiyah</r53>
+            <r54>Banghazi</r54>
+            <r55>Darnah</r55>
+            <r56>Ghadamis</r56>
+            <r57>Gharyan</r57>
+            <r58>Misratah</r58>
+            <r59>Sawfajjin</r59>
+            <r60>Surt</r60>
+            <r61>Tarabulus</r61>
+            <r62>Yafran</r62>
+        </LY>
+        <MA>
+            <r45>Grand Casablanca</r45>
+            <r46>Fes-Boulemane</r46>
+            <r47>Marrakech-Tensift-Al Haouz</r47>
+            <r48>Meknes-Tafilalet</r48>
+            <r49>Rabat-Sale-Zemmour-Zaer</r49>
+            <r50>Chaouia-Ouardigha</r50>
+            <r51>Doukkala-Abda</r51>
+            <r52>Gharb-Chrarda-Beni Hssen</r52>
+            <r53>Guelmim-Es Smara</r53>
+            <r54>Oriental</r54>
+            <r55>Souss-Massa-Dr,a</r55>
+            <r56>Tadla-Azilal</r56>
+            <r57>Tanger-Tetouan</r57>
+            <r58>Taza-Al Hoceima-Taounate</r58>
+            <r59>La,youne-Boujdour-Sakia El Hamra</r59>
+        </MA>
+        <MC>
+            <r01>La Condamine</r01>
+            <r02>Monaco</r02>
+            <r03>Monte-Carlo</r03>
+        </MC>
+        <MD>
+            <r51>Gagauzia</r51>
+            <r57>Chisinau</r57>
+            <r58>Stinga Nistrului</r58>
+            <r59>Anenii Noi</r59>
+            <r60>Balti</r60>
+            <r61>Basarabeasca</r61>
+            <r62>Bender</r62>
+            <r63>Briceni</r63>
+            <r64>Cahul</r64>
+            <r65>Cantemir</r65>
+            <r66>Calarasi</r66>
+            <r67>Causeni</r67>
+            <r68>Cimislia</r68>
+            <r69>Criuleni</r69>
+            <r70>Donduseni</r70>
+            <r71>Drochia</r71>
+            <r72>Dubasari</r72>
+            <r73>Edinet</r73>
+            <r74>Falesti</r74>
+            <r75>Floresti</r75>
+            <r76>Glodeni</r76>
+            <r77>Hincesti</r77>
+            <r78>Ialoveni</r78>
+            <r79>Leova</r79>
+            <r80>Nisporeni</r80>
+            <r81>Ocnita</r81>
+            <r82>Orhei</r82>
+            <r83>Rezina</r83>
+            <r84>Riscani</r84>
+            <r85>Singerei</r85>
+            <r86>Soldanesti</r86>
+            <r87>Soroca</r87>
+            <r88>Stefan-Voda</r88>
+            <r89>Straseni</r89>
+            <r90>Taraclia</r90>
+            <r91>Telenesti</r91>
+            <r92>Ungheni</r92>
+        </MD>
+        <MG>
+            <r01>Antsiranana</r01>
+            <r02>Fianarantsoa</r02>
+            <r03>Mahajanga</r03>
+            <r04>Toamasina</r04>
+            <r05>Antananarivo</r05>
+            <r06>Toliara</r06>
+        </MG>
+        <MK>
+            <r01>Aracinovo</r01>
+            <r02>Bac</r02>
+            <r03>Belcista</r03>
+            <r04>Berovo</r04>
+            <r05>Bistrica</r05>
+            <r06>Bitola</r06>
+            <r07>Blatec</r07>
+            <r08>Bogdanci</r08>
+            <r09>Bogomila</r09>
+            <r10>Bogovinje</r10>
+            <r11>Bosilovo</r11>
+            <r12>Brvenica</r12>
+            <r13>Cair</r13>
+            <r14>Capari</r14>
+            <r15>Caska</r15>
+            <r16>Cegrane</r16>
+            <r17>Centar</r17>
+            <r18>Centar Zupa</r18>
+            <r19>Cesinovo</r19>
+            <r20>Cucer-Sandevo</r20>
+            <r21>Debar</r21>
+            <r22>Delcevo</r22>
+            <r23>Delogozdi</r23>
+            <r24>Demir Hisar</r24>
+            <r25>Demir Kapija</r25>
+            <r26>Dobrusevo</r26>
+            <r27>Dolna Banjica</r27>
+            <r28>Dolneni</r28>
+            <r29>Dorce Petrov</r29>
+            <r30>Drugovo</r30>
+            <r31>Dzepciste</r31>
+            <r32>Gazi Baba</r32>
+            <r33>Gevgelija</r33>
+            <r34>Gostivar</r34>
+            <r35>Gradsko</r35>
+            <r36>Ilinden</r36>
+            <r37>Izvor</r37>
+            <r38>Jegunovce</r38>
+            <r39>Kamenjane</r39>
+            <r40>Karbinci</r40>
+            <r41>Karpos</r41>
+            <r42>Kavadarci</r42>
+            <r43>Kicevo</r43>
+            <r44>Kisela Voda</r44>
+            <r45>Klecevce</r45>
+            <r46>Kocani</r46>
+            <r47>Konce</r47>
+            <r48>Kondovo</r48>
+            <r49>Konopiste</r49>
+            <r50>Kosel</r50>
+            <r51>Kratovo</r51>
+            <r52>Kriva Palanka</r52>
+            <r53>Krivogastani</r53>
+            <r54>Krusevo</r54>
+            <r55>Kuklis</r55>
+            <r56>Kukurecani</r56>
+            <r57>Kumanovo</r57>
+            <r58>Labunista</r58>
+            <r59>Lipkovo</r59>
+            <r60>Lozovo</r60>
+            <r61>Lukovo</r61>
+            <r62>Makedonska Kamenica</r62>
+            <r63>Makedonski Brod</r63>
+            <r64>Mavrovi Anovi</r64>
+            <r65>Meseista</r65>
+            <r66>Miravci</r66>
+            <r67>Mogila</r67>
+            <r68>Murtino</r68>
+            <r69>Negotino</r69>
+            <r70>Negotino-Polosko</r70>
+            <r71>Novaci</r71>
+            <r72>Novo Selo</r72>
+            <r73>Oblesevo</r73>
+            <r74>Ohrid</r74>
+            <r75>Orasac</r75>
+            <r76>Orizari</r76>
+            <r77>Oslomej</r77>
+            <r78>Pehcevo</r78>
+            <r79>Petrovec</r79>
+            <r80>Plasnica</r80>
+            <r81>Podares</r81>
+            <r82>Prilep</r82>
+            <r83>Probistip</r83>
+            <r84>Radovis</r84>
+            <r85>Rankovce</r85>
+            <r86>Resen</r86>
+            <r87>Rosoman</r87>
+            <r88>Rostusa</r88>
+            <r89>Samokov</r89>
+            <r90>Saraj</r90>
+            <r91>Sipkovica</r91>
+            <r92>Sopiste</r92>
+            <r93>Sopotnica</r93>
+            <r94>Srbinovo</r94>
+            <r95>Staravina</r95>
+            <r96>Star Dojran</r96>
+            <r97>Staro Nagoricane</r97>
+            <r98>Stip</r98>
+            <r99>Struga</r99>
+            <rA1>Strumica</rA1>
+            <rA2>Studenicani</rA2>
+            <rA3>Suto Orizari</rA3>
+            <rA4>Sveti Nikole</rA4>
+            <rA5>Tearce</rA5>
+            <rA6>Tetovo</rA6>
+            <rA7>Topolcani</rA7>
+            <rA8>Valandovo</rA8>
+            <rA9>Vasilevo</rA9>
+            <rB1>Veles</rB1>
+            <rB2>Velesta</rB2>
+            <rB3>Vevcani</rB3>
+            <rB4>Vinica</rB4>
+            <rB5>Vitoliste</rB5>
+            <rB6>Vranestica</rB6>
+            <rB7>Vrapciste</rB7>
+            <rB8>Vratnica</rB8>
+            <rB9>Vrutok</rB9>
+            <rC1>Zajas</rC1>
+            <rC2>Zelenikovo</rC2>
+            <rC3>Zelino</rC3>
+            <rC4>Zitose</rC4>
+            <rC5>Zletovo</rC5>
+            <rC6>Zrnovci</rC6>
+        </MK>
+        <ML>
+            <r01>Bamako</r01>
+            <r03>Kayes</r03>
+            <r04>Mopti</r04>
+            <r05>Segou</r05>
+            <r06>Sikasso</r06>
+            <r07>Koulikoro</r07>
+            <r08>Tombouctou</r08>
+            <r09>Gao</r09>
+            <r10>Kidal</r10>
+        </ML>
+        <MM>
+            <r01>Rakhine State</r01>
+            <r02>Chin State</r02>
+            <r03>Irrawaddy</r03>
+            <r04>Kachin State</r04>
+            <r05>Karan State</r05>
+            <r06>Kayah State</r06>
+            <r07>Magwe</r07>
+            <r08>Mandalay</r08>
+            <r09>Pegu</r09>
+            <r10>Sagaing</r10>
+            <r11>Shan State</r11>
+            <r12>Tenasserim</r12>
+            <r13>Mon State</r13>
+            <r14>Rangoon</r14>
+            <r17>Yangon</r17>
+        </MM>
+        <MN>
+            <r01>Arhangay</r01>
+            <r02>Bayanhongor</r02>
+            <r03>Bayan-Olgiy</r03>
+            <r05>Darhan</r05>
+            <r06>Dornod</r06>
+            <r07>Dornogovi</r07>
+            <r08>Dundgovi</r08>
+            <r09>Dzavhan</r09>
+            <r10>Govi-Altay</r10>
+            <r11>Hentiy</r11>
+            <r12>Hovd</r12>
+            <r13>Hovsgol</r13>
+            <r14>Omnogovi</r14>
+            <r15>Ovorhangay</r15>
+            <r16>Selenge</r16>
+            <r17>Suhbaatar</r17>
+            <r18>Tov</r18>
+            <r19>Uvs</r19>
+            <r20>Ulaanbaatar</r20>
+            <r21>Bulgan</r21>
+            <r22>Erdenet</r22>
+            <r23>Darhan-Uul</r23>
+            <r24>Govisumber</r24>
+            <r25>Orhon</r25>
+        </MN>
+        <MO>
+            <r01>Ilhas</r01>
+            <r02>Macau</r02>
+        </MO>
+        <MR>
+            <r01>Hodh Ech Chargui</r01>
+            <r02>Hodh El Gharbi</r02>
+            <r03>Assaba</r03>
+            <r04>Gorgol</r04>
+            <r05>Brakna</r05>
+            <r06>Trarza</r06>
+            <r07>Adrar</r07>
+            <r08>Dakhlet Nouadhibou</r08>
+            <r09>Tagant</r09>
+            <r10>Guidimaka</r10>
+            <r11>Tiris Zemmour</r11>
+            <r12>Inchiri</r12>
+        </MR>
+        <MS>
+            <r01>Saint Anthony</r01>
+            <r02>Saint Georges</r02>
+            <r03>Saint Peter</r03>
+        </MS>
+        <MU>
+            <r12>Black River</r12>
+            <r13>Flacq</r13>
+            <r14>Grand Port</r14>
+            <r15>Moka</r15>
+            <r16>Pamplemousses</r16>
+            <r17>Plaines Wilhems</r17>
+            <r18>Port Louis</r18>
+            <r19>Riviere du Rempart</r19>
+            <r20>Savanne</r20>
+            <r21>Agalega Islands</r21>
+            <r22>Cargados Carajos</r22>
+            <r23>Rodrigues</r23>
+        </MU>
+        <MV>
+            <r01>Seenu</r01>
+            <r05>Laamu</r05>
+            <r30>Alifu</r30>
+            <r31>Baa</r31>
+            <r32>Dhaalu</r32>
+            <r33>Faafu </r33>
+            <r34>Gaafu Alifu</r34>
+            <r35>Gaafu Dhaalu</r35>
+            <r36>Haa Alifu</r36>
+            <r37>Haa Dhaalu</r37>
+            <r38>Kaafu</r38>
+            <r39>Lhaviyani</r39>
+            <r40>Maale</r40>
+            <r41>Meemu</r41>
+            <r42>Gnaviyani</r42>
+            <r43>Noonu</r43>
+            <r44>Raa</r44>
+            <r45>Shaviyani</r45>
+            <r46>Thaa</r46>
+            <r47>Vaavu</r47>
+        </MV>
+        <MW>
+            <r02>Chikwawa</r02>
+            <r03>Chiradzulu</r03>
+            <r04>Chitipa</r04>
+            <r05>Thyolo</r05>
+            <r06>Dedza</r06>
+            <r07>Dowa</r07>
+            <r08>Karonga</r08>
+            <r09>Kasungu</r09>
+            <r11>Lilongwe</r11>
+            <r12>Mangochi</r12>
+            <r13>Mchinji</r13>
+            <r15>Mzimba</r15>
+            <r16>Ntcheu</r16>
+            <r17>Nkhata Bay</r17>
+            <r18>Nkhotakota</r18>
+            <r19>Nsanje</r19>
+            <r20>Ntchisi</r20>
+            <r21>Rumphi</r21>
+            <r22>Salima</r22>
+            <r23>Zomba</r23>
+            <r24>Blantyre</r24>
+            <r25>Mwanza</r25>
+            <r26>Balaka</r26>
+            <r27>Likoma</r27>
+            <r28>Machinga</r28>
+            <r29>Mulanje</r29>
+            <r30>Phalombe</r30>
+        </MW>
+        <MX>
+            <r01>Aguascalientes</r01>
+            <r02>Baja California</r02>
+            <r03>Baja California Sur</r03>
+            <r04>Campeche</r04>
+            <r05>Chiapas</r05>
+            <r06>Chihuahua</r06>
+            <r07>Coahuila de Zaragoza</r07>
+            <r08>Colima</r08>
+            <r09>Distrito Federal</r09>
+            <r10>Durango</r10>
+            <r11>Guanajuato</r11>
+            <r12>Guerrero</r12>
+            <r13>Hidalgo</r13>
+            <r14>Jalisco</r14>
+            <r15>Mexico</r15>
+            <r16>Michoacan de Ocampo</r16>
+            <r17>Morelos</r17>
+            <r18>Nayarit</r18>
+            <r19>Nuevo Leon</r19>
+            <r20>Oaxaca</r20>
+            <r21>Puebla</r21>
+            <r22>Queretaro de Arteaga</r22>
+            <r23>Quintana Roo</r23>
+            <r24>San Luis Potosi</r24>
+            <r25>Sinaloa</r25>
+            <r26>Sonora</r26>
+            <r27>Tabasco</r27>
+            <r28>Tamaulipas</r28>
+            <r29>Tlaxcala</r29>
+            <r30>Veracruz-Llave</r30>
+            <r31>Yucatan</r31>
+            <r32>Zacatecas</r32>
+        </MX>
+        <MY>
+            <r01>Johor</r01>
+            <r02>Kedah</r02>
+            <r03>Kelantan</r03>
+            <r04>Melaka</r04>
+            <r05>Negeri Sembilan</r05>
+            <r06>Pahang</r06>
+            <r07>Perak</r07>
+            <r08>Perlis</r08>
+            <r09>Pulau Pinang</r09>
+            <r11>Sarawak</r11>
+            <r12>Selangor</r12>
+            <r13>Terengganu</r13>
+            <r14>Kuala Lumpur</r14>
+            <r15>Labuan</r15>
+            <r16>Sabah</r16>
+            <r17>Putrajaya</r17>
+        </MY>
+        <MZ>
+            <r01>Cabo Delgado</r01>
+            <r02>Gaza</r02>
+            <r03>Inhambane</r03>
+            <r04>Maputo</r04>
+            <r05>Sofala</r05>
+            <r06>Nampula</r06>
+            <r07>Niassa</r07>
+            <r08>Tete</r08>
+            <r09>Zambezia</r09>
+            <r10>Manica</r10>
+            <r11>Maputo</r11>
+        </MZ>
+        <NA>
+            <r01>Bethanien</r01>
+            <r02>Caprivi Oos</r02>
+            <r03>Boesmanland</r03>
+            <r04>Gobabis</r04>
+            <r05>Grootfontein</r05>
+            <r06>Kaokoland</r06>
+            <r07>Karibib</r07>
+            <r08>Keetmanshoop</r08>
+            <r09>Luderitz</r09>
+            <r10>Maltahohe</r10>
+            <r11>Okahandja</r11>
+            <r12>Omaruru</r12>
+            <r13>Otjiwarongo</r13>
+            <r14>Outjo</r14>
+            <r15>Owambo</r15>
+            <r16>Rehoboth</r16>
+            <r17>Swakopmund</r17>
+            <r18>Tsumeb</r18>
+            <r20>Karasburg</r20>
+            <r21>Windhoek</r21>
+            <r22>Damaraland</r22>
+            <r23>Hereroland Oos</r23>
+            <r24>Hereroland Wes</r24>
+            <r25>Kavango</r25>
+            <r26>Mariental</r26>
+            <r27>Namaland</r27>
+            <r28>Caprivi</r28>
+            <r29>Erongo</r29>
+            <r30>Hardap</r30>
+            <r31>Karas</r31>
+            <r32>Kunene</r32>
+            <r33>Ohangwena</r33>
+            <r34>Okavango</r34>
+            <r35>Omaheke</r35>
+            <r36>Omusati</r36>
+            <r37>Oshana</r37>
+            <r38>Oshikoto</r38>
+            <r39>Otjozondjupa</r39>
+        </NA>
+        <NE>
+            <r01>Agadez</r01>
+            <r02>Diffa</r02>
+            <r03>Dosso</r03>
+            <r04>Maradi</r04>
+            <r05>Niamey</r05>
+            <r06>Tahoua</r06>
+            <r07>Zinder</r07>
+            <r08>Niamey</r08>
+        </NE>
+        <NG>
+            <r05>Lagos</r05>
+            <r11>Federal Capital Territory</r11>
+            <r16>Ogun</r16>
+            <r21>Akwa Ibom</r21>
+            <r22>Cross River</r22>
+            <r23>Kaduna</r23>
+            <r24>Katsina</r24>
+            <r25>Anambra</r25>
+            <r26>Benue</r26>
+            <r27>Borno</r27>
+            <r28>Imo</r28>
+            <r29>Kano</r29>
+            <r30>Kwara</r30>
+            <r31>Niger</r31>
+            <r32>Oyo</r32>
+            <r35>Adamawa</r35>
+            <r36>Delta</r36>
+            <r37>Edo</r37>
+            <r39>Jigawa</r39>
+            <r40>Kebbi</r40>
+            <r41>Kogi</r41>
+            <r42>Osun</r42>
+            <r43>Taraba</r43>
+            <r44>Yobe</r44>
+            <r45>Abia</r45>
+            <r46>Bauchi</r46>
+            <r47>Enugu</r47>
+            <r48>Ondo</r48>
+            <r49>Plateau</r49>
+            <r50>Rivers</r50>
+            <r51>Sokoto</r51>
+            <r52>Bayelsa</r52>
+            <r53>Ebonyi</r53>
+            <r54>Ekiti</r54>
+            <r55>Gombe</r55>
+            <r56>Nassarawa</r56>
+            <r57>Zamfara</r57>
+        </NG>
+        <NI>
+            <r01>Boaco</r01>
+            <r02>Carazo</r02>
+            <r03>Chinandega</r03>
+            <r04>Chontales</r04>
+            <r05>Esteli</r05>
+            <r06>Granada</r06>
+            <r07>Jinotega</r07>
+            <r08>Leon</r08>
+            <r09>Madriz</r09>
+            <r10>Managua</r10>
+            <r11>Masaya</r11>
+            <r12>Matagalpa</r12>
+            <r13>Nueva Segovia</r13>
+            <r14>Rio San Juan</r14>
+            <r15>Rivas</r15>
+            <r16>Zelaya</r16>
+            <r17>Autonoma Atlantico Norte</r17>
+            <r18>Region Autonoma Atlantico Sur</r18>
+        </NI>
+        <NL>
+            <r01>Drenthe</r01>
+            <r02>Friesland</r02>
+            <r03>Gelderland</r03>
+            <r04>Groningen</r04>
+            <r05>Limburg</r05>
+            <r06>Noord-Brabant</r06>
+            <r07>Noord-Holland</r07>
+            <r09>Utrecht</r09>
+            <r10>Zeeland</r10>
+            <r11>Zuid-Holland</r11>
+            <r15>Overijssel</r15>
+            <r16>Flevoland</r16>
+        </NL>
+        <NO>
+            <r01>Akershus</r01>
+            <r02>Aust-Agder</r02>
+            <r04>Buskerud</r04>
+            <r05>Finnmark</r05>
+            <r06>Hedmark</r06>
+            <r07>Hordaland</r07>
+            <r08>More og Romsdal</r08>
+            <r09>Nordland</r09>
+            <r10>Nord-Trondelag</r10>
+            <r11>Oppland</r11>
+            <r12>Oslo</r12>
+            <r13>Ostfold</r13>
+            <r14>Rogaland</r14>
+            <r15>Sogn og Fjordane</r15>
+            <r16>Sor-Trondelag</r16>
+            <r17>Telemark</r17>
+            <r18>Troms</r18>
+            <r19>Vest-Agder</r19>
+            <r20>Vestfold</r20>
+        </NO>
+        <NP>
+            <r01>Bagmati</r01>
+            <r02>Bheri</r02>
+            <r03>Dhawalagiri</r03>
+            <r04>Gandaki</r04>
+            <r05>Janakpur</r05>
+            <r06>Karnali</r06>
+            <r07>Kosi</r07>
+            <r08>Lumbini</r08>
+            <r09>Mahakali</r09>
+            <r10>Mechi</r10>
+            <r11>Narayani</r11>
+            <r12>Rapti</r12>
+            <r13>Sagarmatha</r13>
+            <r14>Seti</r14>
+        </NP>
+        <NR>
+            <r01>Aiwo</r01>
+            <r02>Anabar</r02>
+            <r03>Anetan</r03>
+            <r04>Anibare</r04>
+            <r05>Baiti</r05>
+            <r06>Boe</r06>
+            <r07>Buada</r07>
+            <r08>Denigomodu</r08>
+            <r09>Ewa</r09>
+            <r10>Ijuw</r10>
+            <r11>Meneng</r11>
+            <r12>Nibok</r12>
+            <r13>Uaboe</r13>
+            <r14>Yaren</r14>
+        </NR>
+        <NZ>
+            <r10>Chatham Islands</r10>
+            <rE7>Auckland</rE7>
+            <rE8>Bay of Plenty</rE8>
+            <rE9>Canterbury</rE9>
+            <rF1>Gisborne</rF1>
+            <rF2>Hawke's Bay</rF2>
+            <rF3>Manawatu-Wanganui</rF3>
+            <rF4>Marlborough</rF4>
+            <rF5>Nelson</rF5>
+            <rF6>Northland</rF6>
+            <rF7>Otago</rF7>
+            <rF8>Southland</rF8>
+            <rF9>Taranaki</rF9>
+            <rG1>Waikato</rG1>
+            <rG2>Wellington</rG2>
+            <rG3>West Coast</rG3>
+        </NZ>
+        <OM>
+            <r01>Ad Dakhiliyah</r01>
+            <r02>Al Batinah</r02>
+            <r03>Al Wusta</r03>
+            <r04>Ash Sharqiyah</r04>
+            <r05>Az Zahirah</r05>
+            <r06>Masqat</r06>
+            <r07>Musandam</r07>
+            <r08>Zufar</r08>
+        </OM>
+        <PA>
+            <r01>Bocas del Toro</r01>
+            <r02>Chiriqui</r02>
+            <r03>Cocle</r03>
+            <r04>Colon</r04>
+            <r05>Darien</r05>
+            <r06>Herrera</r06>
+            <r07>Los Santos</r07>
+            <r08>Panama</r08>
+            <r09>San Blas</r09>
+            <r10>Veraguas</r10>
+        </PA>
+        <PE>
+            <r01>Amazonas</r01>
+            <r02>Ancash</r02>
+            <r03>Apurimac</r03>
+            <r04>Arequipa</r04>
+            <r05>Ayacucho</r05>
+            <r06>Cajamarca</r06>
+            <r07>Callao</r07>
+            <r08>Cusco</r08>
+            <r09>Huancavelica</r09>
+            <r10>Huanuco</r10>
+            <r11>Ica</r11>
+            <r12>Junin</r12>
+            <r13>La Libertad</r13>
+            <r14>Lambayeque</r14>
+            <r15>Lima</r15>
+            <r16>Loreto</r16>
+            <r17>Madre de Dios</r17>
+            <r18>Moquegua</r18>
+            <r19>Pasco</r19>
+            <r20>Piura</r20>
+            <r21>Puno</r21>
+            <r22>San Martin</r22>
+            <r23>Tacna</r23>
+            <r24>Tumbes</r24>
+            <r25>Ucayali</r25>
+        </PE>
+        <PG>
+            <r01>Central</r01>
+            <r02>Gulf</r02>
+            <r03>Milne Bay</r03>
+            <r04>Northern</r04>
+            <r05>Southern Highlands</r05>
+            <r06>Western</r06>
+            <r07>North Solomons</r07>
+            <r08>Chimbu</r08>
+            <r09>Eastern Highlands</r09>
+            <r10>East New Britain</r10>
+            <r11>East Sepik</r11>
+            <r12>Madang</r12>
+            <r13>Manus</r13>
+            <r14>Morobe</r14>
+            <r15>New Ireland</r15>
+            <r16>Western Highlands</r16>
+            <r17>West New Britain</r17>
+            <r18>Sandaun</r18>
+            <r19>Enga</r19>
+            <r20>National Capital</r20>
+        </PG>
+        <PH>
+            <r01>Abra</r01>
+            <r02>Agusan del Norte</r02>
+            <r03>Agusan del Sur</r03>
+            <r04>Aklan</r04>
+            <r05>Albay</r05>
+            <r06>Antique</r06>
+            <r07>Bataan</r07>
+            <r08>Batanes</r08>
+            <r09>Batangas</r09>
+            <r10>Benguet</r10>
+            <r11>Bohol</r11>
+            <r12>Bukidnon</r12>
+            <r13>Bulacan</r13>
+            <r14>Cagayan</r14>
+            <r15>Camarines Norte</r15>
+            <r16>Camarines Sur</r16>
+            <r17>Camiguin</r17>
+            <r18>Capiz</r18>
+            <r19>Catanduanes</r19>
+            <r20>Cavite</r20>
+            <r21>Cebu</r21>
+            <r22>Basilan</r22>
+            <r23>Eastern Samar</r23>
+            <r24>Davao</r24>
+            <r25>Davao del Sur</r25>
+            <r26>Davao Oriental</r26>
+            <r27>Ifugao</r27>
+            <r28>Ilocos Norte</r28>
+            <r29>Ilocos Sur</r29>
+            <r30>Iloilo</r30>
+            <r31>Isabela</r31>
+            <r32>Kalinga-Apayao</r32>
+            <r33>Laguna</r33>
+            <r34>Lanao del Norte</r34>
+            <r35>Lanao del Sur</r35>
+            <r36>La Union</r36>
+            <r37>Leyte</r37>
+            <r38>Marinduque</r38>
+            <r39>Masbate</r39>
+            <r40>Mindoro Occidental</r40>
+            <r41>Mindoro Oriental</r41>
+            <r42>Misamis Occidental</r42>
+            <r43>Misamis Oriental</r43>
+            <r44>Mountain</r44>
+            <r45>Negros Occidental</r45>
+            <r46>Negros Oriental</r46>
+            <r47>Nueva Ecija</r47>
+            <r48>Nueva Vizcaya</r48>
+            <r49>Palawan</r49>
+            <r50>Pampanga</r50>
+            <r51>Pangasinan</r51>
+            <r53>Rizal</r53>
+            <r54>Romblon</r54>
+            <r55>Samar</r55>
+            <r56>Maguindanao</r56>
+            <r57>North Cotabato</r57>
+            <r58>Sorsogon</r58>
+            <r59>Southern Leyte</r59>
+            <r60>Sulu</r60>
+            <r61>Surigao del Norte</r61>
+            <r62>Surigao del Sur</r62>
+            <r63>Tarlac</r63>
+            <r64>Zambales</r64>
+            <r65>Zamboanga del Norte</r65>
+            <r66>Zamboanga del Sur</r66>
+            <r67>Northern Samar</r67>
+            <r68>Quirino</r68>
+            <r69>Siquijor</r69>
+            <r70>South Cotabato</r70>
+            <r71>Sultan Kudarat</r71>
+            <r72>Tawitawi</r72>
+            <rA1>Angeles</rA1>
+            <rA2>Bacolod</rA2>
+            <rA3>Bago</rA3>
+            <rA4>Baguio</rA4>
+            <rA5>Bais</rA5>
+            <rA6>Basilan City</rA6>
+            <rA7>Batangas City</rA7>
+            <rA8>Butuan</rA8>
+            <rA9>Cabanatuan</rA9>
+            <rB1>Cadiz</rB1>
+            <rB2>Cagayan de Oro</rB2>
+            <rB3>Calbayog</rB3>
+            <rB4>Caloocan</rB4>
+            <rB5>Canlaon</rB5>
+            <rB6>Cavite City</rB6>
+            <rB7>Cebu City</rB7>
+            <rB8>Cotabato</rB8>
+            <rB9>Dagupan</rB9>
+            <rC1>Danao</rC1>
+            <rC2>Dapitan</rC2>
+            <rC3>Davao City</rC3>
+            <rC4>Dipolog</rC4>
+            <rC5>Dumaguete</rC5>
+            <rC6>General Santos</rC6>
+            <rC7>Gingoog</rC7>
+            <rC8>Iligan</rC8>
+            <rC9>Iloilo City</rC9>
+            <rD1>Iriga</rD1>
+            <rD2>La Carlota</rD2>
+            <rD3>Laoag</rD3>
+            <rD4>Lapu-Lapu</rD4>
+            <rD5>Legaspi</rD5>
+            <rD6>Lipa</rD6>
+            <rD7>Lucena</rD7>
+            <rD8>Mandaue</rD8>
+            <rD9>Manila</rD9>
+            <rE1>Marawi</rE1>
+            <rE2>Naga</rE2>
+            <rE3>Olongapo</rE3>
+            <rE4>Ormoc</rE4>
+            <rE5>Oroquieta</rE5>
+            <rE6>Ozamis</rE6>
+            <rE7>Pagadian</rE7>
+            <rE8>Palayan</rE8>
+            <rE9>Pasay</rE9>
+            <rF1>Puerto Princesa</rF1>
+            <rF2>Quezon City</rF2>
+            <rF3>Roxas</rF3>
+            <rF4>San Carlos</rF4>
+            <rF5>San Carlos</rF5>
+            <rF6>San Jose</rF6>
+            <rF7>San Pablo</rF7>
+            <rF8>Silay</rF8>
+            <rF9>Surigao</rF9>
+            <rG1>Tacloban</rG1>
+            <rG2>Tagaytay</rG2>
+            <rG3>Tagbilaran</rG3>
+            <rG4>Tangub</rG4>
+            <rG5>Toledo</rG5>
+            <rG6>Trece Martires</rG6>
+            <rG7>Zamboanga</rG7>
+            <rG8>Aurora</rG8>
+            <rH2>Quezon</rH2>
+            <rH3>Negros Occidental</rH3>
+        </PH>
+        <PK>
+            <r01>Federally Administered Tribal Areas</r01>
+            <r02>Balochistan</r02>
+            <r03>North-West Frontier</r03>
+            <r04>Punjab</r04>
+            <r05>Sindh</r05>
+            <r06>Azad Kashmir</r06>
+            <r07>Northern Areas</r07>
+            <r08>Islamabad</r08>
+        </PK>
+        <PL>
+            <r72>Dolnoslaskie</r72>
+            <r73>Kujawsko-Pomorskie</r73>
+            <r74>Lodzkie</r74>
+            <r75>Lubelskie</r75>
+            <r76>Lubuskie</r76>
+            <r77>Malopolskie</r77>
+            <r78>Mazowieckie</r78>
+            <r79>Opolskie</r79>
+            <r80>Podkarpackie</r80>
+            <r81>Podlaskie</r81>
+            <r82>Pomorskie</r82>
+            <r83>Slaskie</r83>
+            <r84>Swietokrzyskie</r84>
+            <r85>Warminsko-Mazurskie</r85>
+            <r86>Wielkopolskie</r86>
+            <r87>Zachodniopomorskie</r87>
+        </PL>
+        <PS>
+            <rGZ>Gaza</rGZ>
+            <rWE>West Bank</rWE>
+        </PS>
+        <PT>
+            <r02>Aveiro</r02>
+            <r03>Beja</r03>
+            <r04>Braga</r04>
+            <r05>Braganca</r05>
+            <r06>Castelo Branco</r06>
+            <r07>Coimbra</r07>
+            <r08>Evora</r08>
+            <r09>Faro</r09>
+            <r10>Madeira</r10>
+            <r11>Guarda</r11>
+            <r13>Leiria</r13>
+            <r14>Lisboa</r14>
+            <r16>Portalegre</r16>
+            <r17>Porto</r17>
+            <r18>Santarem</r18>
+            <r19>Setubal</r19>
+            <r20>Viana do Castelo</r20>
+            <r21>Vila Real</r21>
+            <r22>Viseu</r22>
+            <r23>Azores</r23>
+        </PT>
+        <PY>
+            <r01>Alto Parana</r01>
+            <r02>Amambay</r02>
+            <r03>Boqueron</r03>
+            <r04>Caaguazu</r04>
+            <r05>Caazapa</r05>
+            <r06>Central</r06>
+            <r07>Concepcion</r07>
+            <r08>Cordillera</r08>
+            <r10>Guaira</r10>
+            <r11>Itapua</r11>
+            <r12>Misiones</r12>
+            <r13>Neembucu</r13>
+            <r15>Paraguari</r15>
+            <r16>Presidente Hayes</r16>
+            <r17>San Pedro</r17>
+            <r19>Canindeyu</r19>
+            <r20>Chaco</r20>
+            <r21>Nueva Asuncion</r21>
+            <r23>Alto Paraguay</r23>
+        </PY>
+        <QA>
+            <r01>Ad Dawhah</r01>
+            <r02>Al Ghuwariyah</r02>
+            <r03>Al Jumaliyah</r03>
+            <r04>Al Khawr</r04>
+            <r05>Al Wakrah Municipality</r05>
+            <r06>Ar Rayyan</r06>
+            <r08>Madinat ach Shamal</r08>
+            <r09>Umm Salal</r09>
+            <r10>Al Wakrah</r10>
+            <r11>Jariyan al Batnah</r11>
+            <r12>Umm Sa'id</r12>
+        </QA>
+        <RO>
+            <r01>Alba</r01>
+            <r02>Arad</r02>
+            <r03>Arges</r03>
+            <r04>Bacau</r04>
+            <r05>Bihor</r05>
+            <r06>Bistrita-Nasaud</r06>
+            <r07>Botosani</r07>
+            <r08>Braila</r08>
+            <r09>Brasov</r09>
+            <r10>Bucuresti</r10>
+            <r11>Buzau</r11>
+            <r12>Caras-Severin</r12>
+            <r13>Cluj</r13>
+            <r14>Constanta</r14>
+            <r15>Covasna</r15>
+            <r16>Dambovita</r16>
+            <r17>Dolj</r17>
+            <r18>Galati</r18>
+            <r19>Gorj</r19>
+            <r20>Harghita</r20>
+            <r21>Hunedoara</r21>
+            <r22>Ialomita</r22>
+            <r23>Iasi</r23>
+            <r25>Maramures</r25>
+            <r26>Mehedinti</r26>
+            <r27>Mures</r27>
+            <r28>Neamt</r28>
+            <r29>Olt</r29>
+            <r30>Prahova</r30>
+            <r31>Salaj</r31>
+            <r32>Satu Mare</r32>
+            <r33>Sibiu</r33>
+            <r34>Suceava</r34>
+            <r35>Teleorman</r35>
+            <r36>Timis</r36>
+            <r37>Tulcea</r37>
+            <r38>Vaslui</r38>
+            <r39>Valcea</r39>
+            <r40>Vrancea</r40>
+            <r41>Calarasi</r41>
+            <r42>Giurgiu</r42>
+            <r43>Ilfov</r43>
+        </RO>
+        <RS>
+            <r01>Kosovo</r01>
+            <r02>Vojvodina</r02>
+        </RS>
+        <RU>
+            <r01>Adygeya, Republic of</r01>
+            <r02>Aginsky Buryatsky AO</r02>
+            <r03>Gorno-Altay</r03>
+            <r04>Altaisky krai</r04>
+            <r05>Amur</r05>
+            <r06>Arkhangel'sk</r06>
+            <r07>Astrakhan'</r07>
+            <r08>Bashkortostan</r08>
+            <r09>Belgorod</r09>
+            <r10>Bryansk</r10>
+            <r11>Buryat</r11>
+            <r12>Chechnya</r12>
+            <r13>Chelyabinsk</r13>
+            <r14>Chita</r14>
+            <r15>Chukot</r15>
+            <r16>Chuvashia</r16>
+            <r17>Dagestan</r17>
+            <r18>Evenk</r18>
+            <r19>Ingush</r19>
+            <r20>Irkutsk</r20>
+            <r21>Ivanovo</r21>
+            <r22>Kabardin-Balkar</r22>
+            <r23>Kaliningrad</r23>
+            <r24>Kalmyk</r24>
+            <r25>Kaluga</r25>
+            <r26>Kamchatka</r26>
+            <r27>Karachay-Cherkess</r27>
+            <r28>Karelia</r28>
+            <r29>Kemerovo</r29>
+            <r30>Khabarovsk</r30>
+            <r31>Khakass</r31>
+            <r32>Khanty-Mansiy</r32>
+            <r33>Kirov</r33>
+            <r34>Komi</r34>
+            <r35>Komi-Permyak</r35>
+            <r36>Koryak</r36>
+            <r37>Kostroma</r37>
+            <r38>Krasnodar</r38>
+            <r39>Krasnoyarsk</r39>
+            <r40>Kurgan</r40>
+            <r41>Kursk</r41>
+            <r42>Leningrad</r42>
+            <r43>Lipetsk</r43>
+            <r44>Magadan</r44>
+            <r45>Mariy-El</r45>
+            <r46>Mordovia</r46>
+            <r47>Moskva</r47>
+            <r48>Moscow City</r48>
+            <r49>Murmansk</r49>
+            <r50>Nenets</r50>
+            <r51>Nizhegorod</r51>
+            <r52>Novgorod</r52>
+            <r53>Novosibirsk</r53>
+            <r54>Omsk</r54>
+            <r55>Orenburg</r55>
+            <r56>Orel</r56>
+            <r57>Penza</r57>
+            <r58>Perm'</r58>
+            <r59>Primor'ye</r59>
+            <r60>Pskov</r60>
+            <r61>Rostov</r61>
+            <r62>Ryazan'</r62>
+            <r63>Sakha</r63>
+            <r64>Sakhalin</r64>
+            <r65>Samara</r65>
+            <r66>Saint Petersburg City</r66>
+            <r67>Saratov</r67>
+            <r68>North Ossetia</r68>
+            <r69>Smolensk</r69>
+            <r70>Stavropol'</r70>
+            <r71>Sverdlovsk</r71>
+            <r72>Tambovskaya oblast</r72>
+            <r73>Tatarstan</r73>
+            <r74>Taymyr</r74>
+            <r75>Tomsk</r75>
+            <r76>Tula</r76>
+            <r77>Tver'</r77>
+            <r78>Tyumen'</r78>
+            <r79>Tuva</r79>
+            <r80>Udmurt</r80>
+            <r81>Ul'yanovsk</r81>
+            <r82>Ust-Orda Buryat</r82>
+            <r83>Vladimir</r83>
+            <r84>Volgograd</r84>
+            <r85>Vologda</r85>
+            <r86>Voronezh</r86>
+            <r87>Yamal-Nenets</r87>
+            <r88>Yaroslavl'</r88>
+            <r89>Yevrey</r89>
+            <r90>Permskiy Kray</r90>
+            <r91>Krasnoyarskiy Kray</r91>
+            <r92>Kamchatskiy Kray</r92>
+            <r93>Zabaykal'skiy Kray</r93>
+        </RU>
+        <RW>
+            <r01>Butare</r01>
+            <r06>Gitarama</r06>
+            <r07>Kibungo</r07>
+            <r09>Kigali</r09>
+            <r11>Est</r11>
+            <r12>Kigali</r12>
+            <r13>Nord</r13>
+            <r14>Ouest</r14>
+            <r15>Sud</r15>
+        </RW>
+        <SA>
+            <r02>Al Bahah</r02>
+            <r05>Al Madinah</r05>
+            <r06>Ash Sharqiyah</r06>
+            <r08>Al Qasim</r08>
+            <r10>Ar Riyad</r10>
+            <r11>Asir Province</r11>
+            <r13>Ha'il</r13>
+            <r14>Makkah</r14>
+            <r15>Al Hudud ash Shamaliyah</r15>
+            <r16>Najran</r16>
+            <r17>Jizan</r17>
+            <r19>Tabuk</r19>
+            <r20>Al Jawf</r20>
+        </SA>
+        <SB>
+            <r03>Malaita</r03>
+            <r06>Guadalcanal</r06>
+            <r07>Isabel</r07>
+            <r08>Makira</r08>
+            <r09>Temotu</r09>
+            <r10>Central</r10>
+            <r11>Western</r11>
+            <r12>Choiseul</r12>
+            <r13>Rennell and Bellona</r13>
+        </SB>
+        <SC>
+            <r01>Anse aux Pins</r01>
+            <r02>Anse Boileau</r02>
+            <r03>Anse Etoile</r03>
+            <r04>Anse Louis</r04>
+            <r05>Anse Royale</r05>
+            <r06>Baie Lazare</r06>
+            <r07>Baie Sainte Anne</r07>
+            <r08>Beau Vallon</r08>
+            <r09>Bel Air</r09>
+            <r10>Bel Ombre</r10>
+            <r11>Cascade</r11>
+            <r12>Glacis</r12>
+            <r13>Grand' Anse</r13>
+            <r14>Grand' Anse</r14>
+            <r15>La Digue</r15>
+            <r16>La Riviere Anglaise</r16>
+            <r17>Mont Buxton</r17>
+            <r18>Mont Fleuri</r18>
+            <r19>Plaisance</r19>
+            <r20>Pointe La Rue</r20>
+            <r21>Port Glaud</r21>
+            <r22>Saint Louis</r22>
+            <r23>Takamaka</r23>
+        </SC>
+        <SD>
+            <r27>Al Wusta</r27>
+            <r28>Al Istiwa'iyah</r28>
+            <r29>Al Khartum</r29>
+            <r30>Ash Shamaliyah</r30>
+            <r31>Ash Sharqiyah</r31>
+            <r32>Bahr al Ghazal</r32>
+            <r33>Darfur</r33>
+            <r34>Kurdufan</r34>
+            <r35>Upper Nile</r35>
+            <r40>Al Wahadah State</r40>
+            <r44>Central Equatoria State</r44>
+        </SD>
+        <SE>
+            <r02>Blekinge Lan</r02>
+            <r03>Gavleborgs Lan</r03>
+            <r05>Gotlands Lan</r05>
+            <r06>Hallands Lan</r06>
+            <r07>Jamtlands Lan</r07>
+            <r08>Jonkopings Lan</r08>
+            <r09>Kalmar Lan</r09>
+            <r10>Dalarnas Lan</r10>
+            <r12>Kronobergs Lan</r12>
+            <r14>Norrbottens Lan</r14>
+            <r15>Orebro Lan</r15>
+            <r16>Ostergotlands Lan</r16>
+            <r18>Sodermanlands Lan</r18>
+            <r21>Uppsala Lan</r21>
+            <r22>Varmlands Lan</r22>
+            <r23>Vasterbottens Lan</r23>
+            <r24>Vasternorrlands Lan</r24>
+            <r25>Vastmanlands Lan</r25>
+            <r26>Stockholms Lan</r26>
+            <r27>Skane Lan</r27>
+            <r28>Vastra Gotaland</r28>
+        </SE>
+        <SH>
+            <r01>Ascension</r01>
+            <r02>Saint Helena</r02>
+            <r03>Tristan da Cunha</r03>
+        </SH>
+        <SI>
+            <r01>Ajdovscina</r01>
+            <r02>Beltinci</r02>
+            <r03>Bled</r03>
+            <r04>Bohinj</r04>
+            <r05>Borovnica</r05>
+            <r06>Bovec</r06>
+            <r07>Brda</r07>
+            <r08>Brezice</r08>
+            <r09>Brezovica</r09>
+            <r11>Celje</r11>
+            <r12>Cerklje na Gorenjskem</r12>
+            <r13>Cerknica</r13>
+            <r14>Cerkno</r14>
+            <r15>Crensovci</r15>
+            <r16>Crna na Koroskem</r16>
+            <r17>Crnomelj</r17>
+            <r19>Divaca</r19>
+            <r20>Dobrepolje</r20>
+            <r22>Dol pri Ljubljani</r22>
+            <r24>Dornava</r24>
+            <r25>Dravograd</r25>
+            <r26>Duplek</r26>
+            <r27>Gorenja Vas-Poljane</r27>
+            <r28>Gorisnica</r28>
+            <r29>Gornja Radgona</r29>
+            <r30>Gornji Grad</r30>
+            <r31>Gornji Petrovci</r31>
+            <r32>Grosuplje</r32>
+            <r34>Hrastnik</r34>
+            <r35>Hrpelje-Kozina</r35>
+            <r36>Idrija</r36>
+            <r37>Ig</r37>
+            <r38>Ilirska Bistrica</r38>
+            <r39>Ivancna Gorica</r39>
+            <r40>Izola-Isola</r40>
+            <r42>Jursinci</r42>
+            <r44>Kanal</r44>
+            <r45>Kidricevo</r45>
+            <r46>Kobarid</r46>
+            <r47>Kobilje</r47>
+            <r49>Komen</r49>
+            <r50>Koper-Capodistria</r50>
+            <r51>Kozje</r51>
+            <r52>Kranj</r52>
+            <r53>Kranjska Gora</r53>
+            <r54>Krsko</r54>
+            <r55>Kungota</r55>
+            <r57>Lasko</r57>
+            <r61>Ljubljana</r61>
+            <r62>Ljubno</r62>
+            <r64>Logatec</r64>
+            <r66>Loski Potok</r66>
+            <r68>Lukovica</r68>
+            <r71>Medvode</r71>
+            <r72>Menges</r72>
+            <r73>Metlika</r73>
+            <r74>Mezica</r74>
+            <r76>Mislinja</r76>
+            <r77>Moravce</r77>
+            <r78>Moravske Toplice</r78>
+            <r79>Mozirje</r79>
+            <r80>Murska Sobota</r80>
+            <r81>Muta</r81>
+            <r82>Naklo</r82>
+            <r83>Nazarje</r83>
+            <r84>Nova Gorica</r84>
+            <r86>Odranci</r86>
+            <r87>Ormoz</r87>
+            <r88>Osilnica</r88>
+            <r89>Pesnica</r89>
+            <r91>Pivka</r91>
+            <r92>Podcetrtek</r92>
+            <r94>Postojna</r94>
+            <r97>Puconci</r97>
+            <r98>Racam</r98>
+            <r99>Radece</r99>
+            <rA1>Radenci</rA1>
+            <rA2>Radlje ob Dravi</rA2>
+            <rA3>Radovljica</rA3>
+            <rA6>Rogasovci</rA6>
+            <rA7>Rogaska Slatina</rA7>
+            <rA8>Rogatec</rA8>
+            <rB1>Semic</rB1>
+            <rB2>Sencur</rB2>
+            <rB3>Sentilj</rB3>
+            <rB4>Sentjernej</rB4>
+            <rB6>Sevnica</rB6>
+            <rB7>Sezana</rB7>
+            <rB8>Skocjan</rB8>
+            <rB9>Skofja Loka</rB9>
+            <rC1>Skofljica</rC1>
+            <rC2>Slovenj Gradec</rC2>
+            <rC4>Slovenske Konjice</rC4>
+            <rC5>Smarje pri Jelsah</rC5>
+            <rC6>Smartno ob Paki</rC6>
+            <rC7>Sostanj</rC7>
+            <rC8>Starse</rC8>
+            <rC9>Store</rC9>
+            <rD1>Sveti Jurij</rD1>
+            <rD2>Tolmin</rD2>
+            <rD3>Trbovlje</rD3>
+            <rD4>Trebnje</rD4>
+            <rD5>Trzic</rD5>
+            <rD6>Turnisce</rD6>
+            <rD7>Velenje</rD7>
+            <rD8>Velike Lasce</rD8>
+            <rE1>Vipava</rE1>
+            <rE2>Vitanje</rE2>
+            <rE3>Vodice</rE3>
+            <rE5>Vrhnika</rE5>
+            <rE6>Vuzenica</rE6>
+            <rE7>Zagorje ob Savi</rE7>
+            <rE9>Zavrc</rE9>
+            <rF1>Zelezniki</rF1>
+            <rF2>Ziri</rF2>
+            <rF3>Zrece</rF3>
+            <rG4>Dobrova-Horjul-Polhov Gradec</rG4>
+            <rG7>Domzale</rG7>
+            <rH4>Jesenice</rH4>
+            <rH6>Kamnik</rH6>
+            <rH7>Kocevje</rH7>
+            <rI2>Kuzma</rI2>
+            <rI3>Lenart</rI3>
+            <rI5>Litija</rI5>
+            <rI6>Ljutomer</rI6>
+            <rI7>Loska Dolina</rI7>
+            <rI9>Luce</rI9>
+            <rJ1>Majsperk</rJ1>
+            <rJ2>Maribor</rJ2>
+            <rJ5>Miren-Kostanjevica</rJ5>
+            <rJ7>Novo Mesto</rJ7>
+            <rJ9>Piran</rJ9>
+            <rK5>Preddvor</rK5>
+            <rK7>Ptuj</rK7>
+            <rL1>Ribnica</rL1>
+            <rL3>Ruse</rL3>
+            <rL7>Sentjur pri Celju</rL7>
+            <rL8>Slovenska Bistrica</rL8>
+            <rN2>Videm</rN2>
+            <rN3>Vojnik</rN3>
+            <rN5>Zalec</rN5>
+        </SI>
+        <SK>
+            <r01>Banska Bystrica</r01>
+            <r02>Bratislava</r02>
+            <r03>Kosice</r03>
+            <r04>Nitra</r04>
+            <r05>Presov</r05>
+            <r06>Trencin</r06>
+            <r07>Trnava</r07>
+            <r08>Zilina</r08>
+        </SK>
+        <SL>
+            <r01>Eastern</r01>
+            <r02>Northern</r02>
+            <r03>Southern</r03>
+            <r04>Western Area</r04>
+        </SL>
+        <SM>
+            <r01>Acquaviva</r01>
+            <r02>Chiesanuova</r02>
+            <r03>Domagnano</r03>
+            <r04>Faetano</r04>
+            <r05>Fiorentino</r05>
+            <r06>Borgo Maggiore</r06>
+            <r07>San Marino</r07>
+            <r08>Monte Giardino</r08>
+            <r09>Serravalle</r09>
+        </SM>
+        <SN>
+            <r01>Dakar</r01>
+            <r03>Diourbel</r03>
+            <r05>Tambacounda</r05>
+            <r07>Thies</r07>
+            <r09>Fatick</r09>
+            <r10>Kaolack</r10>
+            <r11>Kolda</r11>
+            <r12>Ziguinchor</r12>
+            <r13>Louga</r13>
+            <r14>Saint-Louis</r14>
+            <r15>Matam</r15>
+        </SN>
+        <SO>
+            <r01>Bakool</r01>
+            <r02>Banaadir</r02>
+            <r03>Bari</r03>
+            <r04>Bay</r04>
+            <r05>Galguduud</r05>
+            <r06>Gedo</r06>
+            <r07>Hiiraan</r07>
+            <r08>Jubbada Dhexe</r08>
+            <r09>Jubbada Hoose</r09>
+            <r10>Mudug</r10>
+            <r11>Nugaal</r11>
+            <r12>Sanaag</r12>
+            <r13>Shabeellaha Dhexe</r13>
+            <r14>Shabeellaha Hoose</r14>
+            <r16>Woqooyi Galbeed</r16>
+            <r18>Nugaal</r18>
+            <r19>Togdheer</r19>
+            <r20>Woqooyi Galbeed</r20>
+            <r21>Awdal</r21>
+            <r22>Sool</r22>
+        </SO>
+        <SR>
+            <r10>Brokopondo</r10>
+            <r11>Commewijne</r11>
+            <r12>Coronie</r12>
+            <r13>Marowijne</r13>
+            <r14>Nickerie</r14>
+            <r15>Para</r15>
+            <r16>Paramaribo</r16>
+            <r17>Saramacca</r17>
+            <r18>Sipaliwini</r18>
+            <r19>Wanica</r19>
+        </SR>
+        <ST>
+            <r01>Principe</r01>
+            <r02>Sao Tome</r02>
+        </ST>
+        <SV>
+            <r01>Ahuachapan</r01>
+            <r02>Cabanas</r02>
+            <r03>Chalatenango</r03>
+            <r04>Cuscatlan</r04>
+            <r05>La Libertad</r05>
+            <r06>La Paz</r06>
+            <r07>La Union</r07>
+            <r08>Morazan</r08>
+            <r09>San Miguel</r09>
+            <r10>San Salvador</r10>
+            <r11>Santa Ana</r11>
+            <r12>San Vicente</r12>
+            <r13>Sonsonate</r13>
+            <r14>Usulutan</r14>
+        </SV>
+        <SY>
+            <r01>Al Hasakah</r01>
+            <r02>Al Ladhiqiyah</r02>
+            <r03>Al Qunaytirah</r03>
+            <r04>Ar Raqqah</r04>
+            <r05>As Suwayda'</r05>
+            <r06>Dar</r06>
+            <r07>Dayr az Zawr</r07>
+            <r08>Rif Dimashq</r08>
+            <r09>Halab</r09>
+            <r10>Hamah</r10>
+            <r11>Hims</r11>
+            <r12>Idlib</r12>
+            <r13>Dimashq</r13>
+            <r14>Tartus</r14>
+        </SY>
+        <SZ>
+            <r01>Hhohho</r01>
+            <r02>Lubombo</r02>
+            <r03>Manzini</r03>
+            <r04>Shiselweni</r04>
+            <r05>Praslin</r05>
+        </SZ>
+        <TD>
+            <r01>Batha</r01>
+            <r02>Biltine</r02>
+            <r03>Borkou-Ennedi-Tibesti</r03>
+            <r04>Chari-Baguirmi</r04>
+            <r05>Guera</r05>
+            <r06>Kanem</r06>
+            <r07>Lac</r07>
+            <r08>Logone Occidental</r08>
+            <r09>Logone Oriental</r09>
+            <r10>Mayo-Kebbi</r10>
+            <r11>Moyen-Chari</r11>
+            <r12>Ouaddai</r12>
+            <r13>Salamat</r13>
+            <r14>Tandjile</r14>
+        </TD>
+        <TG>
+            <r22>Centrale</r22>
+            <r23>Kara</r23>
+            <r24>Maritime</r24>
+            <r25>Plateaux</r25>
+            <r26>Savanes</r26>
+        </TG>
+        <TH>
+            <r01>Mae Hong Son</r01>
+            <r02>Chiang Mai</r02>
+            <r03>Chiang Rai</r03>
+            <r04>Nan</r04>
+            <r05>Lamphun</r05>
+            <r06>Lampang</r06>
+            <r07>Phrae</r07>
+            <r08>Tak</r08>
+            <r09>Sukhothai</r09>
+            <r10>Uttaradit</r10>
+            <r11>Kamphaeng Phet</r11>
+            <r12>Phitsanulok</r12>
+            <r13>Phichit</r13>
+            <r14>Phetchabun</r14>
+            <r15>Uthai Thani</r15>
+            <r16>Nakhon Sawan</r16>
+            <r17>Nong Khai</r17>
+            <r18>Loei</r18>
+            <r20>Sakon Nakhon</r20>
+            <r21>Nakhon Phanom</r21>
+            <r22>Khon Kaen</r22>
+            <r23>Kalasin</r23>
+            <r24>Maha Sarakham</r24>
+            <r25>Roi Et</r25>
+            <r26>Chaiyaphum</r26>
+            <r27>Nakhon Ratchasima</r27>
+            <r28>Buriram</r28>
+            <r29>Surin</r29>
+            <r30>Sisaket</r30>
+            <r31>Narathiwat</r31>
+            <r32>Chai Nat</r32>
+            <r33>Sing Buri</r33>
+            <r34>Lop Buri</r34>
+            <r35>Ang Thong</r35>
+            <r36>Phra Nakhon Si Ayutthaya</r36>
+            <r37>Saraburi</r37>
+            <r38>Nonthaburi</r38>
+            <r39>Pathum Thani</r39>
+            <r40>Krung Thep</r40>
+            <r41>Phayao</r41>
+            <r42>Samut Prakan</r42>
+            <r43>Nakhon Nayok</r43>
+            <r44>Chachoengsao</r44>
+            <r45>Prachin Buri</r45>
+            <r46>Chon Buri</r46>
+            <r47>Rayong</r47>
+            <r48>Chanthaburi</r48>
+            <r49>Trat</r49>
+            <r50>Kanchanaburi</r50>
+            <r51>Suphan Buri</r51>
+            <r52>Ratchaburi</r52>
+            <r53>Nakhon Pathom</r53>
+            <r54>Samut Songkhram</r54>
+            <r55>Samut Sakhon</r55>
+            <r56>Phetchaburi</r56>
+            <r57>Prachuap Khiri Khan</r57>
+            <r58>Chumphon</r58>
+            <r59>Ranong</r59>
+            <r60>Surat Thani</r60>
+            <r61>Phangnga</r61>
+            <r62>Phuket</r62>
+            <r63>Krabi</r63>
+            <r64>Nakhon Si Thammarat</r64>
+            <r65>Trang</r65>
+            <r66>Phatthalung</r66>
+            <r67>Satun</r67>
+            <r68>Songkhla</r68>
+            <r69>Pattani</r69>
+            <r70>Yala</r70>
+            <r71>Ubon Ratchathani</r71>
+            <r72>Yasothon</r72>
+            <r73>Nakhon Phanom</r73>
+            <r75>Ubon Ratchathani</r75>
+            <r76>Udon Thani</r76>
+            <r77>Amnat Charoen</r77>
+            <r78>Mukdahan</r78>
+            <r79>Nong Bua Lamphu</r79>
+            <r80>Sa Kaeo</r80>
+        </TH>
+        <TJ>
+            <r01>Kuhistoni Badakhshon</r01>
+            <r02>Khatlon</r02>
+            <r03>Sughd</r03>
+        </TJ>
+        <TM>
+            <r01>Ahal</r01>
+            <r02>Balkan</r02>
+            <r03>Dashoguz</r03>
+            <r04>Lebap</r04>
+            <r05>Mary</r05>
+        </TM>
+        <TN>
+            <r02>Kasserine</r02>
+            <r03>Kairouan</r03>
+            <r06>Jendouba</r06>
+            <r10>Qafsah</r10>
+            <r14>El Kef</r14>
+            <r15>Al Mahdia</r15>
+            <r16>Al Munastir</r16>
+            <r17>Bajah</r17>
+            <r18>Bizerte</r18>
+            <r19>Nabeul</r19>
+            <r22>Siliana</r22>
+            <r23>Sousse</r23>
+            <r27>Ben Arous</r27>
+            <r28>Madanin</r28>
+            <r29>Gabes</r29>
+            <r31>Kebili</r31>
+            <r32>Sfax</r32>
+            <r33>Sidi Bou Zid</r33>
+            <r34>Tataouine</r34>
+            <r35>Tozeur</r35>
+            <r36>Tunis</r36>
+            <r37>Zaghouan</r37>
+            <r38>Aiana</r38>
+            <r39>Manouba</r39>
+        </TN>
+        <TO>
+            <r01>Ha</r01>
+            <r02>Tongatapu</r02>
+            <r03>Vava</r03>
+        </TO>
+        <TR>
+            <r02>Adiyaman</r02>
+            <r03>Afyonkarahisar</r03>
+            <r04>Agri</r04>
+            <r05>Amasya</r05>
+            <r07>Antalya</r07>
+            <r08>Artvin</r08>
+            <r09>Aydin</r09>
+            <r10>Balikesir</r10>
+            <r11>Bilecik</r11>
+            <r12>Bingol</r12>
+            <r13>Bitlis</r13>
+            <r14>Bolu</r14>
+            <r15>Burdur</r15>
+            <r16>Bursa</r16>
+            <r17>Canakkale</r17>
+            <r19>Corum</r19>
+            <r20>Denizli</r20>
+            <r21>Diyarbakir</r21>
+            <r22>Edirne</r22>
+            <r23>Elazig</r23>
+            <r24>Erzincan</r24>
+            <r25>Erzurum</r25>
+            <r26>Eskisehir</r26>
+            <r28>Giresun</r28>
+            <r31>Hatay</r31>
+            <r32>Mersin</r32>
+            <r33>Isparta</r33>
+            <r34>Istanbul</r34>
+            <r35>Izmir</r35>
+            <r37>Kastamonu</r37>
+            <r38>Kayseri</r38>
+            <r39>Kirklareli</r39>
+            <r40>Kirsehir</r40>
+            <r41>Kocaeli</r41>
+            <r43>Kutahya</r43>
+            <r44>Malatya</r44>
+            <r45>Manisa</r45>
+            <r46>Kahramanmaras</r46>
+            <r48>Mugla</r48>
+            <r49>Mus</r49>
+            <r50>Nevsehir</r50>
+            <r52>Ordu</r52>
+            <r53>Rize</r53>
+            <r54>Sakarya</r54>
+            <r55>Samsun</r55>
+            <r57>Sinop</r57>
+            <r58>Sivas</r58>
+            <r59>Tekirdag</r59>
+            <r60>Tokat</r60>
+            <r61>Trabzon</r61>
+            <r62>Tunceli</r62>
+            <r63>Sanliurfa</r63>
+            <r64>Usak</r64>
+            <r65>Van</r65>
+            <r66>Yozgat</r66>
+            <r68>Ankara</r68>
+            <r69>Gumushane</r69>
+            <r70>Hakkari</r70>
+            <r71>Konya</r71>
+            <r72>Mardin</r72>
+            <r73>Nigde</r73>
+            <r74>Siirt</r74>
+            <r75>Aksaray</r75>
+            <r76>Batman</r76>
+            <r77>Bayburt</r77>
+            <r78>Karaman</r78>
+            <r79>Kirikkale</r79>
+            <r80>Sirnak</r80>
+            <r81>Adana</r81>
+            <r82>Cankiri</r82>
+            <r83>Gaziantep</r83>
+            <r84>Kars</r84>
+            <r85>Zonguldak</r85>
+            <r86>Ardahan</r86>
+            <r87>Bartin</r87>
+            <r88>Igdir</r88>
+            <r89>Karabuk</r89>
+            <r90>Kilis</r90>
+            <r91>Osmaniye</r91>
+            <r92>Yalova</r92>
+            <r93>Duzce</r93>
+        </TR>
+        <TT>
+            <r01>Arima</r01>
+            <r02>Caroni</r02>
+            <r03>Mayaro</r03>
+            <r04>Nariva</r04>
+            <r05>Port-of-Spain</r05>
+            <r06>Saint Andrew</r06>
+            <r07>Saint David</r07>
+            <r08>Saint George</r08>
+            <r09>Saint Patrick</r09>
+            <r10>San Fernando</r10>
+            <r11>Tobago</r11>
+            <r12>Victoria</r12>
+        </TT>
+        <TW>
+            <r01>Fu-chien</r01>
+            <r02>Kao-hsiung</r02>
+            <r03>T'ai-pei</r03>
+            <r04>T'ai-wan</r04>
+        </TW>
+        <TZ>
+            <r02>Pwani</r02>
+            <r03>Dodoma</r03>
+            <r04>Iringa</r04>
+            <r05>Kigoma</r05>
+            <r06>Kilimanjaro</r06>
+            <r07>Lindi</r07>
+            <r08>Mara</r08>
+            <r09>Mbeya</r09>
+            <r10>Morogoro</r10>
+            <r11>Mtwara</r11>
+            <r12>Mwanza</r12>
+            <r13>Pemba North</r13>
+            <r14>Ruvuma</r14>
+            <r15>Shinyanga</r15>
+            <r16>Singida</r16>
+            <r17>Tabora</r17>
+            <r18>Tanga</r18>
+            <r19>Kagera</r19>
+            <r20>Pemba South</r20>
+            <r21>Zanzibar Central</r21>
+            <r22>Zanzibar North</r22>
+            <r23>Dar es Salaam</r23>
+            <r24>Rukwa</r24>
+            <r25>Zanzibar Urban</r25>
+            <r26>Arusha</r26>
+            <r27>Manyara</r27>
+        </TZ>
+        <UA>
+            <r01>Cherkas'ka Oblast'</r01>
+            <r02>Chernihivs'ka Oblast'</r02>
+            <r03>Chernivets'ka Oblast'</r03>
+            <r04>Dnipropetrovs'ka Oblast'</r04>
+            <r05>Donets'ka Oblast'</r05>
+            <r06>Ivano-Frankivs'ka Oblast'</r06>
+            <r07>Kharkivs'ka Oblast'</r07>
+            <r08>Khersons'ka Oblast'</r08>
+            <r09>Khmel'nyts'ka Oblast'</r09>
+            <r10>Kirovohrads'ka Oblast'</r10>
+            <r11>Krym</r11>
+            <r12>Kyyiv</r12>
+            <r13>Kyyivs'ka Oblast'</r13>
+            <r14>Luhans'ka Oblast'</r14>
+            <r15>L'vivs'ka Oblast'</r15>
+            <r16>Mykolayivs'ka Oblast'</r16>
+            <r17>Odes'ka Oblast'</r17>
+            <r18>Poltavs'ka Oblast'</r18>
+            <r19>Rivnens'ka Oblast'</r19>
+            <r20>Sevastopol'</r20>
+            <r21>Sums'ka Oblast'</r21>
+            <r22>Ternopil's'ka Oblast'</r22>
+            <r23>Vinnyts'ka Oblast'</r23>
+            <r24>Volyns'ka Oblast'</r24>
+            <r25>Zakarpats'ka Oblast'</r25>
+            <r26>Zaporiz'ka Oblast'</r26>
+            <r27>Zhytomyrs'ka Oblast'</r27>
+        </UA>
+        <UG>
+            <r26>Apac</r26>
+            <r28>Bundibugyo</r28>
+            <r29>Bushenyi</r29>
+            <r30>Gulu</r30>
+            <r31>Hoima</r31>
+            <r33>Jinja</r33>
+            <r36>Kalangala</r36>
+            <r37>Kampala</r37>
+            <r38>Kamuli</r38>
+            <r39>Kapchorwa</r39>
+            <r40>Kasese</r40>
+            <r41>Kibale</r41>
+            <r42>Kiboga</r42>
+            <r43>Kisoro</r43>
+            <r45>Kotido</r45>
+            <r46>Kumi</r46>
+            <r47>Lira</r47>
+            <r50>Masindi</r50>
+            <r52>Mbarara</r52>
+            <r56>Mubende</r56>
+            <r58>Nebbi</r58>
+            <r59>Ntungamo</r59>
+            <r60>Pallisa</r60>
+            <r61>Rakai</r61>
+            <r65>Adjumani</r65>
+            <r66>Bugiri</r66>
+            <r67>Busia</r67>
+            <r69>Katakwi</r69>
+            <r70>Luwero</r70>
+            <r71>Masaka</r71>
+            <r72>Moyo</r72>
+            <r73>Nakasongola</r73>
+            <r74>Sembabule</r74>
+            <r76>Tororo</r76>
+            <r77>Arua</r77>
+            <r78>Iganga</r78>
+            <r79>Kabarole</r79>
+            <r80>Kaberamaido</r80>
+            <r81>Kamwenge</r81>
+            <r82>Kanungu</r82>
+            <r83>Kayunga</r83>
+            <r84>Kitgum</r84>
+            <r85>Kyenjojo</r85>
+            <r86>Mayuge</r86>
+            <r87>Mbale</r87>
+            <r88>Moroto</r88>
+            <r89>Mpigi</r89>
+            <r90>Mukono</r90>
+            <r91>Nakapiripirit</r91>
+            <r92>Pader</r92>
+            <r93>Rukungiri</r93>
+            <r94>Sironko</r94>
+            <r95>Soroti</r95>
+            <r96>Wakiso</r96>
+            <r97>Yumbe</r97>
+        </UG>
+        <US>
+            <rAA>Armed Forces Americas</rAA>
+            <rAE>Armed Forces Europe, Middle East, &amp; Canada</rAE>
+            <rAK>Alaska</rAK>
+            <rAL>Alabama</rAL>
+            <rAP>Armed Forces Pacific</rAP>
+            <rAR>Arkansas</rAR>
+            <rAS>American Samoa</rAS>
+            <rAZ>Arizona</rAZ>
+            <rCA>California</rCA>
+            <rCO>Colorado</rCO>
+            <rCT>Connecticut</rCT>
+            <rDC>District of Columbia</rDC>
+            <rDE>Delaware</rDE>
+            <rFL>Florida</rFL>
+            <rFM>Federated States of Micronesia</rFM>
+            <rGA>Georgia</rGA>
+            <rGU>Guam</rGU>
+            <rHI>Hawaii</rHI>
+            <rIA>Iowa</rIA>
+            <rID>Idaho</rID>
+            <rIL>Illinois</rIL>
+            <rIN>Indiana</rIN>
+            <rKS>Kansas</rKS>
+            <rKY>Kentucky</rKY>
+            <rLA>Louisiana</rLA>
+            <rMA>Massachusetts</rMA>
+            <rMD>Maryland</rMD>
+            <rME>Maine</rME>
+            <rMH>Marshall Islands</rMH>
+            <rMI>Michigan</rMI>
+            <rMN>Minnesota</rMN>
+            <rMO>Missouri</rMO>
+            <rMP>Northern Mariana Islands</rMP>
+            <rMS>Mississippi</rMS>
+            <rMT>Montana</rMT>
+            <rNC>North Carolina</rNC>
+            <rND>North Dakota</rND>
+            <rNE>Nebraska</rNE>
+            <rNH>New Hampshire</rNH>
+            <rNJ>New Jersey</rNJ>
+            <rNM>New Mexico</rNM>
+            <rNV>Nevada</rNV>
+            <rNY>New York</rNY>
+            <rOH>Ohio</rOH>
+            <rOK>Oklahoma</rOK>
+            <rOR>Oregon</rOR>
+            <rPA>Pennsylvania</rPA>
+            <rPR>Puerto Rico</rPR>
+            <rPW>Palau</rPW>
+            <rRI>Rhode Island</rRI>
+            <rSC>South Carolina</rSC>
+            <rSD>South Dakota</rSD>
+            <rTN>Tennessee</rTN>
+            <rTX>Texas</rTX>
+            <rUT>Utah</rUT>
+            <rVA>Virginia</rVA>
+            <rVI>Virgin Islands</rVI>
+            <rVT>Vermont</rVT>
+            <rWA>Washington</rWA>
+            <rWI>Wisconsin</rWI>
+            <rWV>West Virginia</rWV>
+            <rWY>Wyoming</rWY>
+        </US>
+        <UY>
+            <r01>Artigas</r01>
+            <r02>Canelones</r02>
+            <r03>Cerro Largo</r03>
+            <r04>Colonia</r04>
+            <r05>Durazno</r05>
+            <r06>Flores</r06>
+            <r07>Florida</r07>
+            <r08>Lavalleja</r08>
+            <r09>Maldonado</r09>
+            <r10>Montevideo</r10>
+            <r11>Paysandu</r11>
+            <r12>Rio Negro</r12>
+            <r13>Rivera</r13>
+            <r14>Rocha</r14>
+            <r15>Salto</r15>
+            <r16>San Jose</r16>
+            <r17>Soriano</r17>
+            <r18>Tacuarembo</r18>
+            <r19>Treinta y Tres</r19>
+        </UY>
+        <UZ>
+            <r01>Andijon</r01>
+            <r02>Bukhoro</r02>
+            <r03>Farghona</r03>
+            <r04>Jizzakh</r04>
+            <r05>Khorazm</r05>
+            <r06>Namangan</r06>
+            <r07>Nawoiy</r07>
+            <r08>Qashqadaryo</r08>
+            <r09>Qoraqalpoghiston</r09>
+            <r10>Samarqand</r10>
+            <r11>Sirdaryo</r11>
+            <r12>Surkhondaryo</r12>
+            <r13>Toshkent</r13>
+            <r14>Toshkent</r14>
+        </UZ>
+        <VC>
+            <r01>Charlotte</r01>
+            <r02>Saint Andrew</r02>
+            <r03>Saint David</r03>
+            <r04>Saint George</r04>
+            <r05>Saint Patrick</r05>
+            <r06>Grenadines</r06>
+        </VC>
+        <VE>
+            <r01>Amazonas</r01>
+            <r02>Anzoategui</r02>
+            <r03>Apure</r03>
+            <r04>Aragua</r04>
+            <r05>Barinas</r05>
+            <r06>Bolivar</r06>
+            <r07>Carabobo</r07>
+            <r08>Cojedes</r08>
+            <r09>Delta Amacuro</r09>
+            <r11>Falcon</r11>
+            <r12>Guarico</r12>
+            <r13>Lara</r13>
+            <r14>Merida</r14>
+            <r15>Miranda</r15>
+            <r16>Monagas</r16>
+            <r17>Nueva Esparta</r17>
+            <r18>Portuguesa</r18>
+            <r19>Sucre</r19>
+            <r20>Tachira</r20>
+            <r21>Trujillo</r21>
+            <r22>Yaracuy</r22>
+            <r23>Zulia</r23>
+            <r24>Dependencias Federales</r24>
+            <r25>Distrito Federal</r25>
+            <r26>Vargas</r26>
+        </VE>
+        <VN>
+            <r01>An Giang</r01>
+            <r03>Ben Tre</r03>
+            <r05>Cao Bang</r05>
+            <r09>Dong Thap</r09>
+            <r13>Hai Phong</r13>
+            <r20>Ho Chi Minh</r20>
+            <r21>Kien Giang</r21>
+            <r23>Lam Dong</r23>
+            <r24>Long An</r24>
+            <r30>Quang Ninh</r30>
+            <r32>Son La</r32>
+            <r33>Tay Ninh</r33>
+            <r34>Thanh Hoa</r34>
+            <r35>Thai Binh</r35>
+            <r37>Tien Giang</r37>
+            <r39>Lang Son</r39>
+            <r43>An Giang</r43>
+            <r44>Dac Lac</r44>
+            <r45>Dong Nai</r45>
+            <r46>Dong Thap</r46>
+            <r47>Kien Giang</r47>
+            <r49>Song Be</r49>
+            <r50>Vinh Phu</r50>
+            <r51>Ha Noi</r51>
+            <r52>Ho Chi Minh</r52>
+            <r53>Ba Ria-Vung Tau</r53>
+            <r54>Binh Dinh</r54>
+            <r55>Binh Thuan</r55>
+            <r58>Ha Giang</r58>
+            <r59>Ha Tay</r59>
+            <r60>Ha Tinh</r60>
+            <r61>Hoa Binh</r61>
+            <r62>Khanh Hoa</r62>
+            <r63>Kon Tum</r63>
+            <r64>Quang Tri</r64>
+            <r65>Nam Ha</r65>
+            <r66>Nghe An</r66>
+            <r67>Ninh Binh</r67>
+            <r68>Ninh Thuan</r68>
+            <r69>Phu Yen</r69>
+            <r70>Quang Binh</r70>
+            <r71>Quang Ngai</r71>
+            <r72>Quang Tri</r72>
+            <r73>Soc Trang</r73>
+            <r74>Thua Thien</r74>
+            <r75>Tra Vinh</r75>
+            <r76>Tuyen Quang</r76>
+            <r77>Vinh Long</r77>
+            <r78>Da Nang</r78>
+            <r79>Hai Duong</r79>
+            <r80>Ha Nam</r80>
+            <r81>Hung Yen</r81>
+            <r82>Nam Dinh</r82>
+            <r83>Phu Tho</r83>
+            <r84>Quang Nam</r84>
+            <r85>Thai Nguyen</r85>
+            <r86>Vinh Puc Province</r86>
+            <r87>Can Tho</r87>
+            <r88>Dak Lak</r88>
+            <r89>Lai Chau</r89>
+            <r90>Lao Cai</r90>
+            <r91>Dak Nong</r91>
+            <r92>Dien Bien</r92>
+            <r93>Hau Giang</r93>
+        </VN>
+        <VU>
+            <r05>Ambrym</r05>
+            <r06>Aoba</r06>
+            <r07>Torba</r07>
+            <r08>Efate</r08>
+            <r09>Epi</r09>
+            <r10>Malakula</r10>
+            <r11>Paama</r11>
+            <r12>Pentecote</r12>
+            <r13>Sanma</r13>
+            <r14>Shepherd</r14>
+            <r15>Tafea</r15>
+            <r16>Malampa</r16>
+            <r17>Penama</r17>
+            <r18>Shefa</r18>
+        </VU>
+        <WS>
+            <r02>Aiga-i-le-Tai</r02>
+            <r03>Atua</r03>
+            <r04>Fa</r04>
+            <r05>Gaga</r05>
+            <r06>Va</r06>
+            <r07>Gagaifomauga</r07>
+            <r08>Palauli</r08>
+            <r09>Satupa</r09>
+            <r10>Tuamasaga</r10>
+            <r11>Vaisigano</r11>
+        </WS>
+        <YE>
+            <r01>Abyan</r01>
+            <r02>Adan</r02>
+            <r03>Al Mahrah</r03>
+            <r04>Hadramawt</r04>
+            <r05>Shabwah</r05>
+            <r06>Lahij</r06>
+            <r07>Al Bayda'</r07>
+            <r08>Al Hudaydah</r08>
+            <r09>Al Jawf</r09>
+            <r10>Al Mahwit</r10>
+            <r11>Dhamar</r11>
+            <r12>Hajjah</r12>
+            <r13>Ibb</r13>
+            <r14>Ma'rib</r14>
+            <r15>Sa'dah</r15>
+            <r16>San'a'</r16>
+            <r17>Taizz</r17>
+            <r18>Ad Dali</r18>
+            <r19>Amran</r19>
+            <r20>Al Bayda'</r20>
+            <r21>Al Jawf</r21>
+            <r22>Hajjah</r22>
+            <r23>Ibb</r23>
+            <r24>Lahij</r24>
+            <r25>Taizz</r25>
+        </YE>
+        <ZA>
+            <r01>North-Western Province</r01>
+            <r02>KwaZulu-Natal</r02>
+            <r03>Free State</r03>
+            <r05>Eastern Cape</r05>
+            <r06>Gauteng</r06>
+            <r07>Mpumalanga</r07>
+            <r08>Northern Cape</r08>
+            <r09>Limpopo</r09>
+            <r10>North-West</r10>
+            <r11>Western Cape</r11>
+        </ZA>
+        <ZM>
+            <r01>Western</r01>
+            <r02>Central</r02>
+            <r03>Eastern</r03>
+            <r04>Luapula</r04>
+            <r05>Northern</r05>
+            <r06>North-Western</r06>
+            <r07>Southern</r07>
+            <r08>Copperbelt</r08>
+            <r09>Lusaka</r09>
+        </ZM>
+        <ZW>
+            <r01>Manicaland</r01>
+            <r02>Midlands</r02>
+            <r03>Mashonaland Central</r03>
+            <r04>Mashonaland East</r04>
+            <r05>Mashonaland West</r05>
+            <r06>Matabeleland North</r06>
+            <r07>Matabeleland South</r07>
+            <r08>Masvingo</r08>
+            <r09>Bulawayo</r09>
+            <r10>Harare</r10>
+        </ZW>
+    </region>
+</data>

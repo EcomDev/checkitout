@@ -34,6 +34,7 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_STORED_ADDRESSES = 'ecomdev_checkitout/settings/stored_addresses';
     const XML_PATH_SHOPPING_CART_REDIRECT = 'ecomdev_checkitout/settings/shopping_cart_redirect';
 
+
     // New layout feature configurations
     const XML_PATH_DESIGN_ACTIVE = 'ecomdev_checkitout/design/active';
     const XML_PATH_DESIGN_LAYOUT = 'ecomdev_checkitout/design/layout';
@@ -43,6 +44,13 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
     // Default payment, shipping methods
     const XML_PATH_DEFAULT_SHIPPING_METHOD = 'ecomdev_checkitout/default/shipping_method';
     const XML_PATH_DEFAULT_PAYMENT_METHOD = 'ecomdev_checkitout/default/payment_method';
+    const XML_PATH_DEFAULT_SAME_AS_BILLING = 'ecomdev_checkitout/default/same_as_billing';
+    const XML_PATH_DEFAULT_REGION = 'ecomdev_checkitout/default/region_id';
+    const XML_PATH_DEFAULT_POSTCODE = 'ecomdev_checkitout/default/postcode';
+    const XML_PATH_DEFAULT_CITY = 'ecomdev_checkitout/default/city';
+
+    // GeoIp configurations
+    const XML_PATH_GEOIP_TYPE = 'ecomdev_checkitout/geoip/type';
 
     // Hide options for payment, shipping methods
     const XML_PATH_HIDE_SHIPPING_METHOD = 'ecomdev_checkitout/hidden/shipping_method';
@@ -58,9 +66,16 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
     const COMPATIBILITY_V14 = 'v14';
     const COMPATIBILITY_V15 = 'v15';
 
-    const CONFIRM_TYPE_CHECKBOX = EcomDev_CheckItOut_Model_Config_Source_Confirm_Type::TYPE_CHECKBOX;
-    const CONFIRM_TYPE_POPUP = EcomDev_CheckItOut_Model_Config_Source_Confirm_Type::TYPE_POPUP;
-    const CONFIRM_TYPE_NONE = EcomDev_CheckItOut_Model_Config_Source_Confirm_Type::TYPE_NONE;
+    const CONFIRM_TYPE_CHECKBOX = EcomDev_CheckItOut_Model_Source_Confirm_Type::TYPE_CHECKBOX;
+    const CONFIRM_TYPE_POPUP = EcomDev_CheckItOut_Model_Source_Confirm_Type::TYPE_POPUP;
+    const CONFIRM_TYPE_NONE = EcomDev_CheckItOut_Model_Source_Confirm_Type::TYPE_NONE;
+
+    /**
+     * Default address object
+     *
+     * @var Varien_Object
+     */
+    protected $_defaultAddress = null;
 
     /**
      * Checks that checkitout extension is active
@@ -272,25 +287,150 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Returns default shipping method from configuration
+     * Retrieves default region from configuration
      *
      * @return string
      */
-    public function getDefaultShippingMethod()
+    public function getDefaultRegion()
     {
-        return Mage::getStoreConfig(self::XML_PATH_DEFAULT_SHIPPING_METHOD);
+        return Mage::getStoreConfig(self::XML_PATH_DEFAULT_REGION);
     }
 
     /**
-     * Returns default payment method from configuration
+     * Retrieves default region from configuration
      *
      * @return string
      */
-    public function getDefaultPaymentMethod()
+    public function getDefaultPostcode()
     {
-        return Mage::getStoreConfig(self::XML_PATH_DEFAULT_PAYMENT_METHOD);
+        return Mage::getStoreConfig(self::XML_PATH_DEFAULT_POSTCODE);
     }
 
+    /**
+     * Returns default city
+     *
+     * @return string
+     */
+    public function getDefaultCity()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_DEFAULT_CITY);
+    }
+
+    /**
+     * Returns default address data
+     *
+     * @return Varien_Object
+     */
+    public function getDefaultAddress()
+    {
+        if ($this->_defaultAddress === null) {
+            $object = new Varien_Object();
+            if ($this->isGeoIpEnabled()) {
+                if ($this->_getRequest()->getParam('ip')) {
+                    $ipAddress = $this->_getRequest()->getParam('ip');
+                } else {
+                    $ipAddress = $this->_getRequest()->getClientIp();
+                }
+                Mage::getSingleton('ecomdev_checkitout/geoip')->applyLocationByIp($ipAddress, $object);
+            }
+
+            $defaultData = array(
+                'country_id' => $this->getDefaultCountry(),
+                'region_id' => $this->getDefaultRegion(),
+                'city' => $this->getDefaultCity(),
+                'postcode' => $this->getDefaultPostcode()
+            );
+
+            if (!$object->getCountryId()) {
+                $object->addData($defaultData);
+            } elseif (!$object->getRegionId()
+                      && $object->getCountryId() === $this->getDefaultCountry()
+                      && !$object->getCity()
+                      && !$object->getPostcode()) {
+                unset($defaultData['country_id']);
+                $object->addData($defaultData);
+            } elseif ((!$object->getCity() || !$object->getPostcode())
+                      && $object->getRegionId() == $this->getDefaultRegion()
+                      && $object->getCountryId() === $this->getDefaultCountry()) {
+                unset($defaultData['region_id']);
+                unset($defaultData['country_id']);
+
+                if ($object->getCity()) {
+                    unset($defaultData['city']);
+                }
+
+                if ($object->getPostcode()) {
+                    unset($defaultData['postcode']);
+                }
+
+                $object->addData($defaultData);
+            }
+            $this->_defaultAddress = $object;
+        }
+
+        return $this->_defaultAddress;
+    }
+
+    /**
+     * Resets default address property
+     *
+     * @return EcomDev_CheckItOut_Helper_Data
+     */
+    public function resetDefaultAddress()
+    {
+        $this->_defaultAddress = null;
+        return $this;
+    }
+
+    /**
+     * Flag check for same as billing default value
+     *
+     * @return bool
+     */
+    public function isShipmentSameByDefault()
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_DEFAULT_SAME_AS_BILLING);
+    }
+
+    /**
+     * Returns default shipping method from configuration.
+     * Also allows to set up this value via observer
+     *
+     * @param Mage_Sales_Model_Quote|null $quote
+     * @return string
+     */
+    public function getDefaultShippingMethod($quote = null)
+    {
+        $proxy = new Varien_Object();
+        $proxy->setValue(Mage::getStoreConfig(self::XML_PATH_DEFAULT_SHIPPING_METHOD));
+
+        Mage::dispatchEvent('ecomdev_checkitout_get_default_shipping_method', array(
+            'proxy' => $proxy,
+            'quote' => $quote
+        ));
+
+        return $proxy->getValue();
+    }
+
+    /**
+     * Returns default payment method from configuration.
+     * Also allows to set up this values via observer
+     *
+     * @param Mage_Sales_Model_Quote|null $quote
+     * @return string
+     */
+    public function getDefaultPaymentMethod($quote = null)
+    {
+        $proxy = new Varien_Object();
+        $proxy->setValue(Mage::getStoreConfig(self::XML_PATH_DEFAULT_PAYMENT_METHOD));
+
+        Mage::dispatchEvent('ecomdev_checkitout_get_default_payment_method', array(
+            'proxy' => $proxy,
+            'quote' => $quote
+        ));
+
+        return $proxy->getValue();
+    }
 
     /**
      * Check that payment method is hidden
@@ -358,13 +498,17 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Returns list of css files that should be included into checkout page
+     * Retrieve list of design files
      *
      * @return array
      */
-    public function getCssFiles()
+    public function getDesignFiles()
     {
-        $cssFiles = array();
+        $designFiles = array(
+            'js' => array(),
+            'css' => array()
+        );
+
         if (Mage::getStoreConfigFlag(self::XML_PATH_DESIGN_ACTIVE)) {
             $cssCode = Mage::getStoreConfig(self::XML_PATH_DESIGN_CSS);
             $cssOptions = Mage::getSingleton('ecomdev_checkitout/source_design_css');
@@ -377,16 +521,34 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
 
             if (is_array($cssOption->getCss())) {
                 foreach ($cssOption->getCss() as $file) {
-                    $cssFiles[] = $file;
+                    $designFiles['css'][] = $file;
+                }
+            }
+
+            if (is_array($cssOption->getJs())) {
+                foreach ($cssOption->getJs() as $file) {
+                    $designFiles['js'][] = $file;
                 }
             }
 
             if ($customCssFile = Mage::getStoreConfig(sprintf(self::XML_PATH_DESIGN_CUSTOM_CSS, $cssCode))) {
-                $cssFiles[] = $customCssFile;
+                $designFiles['css'][] = $customCssFile;
             }
         }
 
-        return $cssFiles;
+        return $designFiles;
+    }
+
+    /**
+     * Returns list of css files that should be included into checkout page
+     *
+     * @return array
+     * @deprecated after 1.4.0
+     */
+    public function getCssFiles()
+    {
+        $designFiles = $this->getDesignFiles();
+        return $designFiles['css'];
     }
 
     /**
@@ -427,5 +589,15 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
     public function isShoppingCartRedirectEnabled()
     {
         return Mage::getStoreConfigFlag(self::XML_PATH_SHOPPING_CART_REDIRECT);
+    }
+
+    /**
+     * Check if geo ip feature enabled
+     *
+     * @return boolean
+     */
+    public function isGeoIpEnabled()
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_GEOIP_TYPE);
     }
 }

@@ -145,7 +145,6 @@
         <action method="addClassName" block="checkout.layout.shipping"><class>max-height</class></action>
         <action method="setUsePositionCode" block="checkout.layout.address"><flag>1</flag></action>
         <action method="addClassName" block="checkout.layout.methods"><class>max-height</class></action>
-        <action method="addClassName" block="checkout.layout.methods"><class>clearer</class></action>
         <action method="unsetData" block="checkout.layout.billing"><code>step_number</code></action>
         <action method="unsetData" block="checkout.layout.shipping"><code>step_number</code></action>
         <reference name="checkout.layout.middle">

@@ -1,0 +1,9 @@
+download:
+  type: country
+  url: http://somewhere.com
+download_default:
+  url: default_value
+import:
+  type: country
+  file: somefile.csv
+  zip: somefile.zip

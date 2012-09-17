@@ -20,19 +20,22 @@
  * Shipping method source model for default shipping method select
  *
  */
-class EcomDev_CheckItOut_Model_Source_Shipping_Methods extends Mage_Adminhtml_Model_System_Config_Source_Shipping_Allmethods
+class EcomDev_CheckItOut_Model_Source_Geoip_Type
 {
-    const AUTO_METHOD = '__auto__';
+    const TYPE_COUNTRY = 'country';
+    const TYPE_LOCATION = 'location';
 
     /**
-     * Return array of carriers.
-
-     * @param bool $isActiveOnlyFlag (ignored)
+     * Return array of GeoIp functionality options
+     * 
      * @return array
      */
-    public function toOptionArray($isActiveOnlyFlag=false)
+    public function toOptionArray()
     {
-        $isActiveOnlyFlag = true;
-        return parent::toOptionArray($isActiveOnlyFlag);
+        return array(
+            array('value' => '', 'label' => Mage::helper('ecomdev_checkitout')->__('None')),
+            array('value' => self::TYPE_COUNTRY, 'label' => Mage::helper('ecomdev_checkitout')->__('Country by IP Address')),
+            array('value' => self::TYPE_LOCATION, 'label' => Mage::helper('ecomdev_checkitout')->__('Location/City by IP Address')),
+        );
     }
 }

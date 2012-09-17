@@ -764,7 +764,9 @@ EcomDev.CheckItOut.Step = Class.create({
     isLoading: function (flag) {
         if (typeof flag == 'boolean') {
             this._isLoading = flag;
-            this.checkout.notifyLoading();
+            if (this.checkout) {
+                this.checkout.notifyLoading();
+            }
         }
         return this._isLoading;
     },
@@ -778,7 +780,9 @@ EcomDev.CheckItOut.Step = Class.create({
     isChangeTimeout: function (flag) {
         if (typeof flag == 'boolean') {
             this._isChangeTimeout = flag;
-            this.checkout.notifyLoading();
+            if (this.checkout) {
+                this.checkout.notifyLoading();
+            }
         }
         return this._isChangeTimeout;
     },
@@ -1956,6 +1960,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
      * @return void
      */
     __updateContent: function ($super, htmlContent) {
+        this.initFieldsCalled = false;
         var scripts = htmlContent.extractScripts();
         var content = htmlContent.stripScripts();
         
@@ -1992,6 +1997,10 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         if (scriptText.length > 0) {
             ('<script type="text/javascript">' + scriptText + "</script>").evalScripts();
         }
+
+        if (!this.initFieldsCalled) {
+            this.initFields();
+        }
     },
     /**
      * Add handler for before init observing
@@ -2027,6 +2036,11 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
             this.parentConstructor = false;
         }
         this.beforeInit();
+        this.initFields();
+        this.afterInit();
+    },
+    initFields: function () {
+        this.initFieldsCalled = true;
         var elements = Form.getElements(this.form);
         var method = null;
         for (var i=0; i<elements.length; i++) {
@@ -2035,12 +2049,12 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
                     method = elements[i].value;
                 }
             } else {
-               elements[i].disabled = true;
+                elements[i].disabled = true;
             }
             elements[i].setAttribute('autocomplete','off');
         }
         if (method) this.switchMethod(method);
-        this.afterInit();
+
     },
     /**
      * Inits what is CVV tooltips
@@ -2122,7 +2136,6 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
      */
     checkOneMethod: function () {
         var methods = this.container.select('input[name="payment[method]"]');
-
         if (methods.length == 1) {
             var form = $('payment_form_' +methods.first().value);
             if (!form || form.select('input', 'select', 'textarea').length == 0) {

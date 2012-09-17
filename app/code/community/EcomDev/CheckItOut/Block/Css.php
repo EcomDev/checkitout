@@ -32,8 +32,12 @@ class EcomDev_CheckItOut_Block_Css extends Mage_Core_Block_Abstract
         parent::_prepareLayout();
 
         if ($this->getLayout()->getBlock('head')) {
-            foreach ($this->helper('ecomdev_checkitout')->getCssFiles() as $file) {
+            $designFiles = $this->helper('ecomdev_checkitout')->getDesignFiles();
+            foreach ($designFiles['css'] as $file) {
                 $this->getLayout()->getBlock('head')->addCss($file);
+            }
+            foreach ($designFiles['js'] as $file) {
+                $this->getLayout()->getBlock('head')->addSkinJs($file);
             }
         }
 

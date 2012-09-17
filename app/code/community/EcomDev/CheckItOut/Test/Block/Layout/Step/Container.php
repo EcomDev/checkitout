@@ -90,15 +90,18 @@ class EcomDev_CheckItOut_Test_Block_Layout_Step_Container extends EcomDev_PHPUni
     {
         $this->assertAttributeSame(null, '_classNames', $this->block);
         $this->block->addClassNameForStepCount('two', '2');
+        EcomDev_Utils_Reflection::invokeRestrictedMethod($this->block, '_initClassNamesForStepCount');
         $this->assertAttributeSame(array('container', 'container-address', 'two'), '_classNames', $this->block);
         $this->block->removeClassName('two');
         $this->assertAttributeSame(array('container', 'container-address'), '_classNames', $this->block);
         $this->block->addClassNameForStepCount('one', '1');
+        EcomDev_Utils_Reflection::invokeRestrictedMethod($this->block, '_initClassNamesForStepCount');
         $this->assertAttributeSame(array('container', 'container-address', 'one'), '_classNames', $this->block);
         $this->block->removeClassName('one');
 
         // Check that one more item won't be added if count mismatch
         $this->block->addClassNameForStepCount('one', '1');
+        EcomDev_Utils_Reflection::invokeRestrictedMethod($this->block, '_initClassNamesForStepCount');
         $this->assertAttributeSame(array('container', 'container-address'), '_classNames', $this->block);
     }
 
