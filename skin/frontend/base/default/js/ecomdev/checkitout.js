@@ -590,7 +590,7 @@ EcomDev.CheckItOut = Class.create({
             window.location=this.config.success;
         }
         else{
-            var msg = result.error_messages;
+            var msg = result.error_messages || result.messages;
             if (typeof(msg)=='object') {
                 msg = msg.join("\n");
             }
