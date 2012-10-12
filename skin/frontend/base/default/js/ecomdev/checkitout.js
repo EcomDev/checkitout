@@ -861,7 +861,10 @@ EcomDev.CheckItOut.Step = Class.create({
             Validation.validate(elm);
         }
         return classNames.all(function(value) {
-            var test = !Validation.isVisible(elm) || Validation.get(value).test($F(elm), elm);
+            /**
+             * Validation.get(value).test() do not show error message if validation failed
+             **/
+            var test = !Validation.isVisible(elm) || Validation.test(value, elm);
             return test;
         });
     },
