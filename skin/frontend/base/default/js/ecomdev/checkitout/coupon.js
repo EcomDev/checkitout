@@ -54,7 +54,7 @@ EcomDev.CheckItOut.Step.PromotionCode = Class.create(
             this.applyBtn.observe(
                 'click',
                 this.submit.bind(this)
-            );
+                );
 
             this.container.down('form').observe('submit', function (evt) {
                 Event.stop(evt);
@@ -81,6 +81,29 @@ EcomDev.CheckItOut.Step.PromotionCode = Class.create(
                 this.checkout.getStep('review').addRelation(this.code);
             }
         },
+        
+        /**
+     * Submits checkout step form values
+     * 
+     * @return void
+     */
+        submit: function ($super) {
+            if (this.isLoading()) {
+                return;
+            }
+            var elem = Validation.getAdvice('validate-ajax', this.container.down('*[name="coupon"]'));
+            if(elem){
+                new Effect.Fade(elem, {
+                    duration : 0.5, 
+                    afterFinishInternal : function() {
+                        elem.remove();
+                    }
+                });
+                
+            }
+            $super(arguments);
+        
+        },
 
         /**
          * Handles submission complete and displays related errors
@@ -91,6 +114,7 @@ EcomDev.CheckItOut.Step.PromotionCode = Class.create(
          * @void
          */
         submitComplete: function ($super, response) {
+            console.log(response);
             if (response && response.responseText){
                 try{
                     var result = response.responseText.evalJSON();
@@ -100,11 +124,15 @@ EcomDev.CheckItOut.Step.PromotionCode = Class.create(
                 }
             }
             if (result.error){
+                console.log(this.container.down('*[name="'+ result.field + '"]'));
                 if (result.field && this.container.down('*[name="'+ result.field + '"]')) {
                     Validation.ajaxError(this.container.down('*[name="'+ result.field + '"]'), result.message);
                 } else {
                     alert(result.message);
                 }
+            }
+            if(result.success && result.coupon == null){
+                this.container.down('*[name="coupon"]').setValue(null);
             }
 
             if (typeof this.submitCompleteCallback !== 'undefined') {
@@ -114,7 +142,7 @@ EcomDev.CheckItOut.Step.PromotionCode = Class.create(
             return $super(response);
         }
     }
-);
+    );
 
 /**
  * Coupon code step class
@@ -138,7 +166,9 @@ window.CouponCode = Class.create(EcomDev.CheckItOut.Step.PromotionCode, {
      */
     getValues: function ($super) {
         if (this.remove) {
-            return {remove: 1};
+            return {
+                remove: 1
+            };
         }
 
         return $super();
@@ -186,7 +216,7 @@ window.CouponCode = Class.create(EcomDev.CheckItOut.Step.PromotionCode, {
         this.removeBtn.observe(
             'click',
             this.handleRemove.bind(this)
-        );
+            );
 
         this.couponField.value = this.coupon || '';
     },

@@ -107,7 +107,7 @@ class EcomDev_CheckItOut_Model_Type_Onepage
     public function saveCouponCode($couponCode)
     {
         $oldCouponeCode = $this->getQuote()->getCouponCode();
-        if ($oldCouponeCode === $couponCode) {
+        if (!is_null($couponCode) && $oldCouponeCode === $couponCode) {
             return array(
                 'error' => true,
                 'message' => Mage::helper('ecomdev_checkitout')->__('The coupon code is already applied.'),
