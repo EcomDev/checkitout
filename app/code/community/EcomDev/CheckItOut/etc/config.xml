@@ -98,6 +98,22 @@
                     </ecomdev_checkitout>
                 </observers>
             </controller_action_predispatch_checkout_cart_index>
+            <controller_action_predispatch_checkout_onepage_saveorder>
+                <observers>
+                    <ecomdev_checkitout>
+                        <model>ecomdev_checkitout/observer</model>
+                        <method>preDispatchSaveOrderAction</method>
+                    </ecomdev_checkitout>
+                </observers>
+            </controller_action_predispatch_checkout_onepage_saveorder>
+            <controller_action_postdispatch_checkout_onepage_saveorder>
+                <observers>
+                    <ecomdev_checkitout>
+                        <model>ecomdev_checkitout/observer</model>
+                        <method>postDispatchSaveOrderAction</method>
+                    </ecomdev_checkitout>
+                </observers>
+            </controller_action_postdispatch_checkout_onepage_saveorder>
         </events>
         <layout>
             <updates>

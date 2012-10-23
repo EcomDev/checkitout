@@ -397,7 +397,6 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
         }
     }
 
-
     /**
      * Action for changing quantity in already added product
      *
@@ -499,54 +498,6 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
     protected function _recalculateTotals()
     {
         $this->getOnepage()->recalculateTotals();
-        return $this;
-    }
-
-    /**
-     * Overrides default behavior for saving order with shipping and billing
-     *
-     * @return void
-     */
-    public function saveOrderAction()
-    {
-        if (!$this->_isActive()) {
-            parent::saveOrderAction();
-            return;
-        }
-
-        if ($this->_expireAjax()) {
-            return;
-        }
-        $orderData = $this->getRequest()->getPost('order');
-
-        if ($this->_getHelper()->isCustomerCommentAllowed()
-            && isset($orderData['customer_comment'])) {
-            $this->getOnepage()->getQuote()->setCustomerComment($orderData['customer_comment']);
-        }
-
-        if ($this->_getHelper()->isPaymentMethodHidden()) {
-            // Issue with not submitted form details if payment method is hidden
-            $post = $this->getRequest()->getPost();
-            $post['payment']['method'] = $this->_getHelper()->getDefaultPaymentMethod();
-            $this->getRequest()->setPost($post);
-        }
-
-        parent::saveOrderAction();
-
-        // If order is created and there is enabled subscription
-        if ($this->getOnepage()->getCheckout()->getLastOrderId()
-            && $this->_getHelper()->isNewsletterCheckboxDisplay()
-            && $this->getRequest()->getPost('newsletter')) {
-            try {
-                Mage::getModel('newsletter/subscriber')->subscribe(
-                    $this->getOnepage()->getQuote()->getCustomerEmail()
-                );
-            } catch (Exception $e) {
-                // Subscription shouldn't break checkout, so we just log exception
-                Mage::logException($e);
-            }
-        }
-
         return $this;
     }
 

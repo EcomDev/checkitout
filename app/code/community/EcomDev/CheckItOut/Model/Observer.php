@@ -24,6 +24,16 @@
 class EcomDev_CheckItOut_Model_Observer
 {
     /**
+     * Retrieve module helper instance
+     *
+     * @return EcomDev_CheckItOut_Helper_Data
+     */
+    protected function _getHelper()
+    {
+        return Mage::helper('ecomdev_checkitout');
+    }
+
+    /**
      * Replaces prototype library with 1.7 one
      *
      */
@@ -48,7 +58,7 @@ class EcomDev_CheckItOut_Model_Observer
      */
     public function redirectShoppingCartToCheckout(Varien_Event_Observer $observer)
     {
-        if (Mage::helper('ecomdev_checkitout')->isShoppingCartRedirectEnabled()) {
+        if ($this->_getHelper()->isShoppingCartRedirectEnabled()) {
             $cart = Mage::getSingleton('checkout/cart');
             if ($cart->getQuote()->getItemsCount()) {
                 $cart->init();
@@ -73,4 +83,65 @@ class EcomDev_CheckItOut_Model_Observer
             }
         }
     }
+
+    /**
+     * Before save order activities (e.g. saving customer comment, default payment method)
+     *
+     * @param Varien_Event_Observer $observer
+     * @void
+     */
+    public function preDispatchSaveOrderAction(Varien_Event_Observer $observer)
+    {
+        if ($this->_getHelper()->isActive()) {
+            /* @var $controller Mage_Core_Controller_Front_Action */
+            $controller = $observer->getEvent()->getControllerAction();
+
+            $orderData = $controller->getRequest()->getPost('order');
+
+            if ($this->_getHelper()->isCustomerCommentAllowed()
+                && isset($orderData['customer_comment'])) {
+                Mage::getSingleton('ecomdev_checkitout/type_onepage')
+                    ->getQuote()
+                    ->setCustomerComment($orderData['customer_comment']);
+            }
+
+            if ($this->_getHelper()->isPaymentMethodHidden()) {
+                // Issue with not submitted form details if payment method is hidden
+                $post = $controller->getRequest()->getPost();
+                $post['payment']['method'] = $this->_getHelper()->getDefaultPaymentMethod();
+                $controller->getRequest()->setPost($post);
+            }
+
+        }
+    }
+
+    /**
+     * After save order activities (subscription to newsletter)
+     *
+     * @param Varien_Event_Observer $observer
+     * @void
+     */
+    public function postDispatchSaveOrderAction(Varien_Event_Observer $observer)
+    {
+        if ($this->_getHelper()->isActive()) {
+            /* @var $controller Mage_Core_Controller_Front_Action */
+            $controller = $observer->getEvent()->getControllerAction();
+
+            // If order is created and there is enabled subscription
+            if (Mage::getSingleton('ecomdev_checkitout/type_onepage')->getCheckout()->getLastOrderId()
+                && $this->_getHelper()->isNewsletterCheckboxDisplay()
+                && $controller->getRequest()->getPost('newsletter')) {
+                try {
+                    Mage::getModel('newsletter/subscriber')->subscribe(
+                        Mage::getSingleton('ecomdev_checkitout/type_onepage')->getQuote()->getCustomerEmail()
+                    );
+                } catch (Exception $e) {
+                    // Subscription shouldn't break checkout, so we just log exception
+                    Mage::logException($e);
+                }
+            }
+
+        }
+    }
+
 }

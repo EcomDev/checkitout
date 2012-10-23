@@ -47,28 +47,38 @@ class EcomDev_CheckItOut_Model_Type_Onepage
     }
 
     /**
+     * Returns helper instance
+     *
+     * @return EcomDev_CheckItOut_Helper_Data
+     */
+    protected function _getHelper()
+    {
+        return Mage::helper('ecomdev_checkitout');
+    }
+
+    /**
      * Initializes checkout object
      *
      * @return EcomDev_CheckItOut_Model_Type_Onepage
      */
     public function initCheckout()
     {
-        Mage::helper('ecomdev_checkitout')->resetDefaultAddress();
+        $this->_getHelper()->resetDefaultAddress();
         $this->_getDependency()->initCheckout();
 
         $recalculateTotals = false;
         if ($this->isLocationInfoEmpty($this->getQuote()->getBillingAddress())) {
             $this->getQuote()->getBillingAddress()->addData(
-                Mage::helper('ecomdev_checkitout')->getDefaultAddress()->getData()
+                $this->_getHelper()->getDefaultAddress()->getData()
             );
             $recalculateTotals = true;
         }
 
         if (!$this->getQuote()->isVirtual()
             && $this->isLocationInfoEmpty($this->getQuote()->getShippingAddress())
-            && Mage::helper('ecomdev_checkitout')->isShipmentSameByDefault()) {
+            && $this->_getHelper()->isShipmentSameByDefault()) {
             $this->getQuote()->getShippingAddress()->addData(
-                Mage::helper('ecomdev_checkitout')->getDefaultAddress()->getData() + array('same_as_billing' => 1)
+                $this->_getHelper()->getDefaultAddress()->getData() + array('same_as_billing' => 1)
             );
             $recalculateTotals = true;
         }
@@ -79,20 +89,20 @@ class EcomDev_CheckItOut_Model_Type_Onepage
 
         if (!$this->getQuote()->isVirtual()
             && !$this->getQuote()->getShippingAddress()->getShippingMethod()
-            && Mage::helper('ecomdev_checkitout')->getDefaultShippingMethod($this->getQuote())) {
+            && $this->_getHelper()->getDefaultShippingMethod($this->getQuote())) {
             $this->saveShippingMethod(
-                Mage::helper('ecomdev_checkitout')->getDefaultShippingMethod($this->getQuote())
+                $this->_getHelper()->getDefaultShippingMethod($this->getQuote())
             );
         }
 
-        if (Mage::helper('ecomdev_checkitout')->isPaymentMethodHidden()) {
+        if ($this->_getHelper()->isPaymentMethodHidden()) {
             $this->savePayment(array(
-                'method' => Mage::helper('ecomdev_checkitout')->getDefaultPaymentMethod($this->getQuote())
+                'method' => $this->_getHelper()->getDefaultPaymentMethod($this->getQuote())
             ));
             $this->recalculateTotals();
-        } elseif (Mage::helper('ecomdev_checkitout')->getDefaultPaymentMethod($this->getQuote())
+        } elseif ($this->_getHelper()->getDefaultPaymentMethod($this->getQuote())
             && !$this->getQuote()->getPayment()->getMethod()) {
-            $this->getQuote()->getPayment()->setMethod(Mage::helper('ecomdev_checkitout')->getDefaultPaymentMethod($this->getQuote()));
+            $this->getQuote()->getPayment()->setMethod($this->_getHelper()->getDefaultPaymentMethod($this->getQuote()));
         }
 
         return $this;
@@ -107,10 +117,10 @@ class EcomDev_CheckItOut_Model_Type_Onepage
     public function saveCouponCode($couponCode)
     {
         $oldCouponeCode = $this->getQuote()->getCouponCode();
-        if (!is_null($couponCode) && $oldCouponeCode === $couponCode) {
+        if ($oldCouponeCode === $couponCode) {
             return array(
                 'error' => true,
-                'message' => Mage::helper('ecomdev_checkitout')->__('The coupon code is already applied.'),
+                'message' => $this->_getHelper()->__('The coupon code is already applied.'),
                 'field' => 'coupon'
             );
         }
@@ -120,7 +130,7 @@ class EcomDev_CheckItOut_Model_Type_Onepage
             && $this->getQuote()->getCouponCode() !== $couponCode) {
             return array(
                 'error' => true,
-                'message' => Mage::helper('ecomdev_checkitout')->__('The coupon code is invalid.'),
+                'message' => $this->_getHelper()->__('The coupon code is invalid.'),
                 'field' => 'coupon'
             );
         }
@@ -148,7 +158,7 @@ class EcomDev_CheckItOut_Model_Type_Onepage
             if ($customer->getId()) {
                 $result = array(
                     'error' => 1,
-                    'message' => Mage::helper('ecomdev_checkitout')->__('You are already registered with this email address, please %s.', $loginAction),
+                    'message' => $this->_getHelper()->__('You are already registered with this email address, please %s.', $loginAction),
                     'field' => 'email'
                 );
             }
@@ -177,7 +187,7 @@ class EcomDev_CheckItOut_Model_Type_Onepage
         if (!$this->getQuote()->isVirtual() && !empty($data['use_for_shipping'])
             && !$this->getQuote()->getShippingAddress()->getShippingMethod()) {
             $this->getQuote()->getShippingAddress()->setShippingMethod(
-                Mage::helper('ecomdev_checkitout')->getDefaultShippingMethod($this->getQuote())
+                $this->_getHelper()->getDefaultShippingMethod($this->getQuote())
             );
             $this->recalculateTotals();
         }
@@ -207,7 +217,7 @@ class EcomDev_CheckItOut_Model_Type_Onepage
 
         if (!$this->getQuote()->getShippingAddress()->getShippingMethod()) {
             $this->getQuote()->getShippingAddress()->setShippingMethod(
-                Mage::helper('ecomdev_checkitout')->getDefaultShippingMethod($this->getQuote())
+                $this->_getHelper()->getDefaultShippingMethod($this->getQuote())
             );
             $this->recalculateTotals();
         }
