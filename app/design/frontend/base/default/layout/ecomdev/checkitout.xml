@@ -142,7 +142,8 @@
         <action method="removeClassName" block="checkout.layout.address"><class>container-address</class></action>
         <action method="addClassNameForStepCount" block="checkout.layout.address"><class>one</class><count>1</count></action>
         <action method="addClassNameForStepCount" block="checkout.layout.address"><class>two</class><count>2</count></action>
-        <action method="addClassName" block="checkout.layout.shipping"><class>max-height</class></action>
+        <action method="
+        " block="checkout.layout.shipping"><class>max-height</class></action>
         <action method="setUsePositionCode" block="checkout.layout.address"><flag>1</flag></action>
         <action method="addClassName" block="checkout.layout.methods"><class>max-height</class></action>
         <action method="unsetData" block="checkout.layout.billing"><code>step_number</code></action>

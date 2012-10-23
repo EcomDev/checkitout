@@ -925,16 +925,16 @@ EcomDev.CheckItOut.Step = Class.create({
      * @return void
      */
     submit: function () {
-        if (this.isLoading()) {
-            return;
-        }
-        
         if (this.timeout) {
             clearInterval(this.timeout);
             this.timeout = undefined;
             this.isChangeTimeout(false);
         }
-        
+
+        if (this.isLoading()) {
+            return;
+        }
+
         if (!this.autoValidate || this.isValid(false) || this.autoSubmitInvalid) {
             this.lastHash = false;
             this.isLoading(true);
@@ -2481,6 +2481,9 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
         this.updateContent(response.responseText);
         this.agreementsForm = $(this.agreementsFormId);
         this.isLoading(false);
+        if (this.checkout) {
+            this.checkout.notifyLoading();
+        }
     },
     /**
      * Updates content of the step
