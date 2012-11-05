@@ -475,6 +475,12 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
                     ->removeItem($quoteItem->getId());
                 $this->_recalculateTotals();
                 $result['success'] = true;
+                /**
+                 * When cart is ampty - redirect to empty cart page
+                 */
+                if(!$this->getOnepage()->getQuote()->getItemsCount()){
+                    $result['redirect'] = Mage::helper('checkout/cart')->getCartUrl();
+                }
             } catch (Mage_Core_Exception $e) {
                 $result['error'] = $e->getMessage();
             } catch (Exception $e) {

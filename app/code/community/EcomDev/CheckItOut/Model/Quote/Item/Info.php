@@ -32,7 +32,7 @@ class EcomDev_CheckItOut_Model_Quote_Item_Info
     {
         $info = array();
         $info['item_id'] = $item->getId();
-        $info['allow_remove'] = !$item->isNominal() && count($item->getQuote()->getAllVisibleItems()) > 1;
+        $info['allow_remove'] = !$item->isNominal();
         $info['allow_change_qty'] = !$item->isNominal();
         $info['qty'] = $item->getQty();
         return $info;
