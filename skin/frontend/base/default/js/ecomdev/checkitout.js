@@ -2772,6 +2772,11 @@ var RemoveItem = Class.create(ItemAction, {
      * @return void
      */
     handleComplete: function ($super, response) {
+        var result = response.responseText.evalJSON();
+        if(typeof(result.redirect) != "undefined"){
+            window.location.href = result.redirect;
+            return;
+        }
         $super(response);
         if (this.checkout.getStep('shipping_method')) {
             this.checkout.getStep('shipping_method').additionalLoad();
