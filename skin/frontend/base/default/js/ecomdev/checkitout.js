@@ -851,18 +851,21 @@ EcomDev.CheckItOut.Step = Class.create({
              .map(this.elementValidator).all();
     },
     /**
-     * Validates element value without showing advice of object was not changed
+     * Validates element value without showing advice of object if it was not changed
      * 
      * @return Boolean
      */
     validateElement: function (elm) {
         var classNames = $w(elm.className);
         if (elm.wasChanged) {
-            Validation.validate(elm);
+            Validation.isOnChange = true;
+            var result = Validation.validate(elm);
+            Validation.isOnChange = false;
+            return result;
         }
-        return classNames.all(function(value) {
-            var test = !Validation.isVisible(elm) || Validation.test(value, elm, false);
-            return test;
+        return classNames.all(function(className) {
+            var validatorFunction = Validation.get(className);
+            return !Validation.isVisible(elm) || validatorFunction.test(elm.value, elm);
         });
     },
     /**
@@ -905,7 +908,9 @@ EcomDev.CheckItOut.Step = Class.create({
             element.wasChanged = true;
             
             if (this.autoValidate && ['change', 'click'].indexOf(evt.type) !== -1) {
-                Validation.validate.defer(element);
+                Validation.isOnChange = true;
+                Validation.validate(element);
+                Validation.isOnChange = false;
             }
         }
         

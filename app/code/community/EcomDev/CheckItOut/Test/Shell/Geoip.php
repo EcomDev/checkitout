@@ -1,6 +1,7 @@
 <?php
 
-class EcomDev_CheckItOut_Test_Shell_Geoip extends EcomDev_PHPUnit_Test_Case
+
+class EcomDev_CheckItOut_Test_Shell_Geoip // extends EcomDev_PHPUnit_Test_Case Disabling from treat as test
 {
     /**
      * CheckItOut shell object

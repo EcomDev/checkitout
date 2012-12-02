@@ -15,17 +15,20 @@
  * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
  */
 
-// Ebizmarts SagePay Suite compatibility
-if (typeof window.EbizmartsSagePaySuite !== 'undefined') {
-    Event.observe(window, 'load', function () {
-        checkout.config.save = review.saveUrl;
+// Compatibility with payment methods that have onSave method
+Event.observe(window, 'load', function () {
+    if (window.review && Object.isFunction(review.onSave)) {
+        if (checkout.config.save !== review.saveUrl) {
+            checkout.config.save = review.saveUrl;
+        }
+
         review.nextStep = checkout.submitComplete;
         checkout.submitComplete = function (response) {
             checkout.hideMask();
             review.onSave(response);
         };
-    });
-}
+    }
+});
 
 // Change prototype scripts eval scope to global 
 String.prototype.evalScripts = function () {

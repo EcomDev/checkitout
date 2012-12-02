@@ -98,22 +98,31 @@
                     </ecomdev_checkitout>
                 </observers>
             </controller_action_predispatch_checkout_cart_index>
-            <controller_action_predispatch_checkout_onepage_saveorder>
+            <controller_action_predispatch_checkout_onepage_saveOrder>
                 <observers>
                     <ecomdev_checkitout>
                         <model>ecomdev_checkitout/observer</model>
                         <method>preDispatchSaveOrderAction</method>
                     </ecomdev_checkitout>
                 </observers>
-            </controller_action_predispatch_checkout_onepage_saveorder>
-            <controller_action_postdispatch_checkout_onepage_saveorder>
+            </controller_action_predispatch_checkout_onepage_saveOrder>
+            <checkout_onepage_controller_success_action>
                 <observers>
                     <ecomdev_checkitout>
                         <model>ecomdev_checkitout/observer</model>
-                        <method>postDispatchSaveOrderAction</method>
+                        <method>orderSuccessAction</method>
                     </ecomdev_checkitout>
                 </observers>
-            </controller_action_postdispatch_checkout_onepage_saveorder>
+            </checkout_onepage_controller_success_action>
+            <!-- SagePay Suite Compatibility Events -->
+            <controller_action_predispatch_sagepaysuite_payment_onepageSaveOrder>
+                <observers>
+                    <ecomdev_checkitout>
+                        <model>ecomdev_checkitout/observer</model>
+                        <method>preDispatchSaveOrderAction</method>
+                    </ecomdev_checkitout>
+                </observers>
+            </controller_action_predispatch_sagepaysuite_payment_onepageSaveOrder>
         </events>
         <layout>
             <updates>

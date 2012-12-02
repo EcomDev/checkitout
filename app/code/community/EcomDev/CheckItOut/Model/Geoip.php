@@ -231,7 +231,7 @@ class EcomDev_CheckItOut_Model_Geoip extends Mage_Core_Model_Abstract
         while (false !== ($csvLine = $io->streamReadCsv())) {
             $rowCount++;
             if (empty($csvLine) || count($csvLine) < $length) {
-                $this->_log(sprintf('Skipping row #%d because of not enough column count', $row));
+                $this->_log(sprintf('Skipping row #%d because of not enough column count', $rowCount));
                 continue;
             }
 
