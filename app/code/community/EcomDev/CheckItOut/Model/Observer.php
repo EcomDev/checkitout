@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CheckItOut extension
  *
@@ -23,6 +24,7 @@
  */
 class EcomDev_CheckItOut_Model_Observer
 {
+
     /**
      * Retrieve module helper instance
      *
@@ -72,13 +74,11 @@ class EcomDev_CheckItOut_Model_Observer
                 /* @var $controller Mage_Core_Controller_Front_Action */
                 $controller = $observer->getEvent()->getControllerAction();
                 $controller->setFlag(
-                    '',
-                    Mage_Core_Controller_Front_Action::FLAG_NO_DISPATCH,
-                    '1'
+                        '', Mage_Core_Controller_Front_Action::FLAG_NO_DISPATCH, '1'
                 );
                 $controller->getRequest()->setDispatched(true);
                 $controller->getResponse()->setRedirect(
-                    Mage::getUrl('checkout/onepage/')
+                        Mage::getUrl('checkout/onepage/')
                 );
             }
         }
@@ -99,10 +99,10 @@ class EcomDev_CheckItOut_Model_Observer
             $orderData = $controller->getRequest()->getPost('order');
 
             if ($this->_getHelper()->isCustomerCommentAllowed()
-                && isset($orderData['customer_comment'])) {
+                    && isset($orderData['customer_comment'])) {
                 Mage::getSingleton('ecomdev_checkitout/type_onepage')
-                    ->getQuote()
-                    ->setCustomerComment($orderData['customer_comment']);
+                        ->getQuote()
+                        ->setCustomerComment($orderData['customer_comment']);
             }
 
             if ($this->_getHelper()->isPaymentMethodHidden()) {
@@ -114,10 +114,10 @@ class EcomDev_CheckItOut_Model_Observer
 
             if ($controller->getRequest()->getPost('newsletter')) {
                 Mage::getSingleton('checkout/session')
-                    ->setNewsletterSubsribed(true)
-                    ->setNewsletterEmail(
-                        Mage::getSingleton('ecomdev_checkitout/type_onepage')->getQuote()->getCustomerEmail()
-                    );
+                        ->setNewsletterSubsribed(true)
+                        ->setNewsletterEmail(
+                                Mage::getSingleton('ecomdev_checkitout/type_onepage')->getQuote()->getCustomerEmail()
+                );
             }
         }
     }
@@ -132,10 +132,10 @@ class EcomDev_CheckItOut_Model_Observer
     {
         if ($this->_getHelper()->isActive()) {
             if ($this->_getHelper()->isNewsletterCheckboxDisplay()
-                && Mage::getSingleton('checkout/session')->getNewsletterSubsribed(true)) {
+                    && Mage::getSingleton('checkout/session')->getNewsletterSubsribed(true)) {
                 try {
                     Mage::getModel('newsletter/subscriber')->subscribe(
-                        Mage::getSingleton('checkout/session')->getNewsletterEmail(true)
+                            Mage::getSingleton('checkout/session')->getNewsletterEmail(true)
                     );
                 } catch (Exception $e) {
                     // Subscription shouldn't break checkout, so we just log exception
@@ -144,4 +144,15 @@ class EcomDev_CheckItOut_Model_Observer
             }
         }
     }
+
+    /**
+     * reset checkout sesstion when product added to card
+     * 
+     * @param Varien_Event_Observer $observer
+     */
+    public function cardAddComplete()
+    {
+        Mage::getSingleton('checkout/cart')->init();
+    }
+
 }
