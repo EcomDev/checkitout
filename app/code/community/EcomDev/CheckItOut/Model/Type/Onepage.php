@@ -158,7 +158,8 @@ class EcomDev_CheckItOut_Model_Type_Onepage
             if ($customer->getId()) {
                 $result = array(
                     'error' => 1,
-                    'message' => $this->_getHelper()->__('You are already registered with this email address, please %s.', $loginAction),
+                    'message' => $this->_getHelper()
+                        ->__('You are already registered with this email address, please %s.', $loginAction),
                     'field' => 'email'
                 );
             }

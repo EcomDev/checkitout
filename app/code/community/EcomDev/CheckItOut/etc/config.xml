@@ -123,6 +123,14 @@
                     </ecomdev_checkitout>
                 </observers>
             </controller_action_predispatch_sagepaysuite_payment_onepageSaveOrder>
+            <checkout_cart_add_product_complete>
+                 <observers>
+                    <ecomdev_checkitout>
+                        <model>ecomdev_checkitout/observer</model>
+                        <method>cardAddComplete</method>
+                    </ecomdev_checkitout>
+                </observers>
+            </checkout_cart_add_product_complete>
         </events>
         <layout>
             <updates>
