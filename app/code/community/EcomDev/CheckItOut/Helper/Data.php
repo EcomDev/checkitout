@@ -166,7 +166,7 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isNewsletterCheckboxDisplay()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_NEWSLETTER_CHECKBOX);
+        return Mage::getStoreConfigFlag(self::XML_PATH_NEWSLETTER_CHECKBOX) && !$this->isCustomerSubscribedToNewsletter();
     }
 
     /**
@@ -177,6 +177,37 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
     public function isNewsletterCheckboxChecked()
     {
         return Mage::getStoreConfigFlag(self::XML_PATH_NEWSLETTER_CHECKBOX_CHECKED);
+    }
+
+    /**
+     * Checks that customer already subscribed to the newsletter
+     *
+     * @return boolean
+     */
+    public function isCustomerSubscribedToNewsletter()
+    {
+        // Non logged in cannot be checked
+        if (!Mage::helper('customer')->isLoggedIn()) {
+            return false;
+        }
+
+        /* @var $customer Mage_Customer_Model_Customer */
+        $customer = Mage::helper('customer')->getCustomer();
+
+        /* @var $subscriber Mage_Newsletter_Model_Subscriber */
+        // Cache subscriber into customer instance
+        if (!$customer->hasData('subscriber_model')) {
+            $subscriber = Mage::getModel('newsletter/subscriber');
+            $customer->setData('subscriber_model', $subscriber);
+            // Prevent auto-subscription
+            $subscriber->setCustomerId($customer->getId());
+            $subscriber->loadByCustomer($customer);
+        } else {
+            $subscriber = $customer->getData('subscriber_model');
+        }
+
+
+        return $subscriber->isSubscribed();
     }
 
     /**

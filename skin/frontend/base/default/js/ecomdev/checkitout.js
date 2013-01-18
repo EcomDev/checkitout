@@ -2432,11 +2432,19 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
     updateItems: function (itemsInfo) {
         this.itemsInfo = itemsInfo;
         if (this.changeQtyTemplate) {
-            new ChangeItemQty(this, this.changeQtyTemplate, this.changeQtyUrl);
+            if (!this.changeQty) {
+                this.changeQty = new ChangeItemQty(this, this.changeQtyTemplate, this.changeQtyUrl);
+            } else {
+                this.changeQty.update();
+            }
         }
         
         if (this.removeTemplate) {
-            new RemoveItem(this, this.removeTemplate, this.removeUrl);
+            if (!this.remove) {
+                this.remove = new RemoveItem(this, this.removeTemplate, this.removeUrl);
+            } else {
+                this.remove.update();
+            }
         }
     },
     /**
@@ -2552,6 +2560,9 @@ var ItemAction = Class.create({
         this.onActionDelay = this.handleActionDelay.bind(this);
         this.onComplete = this.handleComplete.bind(this);
         this.checkout = this.reviewStep.checkout;
+        this.update();
+    },
+    update: function () {
         this.table = this.reviewStep.container.down('.data-table');
         this.initializeLayout();
     },
@@ -2562,7 +2573,16 @@ var ItemAction = Class.create({
      * @return void
      */
     handleActionDelay: function (evt) {
-        this.onAction.delay(0.5, evt);
+        if (this.currentElement !== Event.element(evt)) {
+            this.currentElement = Event.element(evt);
+        } else if (this.timeout) {
+            clearTimeout(this.timeout);
+        }
+
+        this.timeout = setTimeout(
+            this.handleAction.bind(this, evt),
+            1000
+        );
     },
     /**
      * Finds row element of item in the table 
@@ -2607,7 +2627,16 @@ var ItemAction = Class.create({
             this.checkout.onlyHashed = false;
         } else {
             alert(result.error);
+            this.reset();
         }
+    },
+    reset: Prototype.K,
+    requestChecksum: function (parameters) {
+        if (Object.isString(parameters)) {
+            return parameters;
+        }
+
+        return Object.toJSON(parameters);
     },
     /**
      * Performs update request for saving item action
@@ -2616,6 +2645,11 @@ var ItemAction = Class.create({
      * @return void
      */
     ajaxRequest: function (parameters) {
+        if (this.checksum && this.requestChecksum(parameters) == this.checksum) {
+            return;
+        }
+
+        this.checksum = this.requestChecksum(parameters);
         new Ajax.Request(this.url, {
             parameters: parameters,
             onComplete: this.onComplete,
@@ -2644,7 +2678,8 @@ var ChangeItemQty = Class.create(ItemAction, {
         }
         var html = this.template.evaluate(row.info);
         var element = row.down('td.a-center').update('').insert(html);
-        var input = element.down('input'); 
+        var input = element.down('input');
+        row.input = input;
         input.value = row.info.qty;
         input.observe('keyup', this.onActionDelay);
         input.observe('change', this.onAction);
@@ -2659,14 +2694,20 @@ var ChangeItemQty = Class.create(ItemAction, {
     handleAction: function (evt) {
         if (!this.validateValue(evt, true)) {
             return;
-        } 
+        }
         var row = this.findRow(evt); 
         var input = row.down('input.qty');
-        
+        this.currentRow = row;
         this.ajaxRequest({
             item_id: row.info.item_id, 
             qty: input.value
         });
+    },
+    reset: function () {
+        if (this.currentRow) {
+            var input = this.currentRow.down('input.qty');
+            input.value = this.currentRow.info.qty;
+        }
     },
     /**
      * Validates value for matching decimal in qty field.
@@ -2719,18 +2760,23 @@ var RemoveItem = Class.create(ItemAction, {
      */
     initializeRow: function (row) {
         if (!row.info.allow_remove) {
-           if (this.initedHeaders) {
+           if (this.isInitedHead()) {
                row.insert(new Element('td', {'class':'a-center'})).update('&nbsp;');
            }
            return;
         }
-        this.initHeaders();
-        var html = this.template.evaluate(row.info);
-        var td = new Element('td', {'class':'a-center'});
-        td.update(html);
-        var element = row.insert(td);
-        var link = element.down('a'); 
-        link.observe('click', this.onAction);
+        if (!row.down('.remove-qty')) {
+            this.initHeaders();
+            var html = this.template.evaluate(row.info);
+            var td = new Element('td', {'class':'a-center remove-qty'});
+            td.update(html);
+            var element = row.insert(td);
+            var link = element.down('a');
+            link.observe('click', this.onAction);
+        }
+    },
+    isInitedHead: function () {
+        return !!this.table.down('thead tr th.remove-item-head');
     },
     /**
      * Adds additional header for product table on review step 
@@ -2739,14 +2785,13 @@ var RemoveItem = Class.create(ItemAction, {
      * @return void
      */
     initHeaders: function () {
-        if (!this.initedHeaders) {
-            this.initedHeaders = true;
+        if (!this.isInitedHead()) {
             if (this.table.down('colgroup')) {
                 this.table.down('colgroup').insert(new Element('col', {width: '1'}));
             }
             var headers = this.table.select('thead tr');
             var rowSpan = headers.length;
-            headers.first().insert(new Element('th', {rowspan: rowSpan}).update('&nbsp;'));
+            headers.first().insert(new Element('th', {rowspan: rowSpan, 'class': 'remove-item-head'}).update('&nbsp;'));
             var totals = this.table.select('tfoot tr');
             for (var i = 0, l = totals.length; i < l; i ++) {
                 totals[i].insert(new Element('td').update('&nbsp;'));
