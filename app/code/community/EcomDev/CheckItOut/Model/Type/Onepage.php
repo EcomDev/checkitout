@@ -21,11 +21,31 @@
  *
  * @extends Mage_Checkout_Model_Type_Onepage
  * @method Mage_Sales_Model_Quote getQuote()
+ * @method Mage_Checkout_Model_Session getCheckout()
  */
 class EcomDev_CheckItOut_Model_Type_Onepage
 {
-
     protected $_dependency = null;
+
+    /**
+     * Dispatches event for checkout method
+     *
+     * @param string $method
+     * @param string $suffix
+     * @param array  $eventArgs
+     * @return EcomDev_CheckItOut_Model_Type_Onepage
+     */
+    protected function dispatchEvent($method, $suffix, $eventArgs = array())
+    {
+        $eventArgs['onepage'] = $this;
+        $eventArgs['quote'] = $this->getQuote();
+        if (strtolower($method) !== $method) {
+            // Uncamelize method name
+            $method = strtolower(preg_replace('/[A-Z]/', '_\\0', $method));
+        }
+        Mage::dispatchEvent('ecomdev_checkitout_' . $method . '_' . $suffix, $eventArgs);
+        return $this;
+    }
 
     /**
      * Checks if address location info is empty,
@@ -36,14 +56,29 @@ class EcomDev_CheckItOut_Model_Type_Onepage
      */
     public function isLocationInfoEmpty($address)
     {
+        $response = new Varien_Object(
+            array('is_empty' => true)
+        );
+
+        $this->dispatchEvent(__FUNCTION__, 'before', array(
+            'address' => $address,
+            'response' => $response
+        ));
+
         foreach (array('postcode', 'street', 'city',
                      'country_id', 'region_id') as $attribute) {
             if ($address->getData($attribute)) {
-                return false;
+                $response->setIsEmpty(false);
+                break;
             }
         }
 
-        return true;
+        $this->dispatchEvent(__FUNCTION__, 'after', array(
+            'address' => $address,
+            'response' => $response
+        ));
+
+        return $response->getIsEmpty();
     }
 
     /**
@@ -63,6 +98,7 @@ class EcomDev_CheckItOut_Model_Type_Onepage
      */
     public function initCheckout()
     {
+        $this->dispatchEvent(__FUNCTION__, 'before');
         $this->_getHelper()->resetDefaultAddress();
         $this->_getDependency()->initCheckout();
 
@@ -84,7 +120,7 @@ class EcomDev_CheckItOut_Model_Type_Onepage
         }
 
         if ($recalculateTotals) {
-            $this->recalculateTotals();
+            $this->recalculateTotals(true);
         }
 
         if (!$this->getQuote()->isVirtual()
@@ -99,11 +135,13 @@ class EcomDev_CheckItOut_Model_Type_Onepage
             $this->savePayment(array(
                 'method' => $this->_getHelper()->getDefaultPaymentMethod($this->getQuote())
             ));
-            $this->recalculateTotals();
+            $this->recalculateTotals(true);
         } elseif ($this->_getHelper()->getDefaultPaymentMethod($this->getQuote())
             && !$this->getQuote()->getPayment()->getMethod()) {
             $this->getQuote()->getPayment()->setMethod($this->_getHelper()->getDefaultPaymentMethod($this->getQuote()));
         }
+
+        $this->dispatchEvent(__FUNCTION__, 'after');
 
         return $this;
     }
@@ -116,26 +154,43 @@ class EcomDev_CheckItOut_Model_Type_Onepage
      */
     public function saveCouponCode($couponCode)
     {
+        $response = new Varien_Object();
+        $this->dispatchEvent(__FUNCTION__, 'before', array(
+            'response' => $response,
+            'coupon_code' => $couponCode
+        ));
+
         $oldCouponeCode = $this->getQuote()->getCouponCode();
         if ($oldCouponeCode === $couponCode) {
-            return array(
+            $response->addData(array(
                 'error' => true,
                 'message' => $this->_getHelper()->__('The coupon code is already applied.'),
                 'field' => 'coupon'
-            );
-        }
-        $this->getQuote()->setCouponCode($couponCode);
-        $this->recalculateTotals();
-        if ($couponCode !== null
-            && $this->getQuote()->getCouponCode() !== $couponCode) {
-            return array(
-                'error' => true,
-                'message' => $this->_getHelper()->__('The coupon code is invalid.'),
-                'field' => 'coupon'
-            );
+            ));
         }
 
-        return array('success' => true, 'coupon' => $this->getQuote()->getCouponCode());
+        if (!$response->getError()) {
+            $this->getQuote()->setCouponCode($couponCode);
+            $this->recalculateTotals();
+            if ($couponCode !== null
+                && $this->getQuote()->getCouponCode() !== $couponCode) {
+                $response->addData(array(
+                    'error' => true,
+                    'message' => $this->_getHelper()->__('The coupon code is invalid.'),
+                    'field' => 'coupon'
+                ));
+            } else {
+                $response->addData(
+                    array(
+                        'success' => true,
+                        'coupon' => $this->getQuote()->getCouponCode()
+                    )
+                );
+            }
+        }
+
+        $this->dispatchEvent(__FUNCTION__, 'after', array('response' => $response));
+        return $response->getData();
     }
 
     /**
@@ -147,6 +202,14 @@ class EcomDev_CheckItOut_Model_Type_Onepage
      */
     public function saveBilling($data, $customerAddressId)
     {
+        $response = new Varien_Object();
+        $this->dispatchEvent(__FUNCTION__, 'before', array(
+            'response' => $response,
+            'address_data' => $data,
+            'address' => $this->getQuote()->getBillingAddress(),
+            'customer_address_id' => $customerAddressId
+        ));
+
         $result = $this->_getDependency()->saveBilling($data, $customerAddressId);
 
         if (!$this->getQuote()->getCustomerId()
@@ -162,9 +225,13 @@ class EcomDev_CheckItOut_Model_Type_Onepage
                         ->__('You are already registered with this email address, please %s.', $loginAction),
                     'field' => 'email'
                 );
+            } elseif (isset($result['error'])) {
+                $this->getQuote()->getBillingAddress()
+                    ->setEmail($data['email']);
             }
         }
 
+        $recalculateTotals = false;
         if (isset($result['error'])) {
             $this->getQuote()->getBillingAddress()
                 ->addData($this->_filterAddressData($data))
@@ -182,7 +249,7 @@ class EcomDev_CheckItOut_Model_Type_Onepage
                     ->setShippingMethod($shippingMethod);
             }
 
-            $this->recalculateTotals();
+            $recalculateTotals = true;
         }
 
         if (!$this->getQuote()->isVirtual() && !empty($data['use_for_shipping'])
@@ -190,10 +257,21 @@ class EcomDev_CheckItOut_Model_Type_Onepage
             $this->getQuote()->getShippingAddress()->setShippingMethod(
                 $this->_getHelper()->getDefaultShippingMethod($this->getQuote())
             );
-            $this->recalculateTotals();
+            $recalculateTotals = true;
         }
 
-        return $result;
+        if ($recalculateTotals) {
+            $this->recalculateTotals(true);
+        }
+
+        $response->addData($result);
+
+        $this->dispatchEvent(__FUNCTION__, 'after', array(
+            'response' => $response,
+            'address' => $this->getQuote()->getBillingAddress()
+        ));
+
+        return $response->getData();
     }
 
     /**
@@ -205,34 +283,57 @@ class EcomDev_CheckItOut_Model_Type_Onepage
      */
     public function saveShipping($data, $customerAddressId)
     {
+        $response = new Varien_Object();
+        $this->dispatchEvent(__FUNCTION__, 'before', array(
+            'response' => $response,
+            'address_data' => $data,
+            'address' => $this->getQuote()->getShippingAddress(),
+            'customer_address_id' => $customerAddressId
+        ));
+
         $result = $this->_getDependency()->saveShipping($data, $customerAddressId);
 
+        $recalculateTotals = false;
         if (isset($result['error'])) {
             $this->getQuote()
                 ->getShippingAddress()
                 ->addData($this->_filterAddressData($data))
                 ->implodeStreetAddress();
 
-            $this->recalculateTotals();
+            $recalculateTotals = true;
         }
 
         if (!$this->getQuote()->getShippingAddress()->getShippingMethod()) {
             $this->getQuote()->getShippingAddress()->setShippingMethod(
                 $this->_getHelper()->getDefaultShippingMethod($this->getQuote())
             );
-            $this->recalculateTotals();
+            $recalculateTotals = true;
+
         }
 
-        return $result;
+        if ($recalculateTotals) {
+            $this->recalculateTotals(true);
+        }
+
+        $response->addData($result);
+
+        $this->dispatchEvent(__FUNCTION__, 'after', array(
+            'response' => $response,
+            'address' => $this->getQuote()->getShippingAddress()
+        ));
+
+        return $response->getData();
     }
 
     /**
      * Recalculates totals for checkout object
-     * s
+     *
+     * @param bool $reload
      * @return EcomDev_CheckItOut_Model_Type_Onepage
      */
-    public function recalculateTotals()
+    public function recalculateTotals($reload = false)
     {
+        $this->dispatchEvent(__FUNCTION__, 'before');
         if (!$this->getQuote()->isVirtual()) {
             $this->getQuote()
                 ->getShippingAddress()->setCollectShippingRates(true);
@@ -241,6 +342,17 @@ class EcomDev_CheckItOut_Model_Type_Onepage
         $this->getQuote()->setTotalsCollectedFlag(false);
         $this->getQuote()->collectTotals();
         $this->getQuote()->save();
+
+        if ($reload) {
+            // Reload quote to get rid of possible zero totals
+            $newQuote = Mage::getModel('sales/quote')->load($this->getQuote()->getId());
+            $this->getCheckout()->replaceQuote($newQuote);
+            if ($this->getQuote() !== $this->getCheckout()->getQuote()) {
+                $this->setQuote($this->getCheckout()->getQuote());
+            }
+        }
+
+        $this->dispatchEvent(__FUNCTION__, 'after');
         return $this;
     }
 

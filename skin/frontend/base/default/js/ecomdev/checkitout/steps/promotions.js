@@ -10,13 +10,13 @@
  *
  * @category   EcomDev
  * @package    EcomDev_CheckItOut
- * @copyright  Copyright (c) 2012 EcomDev BV (http://www.ecomdev.org)
+ * @copyright  Copyright (c) 2013 EcomDev BV (http://www.ecomdev.org)
  * @license    http://www.ecomdev.org/license-agreement  End User License Agreement for EcomDev Premium Extensions.
  * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
  */
 
 /**
- * Promotino code abstract step class
+ * Promotion code abstract step class
  *
  * @type EcomDev.CheckItOut.Step
  */
@@ -190,6 +190,12 @@ window.CouponCode = Class.create(EcomDev.CheckItOut.Step.PromotionCode, {
 
         this.couponField.value = this.coupon || '';
     },
+    /**
+     * Resets validation of coupon field
+     *
+     * @param result
+     * @param response
+     */
     submitCompleteCallback: function(result, response) {
         Validation.reset(this.couponField);
 

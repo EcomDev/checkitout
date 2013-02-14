@@ -23,9 +23,69 @@
         <update handle="page_one_column" />
         
         <reference name="head">
-            <action method="addItem"><type>skin_js</type><file>js/ecomdev/checkitout.js</file></action>
-            <action method="addItem"><type>skin_js</type><file>js/ecomdev/checkitout/coupon.js</file></action>
-            <action method="addItem"><type>skin_js</type><file>js/ecomdev/checkitout/compatibility.js</file></action>
+            <block type="ecomdev_checkitout/js_loader" name="checkitout.js">
+                <!-- including base checkout class -->
+                <action method="add">
+                    <file>js/ecomdev/checkitout/checkout.js</file>
+                </action>
+                <!-- including checkout utilities -->
+                <action method="add">
+                    <file>js/ecomdev/checkitout/utils.js</file>
+                </action>
+                <!-- including base checkout step class -->
+                <action method="add">
+                    <file>js/ecomdev/checkitout/steps/base.js</file>
+                </action>
+                <!-- including login step only if non-logged in customer -->
+                <action method="add">
+                    <file>js/ecomdev/checkitout/steps/login.js</file>
+                    <condition helper="customer/isLoggedIn"/>
+                    <negative>1</negative>
+                </action>
+                <!-- including address steps -->
+                <action method="add">
+                    <file>js/ecomdev/checkitout/steps/address.js</file>
+                </action>
+                <!-- including shipping method step if it is not hidden -->
+                <action method="add">
+                    <file>js/ecomdev/checkitout/steps/shipping.js</file>
+                    <condition helper="ecomdev_checkitout/isShippingMethodHidden" />
+                    <negative>1</negative>
+                </action>
+                <!-- including payment method step if it is not hidden -->
+                <action method="add">
+                    <file>js/ecomdev/checkitout/steps/payment.js</file>
+                    <condition helper="ecomdev_checkitout/isPaymentMethodHidden" />
+                    <negative>1</negative>
+                </action>
+                <!-- including promotions method step if it is enabled -->
+                <action method="add">
+                    <file>js/ecomdev/checkitout/steps/promotions.js</file>
+                    <condition helper="ecomdev_checkitout/isCouponEnabled" />
+                </action>
+                <!-- including review method step -->
+                <action method="add">
+                    <file>js/ecomdev/checkitout/steps/review.js</file>
+                </action>
+                <!-- including review actions -->
+                <action method="add">
+                    <file>js/ecomdev/checkitout/steps/review/actions.js</file>
+                </action>
+                <!-- including confirmation window step if it is enabled -->
+                <action method="add">
+                    <file>js/ecomdev/checkitout/steps/confirm.js</file>
+                    <condition helper="ecomdev_checkitout/isConfirmPopUp" />
+                </action>
+                <!-- including global compatibility scripts, like evals, some global payment methods compatibilities -->
+                <action method="add">
+                    <file>js/ecomdev/checkitout/compatibility/global.js</file>
+                </action>
+                <!-- including authorize.net direct post payment method compatibility if it is enabled -->
+                <action method="add" ifconfig="payment/authorizenet_directpost/active">
+                    <file>js/ecomdev/checkitout/compatibility/directpost.js</file>
+                </action>
+            </block>
+            <!-- includes css files based on current step -->
             <block type="ecomdev_checkitout/css" name="checkitout.css" />
         </reference>
         

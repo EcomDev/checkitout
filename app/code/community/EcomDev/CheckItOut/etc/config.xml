@@ -287,6 +287,17 @@
                         </by_version_enterprise>
                     </v15>
                 </code>
+                <js>
+                    <v17>
+                        <by_version>
+                            <minVersion>1.7.0</minVersion>
+                        </by_version>
+                        <by_version_enterprise>
+                            <enterprise>1</enterprise>
+                            <minVersion>1.12.0</minVersion>
+                        </by_version_enterprise>
+                    </v17>
+                </js>
             </compatibility>
             <!-- Hashing defintions for different steps in checkout
                  Created to minimize number of AJAX requests during checkout -->

@@ -45,7 +45,10 @@ class EcomDev_CheckItOut_Model_Observer
         $head = Mage::app()->getLayout()->getBlock('head');
         $headItems = $head->getData('items');
 
-        if (isset($headItems['js/prototype/prototype.js'])) {
+        // Replace library only if it is included and only if Magento version is lower than 1.7
+        if (isset($headItems['js/prototype/prototype.js'])
+            && !$this->_getHelper()
+                    ->getCompatibilityMode(EcomDev_CheckItOut_Helper_Data::COMPATIBILITY_TYPE_JS)) {
             $headItems['js/prototype/prototype.js']['name'] = 'ecomdev/prototype.js';
         }
 
@@ -114,10 +117,10 @@ class EcomDev_CheckItOut_Model_Observer
 
             if ($controller->getRequest()->getPost('newsletter')) {
                 Mage::getSingleton('checkout/session')
-                        ->setNewsletterSubsribed(true)
-                        ->setNewsletterEmail(
-                                Mage::getSingleton('ecomdev_checkitout/type_onepage')->getQuote()->getCustomerEmail()
-                );
+                    ->setNewsletterSubsribed(true)
+                    ->setNewsletterEmail(
+                        Mage::getSingleton('ecomdev_checkitout/type_onepage')->getQuote()->getCustomerEmail()
+                    );
             }
         }
     }
@@ -146,13 +149,13 @@ class EcomDev_CheckItOut_Model_Observer
     }
 
     /**
-     * reset checkout sesstion when product added to card
-     * 
-     * @param Varien_Event_Observer $observer
+     * Reset checkout session when product added to card
+     *
      */
     public function cardAddComplete()
     {
-        Mage::getSingleton('checkout/cart')->init();
+        if ($this->_getHelper()->isActive()) {
+            Mage::getSingleton('checkout/cart')->init();
+        }
     }
-
 }

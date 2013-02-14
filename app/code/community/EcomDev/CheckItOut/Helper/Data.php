@@ -63,6 +63,7 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
 
     const COMPATIBILITY_TYPE_TEMPLATE = 'template';
     const COMPATIBILITY_TYPE_CODE = 'code';
+    const COMPATIBILITY_TYPE_JS = 'js';
     const COMPATIBILITY_V14 = 'v14';
     const COMPATIBILITY_V15 = 'v15';
 
