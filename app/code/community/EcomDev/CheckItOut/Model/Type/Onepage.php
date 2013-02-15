@@ -11,7 +11,7 @@
  *
  * @category   EcomDev
  * @package    EcomDev_CheckItOut
- * @copyright  Copyright (c) 2012 EcomDev BV (http://www.ecomdev.org)
+ * @copyright  Copyright (c) 2013 EcomDev BV (http://www.ecomdev.org)
  * @license    http://www.ecomdev.org/license-agreement  End User License Agreement for EcomDev Premium Extensions.
  * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
  */
@@ -43,7 +43,7 @@ class EcomDev_CheckItOut_Model_Type_Onepage
             // Uncamelize method name
             $method = strtolower(preg_replace('/[A-Z]/', '_\\0', $method));
         }
-        Mage::dispatchEvent('ecomdev_checkitout_' . $method . '_' . $suffix, $eventArgs);
+        Mage::dispatchEvent('ecomdev_checkitout_checkout_' . $method . '_' . $suffix, $eventArgs);
         return $this;
     }
 

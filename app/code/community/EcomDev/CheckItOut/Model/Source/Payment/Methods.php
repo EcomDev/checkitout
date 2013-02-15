@@ -11,7 +11,7 @@
  *
  * @category   EcomDev
  * @package    EcomDev_CheckItOut
- * @copyright  Copyright (c) 2012 EcomDev BV (http://www.ecomdev.org)
+ * @copyright  Copyright (c) 2013 EcomDev BV (http://www.ecomdev.org)
  * @license    http://www.ecomdev.org/license-agreement  End User License Agreement for EcomDev Premium Extensions.
  * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
  */
