@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CheckItOut extension
  *
@@ -11,7 +12,7 @@
  *
  * @category   EcomDev
  * @package    EcomDev_CheckItOut
- * @copyright  Copyright (c) 2012 EcomDev BV (http://www.ecomdev.org)
+ * @copyright  Copyright (c) 2013 EcomDev BV (http://www.ecomdev.org)
  * @license    http://www.ecomdev.org/license-agreement  End User License Agreement for EcomDev Premium Extensions.
  * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
  */
@@ -23,6 +24,17 @@
  */
 class EcomDev_CheckItOut_Model_Observer
 {
+
+    /**
+     * Retrieve module helper instance
+     *
+     * @return EcomDev_CheckItOut_Helper_Data
+     */
+    protected function _getHelper()
+    {
+        return Mage::helper('ecomdev_checkitout');
+    }
+
     /**
      * Replaces prototype library with 1.7 one
      *
@@ -33,7 +45,10 @@ class EcomDev_CheckItOut_Model_Observer
         $head = Mage::app()->getLayout()->getBlock('head');
         $headItems = $head->getData('items');
 
-        if (isset($headItems['js/prototype/prototype.js'])) {
+        // Replace library only if it is included and only if Magento version is lower than 1.7
+        if (isset($headItems['js/prototype/prototype.js'])
+            && !$this->_getHelper()
+                    ->getCompatibilityMode(EcomDev_CheckItOut_Helper_Data::COMPATIBILITY_TYPE_JS)) {
             $headItems['js/prototype/prototype.js']['name'] = 'ecomdev/prototype.js';
         }
 
@@ -48,7 +63,7 @@ class EcomDev_CheckItOut_Model_Observer
      */
     public function redirectShoppingCartToCheckout(Varien_Event_Observer $observer)
     {
-        if (Mage::helper('ecomdev_checkitout')->isShoppingCartRedirectEnabled()) {
+        if ($this->_getHelper()->isShoppingCartRedirectEnabled()) {
             $cart = Mage::getSingleton('checkout/cart');
             if ($cart->getQuote()->getItemsCount()) {
                 $cart->init();
@@ -62,15 +77,85 @@ class EcomDev_CheckItOut_Model_Observer
                 /* @var $controller Mage_Core_Controller_Front_Action */
                 $controller = $observer->getEvent()->getControllerAction();
                 $controller->setFlag(
-                    '',
-                    Mage_Core_Controller_Front_Action::FLAG_NO_DISPATCH,
-                    '1'
+                        '', Mage_Core_Controller_Front_Action::FLAG_NO_DISPATCH, '1'
                 );
                 $controller->getRequest()->setDispatched(true);
                 $controller->getResponse()->setRedirect(
-                    Mage::getUrl('checkout/onepage/')
+                        Mage::getUrl('checkout/onepage/')
                 );
             }
+        }
+    }
+
+    /**
+     * Before save order activities (e.g. saving customer comment, default payment method)
+     *
+     * @param Varien_Event_Observer $observer
+     * @void
+     */
+    public function preDispatchSaveOrderAction(Varien_Event_Observer $observer)
+    {
+        if ($this->_getHelper()->isActive()) {
+            /* @var $controller Mage_Core_Controller_Front_Action */
+            $controller = $observer->getEvent()->getControllerAction();
+
+            $orderData = $controller->getRequest()->getPost('order');
+
+            if ($this->_getHelper()->isCustomerCommentAllowed()
+                    && isset($orderData['customer_comment'])) {
+                Mage::getSingleton('ecomdev_checkitout/type_onepage')
+                        ->getQuote()
+                        ->setCustomerComment($orderData['customer_comment']);
+            }
+
+            if ($this->_getHelper()->isPaymentMethodHidden()) {
+                // Issue with not submitted form details if payment method is hidden
+                $post = $controller->getRequest()->getPost();
+                $post['payment']['method'] = $this->_getHelper()->getDefaultPaymentMethod();
+                $controller->getRequest()->setPost($post);
+            }
+
+            if ($controller->getRequest()->getPost('newsletter')) {
+                Mage::getSingleton('checkout/session')
+                    ->setNewsletterSubsribed(true)
+                    ->setNewsletterEmail(
+                        Mage::getSingleton('ecomdev_checkitout/type_onepage')->getQuote()->getCustomerEmail()
+                    );
+            }
+        }
+    }
+
+    /**
+     * Order sucess activities (subscription to newsletter)
+     *
+     * @param Varien_Event_Observer $observer
+     * @void
+     */
+    public function orderSuccessAction(Varien_Event_Observer $observer)
+    {
+        if ($this->_getHelper()->isActive()) {
+            if ($this->_getHelper()->isNewsletterCheckboxDisplay()
+                    && Mage::getSingleton('checkout/session')->getNewsletterSubsribed(true)) {
+                try {
+                    Mage::getModel('newsletter/subscriber')->subscribe(
+                            Mage::getSingleton('checkout/session')->getNewsletterEmail(true)
+                    );
+                } catch (Exception $e) {
+                    // Subscription shouldn't break checkout, so we just log exception
+                    Mage::logException($e);
+                }
+            }
+        }
+    }
+
+    /**
+     * Reset checkout session when product added to card
+     *
+     */
+    public function cardAddComplete()
+    {
+        if ($this->_getHelper()->isActive()) {
+            Mage::getSingleton('checkout/cart')->init();
         }
     }
 }

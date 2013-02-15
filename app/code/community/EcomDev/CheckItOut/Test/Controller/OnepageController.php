@@ -11,7 +11,7 @@
  *
  * @category   EcomDev
  * @package    EcomDev_CheckItOut
- * @copyright  Copyright (c) 2012 EcomDev BV (http://www.ecomdev.org)
+ * @copyright  Copyright (c) 2013 EcomDev BV (http://www.ecomdev.org)
  * @license    http://www.ecomdev.org/license-agreement  End User License Agreement for EcomDev Premium Extensions.
  * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
  */
@@ -731,7 +731,6 @@ class EcomDev_CheckItOut_Test_Controller_OnepageController
      * @covers EcomDev_CheckItOut_OnepageController::saveOrderAction
      * @mockHelperMethod isActive
      * @mockHelperMethod isCustomerCommentAllowed
-     * @mockHelperMethod isNewsletterCheckboxDisplay
      * @loadFixture clear
      * @loadFixture customers
      * @dataProvider dataProvider
@@ -748,27 +747,13 @@ class EcomDev_CheckItOut_Test_Controller_OnepageController
         // Depending on provided data allow/disallow customer comments
         $this->helperMethodStub($this->any(), 'isCustomerCommentAllowed', $options['allow_comment']);
 
-        // Depending on provided data allow/disallow newletter signup
-        $this->helperMethodStub($this->once(), 'isNewsletterCheckboxDisplay', $options['allow_newsletter']);
 
-        // Setting up newletter subscription mock
-        $newletterMock = $this->getModelMock('newsletter/subscriber', array('subscribe'));
-        if ($this->expected($dataSetName)->getNewsletterSubscribe()) {
-            $newletterMock->expects($this->once())
-                ->method('subscribe');
-        } else {
-            $newletterMock->expects($this->never())
-                ->method('subscribe');
-        }
-        
         // Emulate customer session
         if (isset($options['customer_id'])) {
             $customerSessionMock = $this->getModelMock('customer/session', array('__construct'));
             $this->replaceByMock('model', 'customer/session', $customerSessionMock);
             $customerSessionMock->loginById($options['customer_id']);
         }
-        
-        $this->replaceByMock('model', 'newsletter/subscriber', $newletterMock);
         
         // Add something to our cart
         $this->addProductsToCart($productIds, $requestData);

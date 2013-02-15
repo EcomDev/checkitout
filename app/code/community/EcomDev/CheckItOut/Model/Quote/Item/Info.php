@@ -11,7 +11,7 @@
  *
  * @category   EcomDev
  * @package    EcomDev_CheckItOut
- * @copyright  Copyright (c) 2012 EcomDev BV (http://www.ecomdev.org)
+ * @copyright  Copyright (c) 2013 EcomDev BV (http://www.ecomdev.org)
  * @license    http://www.ecomdev.org/license-agreement  End User License Agreement for EcomDev Premium Extensions.
  * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
  */
@@ -32,7 +32,7 @@ class EcomDev_CheckItOut_Model_Quote_Item_Info
     {
         $info = array();
         $info['item_id'] = $item->getId();
-        $info['allow_remove'] = !$item->isNominal() && count($item->getQuote()->getAllVisibleItems()) > 1;
+        $info['allow_remove'] = !$item->isNominal();
         $info['allow_change_qty'] = !$item->isNominal();
         $info['qty'] = $item->getQty();
         return $info;

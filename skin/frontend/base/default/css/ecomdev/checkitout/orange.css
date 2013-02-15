@@ -1,241 +1,92 @@
-/**
- * CheckItOut default CSS
- *
- */
-
-/* Link */
 .checkitout a {
-    color:#6d6d6d;
+    color:#ae7831;
 }
 
-/** Button Styles **/
-.checkitout .form-list button.button,
-.popup button.button,
-.page-title button.button,
-#confirmation-window button.button {
-    padding: 0;
+.checkitout .form-list button.button span,
+.popup button.button span,
+.page-title button.button span,
+#confirmation-window button.button span {
+    background: #C60;
     }
 
-    .checkitout .form-list button.button span,
-    .popup button.button span,
-    .page-title button.button span {
-        height:22px;
-        padding: 0 10px;
-        border-radius: 5px;
-
-        background: #C60;
-        border:0;
-
+    .checkitout .form-list button.button:hover span,
+    .popup button.button:hover span,
+    .page-title button.button:hover span,
+    #confirmation-window button.button:hover span {
+        background:#d8791a;
         }
-        .checkitout .form-list button.button:hover span,
-        .popup button.button:hover span,
-        .page-title button.button:hover span {
-            background:#d8791a;
-            }
-            .checkitout .form-list button.button span span,
-            .popup button.button span span,
-            .page-title button.button span span {
-                color:#fff;
-                font-size:12px;
 
-                line-height: 22px;
-                padding: 0;
-
-                border:0;
-                background-position: 100% 0;
-
-                text-shadow: 1px 1px 3px #666666;
-                }
-                .checkitout .form-list button.button:hover span span,
-                .popup button.button:hover span span,
-                .page-title button.button:hover span span {
-                    background-position: 100% 100%;
-                    }
-
-
-
-/** Sizes for orange theme **/
-.checkitout .checkout-right .form-list .input-box,
-.checkitout .checkout-left .form-list .input-box { width:140px; }
-.checkitout .checkout-right .form-list .field,
-.checkitout .checkout-left .form-list .field { width:50%; }
-.checkitout .checkout-left .form-list .wide { width:280px; }
-.checkitout .checkout-left .form-list .wide input.input-text,
-.checkitout .checkout-right .form-list .wide input.input-text,
-.checkitout .checkout-right .form-list .wide select,
-.checkitout .checkout-left .form-list .wide select  { width:260px; }
-.checkitout .checkout-left .form-list input.input-text,
-.checkitout .checkout-right .form-list input.input-text {
-    width:120px;
-    }
-.checkitout .checkout-right .form-list .v-fix { width:65px; }
-.checkitout .checkout-right .form-list .v-fix .validation-advice { width:65px; }
-.checkitout .checkout-right .form-list .v-fix select { width:62px; }
-.checkitout .checkout-right .form-list select,
-.checkitout .checkout-left .form-list select {
-    width:128px;
-    -webkit-padding-end: 18px !important;
+.checkitout .form-list button.button span span,
+.popup button.button span span,
+.page-title button.button span span,
+#confirmation-window button.button span span {
+    color:#fff;
     }
 
-/** General Step Styles **/
+.checkitout button.btn-checkout span {
+    background: #CC6600;
+}
+    .checkitout button.btn-checkout:hover span {
+        background:#d8791a;
+    }
+
+
 .checkitout .checkout-step .step-header {
-    background:#f2f2f2 url(../../../images/ecomdev/checkitout/orange/step-header.png) 0 0 repeat-x;
+    background-image: url(data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAABXgAAAAeCAYAAACWnnbXAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAUgSURBVHja7NzpWpMHGofxJOxhJ4CCLILOOY4tRaUwyqIR1ARCQgABeyatKzrQ6jhAtZswOLaAS1iSu8cw/TTvy/3hdwD/r/f1XE+E+RaCbn2il62p8+xk+jmYv8Dh0kWK9/8G30iSJEmSJElSeEWCHneL+QTrEz1sTvWyk+ljP9/P4dIFivcvwjeSJEmSJEmSFF6BD7wncwnWxnrYnOxle7qP/bl+CosXKK5chPuSJEmSJEmSFF4R5psJsqNcC2tj3Wzc6mF7+jx7c30UFvsprlyA+5IkSZIkSZIUXoEPvB8zCdZGu9hIdrOd7mUvd57CQh/F5X5YkSRJkiRJkqTwCnzg3ZtOsDZ6jo1kF9vpHvZyvRQWzlNc7oMVSZIkSZIkSQqvCPkmguxdKsHaaCcbyXNsp7vYy3VTWOihuNwLK5IkSZIkSZIUXoEPvL9NtbI22sFmspPt1Dn2c10U5rspLvXAsiRJkiRJkiSFV4R8I0H2481W1kfPspnsYCfdyX6ui8OFLopL3bAsSZIkSZIkSeEV+MD7cqyN9evtbCXPspPq4CDbyeF8J8V752BJkiRJkiRJksIr0IG3lG9kdbiN76+382PyDP9JneVgtoPDfAfFxU64J0mSJEmSJEnhFSHfQFB9nm3k6XArP4y28TrZzm7qDB+yZzma76C02AH3JEmSJEmSJCm8Isw1EFS7txtZHU7wYjTBT7daeZdq42O2naP8GUoLZ2BRkiRJkiRJksIrwlw9QfV6opFnwy38ayzBz7daeZ9u41O2jeN8O6WFdliUJEmSJEmSpPAKdOBdG2nk+XATr8aa+XWyhd/TCT7NJjjJt1Kab4UFSZIkSZIkSQqvwAbeQqaeR5cbWBtuZGOsibeTTfyRbqaQbeFkrgXmJUmSJEmSJCncIszVEUTbt+p4crWB9ZEGtsYb2ZlqYn+6icNsM8V8M8xLkiRJkiRJUrgFNvC+vFbH0yt1/DBSz+uJenZvN3Aw3cBRtpHiXCPkJUmSJEmSJCncIszVEjTH2VoeXa7l2VAtL6/V8fPNOv57p56PM/Uc5xoozTVAXpIkSZIkSZLCLUKulqB5m4zzaDDOP4fi/Pt6nN+Stfx+p5bPM3WcZOso5YJ5lSxJkiRJkiRJ/4tABt61oRqeDNaw/nUNW6NxtpNx9u/GKczUcjIbvD2SJEmSJEmS9FdEyMUJko/pOA8Gqlm9XM2L4WrejNewO1nDh1Sco0ycYjZYeyRJkiRJkiTprwpc4H09Vs3DgUqeX6ni1UgVv4xX8X6qik+pao4z1ZRmqyErSZIkSZIkSeEXqMBbzMZ5/FUFj7+qZH2oks1rlWzfrGTvdhWF6SpOMlWUZqsgK0mSJEmSJEnhFyFXQ1C8vVHFgy8qWB2s4MXXFbwZrWA3WcnBnUoO05UUM5UwK0mSJEmSJEmnQ2ACbylXw9PBch59Wcbzy2W8Ginj1/Fy3k+W8ylVzvFMOaVMOcxKkiRJkiRJ0ukQIVtDEGzfrOS7SzGeDMT4/moZW/8oY+dGGXtTZRRSZZxMl0FGkiRJkiRJkk6PSBAeBZdmq3k8UMbDL2I8G4zxcijGT9djvEvG+HA7xlE6RnEmBhlJkiRJkiRJOj0CEXh/Ga/g279HefxllPUrUTZHorydiPLHZJTPd6OcTEcpzUQhI0mSJEmSJEmnx/994P2cruLBpSgPL0VZHYjy4mqUN9ei7N6IcjAV5fBulOJ0FGYkSZIkSZIk6XT5EwAA//8DAK+5zrOKLAqQAAAAAElFTkSuQmCC);
     border-color: #CC6600;
     color: #FFFBD0;
-    font-weight: bold;
-    text-shadow: 1px 1px 4px #000;
     }
-    .checkitout .checkout-step .step-header .number {
-        background:#fff;
-        border:1px solid #cecece;
-        color:#555;
-        margin-right:30px;
-        margin-top:2px;
-        margin-left: 5px;
-        text-shadow: none;
-        border-radius: 30px;
-        }
-    .checkitout .checkout-step .step-content {
-        border:1px solid #CC6600;
-        border-top:0px;
-    }
-    .checkitout .checkout-step .step-content .step-header {
-        padding-bottom: 10px;
-        text-shadow: none;
-        color:#333333;
-        }
-    .checkitout .checkout-step .step-content input,
-    .checkitout .checkout-step .step-content select {
-        padding:3px;
-        }
 
-/** Confirmation window **/
-#confirmation-window .step-header  { background:#d0dce1; border-color: #333333; color:#555;}
-#confirmation-window .step-header .number { background:#dbe6eb; border-color:#fff; color:#555;}
-#confirmation-window .step-content  {
-    border-color: #333333;  background:#fbfaf6 url(../../../images/ecomdev/checkitout/default/bkg_checkout.gif) 0 0 repeat-x;}
-
-/**
- * Login PopUp
- */
-#login-step-popup {
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
-    -webkit-box-shadow:  0px 0px 10px 5px rgba(8, 8, 8, 0.3);
-    box-shadow:  0px 0px 10px 5px rgba(8, 8, 8, 0.3);
-    }
+#confirmation-window .step-header,
+#confirmation-window .block-title,
 #login-step-popup .popup-title {
-    border-color: #d1d1d1;
-    background:#f2f2f2 url(../../../images/ecomdev/checkitout/orange/bgtitle.png) 0 0 repeat-x;
+    color: #FFFBD0;
+    border-color: #CC6600;
 
-    -webkit-border-top-left-radius: 5px;
-    -webkit-border-top-right-radius: 5px;
-    -moz-border-radius-topleft: 5px;
-    -moz-border-radius-topright: 5px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    background: #ffa825; /* Old browsers */
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIxJSIgc3RvcC1jb2xvcj0iI2ZmYTgyNSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZjk5MDEiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  #ffa825 1%, #ff9901 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#ffa825), color-stop(100%,#ff9901)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #ffa825 1%,#ff9901 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #ffa825 1%,#ff9901 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #ffa825 1%,#ff9901 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #ffa825 1%,#ff9901 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffa825', endColorstr='#ff9901',GradientType=0 ); /* IE6-8 */
     }
-#login-step-popup .popup-content {
-    position: relative;
 
-    border-color: #d1d1d1;
+.checkitout .checkout-step .step-header .number {
+    color:#555;
+    border:1px solid #cecece;
+    background:#fff;
+}
 
-    -webkit-border-bottom-right-radius: 5px;
-    -webkit-border-bottom-left-radius: 5px;
-    -moz-border-radius-bottomright: 5px;
-    -moz-border-radius-bottomleft: 5px;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
+.checkitout .checkout-step .step-content .step-header {
+    color:#333333;
+}
+
+.checkitout .checkout-step .step-content {
+    border:1px solid #CC6600;
     }
-    #login-step-popup .popup-content p.required {
-        position: absolute;
-        top:10px;
-        right:15px;
-        }
-    #login-step-popup .popup-content button.button{
-        margin-top:10px;
-        }
 
-#login-step-popup .popup-title .popup-close span {
-    border:0;
-    background:url(../../../images/ecomdev/checkitout/orange/icons/cross.png) no-repeat center transparent;
-    width:20px;
-    height:20px;
-    }
-    #login-step-popup .popup-title .popup-close span span {
-        display: none;
-        }
-    #login-step-popup .input-box {
-        width: 100%;
-        padding-right:15px;
-        }
-        #login-step-popup .input-box input {
-            width:329px;
-            }
-    #login-step-popup input.input-text {
-        padding:4px;
-        }
-/* Form Highlight */
+#confirmation-window .block-title strong {
+    color:#FFFBD0;
+}
+
 input.input-text:focus,select:focus,textarea:focus {
     background-color:#fbfbfb;
     border: 1px solid #9c9c9c;
 }
 
-/* Step Content */
-
-.step-content label {
-    font-weight: normal;
+.checkitout .step-content label {
     color:#585858;
-    }
-
-/* Data Table */
-.checkout-step-review .data-table {
-    border: 1px solid #9d9d9d;
-    border-right:0;
 }
-.checkout-step-review .data-table thead th {
-    height:26px;
-    line-height: 26px;
-    border-right:1px solid #9d9d9d;
-    color:#585858;
 
-    background: #fff;
-}
-.checkout-step-review .data-table tr {
-    border:0;
-}
-.checkout-step-review .data-table tr td {
-    background: #fefefe;
-    color:#3f3f3f;
-    border:0;
-    border-top:1px solid #9d9d9d;
-    padding-top:5px;
-    padding-bottom:5px;
-    }
-    .checkout-step-review .data-table tbody tr:hover td {
-        cursor: default;
-        background: #f2f2f2;
-    }
-        .checkout-step-review .data-table tr td.last {
-            border-right:1px solid #9d9d9d;
-            }
-    .checkout-step-review .data-table tr td h3 {
-        color:#000;
-        }
-.checkout-step-review .data-table tfoot tr td {
-    border:0;
-    }
-.checkout-step-review .data-table tfoot tr.first td {
-    background: #fff;
-    border-top: 1px solid #9d9d9d;
-    }
-
-/* Icons For Steps */
-
-#checkout-step-address,
-#checkout-step-shipping_method,
-#checkout-step-payment,
-#checkout-step-review{
+.checkitout .container > .checkout-step,
+.checkitout .container .two > .checkout-step,
+#confirmation-window .block-content,
+#confirmation-window .data-table,
+.checkitout .data-table {
     background: #fffbd0; /* Old browsers */
     /* IE9 SVG, needs conditional override of 'filter' to 'none' */
     background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmJkMCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
@@ -246,180 +97,65 @@ input.input-text:focus,select:focus,textarea:focus {
     background: -ms-linear-gradient(top,  #fffbd0 0%,#ffffff 100%); /* IE10+ */
     background: linear-gradient(to bottom,  #fffbd0 0%,#ffffff 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fffbd0', endColorstr='#ffffff',GradientType=0 ); /* IE6-8 */
-
-    <!--[if gte IE 9]>
-    <style type="text/css">
-    .gradient {
-    filter: none;
-    }
-    </style>
-    <![endif]-->
 }
-    #checkout-step-address-content {
-        background: url('../../../images/ecomdev/checkitout/orange/icons/icon-contacts.png') no-repeat 97% 10px !important;
-        }
-    #checkout-step-shipping_method-content {
-        background: url('../../../images/ecomdev/checkitout/orange/icons/icon-shipping-method.png') no-repeat 97% 10px !important;
-        }
-    #checkout-step-payment-content {
-        background: url('../../../images/ecomdev/checkitout/orange/icons/icon-dollar.png') no-repeat 97% 10px !important;
-        }
 
+#login-step-popup .popup-title .popup-close span {
+    background-image: url(data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6M0Q2Njg1MzJEQTA4MTFFMTlGQTlBNDA1QTMyMTBGREQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6M0Q2Njg1MzNEQTA4MTFFMTlGQTlBNDA1QTMyMTBGREQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDozRDY2ODUzMERBMDgxMUUxOUZBOUE0MDVBMzIxMEZERCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDozRDY2ODUzMURBMDgxMUUxOUZBOUE0MDVBMzIxMEZERCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PiOnY60AAALLSURBVHjazJRfSFNRHMfP3dwuE9co2CRQhGJU4EskaYVi2UPRQ4IPRVqgwRZIEEZSL0VPUT0EhdFbD71ZEIXhqMnS5lNCUJlDEZGxnJb745/d3XPPn35H7vR0d+25C1/OPb/zPZ/745zf7yqcc/RfP4o1MNPbewqGteDAQPxfG8FXBcNF0AvwrpXiDtmUCIXCnJBh0MhUKHR2O9h0OOwTHtBT0HuYV5UBJ7u7TyNCnjHDQCC3QsggxMqgiZ4eHzWMCHgOm94jMH9lBSrZ1VVCMTYYxsiUWzGMwW+dnZvQH11dPvBEOMZNkg/pmrYCy075DMXE+7y19XyD3/8Ygi4pKcw473AoyieohwisNckZr2Acuzw62j2Vy6VhqitSpl6Q/0lj45nm6uqHVijApiFWL8OyALswNtb3s1BYhOmy8Dml9Y2CHE6lUgcqK+dqVbUNztQJh45ATngPmO8bWi4Uop3j4zcWNE2A8iI7wZCBDETEGEmnU/s9nrkal6uNb0G3YJoWvTQx0b9QLP4WiYI0cz+qsGSIxbGIyctkcvyQqiZVh2OP9aa/53KvJVihBLMtbBG7V1fnP+r1RlyKctCuDuHLxi/DONeeSLyRYbbAeDDos7tNmwcDqb1lZmZ4W+Boba0tLEvpyCTG7455PPfLSgqhjuPJ5FAZMBYI2MJyjEXD2eytJUr1uz5fS7OqPrKDti0tDf3VehjjLmsHZHQ9diWT6QfYxgXcyec/xNfXr1s7CvY9KCVXKhuHm7H5IEInnIzt5oyhHKWxXti8yHnpNtfFBcQMIwXXPlvD+UnEGNhZcZ6Qa28JmRbrm8AvlFbMUhpvUJT6NUq/XtX1mxKsYNaoEP9ISGovQAOc7/tMyO0+XY+atUjl1qsE7QLtMGtyxabOhN9tenaCVFARlDG7hTiloqbmRmp+LW8tWktHCZ8BWhU/ZDOG/ggwAPsZwJmyLoetAAAAAElFTkSuQmCC);
+}
 
+#confirmation-window .data-table,
+.checkitout .data-table {
+    border: 1px solid #C60;
+    background: #fff;
+}
+
+#confirmation-window .data-table thead tr th,
+.checkitout .data-table thead tr th {
+    background: #ffa825;
+    color:#FFFBD0;
+}
+
+#confirmation-window .data-table tfoot tr:first-child td,
+.checkitout .data-table tfoot tr:first-child td {
+    border-top: 1px solid #C60;
+}
+
+.checkitout .data-table tfoot,
+#confirmation-window .data-table tfoot {
+    background: #fffbd0;
+}
+#confirmation-window .data-table .odd,
+.checkitout .data-table .odd {
+    background: none !important;
+}
+#confirmation-window .data-table .even,
+.checkitout .data-table .even {
+    background: #f9f9f9 !important;
+}
+
+#checkout-step-address-content {
+    background-image: url(data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAADmSURBVHja7JY9CsJAEIXfAaxygNxDCAhWuYE3eGcIpBKsvIHnsRJe5QGEQCCVlWC7NhNJFiEqO6JgMcwO+/MxvN2ZhQiIWIg4iAiJ7GRnord+0IlYDidSWz8IIspPgTzso6AgIgzTq71BjYijiNkTGzsRO/NvZ1RNbGpEZLY2s9hFoyq6SZWXRqsItPLSqI5AtZdGrYjc1uYWu72js4i9+eTv6CJiLWJu/mrZFyI2FifRKNZmFsXbVBoVEwWz/JZaNwJ51ro76JValySj6tf70V+jNKDWAdI+ApUvtOfwZMsffd9uAwASPw8yV5Y4lwAAAABJRU5ErkJggg==) !important;
+}
+#checkout-step-shipping_method-content {
+    background-image: url(data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAbCAYAAACAyoQSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAIMSURBVHjatJdRZBxRGIUPQwlLGUKeSghlCXkqSyghhFBKCCWUcgglhLCEPIWllBBCnkIJpYRSSillCeU8lb6WUkIIJSxh2bycy+2Ybe7sZB5+ckfm/+7955z//gsRMyLoeCHigQg0GRBxKGI0Jraagj4WcSDiWETXJ50SMRDxqSnouPgq4kpEViFh2PDE0K5L/OSOJHMidkR8dnXW6kAXDe0Wnj8U8VzEkYjfJTo4qgPNRFz7BBCx5JKP7ogfdaCwkAb+VqsJwBDTdaA7TrJogQwToet1oPNOsud1PxF6WKKDpVRoZtv0vd7/D6jvzQW1L4jYjXQwFJGnQCHig7/rlIinEeRCxDtbJPd3XBfxXsTlmI2tpkI3/cKywV0R7UjR+yK+J5b9IBXa9gs9r1dEnIn4W0HN/9gptb39EXFe6FSTRp4KPbUQWiI6NYAXIjqp0FeRELIKpR2K+OLqzKdaJsQjJ3kTdapxoF/26TNXJuTIrf5K9+C2b5Sg2tDsw727JWK28E7H3u1H/5tXgb600b8ZMG0bxePNjIgNe/sqOn28sVYq8G1JGT9GV2BPxM8Se/S8saxK7w3jzDAy956IG69XRJz470ufcMMnnrjhw0lGbgjhWS8S1kLCdFEZumbAefQsTJC79z2YhWh5ghjZc2eRB9tNQWHPDQpC2WxiBC3GrH8FvC7xY6W4HQBHUZ4Z94stLgAAAABJRU5ErkJggg==) !important;
+}
+#checkout-step-payment-content {
+    background-image: url(data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAYCAYAAACWTY9zAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAGDSURBVHja1JYxZARBFIZ/whKOI4SwHCFVqpAqXHWkCqmOkDY8QjiOq0KqVCHVEkJIG0Kqa0OqVH+VKlWq4wjLEVIdm+Ydz2Szu7d7MbfFY+btPzPfzPt3Z0EBUiLxHagbmM+YuGDJEkS9wLyXzwXzfUrN2oL5Kl9hsEaBXb5T0KWgRcEOBYcUvBUYt14FrJcz+QsFq6o9ouBZ2wEFw5yxF2XB8nYc664DCh5N/pOCUBcZzekrF2xaBuxSdSfaH2gp+woGbVcBS7LAYvVPi4Kxye+p7iylNLPYdubZUujRIsAis1CUYt7QAJOCA6MPjP7O5K8ywKZFwW7NhDcmv2byoUJ/67Ou5leM/t7orzPAkqJgEwo6FLTNBIn6yS1d2zmdTaP/omBfNfEiwPJe9z4FxxTsGr+dO/6bx/yVwcZazlPji4SCJ/VWg4KP/wALHS+kxdBA9LQ/89ZDztiIgg3V/gUGClD2SqJ6p6mfgw4FrxWupEJgPi7xTDCfvz2/wJcW7GcAw+6Tyvi6nYMAAAAASUVORK5CYII=) !important;
+}
 .same-as-billing-overlay {
-    background:url('../../../images/ecomdev/checkitout/orange/blocked.png');
-    }
-
-/* Button */
-
-button.btn-checkout {
-    }
-    button.btn-checkout span {
-        height:40px;
-        background: #CC6600;
-        border:0;
-        padding:0 10px;
-        border-radius: 5px;
-        }
-        button.btn-checkout:hover span {
-            }
-        button.btn-checkout span span {
-            text-shadow: 1px 1px 3px #666666;
-            padding:0;
-            }
-            button.btn-checkout:hover span {
-                background:#d8791a;
-                }
-
-
-.checkitout .control label {
-    padding-left: 20px;
-    -moz-padding-start:0;
-    -webkit-padding-start:0;
-    -o-padding-start:0;
-    padding-start:0;
+    background-image: url(data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAABDSURBVHjafMyxDQAgDAPBD2Isj5U9WCqD0QACFPj2LJu7N0Zmxp4kCo8kERH5YCJAzW4nAufDjccgwzV4IUD5IUAfABe5F7eedYvHAAAAAElFTkSuQmCC) !important;
 }
-
-.sp-methods label {
-    -moz-padding-start:0;
-    -webkit-padding-start:0;
-    -o-padding-start:0;
-    padding-start:0;
-}
-
-/* CSS3 */
-
-
 
 .checkitout input[type="checkbox"] + label::before {
-    vertical-align: middle;
+    background-image: url(data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAeCAYAAAAl+Z4RAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QzA5RDNFRUZFMTcxMTFFMUJCNERFODJBQzNDNjFCMjEiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QzA5RDNFRjBFMTcxMTFFMUJCNERFODJBQzNDNjFCMjEiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpDMDlEM0VFREUxNzExMUUxQkI0REU4MkFDM0M2MUIyMSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpDMDlEM0VFRUUxNzExMUUxQkI0REU4MkFDM0M2MUIyMSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pv+rPiMAAAGESURBVHjaYjyTxvCfgQLAAiIMJn48R47mC/n8RiwwDjMHnxEhDZ+u7mD49eEpg4h1MsPfH5/AljIRa9vLPX0Md6b4MDAyMmN6gRB4c3gWw5PVxWA2EwcPihxBF/x4fo3h8coCOP/nqzvEG/D/zy+GuzNDGf79/g7mcytZMvDreuM24NvDswzXWwwZvtw5Aua/Pjgd7AIQEDQJZ1AvPczAKa2L3QCQH6+3mTB8e3yB4fmWJoa/3z8yPN/aBNFsFMKgmLyUgZGJGcOVcAOErRIYuOSNIdF1fTfDw0UpDH++vmPgkjVgUEhahFUzigEgp2lUnGQQc84H89+fW8PAwi3EoJSxjoGJlRNnOKGEAcgW2bAJDOJupWC+bMRkBnYRRcJJGR3IBHcxsAnJMQiZRRGXF0AAljThYWIZBxIjaAAjpbmRiYFCAPaCXv97srLzpUJBaHb+//8fK7egCSmaf399f4YqXhg1YNQAuAH/yTAIpgeclP/9+/vvx+c3Z8hxAcXZGSDAAJSFe1/dg+yzAAAAAElFTkSuQmCC);
 }
-.checkitout input[type="checkbox"] {
-    opacity: 0;
-    position: absolute;
-}
-.checkitout input[type="checkbox"] + label::before {
-    content: "";
-    display: inline-block;
-    width: 16px;
-    height: 15px;
-    line-height: 15px;
-    margin: 0 8px 4px 0;
-    background: url("../../../images/ecomdev/checkitout/orange/custom_checkbox.png") no-repeat 0 -15px;
-    vertical-align: middle;
-}
-.checkitout input[type="checkbox"]:disabled + label {
-    opacity: .5;
-    cursor: default;
-}
-.checkitout input[type="checkbox"]:not(:checked):hover + label::before {
-    background-position: 0 -15px;
-}
-.checkitout input[type="checkbox"]:checked + label::before {
-    background-position: 0 0;
-}
-.checkitout input[type="checkbox"]:focus + label {
-    outline: dotted 1px;
-}
-
-
-/*
-input[type="radio"] + label::before{
-    vertical-align: middle;
-}
-input[type="radio"]{
-    opacity: 0;
-    position: absolute;
-}
-input[type="radio"] + label::before,
-input[type="radio"] + script + label::before{
-    content: "";
-    display: inline-block;
-    width: 13px;
-    height: 13px;
-    line-height: 13px;
-    margin: 0 8px 0 0;
-    background: green;
-    vertical-align: middle;
-}
-input[type="radio"]:disabled + label,
-input[type="radio"]:disabled + script + label{
-    opacity: .5;
-    cursor: default;
-}
-input[type="radio"] + label::before,
-input[type="radio"] + script + label::before{
-    background: green;
-}
-input[type="radio"]:hover + label::before,
-input[type="radio"]:hover + script + label::before{
-    background: green;
-}
-input[type="radio"]:not(:checked) {
-    background: green;
-}
-input[type="radio"]:checked + label::before,
-input[type="radio"]:checked + script + label::before{
-    background:red;
-    }
-*/
 
 .checkitout .input-box select {
-    -webkit-appearance: button;
-    -webkit-user-select: none;
-
-    background-image: url(../../../images/ecomdev/checkitout/orange/arrow-select.png);
-
-    background-position: 95% 50%;
-    background-repeat: no-repeat;
-
-    border: 1px solid #AAA;
     color: #555;
-    font-size: inherit;
-    margin: 0;
-    overflow: hidden;
-    padding-top: 2px;
-    padding-bottom: 2px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    border: 1px solid #AAA;
+    background-image: url(data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAECAYAAABCxiV9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAA0SURBVHjadIlBCgAgDMO6vTm/6KPraSKigUJKynb0oYF6BaB65A6SpCR7tnP+BQAA//8DAJzHHKhlTs7oAAAAAElFTkSuQmCC);
 }
 
-
-.checkitout .checkout-step .step-header, .checkitout .checkout-step {
-    -webkit-border-top-right-radius: 5px;
-    -webkit-border-top-left-radius: 5px;
-    -moz-border-radius-topright: 5px;
-    -moz-border-radius-topleft: 5px;
-    border-top-right-radius: 5px;
-    border-top-left-radius: 5px;
-}
-
-
-.checkitout .checkout-step, .checkitout .step-content {
-    -webkit-border-bottom-right-radius: 5px;
-    -webkit-border-bottom-left-radius: 5px;
-    -moz-border-radius-bottomright: 5px;
-    -moz-border-radius-bottomleft: 5px;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
+#confirmation-window .block .block-title strong span {
+    color: #FFFBD0;
 }

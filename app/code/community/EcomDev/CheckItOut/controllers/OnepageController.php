@@ -11,7 +11,7 @@
  *
  * @category   EcomDev
  * @package    EcomDev_CheckItOut
- * @copyright  Copyright (c) 2012 EcomDev BV (http://www.ecomdev.org)
+ * @copyright  Copyright (c) 2013 EcomDev BV (http://www.ecomdev.org)
  * @license    http://www.ecomdev.org/license-agreement  End User License Agreement for EcomDev Premium Extensions.
  * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
  */
@@ -44,12 +44,21 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
      */
     protected $_specialHandlesForSteps = array(
         'shipping_method' => 'checkout_onepage_shippingmethod',
-        'payment' => 'checkout_onepage_paymentmethod'
+        'payment' => 'checkout_onepage_paymentmethod',
+        'review' => 'checkout_onepage_review'
     );
 
     protected $_ignoreQuoteErrorActions = array(
         'changeQty', 'remove'
     );
+
+    /**
+     * This array will contain hash info cart
+     * before action was performed
+     *
+     * @var array
+     */
+    protected $_hashInfoBeforeSave = array();
 
     /**
      * Validate ajax request and redirect on failure
@@ -94,6 +103,29 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
     protected function _getHelper()
     {
         return Mage::helper('ecomdev_checkitout');
+    }
+
+    /**
+     * Saves quote hash before any action performed
+     *
+     * @return Mage_Checkout_OnepageController
+     */
+    public function preDispatch()
+    {
+        parent::preDispatch();
+
+        if ($this->_isActive()) {
+            $this->_hashInfoBeforeSave = Mage::getSingleton('ecomdev_checkitout/hash')->getHash(
+                $this->getOnepage()->getQuote()
+            );
+        }
+
+        if ($this->_isActive()
+            && !$this->getOnepage()->getQuote()->getPayment()->getMethod()) {
+            Mage::helper('ecomdev_checkitout/render')->addHandle(self::LAYOUT_HANDLE_NO_PAYMENT);
+        }
+
+        return $this;
     }
 
     /**
@@ -178,12 +210,7 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
 
         foreach ($steps as $step) {
             if (isset($this->_specialHandlesForSteps[$step])) {
-                $layout = Mage::getModel('core/layout');
-                $update = $layout->getUpdate();
-                $update->load($this->_specialHandlesForSteps[$step]);
-                $layout->generateXml();
-                $layout->generateBlocks();
-                $result[$step] =  $layout->getOutput();
+                $result[$step] = $this->_getHandleStepHtml($step);
             }
         }
 
@@ -194,6 +221,22 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
         }
 
         $this->getResponse()->setBody($resultJSON);
+    }
+
+    /**
+     * Returns handle based step html
+     *
+     * @param string $step
+     * @return string
+     */
+    protected function _getHandleStepHtml($step)
+    {
+        if (!isset($this->_specialHandlesForSteps[$step])) {
+            return null;
+        }
+
+        return Mage::helper('ecomdev_checkitout/render')
+                   ->renderHandle($this->_specialHandlesForSteps[$step]);
     }
 
     /**
@@ -327,9 +370,26 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
      */
     protected function _addHashInfo(&$result)
     {
-        $result['stepHash'] = Mage::getSingleton('ecomdev_checkitout/hash')->getHash(
+        $currentHash = Mage::getSingleton('ecomdev_checkitout/hash')->getHash(
             $this->getOnepage()->getQuote()
         );
+        $result['stepHash'] = $currentHash;
+
+        foreach ($currentHash as $key => $value) {
+            if (isset($result['goto_section'])
+                && $result['goto_section'] === $key
+                && isset($result['update_section'])) {
+                $result['stepHtml'][$key] = $result['update_section']['html'];
+                unset($result['update_section']);
+                unset($result['goto_section']);
+            } elseif (isset($this->_hashInfoBeforeSave[$key])
+                && $value !== $this->_hashInfoBeforeSave[$key]) {
+                $result['stepHtml'][$key] = $this->_getHandleStepHtml($key);
+            } elseif (isset($this->_hashInfoBeforeSave[$key])) {
+                $result['stepHtml'][$key] = false;
+            }
+        }
+
 
         return $this;
     }
@@ -396,7 +456,6 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
             );
         }
     }
-
 
     /**
      * Action for changing quantity in already added product
@@ -476,6 +535,12 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
                     ->removeItem($quoteItem->getId());
                 $this->_recalculateTotals();
                 $result['success'] = true;
+                /**
+                 * When cart is ampty - redirect to empty cart page
+                 */
+                if(!$this->getOnepage()->getQuote()->getItemsCount()){
+                    $result['redirect'] = Mage::helper('checkout/cart')->getCartUrl();
+                }
             } catch (Mage_Core_Exception $e) {
                 $result['error'] = $e->getMessage();
             } catch (Exception $e) {
@@ -487,7 +552,6 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
         }
 
         $this->_addHashInfo($result);
-
         $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
 
@@ -499,54 +563,6 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
     protected function _recalculateTotals()
     {
         $this->getOnepage()->recalculateTotals();
-        return $this;
-    }
-
-    /**
-     * Overrides default behavior for saving order with shipping and billing
-     *
-     * @return void
-     */
-    public function saveOrderAction()
-    {
-        if (!$this->_isActive()) {
-            parent::saveOrderAction();
-            return;
-        }
-
-        if ($this->_expireAjax()) {
-            return;
-        }
-        $orderData = $this->getRequest()->getPost('order');
-
-        if ($this->_getHelper()->isCustomerCommentAllowed()
-            && isset($orderData['customer_comment'])) {
-            $this->getOnepage()->getQuote()->setCustomerComment($orderData['customer_comment']);
-        }
-
-        if ($this->_getHelper()->isPaymentMethodHidden()) {
-            // Issue with not submitted form details if payment method is hidden
-            $post = $this->getRequest()->getPost();
-            $post['payment']['method'] = $this->_getHelper()->getDefaultPaymentMethod();
-            $this->getRequest()->setPost($post);
-        }
-
-        parent::saveOrderAction();
-
-        // If order is created and there is enabled subscription
-        if ($this->getOnepage()->getCheckout()->getLastOrderId()
-            && $this->_getHelper()->isNewsletterCheckboxDisplay()
-            && $this->getRequest()->getPost('newsletter')) {
-            try {
-                Mage::getModel('newsletter/subscriber')->subscribe(
-                    $this->getOnepage()->getQuote()->getCustomerEmail()
-                );
-            } catch (Exception $e) {
-                // Subscription shouldn't break checkout, so we just log exception
-                Mage::logException($e);
-            }
-        }
-
         return $this;
     }
 

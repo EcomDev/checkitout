@@ -11,7 +11,7 @@
  *
  * @category   EcomDev
  * @package    EcomDev_CheckItOut
- * @copyright  Copyright (c) 2012 EcomDev BV (http://www.ecomdev.org)
+ * @copyright  Copyright (c) 2013 EcomDev BV (http://www.ecomdev.org)
  * @license    http://www.ecomdev.org/license-agreement  End User License Agreement for EcomDev Premium Extensions.
  * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
  */
@@ -21,11 +21,31 @@
  *
  * @extends Mage_Checkout_Model_Type_Onepage
  * @method Mage_Sales_Model_Quote getQuote()
+ * @method Mage_Checkout_Model_Session getCheckout()
  */
 class EcomDev_CheckItOut_Model_Type_Onepage
 {
-
     protected $_dependency = null;
+
+    /**
+     * Dispatches event for checkout method
+     *
+     * @param string $method
+     * @param string $suffix
+     * @param array  $eventArgs
+     * @return EcomDev_CheckItOut_Model_Type_Onepage
+     */
+    protected function dispatchEvent($method, $suffix, $eventArgs = array())
+    {
+        $eventArgs['onepage'] = $this;
+        $eventArgs['quote'] = $this->getQuote();
+        if (strtolower($method) !== $method) {
+            // Uncamelize method name
+            $method = strtolower(preg_replace('/[A-Z]/', '_\\0', $method));
+        }
+        Mage::dispatchEvent('ecomdev_checkitout_checkout_' . $method . '_' . $suffix, $eventArgs);
+        return $this;
+    }
 
     /**
      * Checks if address location info is empty,
@@ -36,9 +56,39 @@ class EcomDev_CheckItOut_Model_Type_Onepage
      */
     public function isLocationInfoEmpty($address)
     {
-        return !array_filter($address->toArray(array(
-            'postcode', 'street', 'city', 'country_id', 'region_id', 'region'
-        )));
+        $response = new Varien_Object(
+            array('is_empty' => true)
+        );
+
+        $this->dispatchEvent(__FUNCTION__, 'before', array(
+            'address' => $address,
+            'response' => $response
+        ));
+
+        foreach (array('postcode', 'street', 'city',
+                     'country_id', 'region_id') as $attribute) {
+            if ($address->getData($attribute)) {
+                $response->setIsEmpty(false);
+                break;
+            }
+        }
+
+        $this->dispatchEvent(__FUNCTION__, 'after', array(
+            'address' => $address,
+            'response' => $response
+        ));
+
+        return $response->getIsEmpty();
+    }
+
+    /**
+     * Returns helper instance
+     *
+     * @return EcomDev_CheckItOut_Helper_Data
+     */
+    protected function _getHelper()
+    {
+        return Mage::helper('ecomdev_checkitout');
     }
 
     /**
@@ -48,22 +98,23 @@ class EcomDev_CheckItOut_Model_Type_Onepage
      */
     public function initCheckout()
     {
-        Mage::helper('ecomdev_checkitout')->resetDefaultAddress();
+        $this->dispatchEvent(__FUNCTION__, 'before');
+        $this->_getHelper()->resetDefaultAddress();
         $this->_getDependency()->initCheckout();
 
         $recalculateTotals = false;
-        if (!$this->isLocationInfoEmpty($this->getQuote()->getBillingAddress())) {
+        if ($this->isLocationInfoEmpty($this->getQuote()->getBillingAddress())) {
             $this->getQuote()->getBillingAddress()->addData(
-                Mage::helper('ecomdev_checkitout')->getDefaultAddress()->getData()
+                $this->_getHelper()->getDefaultAddress()->getData()
             );
             $recalculateTotals = true;
         }
 
         if (!$this->getQuote()->isVirtual()
-            && !$this->isLocationInfoEmpty($this->getQuote()->getShippingAddress())
-            && Mage::helper('ecomdev_checkitout')->isShipmentSameByDefault()) {
+            && $this->isLocationInfoEmpty($this->getQuote()->getShippingAddress())
+            && $this->_getHelper()->isShipmentSameByDefault()) {
             $this->getQuote()->getShippingAddress()->addData(
-                Mage::helper('ecomdev_checkitout')->getDefaultAddress()->getData() + array('same_as_billing' => 1)
+                $this->_getHelper()->getDefaultAddress()->getData() + array('same_as_billing' => 1)
             );
             $recalculateTotals = true;
         }
@@ -74,28 +125,23 @@ class EcomDev_CheckItOut_Model_Type_Onepage
 
         if (!$this->getQuote()->isVirtual()
             && !$this->getQuote()->getShippingAddress()->getShippingMethod()
-            && Mage::helper('ecomdev_checkitout')->getDefaultShippingMethod()) {
+            && $this->_getHelper()->getDefaultShippingMethod($this->getQuote())) {
             $this->saveShippingMethod(
-                Mage::helper('ecomdev_checkitout')->getDefaultShippingMethod()
+                $this->_getHelper()->getDefaultShippingMethod($this->getQuote())
             );
         }
 
-        if (Mage::helper('ecomdev_checkitout')->isPaymentMethodHidden()) {
+        if ($this->_getHelper()->isPaymentMethodHidden()) {
             $this->savePayment(array(
-                'method' => Mage::helper('ecomdev_checkitout')->getDefaultPaymentMethod()
+                'method' => $this->_getHelper()->getDefaultPaymentMethod($this->getQuote())
             ));
-            $this->recalculateTotals();
-        } elseif (Mage::helper('ecomdev_checkitout')->getDefaultPaymentMethod()) {
-            if ($this->getQuote()->isVirtual()) {
-                $address = $this->getQuote()->getBillingAddress();
-            } else {
-                $address = $this->getQuote()->getShippingAddress();
-            }
-            $address->setPaymentMethod(
-                Mage::helper('ecomdev_checkitout')->getDefaultPaymentMethod()
-            );
-
+            $this->recalculateTotals(true);
+        } elseif ($this->_getHelper()->getDefaultPaymentMethod($this->getQuote())
+            && !$this->getQuote()->getPayment()->getMethod()) {
+            $this->getQuote()->getPayment()->setMethod($this->_getHelper()->getDefaultPaymentMethod($this->getQuote()));
         }
+
+        $this->dispatchEvent(__FUNCTION__, 'after');
 
         return $this;
     }
@@ -108,26 +154,43 @@ class EcomDev_CheckItOut_Model_Type_Onepage
      */
     public function saveCouponCode($couponCode)
     {
+        $response = new Varien_Object();
+        $this->dispatchEvent(__FUNCTION__, 'before', array(
+            'response' => $response,
+            'coupon_code' => $couponCode
+        ));
+
         $oldCouponeCode = $this->getQuote()->getCouponCode();
         if ($oldCouponeCode === $couponCode) {
-            return array(
+            $response->addData(array(
                 'error' => true,
-                'message' => Mage::helper('ecomdev_checkitout')->__('The coupon code is already applied.'),
+                'message' => $this->_getHelper()->__('The coupon code is already applied.'),
                 'field' => 'coupon'
-            );
-        }
-        $this->getQuote()->setCouponCode($couponCode);
-        $this->recalculateTotals();
-        if ($couponCode !== null
-            && $this->getQuote()->getCouponCode() !== $couponCode) {
-            return array(
-                'error' => true,
-                'message' => Mage::helper('ecomdev_checkitout')->__('The coupon code is invalid.'),
-                'field' => 'coupon'
-            );
+            ));
         }
 
-        return array('success' => true, 'coupon' => $this->getQuote()->getCouponCode());
+        if (!$response->getError()) {
+            $this->getQuote()->setCouponCode($couponCode);
+            $this->recalculateTotals();
+            if ($couponCode !== null
+                && $this->getQuote()->getCouponCode() !== $couponCode) {
+                $response->addData(array(
+                    'error' => true,
+                    'message' => $this->_getHelper()->__('The coupon code is invalid.'),
+                    'field' => 'coupon'
+                ));
+            } else {
+                $response->addData(
+                    array(
+                        'success' => true,
+                        'coupon' => $this->getQuote()->getCouponCode()
+                    )
+                );
+            }
+        }
+
+        $this->dispatchEvent(__FUNCTION__, 'after', array('response' => $response));
+        return $response->getData();
     }
 
     /**
@@ -139,6 +202,14 @@ class EcomDev_CheckItOut_Model_Type_Onepage
      */
     public function saveBilling($data, $customerAddressId)
     {
+        $response = new Varien_Object();
+        $this->dispatchEvent(__FUNCTION__, 'before', array(
+            'response' => $response,
+            'address_data' => $data,
+            'address' => $this->getQuote()->getBillingAddress(),
+            'customer_address_id' => $customerAddressId
+        ));
+
         $result = $this->_getDependency()->saveBilling($data, $customerAddressId);
 
         if (!$this->getQuote()->getCustomerId()
@@ -150,12 +221,17 @@ class EcomDev_CheckItOut_Model_Type_Onepage
             if ($customer->getId()) {
                 $result = array(
                     'error' => 1,
-                    'message' => Mage::helper('ecomdev_checkitout')->__('You are already registered with this email address, please %s.', $loginAction),
+                    'message' => $this->_getHelper()
+                        ->__('You are already registered with this email address, please %s.', $loginAction),
                     'field' => 'email'
                 );
+            } elseif (isset($result['error'])) {
+                $this->getQuote()->getBillingAddress()
+                    ->setEmail($data['email']);
             }
         }
 
+        $recalculateTotals = false;
         if (isset($result['error'])) {
             $this->getQuote()->getBillingAddress()
                 ->addData($this->_filterAddressData($data))
@@ -167,24 +243,39 @@ class EcomDev_CheckItOut_Model_Type_Onepage
                 $billing->unsAddressId()->unsAddressType();
                 $shipping = $this->getQuote()->getShippingAddress();
                 $shippingMethod = $shipping->getShippingMethod();
-                $shipping->addData($billing->getData())
+                $shipping->addData($this->_filterAddressData($billing->getData()))
                     ->setSameAsBilling(1)
                     ->setSaveInAddressBook(0)
                     ->setShippingMethod($shippingMethod);
+                $this->dispatchEvent(__FUNCTION__, 'copy_address', array(
+                    'shipping_address' => $shipping,
+                    'billing_address' => $billing
+                ));
             }
 
-            $this->recalculateTotals();
+            $recalculateTotals = true;
         }
 
         if (!$this->getQuote()->isVirtual() && !empty($data['use_for_shipping'])
             && !$this->getQuote()->getShippingAddress()->getShippingMethod()) {
             $this->getQuote()->getShippingAddress()->setShippingMethod(
-                Mage::helper('ecomdev_checkitout')->getDefaultShippingMethod()
+                $this->_getHelper()->getDefaultShippingMethod($this->getQuote())
             );
+            $recalculateTotals = true;
+        }
+
+        if ($recalculateTotals) {
             $this->recalculateTotals();
         }
 
-        return $result;
+        $response->addData($result);
+
+        $this->dispatchEvent(__FUNCTION__, 'after', array(
+            'response' => $response,
+            'address' => $this->getQuote()->getBillingAddress()
+        ));
+
+        return $response->getData();
     }
 
     /**
@@ -196,34 +287,54 @@ class EcomDev_CheckItOut_Model_Type_Onepage
      */
     public function saveShipping($data, $customerAddressId)
     {
+        $response = new Varien_Object();
+        $this->dispatchEvent(__FUNCTION__, 'before', array(
+            'response' => $response,
+            'address_data' => $data,
+            'address' => $this->getQuote()->getShippingAddress(),
+            'customer_address_id' => $customerAddressId
+        ));
+
         $result = $this->_getDependency()->saveShipping($data, $customerAddressId);
 
+        $recalculateTotals = false;
         if (isset($result['error'])) {
             $this->getQuote()
                 ->getShippingAddress()
                 ->addData($this->_filterAddressData($data))
                 ->implodeStreetAddress();
-
-            $this->recalculateTotals();
+            $recalculateTotals = true;
         }
 
         if (!$this->getQuote()->getShippingAddress()->getShippingMethod()) {
             $this->getQuote()->getShippingAddress()->setShippingMethod(
-                Mage::helper('ecomdev_checkitout')->getDefaultShippingMethod()
+                $this->_getHelper()->getDefaultShippingMethod($this->getQuote())
             );
+            $recalculateTotals = true;
+        }
+
+        if ($recalculateTotals) {
             $this->recalculateTotals();
         }
 
-        return $result;
+        $response->addData($result);
+
+        $this->dispatchEvent(__FUNCTION__, 'after', array(
+            'response' => $response,
+            'address' => $this->getQuote()->getShippingAddress()
+        ));
+
+        return $response->getData();
     }
 
     /**
      * Recalculates totals for checkout object
-     * s
+     *
      * @return EcomDev_CheckItOut_Model_Type_Onepage
      */
     public function recalculateTotals()
     {
+        $this->dispatchEvent(__FUNCTION__, 'before');
         if (!$this->getQuote()->isVirtual()) {
             $this->getQuote()
                 ->getShippingAddress()->setCollectShippingRates(true);
@@ -232,6 +343,8 @@ class EcomDev_CheckItOut_Model_Type_Onepage
         $this->getQuote()->setTotalsCollectedFlag(false);
         $this->getQuote()->collectTotals();
         $this->getQuote()->save();
+
+        $this->dispatchEvent(__FUNCTION__, 'after');
         return $this;
     }
 

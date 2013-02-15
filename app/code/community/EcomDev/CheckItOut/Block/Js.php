@@ -11,7 +11,7 @@
  *
  * @category   EcomDev
  * @package    EcomDev_CheckItOut
- * @copyright  Copyright (c) 2012 EcomDev BV (http://www.ecomdev.org)
+ * @copyright  Copyright (c) 2013 EcomDev BV (http://www.ecomdev.org)
  * @license    http://www.ecomdev.org/license-agreement  End User License Agreement for EcomDev Premium Extensions.
  * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
  */
@@ -84,4 +84,28 @@ class EcomDev_CheckItOut_Block_Js extends Mage_Checkout_Block_Onepage_Abstract
         return $this->helper('ecomdev_checkitout')->isAllowedGuestCheckout();
     }
 
+    /**
+     * Returns preloaded steps JSON
+     *
+     * @return string
+     */
+    public function getStepsJson()
+    {
+        $response = new Varien_Object();
+        Mage::dispatchEvent('ecomdev_checkitout_js_get_steps_json_before', array(
+            'block' => $this,
+            'response' => $response
+        ));
+
+        $response->setReview(
+            $this->helper('ecomdev_checkitout/render')->renderHandle('checkout_onepage_review')
+        );
+
+        Mage::dispatchEvent('ecomdev_checkitout_js_get_steps_json_after', array(
+            'block' => $this,
+            'response' => $response
+        ));
+
+        return $this->helper('core')->jsonEncode($response->getData());
+    }
 }
