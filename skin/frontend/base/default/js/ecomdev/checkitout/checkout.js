@@ -109,6 +109,9 @@ EcomDev.CheckItOut = Class.create({
         this.toReload = [];
 
         this.stepHash = $H(this.config.stepHash);
+        this.stepHtml = false;
+        this.preloadedHtml = this.config.preloadedHtml;
+
         // Initialize instace for static class
         EcomDev.CheckItOut.setInstance(this);
         for (var i= 0, v=this.steps.values(), l= v.length; i < l; i ++) {
@@ -201,10 +204,12 @@ EcomDev.CheckItOut = Class.create({
     handleReload: function (stepObject) {
         var reloadCallbacks = [];
         this.onlyHashed = (stepObject.lastHash ? stepObject.lastHash : false);
+        this.stepHtml = (stepObject.lastHtml ? stepObject.lastHtml : false);
         this.collectReload(stepObject, reloadCallbacks);
         this.onlyHashed = false;
         this.reload();
         this.invokeCallbacks(reloadCallbacks);
+        this.stepHtml = false;
     },
     /**
      * Handles reload of particular checkout step object
@@ -245,7 +250,13 @@ EcomDev.CheckItOut = Class.create({
                 continue;
             }
 
-            if (!stepObject.isLoading() && Object.isFunction(steps[i].load)) {
+            if (this.stepHtml && this.stepHtml[steps[i].code] !== null) {
+                continue;
+            }
+
+            if (!stepObject.isLoading()
+                && steps[i].canHaveCustomLoad
+                && Object.isFunction(steps[i].load)) {
                 reloadCallbacks.push(
                     [steps[i], steps[i].load]
                 );
@@ -405,6 +416,18 @@ EcomDev.CheckItOut = Class.create({
                 onComplete: this.onReloadComplete
             });
             request.steps = steps;
+        }
+
+        if (this.stepHtml) {
+            var stepCodes = Object.keys(this.stepHtml);
+            for (var i=0, l=stepCodes.length; i<l; i++) {
+                if (this.getStep(stepCodes[i])
+                    && this.stepHtml[stepCodes[i]] !== null
+                    && this.stepHtml[stepCodes[i]] !== false
+                    && this.stepHash.get(stepCodes[i]) !== this.getStep(stepCodes[i]).loadedHash) {
+                    this.getStep(stepCodes[i]).update(this.stepHtml[stepCodes[i]]);
+                }
+            }
         }
     },
     /**

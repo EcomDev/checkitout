@@ -100,8 +100,13 @@ var ItemAction = Class.create({
         var result = response.responseText.evalJSON();
         if (result.success) {
             this.checkout.onlyHashed = (result.stepHash ? result.stepHash : false);
+            this.checkout.stepHtml = (result.stepHtml ? result.stepHtml : false);
             this.checkout.reloadSteps(['billing', 'shipping']);
             this.checkout.onlyHashed = false;
+            this.checkout.stepHtml = false;
+            if (result.stepHash && result.stepHash.review) {
+                this.reviewStep.loadedHash = result.stepHash.review;
+            }
         } else {
             alert(result.error);
             this.reset();

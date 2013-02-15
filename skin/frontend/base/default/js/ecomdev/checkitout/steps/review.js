@@ -26,6 +26,14 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
      * @type String
      */
     code: 'review',
+
+    /**
+     * Indicates availability of custom load
+     *
+     * @type Boolean
+     */
+    canHaveCustomLoad: false,
+
     autoSubmit: false,
     /**
      * Order review checkout step initalization
@@ -94,7 +102,14 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
      */
     initCheckout: function ($super) {
         $super();
-        this.load();
+
+        if (!this.checkout.getStep('payment')
+            || !this.checkout.getStep('payment').noReviewLoad) {
+            this.update(this.checkout.preloadedHtml.review);
+        } else {
+            this.showMask();
+            this.loadedHash = false;
+        }
     },
     /**
      * Loads order review info block
@@ -128,14 +143,24 @@ var Review = Class.create(EcomDev.CheckItOut.Step, {
      * @return void
      */
     loadComplete: function (response) {
-        this.hideMask();
-        this.loadedHash = this.checkout.stepHash.get(this.code);
-        this.updateContent(response.responseText);
-        this.agreementsForm = $(this.agreementsFormId);
-        this.isLoading(false);
+        this.update(response.responseText);
         if (this.checkout) {
             this.checkout.notifyLoading();
         }
+    },
+    /**
+     * Update content of review step
+     *
+     * @param {String} htmlContent
+     * @return void
+     */
+    update: function (htmlContent) {
+        this.hideMask();
+        this.loadedHash = this.checkout.stepHash.get(this.code);
+        this.wasLoaded = true;
+        this.updateContent(htmlContent);
+        this.agreementsForm = $(this.agreementsFormId);
+        this.isLoading(false);
     },
     /**
      * Updates content of the step

@@ -29,7 +29,6 @@
     if (window.shippingMethod) {
         shippingMethod.lastSubmitted = <?php echo $this->getShippingMethodJson();?>;
     }
-
     <?php endif;?>
 
     var lastPrice, quoteBaseGrandTotal;
@@ -44,7 +43,9 @@
         additionalContainer: $('onepage-checkout-shipping-method-additional-load'),
         isAllowedGuestCheckout: <?php echo (int)$this->isAllowedGuestCheckout();?>,
         stepHash: <?php echo $this->getHashJson(); ?>,
+        preloadedHtml: <?php echo $this->getStepsJson();?>,
         useClassForHide: true,
+        currentPaymentMethod: '<?php echo $this->jsQuoteEscape($this->getQuote()->getPayment()->getMethod());?>',
         popUpOutside: true,
         overlayOpacity: 0.8,
         maskOpacity: 0.8

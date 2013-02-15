@@ -26,6 +26,14 @@ EcomDev.CheckItOut.Step = Class.create({
      * @type String
      */
     code: '',
+
+    /**
+     * Indicates availability of custom load
+     *
+     * @type Boolean
+     */
+    canHaveCustomLoad: true,
+
     /**
      * List of ignored key codes for submitting data
      *
@@ -118,6 +126,7 @@ EcomDev.CheckItOut.Step = Class.create({
         this.onChange = this.handleChange.bind(this);
         this.onAjaxComplete = this.submitComplete.bind(this);
         this.lastHash = false;
+        this.lastHtml = false;
         this.loadedHash = false;
         this.elementValidator = this.validateElement.bind(this);
         EcomDev.CheckItOut.addStep(this);
@@ -322,23 +331,39 @@ EcomDev.CheckItOut.Step = Class.create({
 
             var element = Event.element(evt);
             element.wasChanged = true;
+            this.lastChangedElement = element;
+            this.lastChangedElementValue = element.value;
 
             if (this.autoValidate && ['change', 'click'].indexOf(evt.type) !== -1) {
                 Validation.isOnChange = true;
                 Validation.validate(element);
                 Validation.isOnChange = false;
             }
+        } else {
+            this.lastChangedElement = false;
+            this.lastChangedElementValue = false;
         }
 
         if (this.changeInterval) {
+            if (evt.type && this.checkLastSubmitted()) {
+                return;
+            }
+
             if (this.timeout) {
                 clearTimeout(this.timeout);
             }
+
             this.isChangeTimeout(true);
+
             this.timeout = setTimeout(this.updater, this.changeInterval);
         } else {
             this.updater();
         }
+    },
+    checkLastSubmitted: function () {
+        return this.lastChangedElement && this.lastSubmittedElement
+            && this.lastSubmittedElement === this.lastChangedElement
+            && this.lastSubmittedElementValue === this.lastChangedElementValue;
     },
     /**
      * Submits checkout step form values
@@ -356,8 +381,20 @@ EcomDev.CheckItOut.Step = Class.create({
             return;
         }
 
+        if (this.lastChangedElement) {
+            if (this.checkLastSubmitted()) {
+                return;
+            }
+            this.lastSubmittedElement = this.lastChangedElement;
+            this.lastSubmittedElementValue = this.lastChangedElementValue;
+        } else {
+            this.lastSubmittedElement = false;
+            this.lastSubmittedElementValue = false;
+        }
+
         if (!this.autoValidate || this.isValid(false) || this.autoSubmitInvalid) {
             this.lastHash = false;
+            this.lastHtml = false;
             this.isLoading(true);
             this.respondCallbacks();
             new Ajax.Request(this.saveUrl, {
@@ -380,6 +417,7 @@ EcomDev.CheckItOut.Step = Class.create({
             var result = response.responseText.evalJSON();
             if (result.stepHash) {
                 this.lastHash = result.stepHash;
+                this.lastHtml = result.stepHtml;
             }
         } catch (e) {
             alert(e);

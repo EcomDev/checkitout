@@ -9,7 +9,6 @@ js/ecomdev/prototype.js								                    js/ecomdev/prototype.js
 skin/adminhtml/default/default/css/ecomdev/checkitout.css 			    skin/adminhtml/default/default/css/ecomdev/checkitout.css
 skin/adminhtml/default/default/images/ecomdev/checkitout 			    skin/adminhtml/default/default/images/ecomdev/checkitout
 skin/frontend/base/default/css/ecomdev/checkitout.css 				    skin/frontend/base/default/css/ecomdev/checkitout.css
-skin/frontend/base/default/js/ecomdev/checkitout.js 				    skin/frontend/base/default/js/ecomdev/checkitout.js
 skin/frontend/base/default/js/ecomdev/checkitout 				        skin/frontend/base/default/js/ecomdev/checkitout
 skin/frontend/default/default/css/ecomdev/checkitout.css			    skin/frontend/default/default/css/ecomdev/checkitout.css
 skin/frontend/default/blank/css/ecomdev/checkitout.css				    skin/frontend/default/blank/css/ecomdev/checkitout.css

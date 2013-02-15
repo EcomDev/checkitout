@@ -20,6 +20,10 @@
 .checkitout .checkout-step .step-loading { position: absolute; background-color: #fff; text-align: center; vertical-align: middle;}
 .checkitout .checkout-step .step-loading span { position: relative; top: 45%;}
 
+.checkitout #review-buttons-container button.disabled span span {
+    background: url(../../../images/ecomdev/checkitout/base/bg_loader.gif) -5px center no-repeat !important;
+}
+
 /* Checkout Layout Part Styles */
 .checkitout .checkout-top { width: 100%; clear: both; }
 .checkitout .checkout-right { width: 62%; float: right; }

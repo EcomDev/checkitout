@@ -44,12 +44,21 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
      */
     protected $_specialHandlesForSteps = array(
         'shipping_method' => 'checkout_onepage_shippingmethod',
-        'payment' => 'checkout_onepage_paymentmethod'
+        'payment' => 'checkout_onepage_paymentmethod',
+        'review' => 'checkout_onepage_review'
     );
 
     protected $_ignoreQuoteErrorActions = array(
         'changeQty', 'remove'
     );
+
+    /**
+     * This array will contain hash info cart
+     * before action was performed
+     *
+     * @var array
+     */
+    protected $_hashInfoBeforeSave = array();
 
     /**
      * Validate ajax request and redirect on failure
@@ -94,6 +103,29 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
     protected function _getHelper()
     {
         return Mage::helper('ecomdev_checkitout');
+    }
+
+    /**
+     * Saves quote hash before any action performed
+     *
+     * @return Mage_Checkout_OnepageController
+     */
+    public function preDispatch()
+    {
+        parent::preDispatch();
+
+        if ($this->_isActive()) {
+            $this->_hashInfoBeforeSave = Mage::getSingleton('ecomdev_checkitout/hash')->getHash(
+                $this->getOnepage()->getQuote()
+            );
+        }
+
+        if ($this->_isActive()
+            && !$this->getOnepage()->getQuote()->getPayment()->getMethod()) {
+            Mage::helper('ecomdev_checkitout/render')->addHandle(self::LAYOUT_HANDLE_NO_PAYMENT);
+        }
+
+        return $this;
     }
 
     /**
@@ -178,12 +210,7 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
 
         foreach ($steps as $step) {
             if (isset($this->_specialHandlesForSteps[$step])) {
-                $layout = Mage::getModel('core/layout');
-                $update = $layout->getUpdate();
-                $update->load($this->_specialHandlesForSteps[$step]);
-                $layout->generateXml();
-                $layout->generateBlocks();
-                $result[$step] =  $layout->getOutput();
+                $result[$step] = $this->_getHandleStepHtml($step);
             }
         }
 
@@ -194,6 +221,22 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
         }
 
         $this->getResponse()->setBody($resultJSON);
+    }
+
+    /**
+     * Returns handle based step html
+     *
+     * @param string $step
+     * @return string
+     */
+    protected function _getHandleStepHtml($step)
+    {
+        if (!isset($this->_specialHandlesForSteps[$step])) {
+            return null;
+        }
+
+        return Mage::helper('ecomdev_checkitout/render')
+                   ->renderHandle($this->_specialHandlesForSteps[$step]);
     }
 
     /**
@@ -327,9 +370,26 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
      */
     protected function _addHashInfo(&$result)
     {
-        $result['stepHash'] = Mage::getSingleton('ecomdev_checkitout/hash')->getHash(
+        $currentHash = Mage::getSingleton('ecomdev_checkitout/hash')->getHash(
             $this->getOnepage()->getQuote()
         );
+        $result['stepHash'] = $currentHash;
+
+        foreach ($currentHash as $key => $value) {
+            if (isset($result['goto_section'])
+                && $result['goto_section'] === $key
+                && isset($result['update_section'])) {
+                $result['stepHtml'][$key] = $result['update_section']['html'];
+                unset($result['update_section']);
+                unset($result['goto_section']);
+            } elseif (isset($this->_hashInfoBeforeSave[$key])
+                && $value !== $this->_hashInfoBeforeSave[$key]) {
+                $result['stepHtml'][$key] = $this->_getHandleStepHtml($key);
+            } elseif (isset($this->_hashInfoBeforeSave[$key])) {
+                $result['stepHtml'][$key] = false;
+            }
+        }
+
 
         return $this;
     }
@@ -492,7 +552,6 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
         }
 
         $this->_addHashInfo($result);
-
         $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
 

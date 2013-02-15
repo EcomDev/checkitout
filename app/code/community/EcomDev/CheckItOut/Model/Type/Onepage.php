@@ -120,7 +120,7 @@ class EcomDev_CheckItOut_Model_Type_Onepage
         }
 
         if ($recalculateTotals) {
-            $this->recalculateTotals(true);
+            $this->recalculateTotals();
         }
 
         if (!$this->getQuote()->isVirtual()
@@ -243,10 +243,14 @@ class EcomDev_CheckItOut_Model_Type_Onepage
                 $billing->unsAddressId()->unsAddressType();
                 $shipping = $this->getQuote()->getShippingAddress();
                 $shippingMethod = $shipping->getShippingMethod();
-                $shipping->addData($billing->getData())
+                $shipping->addData($this->_filterAddressData($billing->getData()))
                     ->setSameAsBilling(1)
                     ->setSaveInAddressBook(0)
                     ->setShippingMethod($shippingMethod);
+                $this->dispatchEvent(__FUNCTION__, 'copy_address', array(
+                    'shipping_address' => $shipping,
+                    'billing_address' => $billing
+                ));
             }
 
             $recalculateTotals = true;
@@ -261,7 +265,7 @@ class EcomDev_CheckItOut_Model_Type_Onepage
         }
 
         if ($recalculateTotals) {
-            $this->recalculateTotals(true);
+            $this->recalculateTotals();
         }
 
         $response->addData($result);
@@ -299,7 +303,6 @@ class EcomDev_CheckItOut_Model_Type_Onepage
                 ->getShippingAddress()
                 ->addData($this->_filterAddressData($data))
                 ->implodeStreetAddress();
-
             $recalculateTotals = true;
         }
 
@@ -308,11 +311,10 @@ class EcomDev_CheckItOut_Model_Type_Onepage
                 $this->_getHelper()->getDefaultShippingMethod($this->getQuote())
             );
             $recalculateTotals = true;
-
         }
 
         if ($recalculateTotals) {
-            $this->recalculateTotals(true);
+            $this->recalculateTotals();
         }
 
         $response->addData($result);
@@ -328,10 +330,9 @@ class EcomDev_CheckItOut_Model_Type_Onepage
     /**
      * Recalculates totals for checkout object
      *
-     * @param bool $reload
      * @return EcomDev_CheckItOut_Model_Type_Onepage
      */
-    public function recalculateTotals($reload = false)
+    public function recalculateTotals()
     {
         $this->dispatchEvent(__FUNCTION__, 'before');
         if (!$this->getQuote()->isVirtual()) {
@@ -342,15 +343,6 @@ class EcomDev_CheckItOut_Model_Type_Onepage
         $this->getQuote()->setTotalsCollectedFlag(false);
         $this->getQuote()->collectTotals();
         $this->getQuote()->save();
-
-        if ($reload) {
-            // Reload quote to get rid of possible zero totals
-            $newQuote = Mage::getModel('sales/quote')->load($this->getQuote()->getId());
-            $this->getCheckout()->replaceQuote($newQuote);
-            if ($this->getQuote() !== $this->getCheckout()->getQuote()) {
-                $this->setQuote($this->getCheckout()->getQuote());
-            }
-        }
 
         $this->dispatchEvent(__FUNCTION__, 'after');
         return $this;

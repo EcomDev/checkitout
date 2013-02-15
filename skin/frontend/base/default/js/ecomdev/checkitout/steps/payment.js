@@ -76,10 +76,11 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
             return;
         }
 
+        this.noReviewLoad = false;
         this.form = form;
         this.saveUrl = saveUrl;
         this.parentConstructor = $super;
-        this.onOutsideCheckboxClick = this.handleOutsizeCheckboxClick.bind(this);
+        this.onOutsideCheckboxClick = this.handleOutsideCheckboxClick.bind(this);
         this.errorEl = new Element('input', {type: 'hidden', value: 1, name: 'cio_payment_method_error', id: 'payment_method_error', 'class' : 'required-entry ajax-error'});
     },
     /**
@@ -207,7 +208,6 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
             elements[i].setAttribute('autocomplete','off');
         }
         if (method) this.switchMethod(method);
-
     },
     /**
      * Inits what is CVV tooltips
@@ -239,7 +239,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
      * @param Event evt
      * @return void
      */
-    handleOutsizeCheckboxClick: function (evt) {
+    handleOutsideCheckboxClick: function (evt) {
         if (!this.content.visible()) {
             this.handleChange({});
         }
@@ -274,13 +274,6 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
     initCheckout: function ($super) {
         $super();
         this.content.insert({after: this.errorEl});
-        this.loadedHash = false;
-        // Initial payment methods load
-        if (this.checkout.getStep('shipping_method')) {
-            this.checkout.reloadSteps(['shipping_method']);
-        } else {
-            this.checkout.reloadSteps(['billing']);
-        }
     },
     /**
      * Checks that it is a single method
@@ -320,8 +313,9 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
             fireAnEvent || document.body.fire('payment-method:switched', {method_code : method});
         }
 
-        if (!form || form.select('select','input', 'textarea').length == 0) {
+        if ((!form || form.select('select','input', 'textarea').length == 0)) {
             this.handleChange({});
+            this.noReviewLoad = true;
         }
 
         if (this.currentMethod != method && this.checkout) {
@@ -499,16 +493,6 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
 
         if (result.redirect) {
             this.checkout.paymentRedirect = result.redirect;
-        }
-
-        // Support of centinel features
-        if (result.update_section
-            && this.checkout.getStep(result.update_section.name)) {
-            var stepToUpdate = this.checkout.getStep(result.update_section.name);
-            if (Object.isFunction(stepToUpdate.updateContent)) {
-                stepToUpdate.updateContent(result.update_section.html);
-                stepToUpdate.loadedHash = result.stepHash[stepToUpdate.code];
-            }
         }
 
         if (result.error){

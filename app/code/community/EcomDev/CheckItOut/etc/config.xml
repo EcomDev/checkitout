@@ -353,6 +353,10 @@
                 <payment_method>0</payment_method>
                 <coupon_code>1</coupon_code>
             </hidden>
+            <design>
+                <active>1</active>
+                <layout>default</layout>
+            </design>
         </ecomdev_checkitout>
     </default>
 </config>
