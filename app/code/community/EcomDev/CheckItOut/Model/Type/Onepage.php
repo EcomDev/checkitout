@@ -43,7 +43,7 @@ class EcomDev_CheckItOut_Model_Type_Onepage
             // Uncamelize method name
             $method = strtolower(preg_replace('/[A-Z]/', '_\\0', $method));
         }
-        Mage::dispatchEvent('ecomdev_checkitout_' . $method . '_' . $suffix, $eventArgs);
+        Mage::dispatchEvent('ecomdev_checkitout_checkout_' . $method . '_' . $suffix, $eventArgs);
         return $this;
     }
 

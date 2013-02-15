@@ -1,0 +1,112 @@
+CheckItOut 1.5.0
+================
+New Features:
+- Reorganized architecture of AJAX communication to get rid of all the redundant calls to server.
+  Now amount of requests the same as in core version of one page checkout, in some cases even less requests.
+- Implemented indicator of submitting of data, that is shown as bg part of "Place Order" button.
+
+Improvements:
+- Separated contents of checkitout.js file into different files for not loading redundant JS files
+    - In case if you modified checkitout.js file, make diff of original supplied for your version
+      and place your changes into separate file according to the guidelines in the following article:
+      http://www.ecomdev.org/2012/11/29/magento-checkout-extension-ideas-architecture-revealed.html
+
+- Added events for checkout onepage proxy:
+    - ecomdev_checkitout_checkout_is_location_info_empty_before
+    - ecomdev_checkitout_checkout_is_location_info_empty_after
+    - ecomdev_checkitout_checkout_init_checkout_before
+    - ecomdev_checkitout_checkout_init_checkout_after
+    - ecomdev_checkitout_checkout_save_coupon_code_before
+    - ecomdev_checkitout_checkout_save_coupon_code_after
+    - ecomdev_checkitout_checkout_save_billing_before
+    - ecomdev_checkitout_checkout_save_billing_copy_address
+    - ecomdev_checkitout_checkout_save_billing_after
+    - ecomdev_checkitout_checkout_save_shipping_before
+    - ecomdev_checkitout_checkout_save_shipping_after
+    - ecomdev_checkitout_checkout_recalculate_totals_before
+    - ecomdev_checkitout_checkout_recalculate_totals_after
+
+- Added events for preloaded steps json generation in js block:
+    - ecomdev_checkitout_js_get_steps_json_before
+    - ecomdev_checkitout_js_get_steps_json_after
+
+Bug Fixes:
+- Save billing address with "use_for_shipping" flag was leading to override of totals
+
+CheckItOut 1.4.4
+================
+Bug Fixes:
+- Fix of "Place Order" button not working, because of no indication to end user that there is a save operation.
+
+CheckItOut 1.4.2
+================
+Bug fixes:
+- Fix for default values override
+
+CheckItOut 1.4.0
+================
+New Features:
+- GeoIP for looking up customer address
+- Default values for all checkout fields
+- Control of default as billing checkbox
+- Set of new designs for the checkout with icons and colors
+- Compatibility with Centinel
+Bug fixes:
+- IE compatibility issues
+- Auto-disable place order button
+
+CheckItOut 1.3.0
+================
+New Features:
+- Flexible layout implementation
+       - Possibility to change layout of elements with ease
+       - Possibility to choose different type of layout
+       - Flexible way to specify more then one handle for a page
+       - Possibility to inlude own css file and choose one from the existent
+- Possiblity to hide payment method if it can be ommited:
+       - Currently implemented for shipping and payment method selection
+- Default Payment/Shipping Method Selection
+- Possibility to enter coupon code on checkout page
+- Set up redirect for non-empty shopping carts right into checkout
+
+Compatibility with:
+- Persistent shopping cart feature
+- Paypal Express Payment method, except when payment method selection form is hidden
+
+CheckItOut 1.2.0
+================
+- Added native support of enterprise features:
+       - Reward Points
+       - Store Credit
+       - Gift Wrapping
+       - Gift Options
+- Added native support for gift messages
+- Removed dependency on payment template
+- Added compatibility for upcoming new version of Ebizmarts SagePay
+
+CheckItOut 1.1.1
+================
+- Smart Auto Validation
+- Stored Addresses feature
+
+CheckItOut 1.1.0
+================
+- Compatible with 1.4
+- Incredibly low number of steps reload during checkout process
+- IE 9 fully compatible
+- Injected customer login into email check
+
+CheckItOut 1.0.1
+================
+- Fix problem with IE 9
+- Fix problem with empty form payment methods
+
+CheckItOut 1.0.0
+================
+- Ability to change order product qty
+- Ability to remove product from order
+- Newsletter subscription in checkout
+- Confirmation step of the order in a different ways
+         - Checkbox with custom text
+         - Confirmation PopUp window
+- Full Support of standard Magento onepage checkout functionality
