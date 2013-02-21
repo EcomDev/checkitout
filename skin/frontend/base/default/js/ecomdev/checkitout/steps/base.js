@@ -332,7 +332,11 @@ EcomDev.CheckItOut.Step = Class.create({
             var element = Event.element(evt);
             element.wasChanged = true;
             this.lastChangedElement = element;
-            this.lastChangedElementValue = element.value;
+            if (element.type && element.type === 'checkbox') {
+                this.lastChangedElementValue = element.checked;
+            } else {
+                this.lastChangedElementValue = element.value;
+            }
 
             if (this.autoValidate && ['change', 'click'].indexOf(evt.type) !== -1) {
                 Validation.isOnChange = true;
