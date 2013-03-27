@@ -118,17 +118,18 @@ class EcomDev_CheckItOut_Model_Type_Onepage
             );
             $recalculateTotals = true;
         }
-
-        if ($recalculateTotals) {
-            $this->recalculateTotals();
-        }
-
+   
         if (!$this->getQuote()->isVirtual()
             && !$this->getQuote()->getShippingAddress()->getShippingMethod()
             && $this->_getHelper()->getDefaultShippingMethod($this->getQuote())) {
-            $this->saveShippingMethod(
+            $this->getQuote()->getShippingAddress()->setShippingMethod(
                 $this->_getHelper()->getDefaultShippingMethod($this->getQuote())
             );
+            $recalculateTotals = true;
+        }
+        
+        if ($recalculateTotals) {
+            $this->recalculateTotals();
         }
 
         if ($this->_getHelper()->isPaymentMethodHidden()) {
@@ -229,6 +230,9 @@ class EcomDev_CheckItOut_Model_Type_Onepage
                 $this->getQuote()->getBillingAddress()
                     ->setEmail($data['email']);
             }
+        } elseif (!empty($data) && isset($result['error']) && $result['error'] == -1) {
+            $result['field'] = 'email'; // Usually -1 indicates customer account email errors
+            $result['error'] = 1; // Make it true for js
         }
 
         $recalculateTotals = false;

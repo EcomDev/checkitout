@@ -49,6 +49,7 @@ EcomDev.CheckItOut.Step.Address = Class.create(EcomDev.CheckItOut.Step, {
          */
         this.onAddressLoad = this.fillForm.bind(this);
         var container = this.findContainer(form);
+        this.submitError = false;
         $super(container, saveUrl);
     },
     /**
@@ -180,8 +181,14 @@ EcomDev.CheckItOut.Step.Address = Class.create(EcomDev.CheckItOut.Step, {
             if (result.field && $(this.code + ':' + result.field)) {
                 Validation.ajaxError($(this.code + ':' + result.field), result.message);
             }
+            this.submitError = result; // Store last error for future usage
+        } else {
+            this.submitError = false;
         }
         return $super(response);
+    },
+    isValid: function ($super) {
+        return $super() && this.submitError === false;
     }
 });
 
@@ -447,6 +454,7 @@ var Shipping = Class.create(EcomDev.CheckItOut.Step.Address, {
             } else {
                 this.container.addClassName('same-as-billing');
             }
+            this.submitError = false; // Remove validation from it
             this.syncWithBilling();
         } else {
             if (!this.checkout || !this.checkout.useClassForHide) {

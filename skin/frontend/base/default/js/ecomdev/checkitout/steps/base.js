@@ -358,7 +358,6 @@ EcomDev.CheckItOut.Step = Class.create({
             }
 
             this.isChangeTimeout(true);
-
             this.timeout = setTimeout(this.updater, this.changeInterval);
         } else {
             this.updater();
