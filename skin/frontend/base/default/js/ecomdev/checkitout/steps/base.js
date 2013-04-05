@@ -374,6 +374,9 @@ EcomDev.CheckItOut.Step = Class.create({
      * @return void
      */
     submit: function () {
+        this._submit(true);
+    },
+    _submit: function (checkCompatibleMethod) {
         if (this.timeout) {
             clearInterval(this.timeout);
             this.timeout = undefined;
@@ -395,6 +398,11 @@ EcomDev.CheckItOut.Step = Class.create({
             this.lastSubmittedElementValue = false;
         }
 
+        if (checkCompatibleMethod && !this.save._isOriginal) {
+            // Do custom save operation in case if there are redifinition of any of the methods
+            return this.save();
+        }
+
         if (!this.autoValidate || this.isValid(false) || this.autoSubmitInvalid) {
             this.lastHash = false;
             this.lastHtml = false;
@@ -407,6 +415,21 @@ EcomDev.CheckItOut.Step = Class.create({
                 onFailure: this.checkout.onFailure
             });
         }
+    },
+    /**
+     * Validate compatibility method
+     *
+     *
+     * @returns {Boolean}
+     */
+    validate: function () {
+        return this.isValid();
+    },
+    /**
+     *
+     */
+    save: function () {
+        this._submit(false);
     },
     /**
      * Handles completing of ajax request for form submit
@@ -508,3 +531,6 @@ EcomDev.CheckItOut.Step = Class.create({
         this.content.update(htmlContent);
     }
 });
+
+// Keep save method reference to make sure it is an original instance of it
+EcomDev.CheckItOut.Step.prototype.save._isOriginal = true;

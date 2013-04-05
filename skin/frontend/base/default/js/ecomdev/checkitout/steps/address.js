@@ -188,7 +188,13 @@ EcomDev.CheckItOut.Step.Address = Class.create(EcomDev.CheckItOut.Step, {
         return $super(response);
     },
     isValid: function ($super) {
-        return $super() && this.submitError === false;
+        if (this.submitError !== false) {
+            if (this.submitError.field && $(this.code + ':' + this.submitError.field)) {
+                Validation.ajaxError($(this.code + ':' + this.submitError.field), this.submitError.message);
+            }
+        }
+
+        return this.submitError == false && $super();
     }
 });
 

@@ -332,6 +332,26 @@ class EcomDev_CheckItOut_Model_Type_Onepage
     }
 
     /**
+     * Invokes customer data validation in core functionality
+     *
+     * Works only on php version higher then 5.3
+     *
+     * @param array $data
+     * @return bool
+     */
+    public function validateCustomerData($data)
+    {
+        if (version_compare(PHP_VERSION, '5.3', '>=')) {
+            $reflection = new ReflectionObject($this->_getDependency());
+            $method = $reflection->getMethod('_validateCustomerData');
+            $method->setAccessible(true);
+            return $method->invokeArgs($this->_getDependency(), array($data));
+        }
+
+        return true;
+    }
+
+    /**
      * Recalculates totals for checkout object
      *
      * @return EcomDev_CheckItOut_Model_Type_Onepage
