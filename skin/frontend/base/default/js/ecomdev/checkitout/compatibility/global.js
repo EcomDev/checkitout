@@ -66,3 +66,33 @@ Event.observe(window, 'load', function () {
         };
     }
 });
+
+/**
+ * Override of ajax error method, since it doesn't work as expected for multiple ajax messages]
+ *
+ * @param elm
+ * @param errorMsg
+ */
+Validation.ajaxError = function(elm, errorMsg) {
+    var name = 'validate-ajax';
+    var advice = Validation.getAdvice(name, elm);
+
+    if (advice == null) {
+        advice = this.createAdvice(name, elm, false, errorMsg);
+    } else {
+        advice.update(errorMsg);
+    }
+
+    this.showAdvice(elm, advice, 'validate-ajax');
+    this.updateCallback(elm, 'failed');
+
+    elm.addClassName('validation-failed');
+    elm.addClassName('validate-ajax');
+    if (Validation.defaultOptions.addClassNameToContainer && Validation.defaultOptions.containerClassName != '') {
+        var container = elm.up(Validation.defaultOptions.containerClassName);
+        if (container && this.allowContainerClassName(elm)) {
+            container.removeClassName('validation-passed');
+            container.addClassName('validation-error');
+        }
+    }
+};

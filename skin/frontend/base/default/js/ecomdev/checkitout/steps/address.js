@@ -178,9 +178,7 @@ EcomDev.CheckItOut.Step.Address = Class.create(EcomDev.CheckItOut.Step, {
              window[this.code + 'RegionUpdater'].update();
              }
              */
-            if (result.field && $(this.code + ':' + result.field)) {
-                Validation.ajaxError($(this.code + ':' + result.field), result.message);
-            }
+            this._showAjaxError(result);
             this.submitError = result; // Store last error for future usage
         } else {
             this.submitError = false;
@@ -188,13 +186,45 @@ EcomDev.CheckItOut.Step.Address = Class.create(EcomDev.CheckItOut.Step, {
         return $super(response);
     },
     isValid: function ($super) {
-        if (this.submitError !== false) {
-            if (this.submitError.field && $(this.code + ':' + this.submitError.field)) {
-                Validation.ajaxError($(this.code + ':' + this.submitError.field), this.submitError.message);
+        var hasError = this.submitError !== false;
+
+        var result = true;
+
+        if (hasError) {
+            result = !this._showAjaxError(this.submitError);
+
+            if (arguments.length === 1 || arguments[1] === true) {
+                result = false;
             }
         }
 
-        return this.submitError == false && $super();
+        if (result && arguments.length > 1) {
+            result = $super(arguments[1]);
+        } else if (result) {
+            result = $super();
+        }
+
+        return result;
+    },
+    _showAjaxError: function (result) {
+        if (result.field
+            && $(this.code + ':' + result.field)
+            && $(this.code + ':' + result.field).wasChanged) {
+            var elm = $(this.code + ':' + result.field);
+            var classNames = $w(elm.className);
+            var isValid = classNames.all(function(className) {
+                var validatorFunction = Validation.get(className);
+                return !Validation.isVisible(elm) || validatorFunction.test(elm.value, elm);
+            });
+
+            if (isValid) {
+                // Show message only if original validation passed
+                Validation.ajaxError($(this.code + ':' + result.field), result.message);
+                return true;
+            }
+        }
+
+        return false;
     }
 });
 
