@@ -59,7 +59,7 @@ Event.observe(window, 'load', function () {
             checkout.config.save = review.saveUrl;
         }
 
-        review.nextStep = checkout.submitComplete;
+        review.nextStep = checkout.submitComplete.bind(checkout);
         checkout.submitComplete = function (response) {
             checkout.hideMask();
             review.onSave(response);
