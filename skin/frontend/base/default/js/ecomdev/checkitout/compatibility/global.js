@@ -68,31 +68,77 @@ Event.observe(window, 'load', function () {
 });
 
 /**
- * Override of ajax error method, since it doesn't work as expected for multiple ajax messages]
+ * Override of ajax error method, since it doesn't work as expected for multiple ajax messages
  *
  * @param elm
  * @param errorMsg
  */
-Validation.ajaxError = function(elm, errorMsg) {
-    var name = 'validate-ajax';
-    var advice = Validation.getAdvice(name, elm);
+Object.extend(Validation, {
+    showAdvice : function(elm, advice, adviceName){
+        if(!elm.advices){
+            elm.advices = new Hash();
+        }
+        else{
+            elm.advices.each(function(pair){
+                if (!advice || pair.value.id != advice.id) {
+                    // hide non-current advice after delay
+                    this.hideAdvice(elm, pair.value);
+                }
+            }.bind(this));
+        }
+        elm.advices.set(adviceName, advice);
+        if(typeof Effect == 'undefined') {
+            advice.style.display = 'block';
+        } else {
+            if(!advice._adviceAbsolutize) {
+                if (advice.currentEvent) {
+                    advice.currentEvent.cancel();
+                    advice.currentEvent = false;
+                }
+                advice.currentEvent = new Effect.Appear(advice, {duration : 1 });
+            } else {
+                Position.absolutize(advice);
+                advice.show();
+                advice.setStyle({
+                    'top':advice._adviceTop,
+                    'left': advice._adviceLeft,
+                    'width': advice._adviceWidth,
+                    'z-index': 1000
+                });
+                advice.addClassName('advice-absolute');
+            }
+        }
+    },
+    hideAdvice : function(elm, advice){
+        if (advice != null) {
+            if (advice.currentEvent) {
+                advice.currentEvent.cancel();
+                advice.currentEvent = false;
+            }
+            advice.currentEvent = new Effect.Fade(advice, {duration : 1, afterFinishInternal : function() {advice.hide();}});
+        }
+    },
+    ajaxError: function(elm, errorMsg) {
+        var name = 'validate-ajax';
+        var advice = Validation.getAdvice(name, elm);
 
-    if (advice == null) {
-        advice = this.createAdvice(name, elm, false, errorMsg);
-    } else {
-        advice.update(errorMsg);
-    }
+        if (advice == null) {
+            advice = this.createAdvice(name, elm, false, errorMsg);
+        } else {
+            advice.update(errorMsg);
+        }
 
-    this.showAdvice(elm, advice, 'validate-ajax');
-    this.updateCallback(elm, 'failed');
+        this.showAdvice(elm, advice, 'validate-ajax');
+        this.updateCallback(elm, 'failed');
 
-    elm.addClassName('validation-failed');
-    elm.addClassName('validate-ajax');
-    if (Validation.defaultOptions.addClassNameToContainer && Validation.defaultOptions.containerClassName != '') {
-        var container = elm.up(Validation.defaultOptions.containerClassName);
-        if (container && this.allowContainerClassName(elm)) {
-            container.removeClassName('validation-passed');
-            container.addClassName('validation-error');
+        elm.addClassName('validation-failed');
+        elm.addClassName('validate-ajax');
+        if (Validation.defaultOptions.addClassNameToContainer && Validation.defaultOptions.containerClassName != '') {
+            var container = elm.up(Validation.defaultOptions.containerClassName);
+            if (container && this.allowContainerClassName(elm)) {
+                container.removeClassName('validation-passed');
+                container.addClassName('validation-error');
+            }
         }
     }
-};
+});

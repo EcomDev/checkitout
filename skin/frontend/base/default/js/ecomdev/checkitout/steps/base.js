@@ -290,7 +290,10 @@ EcomDev.CheckItOut.Step = Class.create({
         }
         return classNames.all(function(className) {
             var validatorFunction = Validation.get(className);
-            return !Validation.isVisible(elm) || validatorFunction.test(elm.value, elm);
+            Validation.isOnChange = true;
+            var result = !Validation.isVisible(elm) || validatorFunction.test(elm.value, elm);
+            Validation.isOnChange = false;
+            return result;
         });
     },
     /**

@@ -178,15 +178,32 @@ EcomDev.CheckItOut.Step.Address = Class.create(EcomDev.CheckItOut.Step, {
              window[this.code + 'RegionUpdater'].update();
              }
              */
-            this._showAjaxError(result);
-            this.submitError = result; // Store last error for future usage
+            this.submitError = result;
+            if (this.hasBackendError()) {
+                this._showAjaxError(result);
+            }
         } else {
             this.submitError = false;
         }
         return $super(response);
     },
+    hasBackendError: function () {
+        if (this.submitError !== false
+            &&
+            (this.submitError.error = '-1'
+                || (this.submitError.value
+                    && this.submitError.field
+                    && this.submitError.value != $(this.code + ':' + this.submitError.field).value
+                    )
+            )) {
+            // Clear error if it is outdated.
+            this.submitError = false;
+        }
+
+        return this.submitError !== false;
+    },
     isValid: function ($super) {
-        var hasError = this.submitError !== false;
+        var hasError = this.hasBackendError();
 
         var result = true;
 
