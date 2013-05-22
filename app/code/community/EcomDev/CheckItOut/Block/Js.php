@@ -97,6 +97,8 @@ class EcomDev_CheckItOut_Block_Js extends Mage_Checkout_Block_Onepage_Abstract
             'response' => $response
         ));
 
+        // Stubbing the payment method for review step
+        Mage::getSingleton('ecomdev_checkitout/type_onepage')->stubPaymentMethod();
         $response->setReview(
             $this->helper('ecomdev_checkitout/render')->renderHandle('checkout_onepage_review')
         );

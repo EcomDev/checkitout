@@ -21,4 +21,8 @@
  */
 /* @var $this EcomDev_CheckItOut_Block_Js */
 ?>
-<script type="text/javascript">window.countryRegions=<?php echo $this->getRegionJson(); ?></script>
+<script type="text/javascript">
+window.countryRegions=<?php echo $this->getRegionJson(); ?>;
+window.currentPaymentMethod = '<?php echo $this->jsQuoteEscape($this->getQuote()->getPayment()->getMethod());?>';
+window.currentCheckoutMethod = '<?php echo $this->jsQuoteEscape($this->getQuote()->getData('checkout_method'));?>';
+</script>

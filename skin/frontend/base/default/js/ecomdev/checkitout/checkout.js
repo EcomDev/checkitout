@@ -51,6 +51,13 @@ EcomDev.CheckItOut = Class.create({
          */
         this.config = config;
 
+        /**
+         * Current checkout method
+         *
+         * @type {string}
+         */
+        this.method = this.config.method;
+
         if (this.config.useClassForHide) {
             this.useClassForHide = true;
         } else {

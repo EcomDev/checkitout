@@ -233,6 +233,7 @@ class EcomDev_CheckItOut_Model_Type_Onepage
         } elseif (!empty($data) && isset($result['error']) && $result['error'] == -1) {
             $result['field'] = 'email'; // Usually -1 indicates customer account email errors
             $result['error'] = 1; // Make it true for js
+            $result['value'] = isset($data['email']) ? $data['email'] : '';
         }
 
         $recalculateTotals = false;
@@ -367,6 +368,32 @@ class EcomDev_CheckItOut_Model_Type_Onepage
         $this->getQuote()->setTotalsCollectedFlag(false);
         $this->getQuote()->collectTotals();
         $this->getQuote()->save();
+
+        $this->dispatchEvent(__FUNCTION__, 'after');
+        return $this;
+    }
+
+
+    /**
+     * Stubs payment method some of the checkout steps,
+     * that require it to be set
+     *
+     * @return EcomDev_CheckItOut_Model_Type_Onepage
+     */
+    public function stubPaymentMethod()
+    {
+        $this->dispatchEvent(__FUNCTION__, 'before');
+
+        if (!$this->getQuote()->getPayment()->getMethod()) {
+            $methods = Mage::helper('payment')->getStoreMethods($this->getQuote()->getStore(), $this->getQuote());
+            foreach ($methods as $method) {
+                $this->getQuote()->getPayment()->setMethod($method->getCode());
+                if (method_exists($this->getQuote(), 'preventSaving')) {
+                    $this->getQuote()->preventSaving();
+                }
+                break;
+            }
+        }
 
         $this->dispatchEvent(__FUNCTION__, 'after');
         return $this;
