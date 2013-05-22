@@ -5,3 +5,4 @@ nbproject/private/
 .buildpath
 .settings/*
 *.zip
+.DS_Store

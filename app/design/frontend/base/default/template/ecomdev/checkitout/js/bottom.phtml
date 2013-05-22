@@ -45,7 +45,8 @@
         stepHash: <?php echo $this->getHashJson(); ?>,
         preloadedHtml: <?php echo $this->getStepsJson();?>,
         useClassForHide: true,
-        currentPaymentMethod: '<?php echo $this->jsQuoteEscape($this->getQuote()->getPayment()->getMethod());?>',
+        currentPaymentMethod: window.currentPaymentMethod,
+        method: window.currentCheckoutMethod,
         popUpOutside: true,
         overlayOpacity: 0.8,
         maskOpacity: 0.8

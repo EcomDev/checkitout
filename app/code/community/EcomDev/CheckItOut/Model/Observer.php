@@ -36,6 +36,16 @@ class EcomDev_CheckItOut_Model_Observer
     }
 
     /**
+     * Returns a checkout object instance
+     *
+     * @return EcomDev_CheckItOut_Model_Type_Onepage
+     */
+    protected function _getCheckout()
+    {
+        return Mage::getSingleton('ecomdev_checkitout/type_onepage');
+    }
+
+    /**
      * Replaces prototype library with 1.7 one
      *
      */
@@ -103,16 +113,35 @@ class EcomDev_CheckItOut_Model_Observer
 
             if ($this->_getHelper()->isCustomerCommentAllowed()
                     && isset($orderData['customer_comment'])) {
-                Mage::getSingleton('ecomdev_checkitout/type_onepage')
+                $this->_getCheckout()
                         ->getQuote()
                         ->setCustomerComment($orderData['customer_comment']);
             }
 
+
+            $post = $controller->getRequest()->getPost();
+
             if ($this->_getHelper()->isPaymentMethodHidden()) {
                 // Issue with not submitted form details if payment method is hidden
-                $post = $controller->getRequest()->getPost();
                 $post['payment']['method'] = $this->_getHelper()->getDefaultPaymentMethod();
                 $controller->getRequest()->setPost($post);
+            }
+
+            if (isset($post['billing']) && !$this->_getCheckout()->getQuote()->getCustomerId()
+                && $this->_getCheckout()->getQuote()->getCustomerEmail() !== $post['billing']['email']) {
+                $result = $this->_getCheckout()->validateCustomerData($post['billing']);
+                if ($result !== true) {
+                    $result['error'] = true;
+                    $result['success'] = false;
+                    $result['error_messages'] = $result['message'];
+                    // If customer data is not valid, throw an error
+                    $controller->setFlag('', Mage_Core_Controller_Front_Action::FLAG_NO_DISPATCH, true);
+                    $controller->getResponse()->setBody(
+                        Mage::helper('core')->jsonEncode($result)
+                    );
+                    $controller->getRequest()->setDispatched(true);
+                    return;
+                }
             }
 
             if ($controller->getRequest()->getPost('newsletter')) {

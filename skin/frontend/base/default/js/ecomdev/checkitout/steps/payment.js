@@ -207,7 +207,9 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
             }
             elements[i].setAttribute('autocomplete','off');
         }
-        if (method) this.switchMethod(method);
+        if (method && window.currentPaymentMethod !== method) {
+            this.switchMethod(method);
+        }
     },
     /**
      * Inits what is CVV tooltips
@@ -323,6 +325,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         }
 
         this.currentMethod = method;
+        window.currentPaymentMethod = this.currentMethod;
     },
     /**
      * Change payment form visibility

@@ -49,6 +49,7 @@ EcomDev.CheckItOut.Step.Address = Class.create(EcomDev.CheckItOut.Step, {
          */
         this.onAddressLoad = this.fillForm.bind(this);
         var container = this.findContainer(form);
+        this.submitError = false;
         $super(container, saveUrl);
     },
     /**
@@ -177,11 +178,70 @@ EcomDev.CheckItOut.Step.Address = Class.create(EcomDev.CheckItOut.Step, {
              window[this.code + 'RegionUpdater'].update();
              }
              */
-            if (result.field && $(this.code + ':' + result.field)) {
-                Validation.ajaxError($(this.code + ':' + result.field), result.message);
+            this.submitError = result;
+            if (this.hasBackendError()) {
+                this._showAjaxError(result);
             }
+        } else {
+            this.submitError = false;
         }
         return $super(response);
+    },
+    hasBackendError: function () {
+        if (this.submitError !== false
+            &&
+            (this.submitError.error = '-1'
+                || (this.submitError.value
+                    && this.submitError.field
+                    && this.submitError.value != $(this.code + ':' + this.submitError.field).value
+                    )
+            )) {
+            // Clear error if it is outdated.
+            this.submitError = false;
+        }
+
+        return this.submitError !== false;
+    },
+    isValid: function ($super) {
+        var hasError = this.hasBackendError();
+
+        var result = true;
+
+        if (hasError) {
+            result = !this._showAjaxError(this.submitError);
+
+            if (arguments.length === 1 || arguments[1] === true) {
+                result = false;
+            }
+        }
+
+        if (result && arguments.length > 1) {
+            result = $super(arguments[1]);
+        } else if (result) {
+            result = $super();
+        }
+
+        return result;
+    },
+    _showAjaxError: function (result) {
+        if (result.field
+            && $(this.code + ':' + result.field)
+            && $(this.code + ':' + result.field).wasChanged) {
+            var elm = $(this.code + ':' + result.field);
+            var classNames = $w(elm.className);
+            var isValid = classNames.all(function(className) {
+                var validatorFunction = Validation.get(className);
+                return !Validation.isVisible(elm) || validatorFunction.test(elm.value, elm);
+            });
+
+            if (isValid) {
+                // Show message only if original validation passed
+                Validation.ajaxError($(this.code + ':' + result.field), result.message);
+                return true;
+            }
+        }
+
+        return false;
     }
 });
 
@@ -447,6 +507,7 @@ var Shipping = Class.create(EcomDev.CheckItOut.Step.Address, {
             } else {
                 this.container.addClassName('same-as-billing');
             }
+            this.submitError = false; // Remove validation from it
             this.syncWithBilling();
         } else {
             if (!this.checkout || !this.checkout.useClassForHide) {

@@ -1,5 +1,19 @@
+CheckItOut 1.5.1
+================
+Improvements:
+- Improvements of AJAX calls, now max 1 call per page reload
+- Added validation of customer data before submitting an order (prevents empty email orders)
+- Added events for checkout onepage proxy:
+    - ecomdev_checkitout_checkout_stub_payment_method_before
+    - ecomdev_checkitout_checkout_stub_payment_method_after
+
+Bug Fixes:
+- Fix EE 1.12 and newer compatibility issue with pbridge fatal error
+- Fix adress validation misbehavior
+
 CheckItOut 1.5.0
 ================
+
 New Features:
 - Reorganized architecture of AJAX communication to get rid of all the redundant calls to server.
   Now amount of requests the same as in core version of one page checkout, in some cases even less requests.

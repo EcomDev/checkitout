@@ -38,6 +38,16 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
     protected $_addBaseHandleToActions = array('index', 'layout', 'steps');
 
     /**
+     * Steps that require payment method to be set
+     *
+     * For these steps it will select first available payment method for quote,
+     * but only for rendering process
+     *
+     * @var array
+     */
+    protected $_stepsWithRequiredPayment = array('review');
+
+    /**
      * List of special handles for checkout steps
      *
      * @var array
@@ -120,11 +130,6 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
             );
         }
 
-        if ($this->_isActive()
-            && !$this->getOnepage()->getQuote()->getPayment()->getMethod()) {
-            Mage::helper('ecomdev_checkitout/render')->addHandle(self::LAYOUT_HANDLE_NO_PAYMENT);
-        }
-
         return $this;
     }
 
@@ -149,15 +154,15 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
             $this->getLayout()->getUpdate()->addHandle($designHandle);
         }
 
-        if ($this->_isActive()
-            && !$this->getOnepage()->getQuote()->getPayment()->getMethod()) {
-             $this->getLayout()->getUpdate()->addHandle(self::LAYOUT_HANDLE_NO_PAYMENT);
-        }
-
         if ($this->_isActive() && $this->_getHelper()->getCompatibilityMode('template') !== false) {
             $this->getLayout()->getUpdate()->addHandle(
                 $this->getFullActionName() . '_' . $this->_getHelper()->getCompatibilityMode('template')
             );
+        }
+
+        if ($this->_isActive()
+            && in_array($this->getRequest()->getActionName(), $this->_stepsWithRequiredPayment)) {
+            $this->getOnepage()->stubPaymentMethod();
         }
 
         return $this;
@@ -235,8 +240,14 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
             return null;
         }
 
-        return Mage::helper('ecomdev_checkitout/render')
+        if (in_array($step, $this->_stepsWithRequiredPayment)) {
+            $this->getOnepage()->stubPaymentMethod();
+        }
+
+        $content =  Mage::helper('ecomdev_checkitout/render')
                    ->renderHandle($this->_specialHandlesForSteps[$step]);
+
+        return $content;
     }
 
     /**

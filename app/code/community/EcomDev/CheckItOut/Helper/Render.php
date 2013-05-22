@@ -50,10 +50,17 @@ class EcomDev_CheckItOut_Helper_Render extends Mage_Core_Helper_Abstract
     public function renderHandle($handle)
     {
         if (is_string($handle)) {
-            $handle = array(
-                $handle,
-                $handle . '_' . Mage::helper('ecomdev_checkitout')->getCompatibilityMode('template')
-            );
+            if (Mage::helper('ecomdev_checkitout')->getCompatibilityMode('template') !== false) {
+                $handle = array(
+                    $handle,
+                    $handle . '_' . Mage::helper('ecomdev_checkitout')->getCompatibilityMode('template')
+                );
+            } else {
+                $handle = array(
+                    $handle
+                );
+            }
+
             $handle = array_merge(
                 $handle,
                 $this->_handles
@@ -62,6 +69,7 @@ class EcomDev_CheckItOut_Helper_Render extends Mage_Core_Helper_Abstract
 
         $layout = Mage::getModel('core/layout');
         $layout->setArea(Mage::app()->getLayout()->getArea());
+        // Removing layout singleton, since it brakes the functionality
         $previousValue = Mage::registry('_singleton/core/layout');
         Mage::unregister('_singleton/core/layout');
         Mage::register('_singleton/core/layout', $layout);
@@ -69,6 +77,7 @@ class EcomDev_CheckItOut_Helper_Render extends Mage_Core_Helper_Abstract
         $update->load($handle);
         $layout->generateXml();
         $layout->generateBlocks();
+        // Restoring singleton back
         Mage::unregister('_singleton/core/layout');
         Mage::register('_singleton/core/layout', $previousValue);
         return $layout->getOutput();
