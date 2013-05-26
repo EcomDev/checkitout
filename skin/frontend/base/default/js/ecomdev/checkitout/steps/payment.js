@@ -82,6 +82,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         this.parentConstructor = $super;
         this.onOutsideCheckboxClick = this.handleOutsideCheckboxClick.bind(this);
         this.errorEl = new Element('input', {type: 'hidden', value: 1, name: 'cio_payment_method_error', id: 'payment_method_error', 'class' : 'required-entry ajax-error'});
+        this.__deferedConstructor.bind(this).delay(0.01); // Call it anyway if init was not invoked before.
     },
     /**
      * Returns elements for submitting data into savePayment controller action
@@ -120,6 +121,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
 
         if (this.contentElementRegExp.test(content)) {
             content = content.replace(this.contentElementRegExp, '$1');
+            console.log(content);
         }
 
         $super(content);
@@ -149,7 +151,13 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
             scriptText += scripts[i] + "\n";
         }
         if (scriptText.length > 0) {
-            ('<script type="text/javascript">' + scriptText + "</script>").evalScripts();
+            try {
+                ('<script type="text/javascript">' + scriptText + "</script>").evalScripts();
+            } catch (e) {
+                if (window.console && console.log) {
+                    console.log(e);
+                }
+            }
         }
 
         if (!this.initFieldsCalled) {
@@ -184,14 +192,15 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
      * @return void
      */
     init : function () {
-        if (this.parentConstructor) {
-            this.parentConstructor(this.findContainer(this.form), this.saveUrl);
-            this.addRelation(['billing', 'shipping_method']);
-            this.parentConstructor = false;
-        }
         this.beforeInit();
         this.initFields();
         this.afterInit();
+    },
+    __deferedConstructor: function () {
+        if (this.parentConstructor) {
+            this.parentConstructor(this.findContainer(this.form), this.saveUrl);
+            this.parentConstructor = false;
+        }
     },
     initFields: function () {
         this.initFieldsCalled = true;
@@ -276,6 +285,9 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
     initCheckout: function ($super) {
         $super();
         this.content.insert({after: this.errorEl});
+        if (this.checkout.preloadedHtml.payment) {
+            this.update(this.checkout.preloadedHtml.payment);
+        }
     },
     /**
      * Checks that it is a single method

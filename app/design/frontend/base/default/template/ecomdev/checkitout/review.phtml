@@ -16,6 +16,7 @@
  * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
  */
 
+$_formKey = Mage::getSingleton('core/session')->getFormKey();
 ?>
 <div  class="order-review" id="checkout-review-load">
     <?php echo $this->getChildHtml('info') ?>
@@ -38,7 +39,10 @@
 
 <script type="text/javascript">
 //<![CDATA[
-    var review = new Review('<?php echo $this->getUrl('checkout/onepage/review') ?>', 'checkout-review-load', '<?php echo $this->getUrl('checkout/onepage/saveOrder') ?>', '<?php echo $this->getUrl('checkout/onepage/success') ?>',
+    var review = new Review('<?php echo $this->getUrl('checkout/onepage/review') ?>',
+                            'checkout-review-load',
+                            '<?php echo $this->getUrl('checkout/onepage/saveOrder', array('form_key' => $_formKey)) ?>',
+                            '<?php echo $this->getUrl('checkout/onepage/success') ?>',
                             'checkout-agreements', 'change-item-qty-template', 'remove-item-template',
                             '<?php echo $this->getUrl('checkout/onepage/changeqty') ?>',
                             '<?php echo $this->getUrl('checkout/onepage/remove') ?>'

@@ -97,10 +97,15 @@ class EcomDev_CheckItOut_Block_Js extends Mage_Checkout_Block_Onepage_Abstract
             'response' => $response
         ));
 
+        // Add shipping additional to the render procedure
+        $response->setShippingAdditional(
+            $this->helper('ecomdev_checkitout/render')->renderStep('shipping_additional')
+        );
+
         // Stubbing the payment method for review step
         Mage::getSingleton('ecomdev_checkitout/type_onepage')->stubPaymentMethod();
         $response->setReview(
-            $this->helper('ecomdev_checkitout/render')->renderHandle('checkout_onepage_review')
+            $this->helper('ecomdev_checkitout/render')->renderStep('review')
         );
 
         Mage::dispatchEvent('ecomdev_checkitout_js_get_steps_json_after', array(

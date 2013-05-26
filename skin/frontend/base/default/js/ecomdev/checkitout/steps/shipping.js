@@ -52,6 +52,7 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
         this.errorEl = new Element('input', {type: 'hidden', value: 1, name: 'cio_shipping_method_error', id: 'shipping_method_error', 'class' : 'required-entry ajax-error'});
         this.addRelation('shipping');
         this.addRelation('billing');
+        new ShippingAdditional(this);
     },
     /**
      * Performs checking of fullfillment of shipping method selection
@@ -88,10 +89,20 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
      * @return void
      */
     initCheckout: function ($super) {
-        this.checkOneMethod();
+        if (!this.checkout.preloadedHtml.shipping_method) {
+            this.checkOneMethod();
+        }
         $super();
         this.content.insert({after: this.errorEl});
-        this.additionalLoad();
+        if (this.checkout.preloadedHtml.shipping_method) {
+            this.update(this.checkout.preloadedHtml.shipping_method);
+        }
+
+        if (this.checkout.preloadedHtml.shipping_additional) {
+            this.updateAdditional(this.checkout.preloadedHtml.shipping_additional);
+        } else {
+            this.additionalLoad();
+        }
     },
     /**
      * Loads additional shipping method data
@@ -101,6 +112,16 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
     additionalLoad: function () {
         $(this.checkout.config.additionalContainer).hide();
         new Ajax.Updater(this.checkout.config.additionalContainer, this.checkout.config.additionalUrl, {evalScripts:true, onComplete: this.onAdditionalLoad});
+    },
+
+    /**
+     * Updates additional block html content
+     *
+     * @param html
+     */
+    updateAdditional: function (html) {
+        $(this.checkout.config.additionalContainer).update(html);
+        this.handleAdditionalLoad();
     },
 
     /**
@@ -209,5 +230,41 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
             return;
         }
         return $super(response);
+    }
+});
+
+/**
+ * Shipping method selection checkout step
+ *
+ */
+var ShippingAdditional = Class.create(EcomDev.CheckItOut.Step, {
+    /**
+     * Checkout step unique code
+     *
+     * @type String
+     */
+    code: 'shipping_additional',
+
+    /**
+     * Check auto submit feature
+     */
+    autoSubmit: false,
+
+    /**
+     * Sets shipping method instance
+     *
+     * @param shippingMethod
+     */
+    initialize: function ($super, shippingMethod) {
+        this.shippingMethod = shippingMethod;
+        $super(this.shippingMethod.container, false);
+    },
+    /**
+     * Updates additional block content
+     *
+     * @param content
+     */
+    update: function (content) {
+        this.shippingMethod.updateAdditional(content);
     }
 });

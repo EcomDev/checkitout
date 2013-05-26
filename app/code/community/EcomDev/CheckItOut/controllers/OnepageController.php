@@ -51,6 +51,7 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
      * List of special handles for checkout steps
      *
      * @var array
+     * @deprecated after 1.4.1
      */
     protected $_specialHandlesForSteps = array(
         'shipping_method' => 'checkout_onepage_shippingmethod',
@@ -207,14 +208,14 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
         $this->loadLayout();
         $result = array();
         foreach ($steps as $step) {
-            if (isset($this->_specialHandlesForSteps[$step])) {
+            if ($this->_hasHandleStepHtml($step)) {
                 continue;
             }
             $result[$step] = $this->getLayout()->getBlock('checkout.layout')->getStepBlockHtml($step);
         }
 
         foreach ($steps as $step) {
-            if (isset($this->_specialHandlesForSteps[$step])) {
+            if ($this->_hasHandleStepHtml($step)) {
                 $result[$step] = $this->_getHandleStepHtml($step);
             }
         }
@@ -236,7 +237,7 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
      */
     protected function _getHandleStepHtml($step)
     {
-        if (!isset($this->_specialHandlesForSteps[$step])) {
+        if (!$this->_hasHandleStepHtml($step)) {
             return null;
         }
 
@@ -244,10 +245,20 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
             $this->getOnepage()->stubPaymentMethod();
         }
 
-        $content =  Mage::helper('ecomdev_checkitout/render')
-                   ->renderHandle($this->_specialHandlesForSteps[$step]);
+        $content = Mage::helper('ecomdev_checkitout/render')->renderStep($step);
 
         return $content;
+    }
+
+    /**
+     * Checks if step handle html exists
+     *
+     * @param string $step
+     * @return bool
+     */
+    protected function _hasHandleStepHtml($step)
+    {
+        return Mage::helper('ecomdev_checkitout/render')->hasStepHandle($step);
     }
 
     /**

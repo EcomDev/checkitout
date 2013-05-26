@@ -66,6 +66,7 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
     const COMPATIBILITY_TYPE_JS = 'js';
     const COMPATIBILITY_V14 = 'v14';
     const COMPATIBILITY_V15 = 'v15';
+    const COMPATIBILITY_V18 = 'v18';
 
     const CONFIRM_TYPE_CHECKBOX = EcomDev_CheckItOut_Model_Source_Confirm_Type::TYPE_CHECKBOX;
     const CONFIRM_TYPE_POPUP = EcomDev_CheckItOut_Model_Source_Confirm_Type::TYPE_POPUP;
@@ -259,7 +260,8 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
 
         foreach ($modes as $mode) {
             foreach ($mode->children() as $condition) {
-                if (isset($condition->enterprise) && Mage::getConfig()->getNode('modules/Enterprise_Enterprise') === false) {
+                if (isset($condition->enterprise)
+                    && Mage::getConfig()->getNode('modules/Enterprise_Enterprise') === false) {
                     // If version check is related to Enterprise/Professional editions
                     continue;
                 }

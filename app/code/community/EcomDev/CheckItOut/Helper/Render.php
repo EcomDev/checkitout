@@ -23,7 +23,27 @@
  */
 class EcomDev_CheckItOut_Helper_Render extends Mage_Core_Helper_Abstract
 {
+    /**
+     * Paths to the steps configuration
+     * for which handles should retrieved
+     *
+     * @var string
+     */
+    const XML_PATH_STEPS = 'ecomdev/checkitout/steps';
+
+    /**
+     * List of pre appended handles
+     *
+     * @var array
+     */
     protected $_handles = array();
+
+    /**
+     * Mapping of handles per step
+     *
+     * @var array
+     */
+    protected $_stepHandles = array();
 
     /**
      * Adds handle to render process
@@ -81,5 +101,80 @@ class EcomDev_CheckItOut_Helper_Render extends Mage_Core_Helper_Abstract
         Mage::unregister('_singleton/core/layout');
         Mage::register('_singleton/core/layout', $previousValue);
         return $layout->getOutput();
+    }
+
+
+    /**
+     * Initializes step handles based on configuration
+     *
+     * @return EcomDev_CheckItOut_Helper_Render
+     */
+    protected function _initStepHandles()
+    {
+        if (!$this->_stepHandles) {
+            $steps = Mage::getConfig()->getNode(self::XML_PATH_STEPS)->children();
+            foreach ($steps as $step) {
+                if (isset($step->handle)) {
+                    $this->_stepHandles[$step->getName()] = (string)$step->handle;
+                }
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Returns array of step to handle association
+     *
+     * @return string[]
+     */
+    public function getStepHandles()
+    {
+        $this->_initStepHandles();
+        return $this->_stepHandles;
+    }
+
+    /**
+     * Returns handle that should be used for rendering of the step
+     *
+     * @param string $stepCode
+     * @return string|bool
+     */
+    public function getStepHandle($stepCode)
+    {
+        if (!$this->hasStepHandle($stepCode)) {
+            return false;
+        }
+
+        return $this->_stepHandles[$stepCode];
+    }
+
+
+    /**
+     * Check if step has predefined in configuration handle
+     *
+     * @param string $stepCode
+     * @return bool
+     */
+    public function hasStepHandle($stepCode)
+    {
+        $this->_initStepHandles();
+        return isset($this->_stepHandles[$stepCode]);
+    }
+
+    /**
+     * Renders step handle, based on mapping in XML
+     *
+     * @param string $stepCode
+     * @return string|bool
+     */
+    public function renderStep($stepCode)
+    {
+        if (!$this->hasStepHandle($stepCode)) {
+            return false;
+        }
+
+        return $this->renderHandle(
+            $this->getStepHandle($stepCode)
+        );
     }
 }
