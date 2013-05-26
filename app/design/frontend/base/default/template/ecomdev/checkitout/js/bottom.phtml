@@ -20,6 +20,7 @@
  * Checkout template
  */
 /* @var $this EcomDev_CheckItOut_Block_Js */
+$_formKey = Mage::getSingleton('core/session')->getFormKey();
 ?>
 <div class="checkitout-checkout-loading" style="display:none;"><span><img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Submitting order information...') ?>" title="<?php echo $this->__('Submitting order information...') ?>" class="v-middle" /> <?php echo $this->__('Submitting order information...') ?></span></div>
 <div class="checkitout-checkout-overlay" ></div>
@@ -34,7 +35,7 @@
     var lastPrice, quoteBaseGrandTotal;
     var checkout = new EcomDev.CheckItOut({
         reload: '<?php echo $this->getUrl('checkout/onepage/steps');?>',
-        save: '<?php echo $this->getUrl('checkout/onepage/saveOrder');?>',
+        save: '<?php echo $this->getUrl('checkout/onepage/saveOrder', array('form_key' => $_formKey)) ?>',
         success: '<?php echo $this->getUrl('checkout/onepage/success');?>',
         container: 'checkout-layout',
         useForShippingLabel: '<?php echo $this->jsQuoteEscape($this->helper('ecomdev_checkitout')->__('Use same address for shipping'));?>',

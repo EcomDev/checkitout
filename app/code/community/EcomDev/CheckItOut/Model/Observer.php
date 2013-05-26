@@ -187,4 +187,29 @@ class EcomDev_CheckItOut_Model_Observer
             Mage::getSingleton('checkout/cart')->init();
         }
     }
+
+    /**
+     * Adds missing blocks to checkout, when block is enabled
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function addMissingBlocks(Varien_Event_Observer $observer)
+    {
+        $compatibilityMode = $this->_getHelper()->getCompatibilityMode(
+            EcomDev_CheckItOut_Helper_Data::COMPATIBILITY_TYPE_CODE
+        );
+
+        if ($compatibilityMode === EcomDev_CheckItOut_Helper_Data::COMPATIBILITY_V18) {
+            $response = $observer->getResponse();
+            $block = $observer->getBlock();
+
+            $response->setShippingMethod(
+                $block->helper('ecomdev_checkitout/render')->renderStep('shipping_method')
+            );
+
+            $response->setPayment(
+                $block->helper('ecomdev_checkitout/render')->renderStep('payment')
+            );
+        }
+    }
 }

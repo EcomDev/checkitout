@@ -21,6 +21,7 @@
     <modules>
         <EcomDev_CheckItOut>
             <version>0.1.1</version>
+            <codeVersion>1.5.1</codeVersion>
         </EcomDev_CheckItOut>
     </modules>
     <global>
@@ -131,6 +132,14 @@
                     </ecomdev_checkitout>
                 </observers>
             </checkout_cart_add_product_complete>
+            <ecomdev_checkitout_js_get_steps_json_before>
+                <observers>
+                    <ecomdev_checkitout>
+                        <class>ecomdev_checkitout/observer</class>
+                        <method>addMissingBlocks</method>
+                    </ecomdev_checkitout>
+                </observers>
+            </ecomdev_checkitout_js_get_steps_json_before>
         </events>
         <layout>
             <updates>
@@ -280,12 +289,23 @@
                     <v15>
                         <by_version>
                             <minVersion>1.5.0</minVersion>
+                            <maxVersion>1.7.9</maxVersion>
                         </by_version>
                         <by_version_enterprise>
                             <enterprise>1</enterprise>
                             <minVersion>1.10.0</minVersion>
+                            <maxVersion>1.12.0</maxVersion>
                         </by_version_enterprise>
                     </v15>
+                    <v18>
+                        <by_version>
+                            <minVersion>1.8.0</minVersion>
+                        </by_version>
+                        <by_version_enterprise>
+                            <enterprise>1</enterprise>
+                            <minVersion>1.13.0</minVersion>
+                        </by_version_enterprise>
+                    </v18>
                 </code>
                 <js>
                     <v17>
@@ -303,11 +323,19 @@
                  Created to minimize number of AJAX requests during checkout -->
             <steps>
                 <shipping_method>
+                    <handle>checkout_onepage_shippingmethod</handle>
                     <hash>
                         <rate>ecomdev_checkitout/hash_quote_address_rate</rate>
                     </hash>
                 </shipping_method>
+                <shipping_additional>
+                    <handle>checkout_onepage_additional</handle>
+                    <hash>
+                        <item>ecomdev_checkitout/hash_quote_item</item>
+                    </hash>
+                </shipping_additional>
                 <payment>
+                    <handle>checkout_onepage_paymentmethod</handle>
                     <hash>
                         <method>ecomdev_checkitout/hash_quote_payment</method>
                         <item>ecomdev_checkitout/hash_quote_item</item>
@@ -315,6 +343,7 @@
                     </hash>
                 </payment>
                 <review>
+                    <handle>checkout_onepage_review</handle>
                     <hash>
                         <item>ecomdev_checkitout/hash_quote_item</item>
                         <total>ecomdev_checkitout/hash_quote_total</total>
