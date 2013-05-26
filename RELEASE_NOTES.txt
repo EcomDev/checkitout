@@ -1,3 +1,13 @@
+CheckItOut 1.5.2
+================
+Improvements:
+- Moved additional shipping method information to preloaded blocks, no additional AJAX calls on page load.
+- Refactored mapping of handles for preloaded html parts. Now it is possible to override handle name or define own one in ecomdev/checkitout/steps/[step_name]/handle XML node. 
+
+Compatibility:
+- Update extension to work with CE1.8 (and EE1.13 as the result)
+
+
 CheckItOut 1.5.1
 ================
 Improvements:
