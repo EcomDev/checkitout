@@ -218,6 +218,8 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         }
         if (method && window.currentPaymentMethod !== method) {
             this.switchMethod(method);
+        } else if (method) {
+            this.changeVisible(method, false);
         }
     },
     /**
