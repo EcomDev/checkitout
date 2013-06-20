@@ -121,7 +121,6 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
 
         if (this.contentElementRegExp.test(content)) {
             content = content.replace(this.contentElementRegExp, '$1');
-            console.log(content);
         }
 
         $super(content);
@@ -218,6 +217,8 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         }
         if (method && window.currentPaymentMethod !== method) {
             this.switchMethod(method);
+        } else if (method) {
+            this.changeVisible(method, false);
         }
     },
     /**

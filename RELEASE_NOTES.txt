@@ -1,3 +1,9 @@
+CheckItOut 1.5.3
+================
+Bug Fixes:
+- Fix of IE issue in related to console.log of payment.__updateContent() method
+- Fix of payment form collapsed state in case of page refresh or update of the form
+
 CheckItOut 1.5.2
 ================
 Improvements:

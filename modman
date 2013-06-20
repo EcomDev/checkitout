@@ -1,4 +1,10 @@
+# Name: EcomDev_CheckItOut
+# Version: 1.5.3
+# Description: The best checkout extension for Magento
+# Summary: Alternative to Onepage checkout
+
 # CheckItOut modman file configuration
+
 app/code/community/EcomDev/CheckItOut						            app/code/community/EcomDev/CheckItOut
 app/etc/modules/EcomDev_CheckItOut.xml						            app/etc/modules/EcomDev_CheckItOut.xml
 app/design/frontend/base/default/layout/ecomdev/checkitout.xml			app/design/frontend/base/default/layout/ecomdev/checkitout.xml 
