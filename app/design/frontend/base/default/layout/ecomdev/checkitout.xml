@@ -238,7 +238,7 @@
         </reference>
     </ecomdev_checkitout_layout>
     
-    <checkout_onepage_review>
+    <checkout_onepage_review_checkitout>
         <reference name="root">
             <action method="setTemplate" ifconfig="ecomdev_checkitout/settings/active">
                 <template helper="ecomdev_checkitout/data/getCompatibleValue">
@@ -251,7 +251,7 @@
             </action>
             <block name="review.fields" as="fields" type="checkout/onepage_review" template="ecomdev/checkitout/review/fields.phtml"/>
         </reference>
-    </checkout_onepage_review>
+    </checkout_onepage_review_checkitout>
     
     <checkout_onepage_review_v14>
         <reference name="root">

@@ -103,7 +103,7 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
      */
     protected function _isActive()
     {
-        return $this->_getHelper()->isActive();
+        return $this->_getHelper()->isActiveForSession();
     }
 
     /**
@@ -161,9 +161,14 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
             );
         }
 
-        if ($this->_isActive()
-            && in_array($this->getRequest()->getActionName(), $this->_stepsWithRequiredPayment)) {
-            $this->getOnepage()->stubPaymentMethod();
+        if ($this->_isActive()) {
+            $this->getLayout()->getUpdate()->addHandle(
+                $this->getFullActionName() . '_checkitout'
+            );
+
+            if (in_array($this->getRequest()->getActionName(), $this->_stepsWithRequiredPayment)) {
+                $this->getOnepage()->stubPaymentMethod();
+            }
         }
 
         return $this;

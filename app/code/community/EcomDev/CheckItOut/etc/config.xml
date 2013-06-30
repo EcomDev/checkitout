@@ -43,9 +43,15 @@
             <ecomdev_checkitout_mysql4> <!-- Supposed to use old node, since still backward compatible on 1.4-1.5 :( -->
                 <class>EcomDev_CheckItOut_Model_Mysql4</class>
                 <entities>
-                    <geoip_country><table>ecomdev_checkitout_geoip_country</table></geoip_country>
-                    <geoip_location><table>ecomdev_checkitout_geoip_location</table></geoip_location>
-                    <geoip_location_block><table>ecomdev_checkitout_geoip_location_block</table></geoip_location_block>
+                    <geoip_country>
+                        <table>ecomdev_checkitout_geoip_country</table>
+                    </geoip_country>
+                    <geoip_location>
+                        <table>ecomdev_checkitout_geoip_location</table>
+                    </geoip_location>
+                    <geoip_location_block>
+                        <table>ecomdev_checkitout_geoip_location_block</table>
+                    </geoip_location_block>
                 </entities>
             </ecomdev_checkitout_mysql4>
         </models>
@@ -59,9 +65,21 @@
         </resources>
         <fieldsets>
             <sales_convert_quote>
-                <customer_comment><to_order>*</to_order></customer_comment>
+                <customer_comment>
+                    <to_order>*</to_order>
+                </customer_comment>
             </sales_convert_quote>
         </fieldsets>
+        <events>
+            <controller_front_init_routers>
+                <observers>
+                    <cms>
+                        <class>EcomDev_CheckItOut_Controller_Router</class>
+                        <method>initControllerRouters</method>
+                    </cms>
+                </observers>
+            </controller_front_init_routers>
+        </events>
     </global>
     <adminhtml>
         <translate>
@@ -99,6 +117,14 @@
                     </ecomdev_checkitout>
                 </observers>
             </controller_action_predispatch_checkout_cart_index>
+            <controller_action_predispatch_checkout_onepage_index>
+                <observers>
+                    <ecomdev_checkitout>
+                        <model>ecomdev_checkitout/observer</model>
+                        <method>preDispatchIndexAction</method>
+                    </ecomdev_checkitout>
+                </observers>
+            </controller_action_predispatch_checkout_onepage_index>
             <controller_action_predispatch_checkout_onepage_saveOrder>
                 <observers>
                     <ecomdev_checkitout>
@@ -369,6 +395,9 @@
                 <confirm_text><![CDATA[I have reviewed my order and confirm that all information is correct]]></confirm_text>
                 <stored_addresses>1</stored_addresses>
             </settings>
+            <router>
+                <path>checkitout</path>
+            </router>
             <geoip>
                 <use_region>1</use_region>
                 <use_postcode>1</use_postcode>

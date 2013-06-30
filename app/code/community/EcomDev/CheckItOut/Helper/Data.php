@@ -52,6 +52,10 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
     // GeoIp configurations
     const XML_PATH_GEOIP_TYPE = 'ecomdev_checkitout/geoip/type';
 
+    // Custom router
+    const XML_PATH_CUSTOM_ROUTER_ACTIVE = 'ecomdev_checkitout/router/active';
+    const XML_PATH_CUSTOM_ROUTER_PATH = 'ecomdev_checkitout/router/path';
+
     // Hide options for payment, shipping methods
     const XML_PATH_HIDE_SHIPPING_METHOD = 'ecomdev_checkitout/hidden/shipping_method';
     const XML_PATH_HIDE_PAYMENT_METHOD = 'ecomdev_checkitout/hidden/payment_method';
@@ -87,6 +91,48 @@ class EcomDev_CheckItOut_Helper_Data extends Mage_Core_Helper_Abstract
     public function isActive()
     {
         return Mage::getStoreConfigFlag(self::XML_PATH_ACTIVE);
+    }
+
+    /**
+     * Check that checkitout has a custom router set
+     *
+     * @return bool
+     */
+    public function isCustomRouter()
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_CUSTOM_ROUTER_ACTIVE)
+                   && $this->getCustomRoute();
+    }
+
+    /**
+     * Check that checkitout has a custom router set
+     *
+     * @return bool
+     */
+    public function getCustomRoute()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_CUSTOM_ROUTER_PATH);
+    }
+
+    /**
+     * Return activity state of the checkitout by current session
+     *
+     * @return bool
+     */
+    public function isActiveForSession()
+    {
+        if (!$this->isActive()) {
+            return false;
+        }
+
+        if (!$this->isCustomRouter()) {
+            return true;
+        }
+
+        $session = Mage::getSingleton('checkout/session');
+        $isActive = $session->getIsActiveCheckItOut();
+
+        return $isActive;
     }
 
     /**

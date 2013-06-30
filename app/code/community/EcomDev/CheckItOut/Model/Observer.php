@@ -98,6 +98,25 @@ class EcomDev_CheckItOut_Model_Observer
     }
 
     /**
+     * Changes flag in the session for modifying of the controller behavior
+     *
+     * @param Varien_Event_Observer $observer
+     * @void
+     */
+    public function preDispatchIndexAction(Varien_Event_Observer $observer)
+    {
+        if ($this->_getHelper()->isActive() && $this->_getHelper()->isCustomRouter()) {
+            /* @var $controller Mage_Checkout_OnepageController */
+            $controller = $observer->getEvent()->getControllerAction();
+            $controller->getOnepage()
+                ->getCheckout()
+                ->setIsActiveCheckItOut(
+                    (bool)$controller->getRequest()->getParam('checkitout')
+                );
+        }
+    }
+
+    /**
      * Before save order activities (e.g. saving customer comment, default payment method)
      *
      * @param Varien_Event_Observer $observer
@@ -105,7 +124,7 @@ class EcomDev_CheckItOut_Model_Observer
      */
     public function preDispatchSaveOrderAction(Varien_Event_Observer $observer)
     {
-        if ($this->_getHelper()->isActive()) {
+        if ($this->_getHelper()->isActiveForSession()) {
             /* @var $controller Mage_Core_Controller_Front_Action */
             $controller = $observer->getEvent()->getControllerAction();
 
@@ -162,7 +181,7 @@ class EcomDev_CheckItOut_Model_Observer
      */
     public function orderSuccessAction(Varien_Event_Observer $observer)
     {
-        if ($this->_getHelper()->isActive()) {
+        if ($this->_getHelper()->isActiveForSession()) {
             if ($this->_getHelper()->isNewsletterCheckboxDisplay()
                     && Mage::getSingleton('checkout/session')->getNewsletterSubsribed(true)) {
                 try {

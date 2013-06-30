@@ -73,11 +73,13 @@ class EcomDev_CheckItOut_Helper_Render extends Mage_Core_Helper_Abstract
             if (Mage::helper('ecomdev_checkitout')->getCompatibilityMode('template') !== false) {
                 $handle = array(
                     $handle,
+                    $handle . '_checkitout',
                     $handle . '_' . Mage::helper('ecomdev_checkitout')->getCompatibilityMode('template')
                 );
             } else {
                 $handle = array(
-                    $handle
+                    $handle,
+                    $handle . '_checkitout'
                 );
             }
 
