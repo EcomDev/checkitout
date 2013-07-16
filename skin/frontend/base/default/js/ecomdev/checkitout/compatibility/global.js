@@ -79,12 +79,7 @@ Object.extend(Validation, {
             elm.advices = new Hash();
         }
         else{
-            elm.advices.each(function(pair){
-                if (!advice || pair.value.id != advice.id) {
-                    // hide non-current advice after delay
-                    this.hideAdvice(elm, pair.value);
-                }
-            }.bind(this));
+            this.hideAllAdvices(elm, advice);
         }
         elm.advices.set(adviceName, advice);
         if(typeof Effect == 'undefined') {
@@ -107,6 +102,24 @@ Object.extend(Validation, {
                 });
                 advice.addClassName('advice-absolute');
             }
+        }
+    },
+    reset: Validation.reset.wrap(function ($super, elm) {
+        $super(elm);
+        this.hideAllAdvices(elm);
+    }),
+    hideAllAdvices: function (elm) {
+        var currentAdvice = false;
+        if (arguments.length > 1) {
+            currentAdvice = arguments[1];
+        }
+        if (elm.advices) {
+            elm.advices.each(function(pair){
+                if (!currentAdvice || pair.value.id != currentAdvice.id) {
+                    // hide non-current advice after delay
+                    this.hideAdvice(elm, pair.value);
+                }
+            }.bind(this));
         }
     },
     hideAdvice : function(elm, advice){

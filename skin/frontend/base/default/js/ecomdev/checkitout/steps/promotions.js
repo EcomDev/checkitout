@@ -197,7 +197,9 @@ window.CouponCode = Class.create(EcomDev.CheckItOut.Step.PromotionCode, {
      * @param response
      */
     submitCompleteCallback: function(result, response) {
-        Validation.reset(this.couponField);
+        if (!result.error) {
+            Validation.reset(this.couponField);
+        }
 
         if (typeof result.coupon !== 'undefined') {
             this.coupon = result.coupon;
