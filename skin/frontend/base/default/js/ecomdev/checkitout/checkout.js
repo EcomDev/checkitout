@@ -433,6 +433,7 @@ EcomDev.CheckItOut = Class.create({
                     && this.stepHtml[stepCodes[i]] !== false
                     && this.stepHash.get(stepCodes[i]) !== this.getStep(stepCodes[i]).loadedHash) {
                     this.getStep(stepCodes[i]).update(this.stepHtml[stepCodes[i]]);
+                    this.getStep(stepCodes[i]).loadedHash = this.stepHash.get(stepCodes[i]);
                 }
             }
         }
