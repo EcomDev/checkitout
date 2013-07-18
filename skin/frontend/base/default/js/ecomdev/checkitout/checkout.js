@@ -526,13 +526,21 @@ EcomDev.CheckItOut = Class.create({
      * @return Boolean
      */
     isValid: function () {
-        return !this.isLoading() && !this.steps.any(function (step) {
-            if (step[1].ignoreValidationResult) {
-                return false;
+        if (this.isLoading()) {
+            return false;
+        }
+        // Run full validation of all steps
+        var steps = this.steps.values();
+        var result = true;
+        for (var i=0,l=steps.length; i < l; i++) {
+            if (steps[i].ignoreValidationResult) {
+                continue;
             }
 
-            return !step[1].isValid();
-        });
+            result = steps[i].isValid() && result;
+        }
+
+        return result;
     },
     /**
      * Retrieves parameters from all the steps
