@@ -73,10 +73,10 @@
         <events>
             <controller_front_init_routers>
                 <observers>
-                    <cms>
+                    <checkitout>
                         <class>EcomDev_CheckItOut_Controller_Router</class>
                         <method>initControllerRouters</method>
-                    </cms>
+                    </checkitout>
                 </observers>
             </controller_front_init_routers>
         </events>
