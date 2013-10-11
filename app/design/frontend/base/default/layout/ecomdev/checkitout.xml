@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- 
+<!--
 /**
  * CheckItOut extension
  *
@@ -21,7 +21,7 @@
     <!-- Handle that is added to onepage checkout one, if checkitout is enabled -->
     <ecomdev_checkitout_skeleton>
         <update handle="page_one_column" />
-        
+
         <reference name="head">
             <block type="ecomdev_checkitout/js_loader" name="checkitout.js">
                 <!-- including base checkout class -->
@@ -88,10 +88,10 @@
             <!-- includes css files based on current step -->
             <block type="ecomdev_checkitout/css" name="checkitout.css" />
         </reference>
-        
+
         <remove name="left" />
         <remove name="right" />
-        
+
         <reference name="content">
             <action method="unsetChild"><alias>checkout.onepage</alias></action>
             <block name="checkitout.top.js" type="ecomdev_checkitout/js" template="ecomdev/checkitout/js/top.phtml" />
@@ -166,7 +166,8 @@
                         </block>
                         <block name="checkout.layout.review.container" type="ecomdev_checkitout/layout_step_container" template="ecomdev/checkitout/layout/step/container/list.phtml">
                             <action method="addClassName"><class>review-container</class></action>
-                            <block name="checkitout.layout.coupon.container" type="ecomdev_checkitout/layout_step_container" template="ecomdev/checkitout/layout/step/container/step.phtml">
+
+                            <block name="checkitout.layout.coupon.container" as="checkitout.layout.coupon.container.alias" type="ecomdev_checkitout/layout_step_container" template="ecomdev/checkitout/layout/step/container/step.phtml">
                                 <action method="setStepName" translate="name" module="ecomdev_checkitout"><name>Special Promotions</name></action>
                                 <action method="setStepCode"><code>promotions</code></action>
                                 <action method="addClassName"><class>checkout-step</class></action>
@@ -183,7 +184,7 @@
                         </block>
                     </block>
                 </block>
-                
+
                 <block name="checkout.layout.bottom" as="container_bottom"  type="core/text_list">
                     <block name="checkout.step.confirm"  type="ecomdev_checkitout/layout_step_default" template="ecomdev/checkitout/layout/step/confirm.phtml">
                         <action method="setStepName" translate="name" module="ecomdev_checkitout"><name>Check Order Information</name></action>
@@ -217,6 +218,62 @@
         </reference>
     </ecomdev_checkitout_layout_two_column>
 
+    <ecomdev_checkitout_layout_three_column>
+        <reference name="root">
+
+            <reference name="content">
+                <reference name="checkout.layout">
+
+                    <reference name="checkout.layout.middle">
+                        <action method="addClassName"><class>container_3col</class></action>
+
+                        <reference name="checkout.layout.right">
+                            <action method="unsetChild"><name>checkout.layout.methods</name></action>
+
+                            <reference name="checkout.layout.review.container">
+                                <action method="unsetChild"><alias>checkitout.layout.coupon.container.alias</alias></action>
+                            </reference>
+
+                            <action method="insert">
+                                <alias>checkitout.layout.coupon.container</alias>
+                                <siblingName>checkitout.layout.review</siblingName><after>1</after>
+                            </action>
+
+
+                        </reference>
+
+                        <block name="checkout.layout.center" type="ecomdev_checkitout/layout_step_container" template="ecomdev/checkitout/layout/step/container/list.phtml">
+                            <action method="addClassName"><class>checkout-center</class></action>
+
+                            <action method="addClassNameForStepCount"><class>one</class><count>1</count></action>
+                            <action method="addClassNameForStepCount"><class>two</class><count>2</count></action>
+
+                            <block name="checkout.layout.methods" type="ecomdev_checkitout/layout_step_container" template="ecomdev/checkitout/layout/step/container/list.phtml">
+                                <action method="addClassName"><class>methods</class></action>
+                                <action method="addClassNameForStepCount"><class>one</class><count>1</count></action>
+                                <action method="addClassNameForStepCount"><class>two</class><count>2</count></action>
+
+                                <action method="setUsePositionCode"><flag>1</flag></action>
+
+                                <block name="checkout.layout.shipping_method" type="ecomdev_checkitout/layout_step_shipping_method" template="ecomdev/checkitout/layout/step/default.phtml">
+                                    <action method="setStepCode"><code>shipping_method</code></action>
+                                    <action method="setIsVisibleForVirtual"><flag>0</flag></action>
+                                </block>
+
+                                <block name="checkout.layout.payment" type="ecomdev_checkitout/layout_step_payment" template="ecomdev/checkitout/layout/step/default.phtml">
+                                    <action method="setStepCode"><code>payment</code></action>
+                                </block>
+                            </block>
+
+                        </block>
+
+                    </reference>
+                </reference>
+            </reference>
+
+        </reference>
+    </ecomdev_checkitout_layout_three_column>
+
     <!-- old depracated type of checkout -->
     <ecomdev_checkitout_layout>
         <reference name="head">
@@ -237,7 +294,7 @@
             </block>
         </reference>
     </ecomdev_checkitout_layout>
-    
+
     <checkout_onepage_review_checkitout>
         <reference name="root">
             <action method="setTemplate" ifconfig="ecomdev_checkitout/settings/active">
@@ -252,7 +309,7 @@
             <block name="review.fields" as="fields" type="checkout/onepage_review" template="ecomdev/checkitout/review/fields.phtml"/>
         </reference>
     </checkout_onepage_review_checkitout>
-    
+
     <checkout_onepage_review_v14>
         <reference name="root">
             <block type="checkout/agreements" name="checkout.onepage.agreements" as="agreements" template="checkout/onepage/agreements.phtml"/>
@@ -262,11 +319,11 @@
     <checkout_onepage_layout>
         <update handle="checkout_onepage_index" />
     </checkout_onepage_layout>
-    
+
     <checkout_onepage_steps>
         <update handle="checkout_onepage_index" />
     </checkout_onepage_steps>
-    
+
     <checkout_onepage_confirm>
         <update handle="checkout_onepage_review" />
         <reference name="root">
