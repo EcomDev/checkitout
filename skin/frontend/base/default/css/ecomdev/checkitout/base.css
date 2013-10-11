@@ -30,6 +30,29 @@
 .checkitout .checkout-left { width: 37%; float:left; }
 .checkitout .checkout-single { width: 100%; clear: both; }
 
+/* Checkout Layout 3 column Styles */
+.checkitout .container_3col {}
+.checkitout .container_3col:before,
+.checkitout .container_3col:after {
+    content: " ";
+    
+    display: table;
+}
+.checkitout .container_3col:after {
+    clear: both;
+}
+    .checkitout .container_3col .checkout-left,
+    .checkitout .container_3col .checkout-right {
+        width: 36%;
+    }
+
+
+    .checkitout .container_3col .checkout-center {
+        width: 28%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
 
 /* When both shipping/payment methods displayed */
 .checkitout .checkout-right .two .checkout-step,
@@ -46,6 +69,8 @@
 
 /* One field in the row */
 .checkitout .form-list .input-box { width:225px;  margin-left: 0px; }
+.checkitout .container_3col .form-list .input-box { width: auto; }
+
 .checkitout .form-list label { text-align: left; margin-left: 0px; }
 .checkitout .form-list .wide input.input-text,
 .checkitout .form-list .wide select  { width:100%; }
