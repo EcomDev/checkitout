@@ -526,7 +526,7 @@ EcomDev.CheckItOut = Class.create({
      * @return Boolean
      */
     isValid: function () {
-        if (this.isLoading()) {
+        if (this.isLoading() || this.isChangeTimeout()) {
             return false;
         }
         // Run full validation of all steps
