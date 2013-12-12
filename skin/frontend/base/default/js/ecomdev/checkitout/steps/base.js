@@ -81,6 +81,14 @@ EcomDev.CheckItOut.Step = Class.create({
      *  @type Boolean
      */
     autoSubmitInvalid: false,
+
+    /**
+     * List of fields, update of which will force auto-submit invalid data
+     * 
+     * @type Array|Boolean
+     */
+    autoSubmitInvalidFields: false,
+    
     /**
      * Automaticaly validate element values?
      *
@@ -406,7 +414,14 @@ EcomDev.CheckItOut.Step = Class.create({
             return this.save();
         }
 
-        if (!this.autoValidate || this.isValid(false) || this.autoSubmitInvalid) {
+        var isAutosubmitInvalid = this.autoSubmitInvalid;
+        if (isAutosubmitInvalid && Object.isArray(this.autoSubmitInvalidFields)) {
+            isAutosubmitInvalid = this.lastChangedElement 
+                                    && this.lastChangedElement.identify()
+                                    && this.autoSubmitInvalidFields.include(this.lastChangedElement.identify())
+        }
+        
+        if (!this.autoValidate || this.isValid(false) || isAutosubmitInvalid) {
             this.lastHash = false;
             this.lastHtml = false;
             this.isLoading(true);
