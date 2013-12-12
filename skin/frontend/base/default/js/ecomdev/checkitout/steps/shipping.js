@@ -202,9 +202,8 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
         if (oneMethod) {
             if (!this.lastSubmitted ||
                 this.lastSubmitted.shipping_method != oneMethod.value) {
-                oneMethod.checked = false;
+                this.handleChange({});
             }
-            oneMethod.up('.no-display').removeClassName('no-display');
         }
     },
     /**
