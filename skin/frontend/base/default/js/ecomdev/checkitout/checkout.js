@@ -563,7 +563,6 @@ EcomDev.CheckItOut = Class.create({
      * @return void
      */
     submitComplete: function (response) {
-        this.hideMask();
         try{
             var result = response.responseText.evalJSON();
         }
@@ -578,7 +577,8 @@ EcomDev.CheckItOut = Class.create({
             window.location=this.config.success;
         }
         else{
-            var msg = result.error_messages;
+            this.hideMask();
+            var msg = result.error_messages || result.message;
             if (typeof(msg)=='object') {
                 msg = msg.join("\n");
             }
