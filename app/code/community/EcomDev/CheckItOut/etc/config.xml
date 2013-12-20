@@ -109,6 +109,14 @@
                     </ecomdev_checkitout>
                 </observers>
             </controller_action_predispatch_checkout_cart_index>
+            <controller_action_predispatch_checkout_onepage_index>
+                <observers>
+                    <ecomdev_checkitout>
+                        <model>ecomdev_checkitout/observer</model>
+                        <method>preDispatchIndexAction</method>
+                    </ecomdev_checkitout>
+                </observers>
+            </controller_action_predispatch_checkout_onepage_index>
             <controller_action_predispatch_checkout_onepage_saveOrder>
                 <observers>
                     <ecomdev_checkitout>
