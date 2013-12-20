@@ -62,6 +62,16 @@
                 <customer_comment><to_order>*</to_order></customer_comment>
             </sales_convert_quote>
         </fieldsets>
+        <events>
+            <controller_front_init_routers>
+                <observers>
+                    <ecomdev_checkitout>
+                        <class>EcomDev_CheckItOut_Controller_Router</class>
+                        <method>initControllerRouters</method>
+                    </ecomdev_checkitout>
+                </observers>
+            </controller_front_init_routers>
+        </events>
     </global>
     <adminhtml>
         <translate>
