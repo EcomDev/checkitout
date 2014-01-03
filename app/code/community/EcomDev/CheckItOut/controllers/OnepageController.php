@@ -103,7 +103,7 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
      */
     protected function _isActive()
     {
-        return $this->_getHelper()->isActive();
+        return $this->_getHelper()->isActiveForSession();
     }
 
     /**
@@ -155,15 +155,27 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
             $this->getLayout()->getUpdate()->addHandle($designHandle);
         }
 
+        $loadedHandels = $this->getLayout()->getUpdate()->getHandles();
+
+        if (in_array('checkout_onepage_review', $loadedHandels)
+            && $this->getRequest()->getActionName() !== 'review') {
+            $this->getRequest()->setActionName('review'); // Fix issue with review load in savePayment
+        }
+
         if ($this->_isActive() && $this->_getHelper()->getCompatibilityMode('template') !== false) {
             $this->getLayout()->getUpdate()->addHandle(
                 $this->getFullActionName() . '_' . $this->_getHelper()->getCompatibilityMode('template')
             );
         }
 
-        if ($this->_isActive()
-            && in_array($this->getRequest()->getActionName(), $this->_stepsWithRequiredPayment)) {
-            $this->getOnepage()->stubPaymentMethod();
+        if ($this->_isActive()) {
+            $this->getLayout()->getUpdate()->addHandle(
+                $this->getFullActionName() . '_checkitout'
+            );
+
+            if (in_array($this->getRequest()->getActionName(), $this->_stepsWithRequiredPayment)) {
+                $this->getOnepage()->stubPaymentMethod();
+            }
         }
 
         return $this;

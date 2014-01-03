@@ -62,6 +62,16 @@
                 <customer_comment><to_order>*</to_order></customer_comment>
             </sales_convert_quote>
         </fieldsets>
+        <events>
+            <controller_front_init_routers>
+                <observers>
+                    <ecomdev_checkitout>
+                        <class>EcomDev_CheckItOut_Controller_Router</class>
+                        <method>initControllerRouters</method>
+                    </ecomdev_checkitout>
+                </observers>
+            </controller_front_init_routers>
+        </events>
     </global>
     <adminhtml>
         <translate>
@@ -99,6 +109,14 @@
                     </ecomdev_checkitout>
                 </observers>
             </controller_action_predispatch_checkout_cart_index>
+            <controller_action_predispatch_checkout_onepage_index>
+                <observers>
+                    <ecomdev_checkitout>
+                        <model>ecomdev_checkitout/observer</model>
+                        <method>preDispatchIndexAction</method>
+                    </ecomdev_checkitout>
+                </observers>
+            </controller_action_predispatch_checkout_onepage_index>
             <controller_action_predispatch_checkout_onepage_saveOrder>
                 <observers>
                     <ecomdev_checkitout>
@@ -181,6 +199,13 @@
                         <custom>ecomdev_checkitout_layout_two_column</custom>
                     </handles>
                 </two_columns>
+                <three_columns translate="label" module="ecomdev_checkitout">
+                    <label>Three Column Layout</label>
+                    <handles>
+                        <default>ecomdev_checkitout_layout_default</default>
+                        <custom>ecomdev_checkitout_layout_three_column</custom>
+                    </handles>
+                </three_columns>
             </layout>
             <css>
                 <default translate="label" module="ecomdev_checkitout">
@@ -197,7 +222,7 @@
                         <theme>css/ecomdev/checkitout/blue.css</theme>
                     </css>
                 </blue>
-				
+
 				<silver translate="label" module="ecomdev_checkitout">
                     <label>Silver</label>
                     <css>
@@ -238,11 +263,11 @@
                 </custom>
             </css>
             <compatibility>
-                <!-- Compatibility definitions for extension code 
+                <!-- Compatibility definitions for extension code
                      template and code it is type of compatibility
                      v14 v15 are modes
                 -->
-                
+
                 <template>
                     <v14>
                         <by_version>

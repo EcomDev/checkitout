@@ -425,12 +425,12 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         }
         for (var i=0; i<methods.length; i++) {
             if (methods[i].checked) {
-                return (arguments.length ? $super(arguments[0]) : $super());
+                return (arguments.length > 1 ? $super(arguments[1]) : $super());
             }
         }
         result = this.afterValidate();
         if (result) {
-            return (arguments.length ? $super(arguments[0]) : $super());
+            return (arguments.length > 1 ? $super(arguments[1]) : $super());
         }
         var errorText = Translator.translate('Please specify payment method.');
         if (this.errorEl) {
