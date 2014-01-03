@@ -200,10 +200,7 @@ var ShippingMethod = Class.create(EcomDev.CheckItOut.Step, {
         });
         var oneMethod = this.container.down('.no-display input[type=radio]');
         if (oneMethod) {
-            if (!this.lastSubmitted ||
-                this.lastSubmitted.shipping_method != oneMethod.value) {
-                this.handleChange({});
-            }
+            this.onChange.delay(0.5, {});
         }
     },
     /**
