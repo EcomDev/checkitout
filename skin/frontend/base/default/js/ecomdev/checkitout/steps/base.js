@@ -464,7 +464,10 @@ EcomDev.CheckItOut.Step = Class.create({
                 this.lastHtml = result.stepHtml;
             }
         } catch (e) {
-            alert(e);
+            if (window.console) {
+                window.console.log(e);
+                window.console.log(response.responseText);
+            }
         }
         this.respondCallbacks();
     },

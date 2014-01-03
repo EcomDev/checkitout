@@ -1,3 +1,14 @@
+CheckItOut 1.5.4
+================
+New Features:
+- Possibility to specify custom URL for checkout for A/B testing.
+Improvements:
+- Now it is possible to have automatically selected a shipping method if there is only one available.
+- Make fail-safe step update (if js fails for one step, other still gets updated, error is written in js error log)
+Bug Fixes
+- Fix issue with payment method updates based on country
+- Fix various issues with EE1.13 
+
 CheckItOut 1.5.3
 ================
 Bug Fixes:
