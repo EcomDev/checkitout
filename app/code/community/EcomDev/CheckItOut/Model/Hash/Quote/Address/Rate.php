@@ -42,7 +42,10 @@ class EcomDev_CheckItOut_Model_Hash_Quote_Address_Rate extends EcomDev_CheckItOu
                 $shippingRate->getMethodTitle(), $shippingRate->getPrice()
             );
         }
-
+        
+        $shippingDescription = $this->getQuote()->getShippingAddress()->getShippingDescription();
+        
+        $data[] = $shippingDescription ? $shippingDescription : 'Empty';
         return $data;
     }
 }
