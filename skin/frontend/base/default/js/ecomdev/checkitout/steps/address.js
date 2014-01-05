@@ -190,7 +190,7 @@ EcomDev.CheckItOut.Step.Address = Class.create(EcomDev.CheckItOut.Step, {
     hasBackendError: function () {
         if (this.submitError !== false
             &&
-            (this.submitError.error = '-1'
+            (this.submitError.error == '-1'
                 || (this.submitError.value
                     && this.submitError.field
                     && this.submitError.value != $(this.code + ':' + this.submitError.field).value

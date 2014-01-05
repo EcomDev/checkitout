@@ -118,7 +118,7 @@ class EcomDev_CheckItOut_Model_Type_Onepage
             );
             $recalculateTotals = true;
         }
-   
+
         if (!$this->getQuote()->isVirtual()
             && !$this->getQuote()->getShippingAddress()->getShippingMethod()
             && $this->_getHelper()->getDefaultShippingMethod($this->getQuote())) {
@@ -127,7 +127,7 @@ class EcomDev_CheckItOut_Model_Type_Onepage
             );
             $recalculateTotals = true;
         }
-        
+
         if ($recalculateTotals) {
             $this->recalculateTotals();
         }
@@ -223,7 +223,7 @@ class EcomDev_CheckItOut_Model_Type_Onepage
                 $result = array(
                     'error' => 1,
                     'message' => $this->_getHelper()
-                        ->__('You are already registered with this email address, please %s.', $loginAction),
+                            ->__('You are already registered with this email address, please %s.', $loginAction),
                     'field' => 'email',
                     'value' => $customer->getEmail()
                 );
@@ -231,7 +231,11 @@ class EcomDev_CheckItOut_Model_Type_Onepage
                 $this->getQuote()->getBillingAddress()
                     ->setEmail($data['email']);
             }
-        } elseif (!empty($data) && isset($result['error']) && $result['error'] == -1) {
+        }
+
+        if (!empty($data)
+            && isset($result['error'])  && $result['error'] == -1
+            && !is_array($result['message'])) {
             $result['field'] = 'email'; // Usually -1 indicates customer account email errors
             $result['error'] = 1; // Make it true for js
             $result['value'] = isset($data['email']) ? $data['email'] : '';
@@ -285,7 +289,7 @@ class EcomDev_CheckItOut_Model_Type_Onepage
     }
 
     /**
-     * Dependency injection implementation of saveShipping
+     * Save Shipping Proxy Call
      *
      * @param array $data
      * @param $customerAddressId
