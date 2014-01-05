@@ -224,7 +224,8 @@ class EcomDev_CheckItOut_Model_Type_Onepage
                     'error' => 1,
                     'message' => $this->_getHelper()
                         ->__('You are already registered with this email address, please %s.', $loginAction),
-                    'field' => 'email'
+                    'field' => 'email',
+                    'value' => $customer->getEmail()
                 );
             } elseif (isset($result['error'])) {
                 $this->getQuote()->getBillingAddress()
