@@ -162,10 +162,12 @@ EcomDev.CheckItOut.Step = Class.create({
 
         this.mask = this.container.down('.step-loading');
         this.content = this.container.down(this.contentCssSelector);
-        if (this.content.down('from')) {
-            this.content.down('from').observe('submit', function (evt) {
-                Event.stop(evt)
-            })
+        if (this.content) {
+            if (this.content.down('from')) {
+                this.content.down('from').observe('submit', function (evt) {
+                    Event.stop(evt)
+                })
+            }
         }
         this.bindFields();
     },
