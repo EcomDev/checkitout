@@ -161,14 +161,27 @@ EcomDev.CheckItOut.Step = Class.create({
         }
 
         this.mask = this.container.down('.step-loading');
-        this.content = this.container.down(this.contentCssSelector);
-        if (this.content) {
-            if (this.content.down('from')) {
-                this.content.down('from').observe('submit', function (evt) {
-                    Event.stop(evt)
-                })
+        if (Object.isArray(this.contentCssSelector)) {
+            for (var i=0,l=this.contentCssSelector.length; i < l; i++) {
+                this.content = this.container.down(this.contentCssSelector[i]);
+                if (this.content) {
+                    break;
+                }
             }
+        } else {
+            this.content = this.container.down(this.contentCssSelector);
         }
+        
+        if (!this.content && console) {
+            console.error('It is not possible to initialize ' + this.code + ' step, since required content node is missing');
+        }
+        
+        if (this.content.down('from')) {
+            this.content.down('from').observe('submit', function (evt) {
+                Event.stop(evt)
+            })
+        }
+        
         this.bindFields();
     },
     /**
