@@ -23,6 +23,7 @@
     <div class="popup-title"><?php echo $this->__('Login') ?> <button class="button popup-close"><span><span><?php echo $this->__('X') ?></span></span></button></div>
     <div class="popup-content"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     <form id="login-form" action="<?php echo $this->getPostAction() ?>" method="post">
+    <?php echo $this->getBlockHtml('formkey'); ?>
     <fieldset>
         <p><?php echo $this->__('Please log in below:') ?></p>
         <ul class="form-list">
@@ -38,6 +39,7 @@
                     <input type="password" class="input-text required-entry" id="login-password" name="login[password]" />
                 </div>
             </li>
+            <?php echo $this->getChildHtml('form.additional.info'); ?>
             <li>
                 <p class="required"><?php echo $this->__('* Required Fields') ?></p>
                 <button type="submit" class="button"><span><span><?php echo $this->__('Login') ?></span></span></button>
