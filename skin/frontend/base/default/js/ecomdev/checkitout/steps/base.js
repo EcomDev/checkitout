@@ -81,6 +81,14 @@ EcomDev.CheckItOut.Step = Class.create({
      *  @type Boolean
      */
     autoSubmitInvalid: false,
+
+    /**
+     * List of fields, update of which will force auto-submit invalid data
+     * 
+     * @type Array|Boolean
+     */
+    autoSubmitInvalidFields: false,
+    
     /**
      * Automaticaly validate element values?
      *
@@ -153,12 +161,27 @@ EcomDev.CheckItOut.Step = Class.create({
         }
 
         this.mask = this.container.down('.step-loading');
-        this.content = this.container.down(this.contentCssSelector);
+        if (Object.isArray(this.contentCssSelector)) {
+            for (var i=0,l=this.contentCssSelector.length; i < l; i++) {
+                this.content = this.container.down(this.contentCssSelector[i]);
+                if (this.content) {
+                    break;
+                }
+            }
+        } else {
+            this.content = this.container.down(this.contentCssSelector);
+        }
+        
+        if (!this.content && console) {
+            console.error('It is not possible to initialize ' + this.code + ' step, since required content node is missing');
+        }
+        
         if (this.content.down('from')) {
             this.content.down('from').observe('submit', function (evt) {
                 Event.stop(evt)
             })
         }
+        
         this.bindFields();
     },
     /**
@@ -406,7 +429,14 @@ EcomDev.CheckItOut.Step = Class.create({
             return this.save();
         }
 
-        if (!this.autoValidate || this.isValid(false) || this.autoSubmitInvalid) {
+        var isAutosubmitInvalid = this.autoSubmitInvalid;
+        if (isAutosubmitInvalid && Object.isArray(this.autoSubmitInvalidFields)) {
+            isAutosubmitInvalid = this.lastChangedElement 
+                                    && this.lastChangedElement.identify()
+                                    && this.autoSubmitInvalidFields.include(this.lastChangedElement.identify())
+        }
+        
+        if (!this.autoValidate || this.isValid(false) || isAutosubmitInvalid) {
             this.lastHash = false;
             this.lastHtml = false;
             this.isLoading(true);
@@ -449,7 +479,10 @@ EcomDev.CheckItOut.Step = Class.create({
                 this.lastHtml = result.stepHtml;
             }
         } catch (e) {
-            alert(e);
+            if (window.console) {
+                window.console.log(e);
+                window.console.log(response.responseText);
+            }
         }
         this.respondCallbacks();
     },

@@ -51,11 +51,14 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
      */
     afterValidateFunc:$H({}),
     /**
-     * CSS selector for content block that will be reloaded each time for a step
+     * CSS selectors for content block that will be reloaded each time for a step
      *
      * @type String
      */
-    contentCssSelector: '.step-content #co-payment-form #checkout-payment-method-load',
+    contentCssSelector: [
+        '.step-content #co-payment-form #checkout-payment-method-load',
+        '.step-content #co-payment-form'
+    ],
     /**
      * Regexp for normalizing received payment methods contents
      *

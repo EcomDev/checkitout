@@ -307,6 +307,7 @@
                 </template>
             </action>
             <block name="review.fields" as="fields" type="checkout/onepage_review" template="ecomdev/checkitout/review/fields.phtml"/>
+            <block name="info.after.container" template="info_after" type="core/text_list" />
         </reference>
     </checkout_onepage_review_checkitout>
 

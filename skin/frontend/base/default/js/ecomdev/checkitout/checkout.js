@@ -432,8 +432,16 @@ EcomDev.CheckItOut = Class.create({
                     && this.stepHtml[stepCodes[i]] !== null
                     && this.stepHtml[stepCodes[i]] !== false
                     && this.stepHash.get(stepCodes[i]) !== this.getStep(stepCodes[i]).loadedHash) {
-                    this.getStep(stepCodes[i]).update(this.stepHtml[stepCodes[i]]);
-                    this.getStep(stepCodes[i]).loadedHash = this.stepHash.get(stepCodes[i]);
+                    try {
+                        this.getStep(stepCodes[i]).update(this.stepHtml[stepCodes[i]]);
+                        this.getStep(stepCodes[i]).loadedHash = this.stepHash.get(stepCodes[i]);
+                    } catch (e) {
+                        if (window.console) {
+                            window.console.error('Error in: ' + stepCodes[i]);
+                            window.console.log(e);                            
+                            window.console.log(response.responseText);
+                        }
+                    }
                 }
             }
         }
@@ -455,7 +463,9 @@ EcomDev.CheckItOut = Class.create({
                     steps[i].update(blocks[steps[i].code]);
                 }
             } catch (e) {
-                alert(e);
+                window.console.error('Error in: ' + steps[i].code);
+                window.console.log(e);
+                window.console.log(blocks[steps[i].code]);
             }
 
             steps[i].hideMask();
@@ -563,7 +573,6 @@ EcomDev.CheckItOut = Class.create({
      * @return void
      */
     submitComplete: function (response) {
-        this.hideMask();
         try{
             var result = response.responseText.evalJSON();
         }
@@ -578,7 +587,8 @@ EcomDev.CheckItOut = Class.create({
             window.location=this.config.success;
         }
         else{
-            var msg = result.error_messages;
+            this.hideMask();
+            var msg = result.error_messages || result.message;
             if (typeof(msg)=='object') {
                 msg = msg.join("\n");
             }

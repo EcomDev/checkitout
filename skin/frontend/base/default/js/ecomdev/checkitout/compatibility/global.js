@@ -24,7 +24,7 @@ String.prototype.evalScripts = function () {
 
 // Thanks to http://perfectionkills.com/global-eval-what-are-the-options/ for information
 // Fix for global scoping of evalScripts
-var globalEval = (function() {            http://pastebin.com/cfEGW4LV
+var globalEval = (function() {
     var isIndirectEvalGlobal = (function(original, Object) {
         try {
             // Does `Object` resolve to a local variable, or to a global, built-in `Object`,

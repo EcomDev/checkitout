@@ -190,7 +190,7 @@ EcomDev.CheckItOut.Step.Address = Class.create(EcomDev.CheckItOut.Step, {
     hasBackendError: function () {
         if (this.submitError !== false
             &&
-            (this.submitError.error = '-1'
+            (this.submitError.error == '-1'
                 || (this.submitError.value
                     && this.submitError.field
                     && this.submitError.value != $(this.code + ':' + this.submitError.field).value
@@ -215,10 +215,10 @@ EcomDev.CheckItOut.Step.Address = Class.create(EcomDev.CheckItOut.Step, {
             }
         }
 
-        if (result && arguments.length > 1) {
-            result = $super(arguments[1]);
-        } else if (result) {
-            result = $super();
+        if (arguments.length > 1) {
+            result = $super(arguments[1]) && result;
+        } else {
+            result = $super() && result;
         }
 
         return result;
@@ -257,6 +257,21 @@ var Billing = Class.create(EcomDev.CheckItOut.Step.Address, {
      * @type String
      */
     code: 'billing',
+
+    /**
+     * List of fields 
+     * that trigger auto-submit invalid event
+     * 
+     * @type Array
+     */
+    isAutosubmitInvalidFields: [
+        'billing:country_id',
+        'billing:region_id',
+        'billing:city',
+        'billing:region',
+        'billing:email',
+        'billing:postcode'
+    ],
     /**
      * Clears address form on load
      *
@@ -404,6 +419,21 @@ var Shipping = Class.create(EcomDev.CheckItOut.Step.Address, {
      * @type String
      */
     code: 'shipping',
+
+    /**
+     * List of fields
+     * that trigger auto-submit invalid event
+     *
+     * @type Array
+     */
+    isAutosubmitInvalidFields: [
+        'shipping:country_id',
+        'shipping:region_id',
+        'shipping:city',
+        'shipping:region',
+        'shipping:postcode'
+    ],
+    
     /**
      * Clears address form on load
      *

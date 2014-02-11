@@ -155,6 +155,13 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
             $this->getLayout()->getUpdate()->addHandle($designHandle);
         }
 
+        $loadedHandels = $this->getLayout()->getUpdate()->getHandles();
+
+        if (in_array('checkout_onepage_review', $loadedHandels)
+            && $this->getRequest()->getActionName() !== 'review') {
+            $this->getRequest()->setActionName('review'); // Fix issue with review load in savePayment
+        }
+
         if ($this->_isActive() && $this->_getHelper()->getCompatibilityMode('template') !== false) {
             $this->getLayout()->getUpdate()->addHandle(
                 $this->getFullActionName() . '_' . $this->_getHelper()->getCompatibilityMode('template')
