@@ -567,6 +567,18 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
             try {
                 $this->getOnepage()->getQuote()
                     ->removeItem($quoteItem->getId());
+                
+                if ($this->getOnepage()->getQuote()->isVirtual()) {
+                    $address = $this->getOnepage()->getQuote()->getBillingAddress();
+                } else {
+                    $address = $this->getOnepage()->getQuote()->getShippingAddress();
+                }
+
+                // Remove cached properties for 1.8x
+                $address->unsetData('cached_items_all');
+                $address->unsetData('cached_items_nominal');
+                $address->unsetData('cached_items_nonnominal');
+                
                 $this->_recalculateTotals();
                 $result['success'] = true;
                 /**
