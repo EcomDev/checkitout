@@ -1,3 +1,10 @@
+CheckItOut 1.5.7
+================
+Bug Fixes
+- Fix issue with IE7, IE8
+- Fix some compatibility with CE1.8, CE1.7
+- Compatibility with some payment methods
+
 CheckItOut 1.5.4
 ================
 New Features:
