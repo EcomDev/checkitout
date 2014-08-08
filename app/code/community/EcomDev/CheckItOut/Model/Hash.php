@@ -49,6 +49,17 @@ class EcomDev_CheckItOut_Model_Hash
             }
         }
 
+        if ($quote->isVirtual()) {
+            $address = $quote->getBillingAddress();
+        } else {
+            $address = $quote->getShippingAddress();
+        }
+
+        // Remove cached properties for 1.8x (since data is cached by Magento internally)
+        $address->unsetData('cached_items_all');
+        $address->unsetData('cached_items_nominal');
+        $address->unsetData('cached_items_nonnominal');
+
         return $result;
     }
 }
