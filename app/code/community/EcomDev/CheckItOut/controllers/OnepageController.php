@@ -355,7 +355,7 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
 
             Mage::register(
                 'login_action_text',
-                Mage::helper('ecomdev_checkitout')->__('<a hreaf="#" onclick="%s">log in</a>', 'loginStep.showPopUp(); return false;')
+                Mage::helper('ecomdev_checkitout')->__('<a href="#" onclick="%s">log in</a>', 'loginStep.showPopUp(); return false;')
             );
 
             $result = $this->getOnepage()->saveBilling($data, $customerAddressId);
@@ -567,6 +567,7 @@ class EcomDev_CheckItOut_OnepageController extends Mage_Checkout_OnepageControll
             try {
                 $this->getOnepage()->getQuote()
                     ->removeItem($quoteItem->getId());
+                
                 $this->_recalculateTotals();
                 $result['success'] = true;
                 /**

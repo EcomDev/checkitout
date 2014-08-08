@@ -215,10 +215,10 @@ EcomDev.CheckItOut.Step.Address = Class.create(EcomDev.CheckItOut.Step, {
             }
         }
 
-        if (result && arguments.length > 1) {
-            result = $super(arguments[1]);
-        } else if (result) {
-            result = $super();
+        if (arguments.length > 1) {
+            result = $super(arguments[1]) && result;
+        } else {
+            result = $super() && result;
         }
 
         return result;
