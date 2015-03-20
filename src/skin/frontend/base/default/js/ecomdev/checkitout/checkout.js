@@ -109,6 +109,12 @@ EcomDev.CheckItOut = Class.create({
         this.onReloadComplete = this.handleRealoadComplete.bind(this);
 
         /**
+         * 
+         * @type {function(this:EcomDev.CheckItOut)|*}
+         */
+        this.onFailure = this.handleFailure.bind(this);
+
+        /**
          * To reload object sequence
          *
          * @type Array
@@ -218,6 +224,17 @@ EcomDev.CheckItOut = Class.create({
         this.invokeCallbacks(reloadCallbacks);
         this.stepHtml = false;
     },
+    /**
+     * Handles ajax failure
+     * 
+     * @param ajax
+     */
+    handleFailure: function (ajax) {
+       if (ajax.status == 503) {
+           alert(this.config.unavailableText);
+       }
+    },
+    
     /**
      * Handles reload of particular checkout step object
      * Dispatches changes to the other steps that are in the relation

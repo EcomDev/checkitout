@@ -1,8 +1,8 @@
 {
     "magento": {
         "application": {
-            "name": "layoutcompiler",
-            "main_domain": "layoutcompiler.dev",
+            "name": "checkitout",
+            "main_domain": "checkitout.dev",
             "composer": true,
 		    "uid": ":auto",
             "directory": "<%=current_path%>/build",

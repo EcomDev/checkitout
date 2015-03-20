@@ -21,7 +21,7 @@
     <modules>
         <EcomDev_CheckItOut>
             <codePool>community</codePool>
-            <active>false</active>
+            <active>true</active>
         </EcomDev_CheckItOut>
     </modules>
 </config>
