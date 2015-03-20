@@ -1,3 +1,11 @@
+CheckItOut 1.5.8
+================
+Improvements
+- Added more consistent data check for non-json output.
+Bug Fixes
+- Fix bug related to coupon code updates of totals.
+- Fix bug related to position of blocks in layout with 3-column design.
+
 CheckItOut 1.5.7
 ================
 Bug Fixes

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+directory=$(pwd)
+version=$1
+
+zip -r release/EcomDev_CheckItOut-$version.zip ./src modman composer.json LICENSE.txt RELEASE_NOTES.txt 
