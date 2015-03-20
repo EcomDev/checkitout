@@ -103,6 +103,9 @@ class EcomDev_CheckItOut_Block_Layout_Step_Container extends EcomDev_CheckItOut_
         foreach ($this->getSortedChildBlocks() as $childBlock) {
             if ($childBlock instanceof EcomDev_CheckItOut_Block_Layout_Step_Interface && $childBlock->isVisible()) {
                 $result++;
+                if ($value = $childBlock->getStepCode()) {
+                    $stepCodes[] = $value; 
+                }
             }
         }
         return $result;

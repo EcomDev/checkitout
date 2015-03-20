@@ -1,28 +1,28 @@
 # Name: EcomDev_CheckItOut
-# Version: 1.5.7
+# Version: 1.5.8
 # Description: The best checkout extension for Magento
 # Summary: Alternative to Onepage checkout
 
 # CheckItOut modman file configuration
 
-app/code/community/EcomDev/CheckItOut						            app/code/community/EcomDev/CheckItOut
-app/etc/modules/EcomDev_CheckItOut.xml						            app/etc/modules/EcomDev_CheckItOut.xml
-app/design/frontend/base/default/layout/ecomdev/checkitout.xml			app/design/frontend/base/default/layout/ecomdev/checkitout.xml 
-app/design/frontend/base/default/template/ecomdev/checkitout 			app/design/frontend/base/default/template/ecomdev/checkitout  
-app/design/adminhtml/default/default/layout/ecomdev/checkitout.xml 		app/design/adminhtml/default/default/layout/ecomdev/checkitout.xml
-app/design/adminhtml/default/default/template/ecomdev/checkitout 		app/design/adminhtml/default/default/template/ecomdev/checkitout
+src/app/code/community/EcomDev/CheckItOut						            app/code/community/EcomDev/CheckItOut
+src/app/etc/modules/EcomDev_CheckItOut.xml						            app/etc/modules/EcomDev_CheckItOut.xml
+src/app/design/frontend/base/default/layout/ecomdev/checkitout.xml			app/design/frontend/base/default/layout/ecomdev/checkitout.xml 
+src/app/design/frontend/base/default/template/ecomdev/checkitout 			app/design/frontend/base/default/template/ecomdev/checkitout  
+src/app/design/adminhtml/default/default/layout/ecomdev/checkitout.xml 		app/design/adminhtml/default/default/layout/ecomdev/checkitout.xml
+src/app/design/adminhtml/default/default/template/ecomdev/checkitout 		app/design/adminhtml/default/default/template/ecomdev/checkitout
 
-app/locale/en_US/EcomDev_CheckItOut.csv                                 app/locale/en_US/EcomDev_CheckItOut.csv
+src/app/locale/en_US/EcomDev_CheckItOut.csv                                 app/locale/en_US/EcomDev_CheckItOut.csv
 
-js/ecomdev/prototype.js								                    js/ecomdev/prototype.js
-skin/adminhtml/default/default/css/ecomdev/checkitout.css 			    skin/adminhtml/default/default/css/ecomdev/checkitout.css
-skin/adminhtml/default/default/images/ecomdev/checkitout 			    skin/adminhtml/default/default/images/ecomdev/checkitout
-skin/frontend/base/default/css/ecomdev/checkitout.css 				    skin/frontend/base/default/css/ecomdev/checkitout.css
-skin/frontend/base/default/js/ecomdev/checkitout 				        skin/frontend/base/default/js/ecomdev/checkitout
-skin/frontend/default/default/css/ecomdev/checkitout.css			    skin/frontend/default/default/css/ecomdev/checkitout.css
-skin/frontend/default/blank/css/ecomdev/checkitout.css				    skin/frontend/default/blank/css/ecomdev/checkitout.css
-skin/frontend/default/blue/css/ecomdev/checkitout.css				    skin/frontend/default/blue/css/ecomdev/checkitout.css
-skin/frontend/default/modern/css/ecomdev/checkitout.css				    skin/frontend/default/modern/css/ecomdev/checkitout.css
-skin/frontend/base/default/css/ecomdev/checkitout/                      skin/frontend/base/default/css/ecomdev/checkitout/
-skin/frontend/base/default/images/ecomdev/checkitout/                   skin/frontend/base/default/images/ecomdev/checkitout/
-shell/checkitout-geoip.php                                              shell/checkitout-geoip.php
+src/js/ecomdev/prototype.js								                    js/ecomdev/prototype.js
+src/skin/adminhtml/default/default/css/ecomdev/checkitout.css 			    skin/adminhtml/default/default/css/ecomdev/checkitout.css
+src/skin/adminhtml/default/default/images/ecomdev/checkitout 			    skin/adminhtml/default/default/images/ecomdev/checkitout
+src/skin/frontend/base/default/css/ecomdev/checkitout.css 				    skin/frontend/base/default/css/ecomdev/checkitout.css
+src/skin/frontend/base/default/js/ecomdev/checkitout 				        skin/frontend/base/default/js/ecomdev/checkitout
+src/skin/frontend/default/default/css/ecomdev/checkitout.css			    skin/frontend/default/default/css/ecomdev/checkitout.css
+src/skin/frontend/default/blank/css/ecomdev/checkitout.css				    skin/frontend/default/blank/css/ecomdev/checkitout.css
+src/skin/frontend/default/blue/css/ecomdev/checkitout.css				    skin/frontend/default/blue/css/ecomdev/checkitout.css
+src/skin/frontend/default/modern/css/ecomdev/checkitout.css				    skin/frontend/default/modern/css/ecomdev/checkitout.css
+src/skin/frontend/base/default/css/ecomdev/checkitout/                      skin/frontend/base/default/css/ecomdev/checkitout/
+src/skin/frontend/base/default/images/ecomdev/checkitout/                   skin/frontend/base/default/images/ecomdev/checkitout/
+src/shell/checkitout-geoip.php                                              shell/checkitout-geoip.php

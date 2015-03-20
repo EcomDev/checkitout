@@ -215,7 +215,7 @@
             <action method="append"><block>checkout.layout.address</block></action>
             <action method="append"><block>checkout.layout.methods</block></action>
             <action method="append"><block>checkout.layout.review.container</block></action>
-        </reference>
+        </reference> 
     </ecomdev_checkitout_layout_two_column>
 
     <ecomdev_checkitout_layout_three_column>
@@ -238,11 +238,9 @@
                                 <alias>checkitout.layout.coupon.container</alias>
                                 <siblingName>checkitout.layout.review</siblingName><after>1</after>
                             </action>
-
-
                         </reference>
 
-                        <block name="checkout.layout.center" type="ecomdev_checkitout/layout_step_container" template="ecomdev/checkitout/layout/step/container/list.phtml">
+                        <block name="checkout.layout.center" before="checkout.layout.right" type="ecomdev_checkitout/layout_step_container" template="ecomdev/checkitout/layout/step/container/list.phtml">
                             <action method="addClassName"><class>checkout-center</class></action>
 
                             <action method="addClassNameForStepCount"><class>one</class><count>1</count></action>
@@ -264,7 +262,6 @@
                                     <action method="setStepCode"><code>payment</code></action>
                                 </block>
                             </block>
-
                         </block>
 
                     </reference>

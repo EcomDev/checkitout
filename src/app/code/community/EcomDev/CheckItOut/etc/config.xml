@@ -206,6 +206,10 @@
                         <custom>ecomdev_checkitout_layout_three_column</custom>
                     </handles>
                 </three_columns>
+                <bigline>
+                    <label>Bigline</label>
+                    <handle>interactiv4_checkout_bigline_layout</handle>
+                </bigline>
             </layout>
             <css>
                 <default translate="label" module="ecomdev_checkitout">
