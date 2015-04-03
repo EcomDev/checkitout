@@ -36,11 +36,13 @@ EcomDev.CheckItOut = Class.create({
      * @type Hash
      */
     steps: $H({}),
+
+    
     /**
      * Class constructor,
      * Initializes container object and the other stuff
      *
-     * @param Object config
+     * @param {Object} config
      * @return void
      */
     initialize: function (config) {
@@ -57,6 +59,13 @@ EcomDev.CheckItOut = Class.create({
          * @type {string}
          */
         this.method = this.config.method;
+
+        /**
+         * Last submitted data hash
+         *
+         * @type {Hash}
+         */
+        this.lastSubmittedData =  $H({});
 
         if (this.config.useClassForHide) {
             this.useClassForHide = true;
@@ -611,6 +620,32 @@ EcomDev.CheckItOut = Class.create({
             }
             alert(msg);
         }
+    },
+    /**
+     * Sets last submitted data 
+     * 
+     * @param {EcomDev.CheckItOut.Step} step
+     * @param {Object} values
+     * @returns {EcomDev.CheckItOut}
+     */
+    setLastSubmittedValues: function (step, values) {
+        if (step.code) {
+            this.lastSubmittedData.set(step.code, values);
+        }
+        
+        return this;
+    },
+    /**
+     * Returns last submittedData
+     * @param {EcomDev.CheckItOut.Step} step
+     * @returns {Boolean|Object}
+     */
+    getLastSubmittedValues: function (step) {
+        if (step.code && this.lastSubmittedData.get(step.code)) {
+            return this.lastSubmittedData.get(step.code);
+        }
+        
+        return false;
     }
 });
 

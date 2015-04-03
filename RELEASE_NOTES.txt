@@ -1,3 +1,11 @@
+CheckItOut 1.5.9
+================
+Improvements
+- Added check for already submitted values, so data is not getting submitted if it is not changed since last submit operations
+Bug Fixes
+- Fix bug related to EE store credit functionality in 1.14.1
+- Fix bug related to EE reward points functionality in 1.14.1
+
 CheckItOut 1.5.8
 ================
 Improvements

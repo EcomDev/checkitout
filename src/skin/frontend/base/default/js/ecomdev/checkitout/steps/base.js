@@ -436,11 +436,14 @@ EcomDev.CheckItOut.Step = Class.create({
                                     && this.autoSubmitInvalidFields.include(this.lastChangedElement.identify())
         }
         
-        if (!this.autoValidate || this.isValid(false) || isAutosubmitInvalid) {
+        if ((!this.autoValidate || this.isValid(false) || isAutosubmitInvalid) 
+            && Object.toJSON(this.checkout.getLastSubmittedValues(this)) != Object.toJSON(this.getValues())) {
             this.lastHash = false;
             this.lastHtml = false;
             this.isLoading(true);
             this.respondCallbacks();
+            this.checkout.setLastSubmittedValues(this, this.getValues());
+            
             new Ajax.Request(this.saveUrl, {
                 parameters: this.getValues(),
                 method: 'POST',

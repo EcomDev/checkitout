@@ -73,18 +73,14 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
      * @param String saveUrl
      * @return void
      */
-    initialize: function($super, form, saveUrl){
-        if (EcomDev.CheckItOut.instance && EcomDev.CheckItOut.instance.getStep(this.code)) {
-            EcomDev.Replacer.replace(this, window, 'payment', EcomDev.CheckItOut.instance.getStep(this.code));
-            return;
-        }
-
-        this.noReviewLoad = false;
+    initialize: function($super, form, saveUrl) {
         this.form = form;
         this.saveUrl = saveUrl;
         this.parentConstructor = $super;
         this.onOutsideCheckboxClick = this.handleOutsideCheckboxClick.bind(this);
         this.errorEl = new Element('input', {type: 'hidden', value: 1, name: 'cio_payment_method_error', id: 'payment_method_error', 'class' : 'required-entry ajax-error'});
+        this.beforeInitCalled = false;
+        this.afterInitCalled = false;
         this.__deferedConstructor.bind(this).delay(0.01); // Call it anyway if init was not invoked before.
     },
     /**
@@ -97,6 +93,15 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         return this.container.select('select', 'input', 'textarea');
     },
     /**
+     * Shall we ignore update of the block methods, 
+     * because in this case you we can have a problem with applying customer balance or reward points
+     * 
+     * @returns {Boolean}
+     */
+    isIgnoredUpdate: function () {
+        return $$('#use_customer_balance', '#use_reward_points').any(function(element) { return element.checked; }) 
+    },
+    /**
      * Updates payment step content,
      * carries about saving of already entered data
      *
@@ -105,6 +110,10 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
      * @return void
      */
     update: function ($super, content) {
+        if (this.isIgnoredUpdate()) {
+            return;
+        }
+        
         var values = this.getValues();
 
         this.updateFieldValues = values;
@@ -162,8 +171,16 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
             }
         }
 
+        if (!this.beforeInitCalled) {
+            this.beforeInit();
+        }
+        
         if (!this.initFieldsCalled) {
             this.initFields();
+        }
+
+        if (!this.afterInitCalled) {
+            this.afterInit();
         }
     },
     /**
@@ -174,6 +191,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
      * @return void
      */
     addBeforeInitFunction : function(code, func) {
+        this.beforeInitCalled = true;
         this.beforeInitFunc.set(code, func);
     },
 
@@ -276,6 +294,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
      * @return void
      */
     afterInit : function() {
+        this.beforeInitCalled = true;
         var values = this.afterInitFunc.values();
         for (var i = 0, l = values.length; i < l; i ++) {
             values[i]();
@@ -315,11 +334,10 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
      */
     switchMethod : function(method) {
         var fireAnEvent = arguments.length == 1 || arguments.length == 2 && arguments[1] == true;
-
+        
         if (this.currentMethod && $('payment_form_'+this.currentMethod)) {
             this.changeVisible(this.currentMethod, true);
         }
-
 
         var form = $('payment_form_' + method);
 
@@ -333,7 +351,6 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
 
         if ((!form || form.select('select','input', 'textarea').length == 0)) {
             this.handleChange({});
-            this.noReviewLoad = true;
         }
 
         if (this.currentMethod != method && this.checkout) {
@@ -341,6 +358,10 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         }
 
         this.currentMethod = method;
+        if (method) {
+            this.lastUsedMethod = method;
+        }
+        
         window.currentPaymentMethod = this.currentMethod;
     },
     /**
@@ -416,7 +437,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
         if (result) {
             return true;
         }
-        var methods = document.getElementsByName('payment[method]');
+        var methods = $$('input[name="payment[method]"]:not([disabled])');
         if (methods.length==0) {
             var errorText = Translator.translate('Your order cannot be completed at this time as there is no payment methods available for it.');
             if (this.errorEl) {
