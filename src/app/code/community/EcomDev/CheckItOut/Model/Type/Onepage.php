@@ -11,7 +11,7 @@
  *
  * @category   EcomDev
  * @package    EcomDev_CheckItOut
- * @copyright  Copyright (c) 2013 EcomDev BV (http://www.ecomdev.org)
+ * @copyright  Copyright (c) 2015 EcomDev BV (http://www.ecomdev.org)
  * @license    http://www.ecomdev.org/license-agreement  End User License Agreement for EcomDev Premium Extensions.
  * @author     Ivan Chepurnyi <ivan.chepurnyi@ecomdev.org>
  */
@@ -204,6 +204,7 @@ class EcomDev_CheckItOut_Model_Type_Onepage
     public function saveBilling($data, $customerAddressId)
     {
         $response = new Varien_Object();
+
         $this->dispatchEvent(__FUNCTION__, 'before', array(
             'response' => $response,
             'address_data' => $data,
@@ -211,7 +212,21 @@ class EcomDev_CheckItOut_Model_Type_Onepage
             'customer_address_id' => $customerAddressId
         ));
 
+        $quoteReflection = new ReflectionObject($this->getQuote());
+
+        // Added because of strange core behaviour on standard save operation
+        if ($quoteReflection->hasProperty('_preventSaving')) {
+            $property = $quoteReflection->getProperty('_preventSaving');
+            $property->setAccessible(true);
+            $property->setValue($this->getQuote(), true);
+        }
+
         $result = $this->_getDependency()->saveBilling($data, $customerAddressId);
+
+        if (isset($property)) {
+            $property->setValue($this->getQuote(), false);
+            $property->setAccessible(false);
+        }
 
         if (!$this->getQuote()->getCustomerId()
             && $this->getCheckoutMethod() == Mage_Checkout_Model_Type_Onepage::METHOD_REGISTER) {
@@ -241,7 +256,7 @@ class EcomDev_CheckItOut_Model_Type_Onepage
             $result['value'] = isset($data['email']) ? $data['email'] : '';
         }
 
-        $recalculateTotals = false;
+        $recalculateTotals = true;
         if (isset($result['error'])) {
             $this->getQuote()->getBillingAddress()
                 ->addData($this->_filterAddressData($data))
@@ -262,8 +277,6 @@ class EcomDev_CheckItOut_Model_Type_Onepage
                     'billing_address' => $billing
                 ));
             }
-
-            $recalculateTotals = true;
         }
 
         if (!$this->getQuote()->isVirtual() && !empty($data['use_for_shipping'])
@@ -271,7 +284,6 @@ class EcomDev_CheckItOut_Model_Type_Onepage
             $this->getQuote()->getShippingAddress()->setShippingMethod(
                 $this->_getHelper()->getDefaultShippingMethod($this->getQuote())
             );
-            $recalculateTotals = true;
         }
 
         if ($recalculateTotals) {
@@ -369,6 +381,16 @@ class EcomDev_CheckItOut_Model_Type_Onepage
             $this->getQuote()
                 ->getShippingAddress()->setCollectShippingRates(true);
         }
+
+        $addressToResetData = $this->getQuote()->getBillingAddress();
+
+        if (!$this->getQuote()->isVirtual()) {
+            $addressToResetData = $this->getQuote()->getShippingAddress();
+        }
+
+        $addressToResetData->unsCachedItemsAll();
+        $addressToResetData->unsCachedItemsNominal();
+        $addressToResetData->unsCachedItemsNonNominal();
 
         $this->getQuote()->setTotalsCollectedFlag(false);
         $this->getQuote()->collectTotals();
