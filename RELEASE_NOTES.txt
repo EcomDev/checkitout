@@ -1,3 +1,8 @@
+CheckItOut 1.5.10
+================
+Bug Fixes
+- Added a workaround for Magento CE 1.9 and EE 1.14.1 saveBilling method that was reseting totals to zero
+
 CheckItOut 1.5.9
 ================
 Improvements
