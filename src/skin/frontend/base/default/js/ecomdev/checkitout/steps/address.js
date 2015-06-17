@@ -264,7 +264,7 @@ var Billing = Class.create(EcomDev.CheckItOut.Step.Address, {
      * 
      * @type Array
      */
-    isAutosubmitInvalidFields: [
+    autoSubmitInvalidFields: [
         'billing:country_id',
         'billing:region_id',
         'billing:city',
@@ -426,7 +426,7 @@ var Shipping = Class.create(EcomDev.CheckItOut.Step.Address, {
      *
      * @type Array
      */
-    isAutosubmitInvalidFields: [
+    autoSubmitInvalidFields: [
         'shipping:country_id',
         'shipping:region_id',
         'shipping:city',

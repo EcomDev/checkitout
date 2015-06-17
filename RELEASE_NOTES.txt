@@ -1,5 +1,11 @@
 CheckItOut 1.5.10
 ================
+Bug fixes
+- Fix wrong name of property that controls auto-update process of billing and shipping steps
+
+
+CheckItOut 1.5.10
+================
 Bug Fixes
 - Added a workaround for Magento CE 1.9 and EE 1.14.1 saveBilling method that was reseting totals to zero
 
