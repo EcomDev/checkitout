@@ -1,3 +1,9 @@
+CheckItOut 1.5.11
+================
+Bug fixes
+- Fix wrong name of property that controls auto-update process of billing and shipping steps
+
+
 CheckItOut 1.5.10
 ================
 Bug Fixes
