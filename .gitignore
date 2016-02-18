@@ -6,3 +6,5 @@ nbproject/private/
 .settings/*
 *.zip
 .DS_Store
+/bin/*
+!/bin/release
