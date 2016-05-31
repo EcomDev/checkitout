@@ -4,8 +4,7 @@
   "type": "magento-module",
   "description": "CheckItOut Magento extension",
   "require": {
-    "php": ">=5.4.0",
-    "magento-hackathon/magento-composer-installer": "dev-master"
+    "php": ">=5.4.0"
   },
   "require-dev": {
     "magento/core": "1.9.1.0",
@@ -14,6 +13,9 @@
     "ecomdev/mage-ci": "*",
     "satooshi/php-coveralls": "dev-master",
     "phpunit/phpcov": "*"
+  },
+  "suggest": {
+    "magento-hackathon/magento-composer-installer": "Allows to manage this package as a dependency"
   },
   "repositories": [
     {
