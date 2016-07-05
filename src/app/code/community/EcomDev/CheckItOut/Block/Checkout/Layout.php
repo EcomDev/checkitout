@@ -175,7 +175,7 @@ class EcomDev_CheckItOut_Block_Checkout_Layout extends Mage_Checkout_Block_Onepa
     /**
      * Retrieve checkout block for specified positions in layout
      *
-     * @param strning $position
+     * @param string $position
      * @return array
      */
     public function getCheckoutBlocksByLayout($position)
