@@ -1,3 +1,12 @@
+CheckItOut 1.5.13
+=================
+Improvements
+- Suggest Magento Composer Installer instead of requiring it in composer.json
+- Remove Bigline Layout
+- Update all license headers to use OSL-3.0
+Bug Fixes
+- Fix syntax error in shell/checkitout-geoip.php
+
 CheckItOut 1.5.11
 ================
 Bug fixes
