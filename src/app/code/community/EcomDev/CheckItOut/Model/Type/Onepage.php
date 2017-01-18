@@ -221,6 +221,16 @@ class EcomDev_CheckItOut_Model_Type_Onepage
             $property->setValue($this->getQuote(), true);
         }
 
+        // The billing address has no items associated with it. If we check use_for_shipping
+        // the entire billing address, including the cache with no items, is copied to the
+        // shipping address. This results in the coupon code being removed when it attempts
+        // validate it later in this request.
+        if (!$this->getQuote()->isVirtual() && !empty($data['use_for_shipping']) ) {
+            $billing = $this->getQuote()->getBillingAddress();
+            $billing->unsetData('cached_items_all');
+            $billing->unsetData('cached_items_nominal');
+            $billing->unsetData('cached_items_nonnominal');
+        }
         $result = $this->_getDependency()->saveBilling($data, $customerAddressId);
 
         if (isset($property)) {

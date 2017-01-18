@@ -1,3 +1,8 @@
+CheckItOut 1.5.14
+=================
+Bug Fixes
+- Fix issue that caused coupon codes to be wiped when updating the billing address
+
 CheckItOut 1.5.13
 =================
 Improvements
