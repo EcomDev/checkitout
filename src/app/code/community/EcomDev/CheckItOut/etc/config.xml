@@ -21,7 +21,7 @@
     <modules>
         <EcomDev_CheckItOut>
             <version>0.1.1</version>
-            <codeVersion>1.5.12</codeVersion>
+            <codeVersion>1.5.14</codeVersion>
         </EcomDev_CheckItOut>
     </modules>
     <global>
