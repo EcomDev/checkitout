@@ -1,3 +1,8 @@
+CheckItOut 1.5.15
+
+Bug Fixes
+- Fix issue that prevented checkout with SUPEE-9676 patch. Thanks @mlaurense
+
 CheckItOut 1.5.14
 =================
 Bug Fixes
