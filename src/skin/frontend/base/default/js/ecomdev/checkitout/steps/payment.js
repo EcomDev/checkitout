@@ -232,7 +232,9 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
                     method = elements[i].value;
                 }
             } else {
-                elements[i].disabled = true;
+                if (elements[i].name != 'form_key') {
+                    elements[i].disabled = true;
+                }
             }
             elements[i].setAttribute('autocomplete','off');
         }
