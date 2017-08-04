@@ -1,5 +1,11 @@
-CheckItOut 1.5.15
+CheckItOut 1.5.16
+=================
 
+Bug Fixes
+- Fix an issue in which the checkout payment method would not save with invisible inputs. Thanks @cyb3r!
+
+CheckItOut 1.5.15
+=================
 Bug Fixes
 - Fix issue that prevented checkout with SUPEE-9676 patch. Thanks @mlaurense
 
