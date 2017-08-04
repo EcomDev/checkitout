@@ -351,7 +351,7 @@ var Payment = Class.create(EcomDev.CheckItOut.Step, {
             fireAnEvent || document.body.fire('payment-method:switched', {method_code : method});
         }
 
-        if ((!form || form.select('select','input', 'textarea').length == 0)) {
+        if ((!form || form.select('select','input:not([type=hidden])', 'textarea').length == 0)) {
             this.handleChange({});
         }
 
